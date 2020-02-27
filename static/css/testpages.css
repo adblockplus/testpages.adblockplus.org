@@ -3,10 +3,10 @@
 html, body {
   margin: 0;
   padding: 0;
-  
+
   font-size: 16px;
   font-family: Helvetica, sans-serif;
-  
+
   background-color: #f2f2f2;
 }
 
@@ -116,6 +116,36 @@ h3 { font-size: 1.1rem; }
   margin-bottom: 0;
 }
 
+/* move contents of ".testcase-panel *" to global "*" when new test pages are completed */
+.testcase-panel * {
+  margin: 0px;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  line-height: 1.4;
+}
+
+/* all .testcase-panel will replace .site-panel when new test pages are completed */
+.testcase-panel {
+  margin: .5rem .5rem 0 .5rem;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+.testcase-panel > p {
+	padding: .5rem;
+	border-bottom: 1px solid #ccc;
+}
+
+.testcase-panel > h2 {
+	padding: .5rem;
+	border-bottom: 1px solid #ccc;
+}
+
+.testcase-panel > h3 {
+	padding: .5rem;
+	border-bottom: 1px solid #ccc;
+}
+
 .site-pagelist {
   margin: 0;
   padding: 0;
@@ -183,6 +213,16 @@ h3 { font-size: 1.1rem; }
   border: 1px solid #ababab;
 }
 
+/* .testcase-area will replace .testcase-container when new test pages are completed */
+.testcase-area {
+  display: flex;
+	min-height: 100px;
+  border-bottom: 1px solid #ccc;
+  padding: 0px; /* remove when .testcase-container is removed */
+  margin-top: 0px;  /* remove when .testcase-container is removed */
+  border: 0px; /* remove when .testcase-container is removed */
+}
+
 .testcase-content {
   color: white;
   background-color: grey;
@@ -204,9 +244,46 @@ h3 { font-size: 1.1rem; }
   display: table-cell;
 }
 
+/* .testcase-examplecontent will replace .testcase-content and .testcase-contentaside when new test pages are completed */
+.testcase-examplecontent {
+	flex-grow: 1;
+	padding: .5rem;
+	color: #fff;
+	background-color: #0dc74b;
+}
+
+.testcase-steps {
+  padding: .5rem;
+  list-style: decimal;
+  list-style-position: inside;
+	border-bottom: 1px solid #ccc;
+}
+
+.testcase-filters {
+  padding: .5rem;
+  list-style: decimal;
+  list-style-position: inside;
+}
+
+.testcase-filters pre {
+	padding: .1rem;
+	overflow: scroll;
+  scrollbar-width: none;
+  white-space: pre-line;
+  background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  font-family: monospace;
+}
+
 img.blocked {
   padding: .5rem;
   background-color: red;
+}
+
+/* both img.blocked should be deleted when new test pages are completed */
+img.blocked[data-expectedresult="blocked"] {
+  padding: 0px;
 }
 
 .testcase-image {

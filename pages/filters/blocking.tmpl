@@ -1,43 +1,93 @@
 title = Blocking
 template = testcase
 
-{% set testcase_moreinfo = [
-  ("Filter Cheatsheet - Blocking", "https://adblockplus.org/filter-cheatsheet#blocking"),
-] %}
-
 <section class="site-panel">
   <h2>Blocking</h2>
   <p>Check that basic blocking functionality is working as expected.</p>
-  <p>With the filter displayed below each test case added to ABP (or with the testcase subscription installed and active), the test images in each test case panel should be blocked.</p>
 </section>
 
-<section class="site-panel">
-  <h2>Complete Address</h2>
-  <div class="testcase-container">
-    <img class="testcase-contentaside blocked" src="/testcasefiles/blocking/addresscomplete/image.jpg">
-    <div class="testcase-content stripes-grey">Content</div>
+<section class="testcase-panel">
+  <h2 id="fullpath">Full Path</h2>
+  <p>Test that a blocking filter describing a full path blocks its target.</p>
+  <div class="testcase-area testcase-container">
+    <img src="/testfiles/blocking/full-path.png" data-expectedresult="blocked" class="blocked">
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>||{{ site_url|strip_proto }}/testcasefiles/blocking/addresscomplete/image.jpg</pre>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/blocking/full-path.png</pre></li>
+  </ul>
 </section>
 
-<section class="site-panel">
-  <h2>Part Address</h2>
-  <div class="testcase-container">
-    <img class="testcase-contentaside blocked" src="/testcasefiles/blocking/addresspart/abptestcasepath/image.jpg">
-    <div class="testcase-content stripes-grey">Content</div>
+<section class="testcase-panel">
+  <h2 id="partialpath">Partial Path</h2>
+  <p>Test that a blocking filter describing a partial path blocks its target.</p>
+  <div class="testcase-area testcase-container">
+    <img src="/testfiles/blocking/partial-path/partial-path.png" data-expectedresult="blocked" class="blocked">
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>/testcasefiles/blocking/addresspart/abptestcasepath/</pre>
+  <ul class="testcase-filters">
+    <li><pre>/testfiles/blocking/partial-path/</pre></li>
+  </ul>
 </section>
 
-<section class="site-panel">
-  <h2>Wildcard</h2>
-  <div class="testcase-container">
-    <img class="testcase-contentaside blocked" src="/testcasefiles/blocking/wildcard/one/image.jpg">
-    <img class="testcase-contentaside blocked" src="/testcasefiles/blocking/wildcard/two/image.jpg">
-    <div class="testcase-content stripes-grey">Content</div>
+<section class="testcase-panel">
+  <h2 id="wildcard">Wildcard</h2>
+  <p>Test that a blocking filter describing a path with wildcards blocks its target.</p>
+  <div class="testcase-area testcase-container">
+    <img src="/testfiles/blocking/wildcard/1/wildcard.png" data-expectedresult="blocked" class="blocked">
+    <img src="/testfiles/blocking/wildcard/2/wildcard.png" data-expectedresult="blocked" class="blocked">
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red images should be blocked and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>||{{ site_url|strip_proto }}/testcasefiles/blocking/wildcard/*/image.jpg</pre>
+  <ul class="testcase-filters">
+    <li><pre>/testfiles/blocking/wildcard/*/wildcard.png</pre></li>
+  </ul>
 </section>
+
+<section class="testcase-panel">
+  <h2 id="dynamic">Dynamic</h2>
+  <p>Test that a blocking filter describing a path of a resource that is later dynamically added to the page blocks its target.</p>
+  <div id="blocking-dynamic" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>/testfiles/blocking/dynamic.png</pre></li>
+  </ul>
+</section>
+
+<script>
+  let image = document.createElement("img");
+  image.src = "/testfiles/blocking/dynamic.png";
+  image.setAttribute('data-expectedresult', 'blocked');
+  image.setAttribute('class', 'blocked');
+
+  let area = document.getElementById("blocking-dynamic");
+  area.appendChild(image);
+</script>
