@@ -1,0 +1,51 @@
+# This file is part of Adblock Plus <https://adblockplus.org/>,
+# Copyright (C) 2006-present eyeo GmbH
+#
+# Adblock Plus is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License version 3 as
+# published by the Free Software Foundation.
+#
+# Adblock Plus is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
+
+image: docker:19.03.5
+
+stages:
+  - build
+  - test
+
+variables:
+  DOCKER_HOST: tcp://docker:2375/
+  DOCKER_DRIVER: overlay2
+  IMAGE: $CI_REGISTRY_IMAGE/abp:master
+
+services:
+  - docker:19.03.5-dind
+
+before_script:
+  - docker info
+
+build:
+  stage: build
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
+  script:
+    - docker pull $IMAGE || true
+    - docker build --cache-from $IMAGE -t $IMAGE -f test/build.Dockerfile .
+    - docker push $IMAGE
+  after_script:
+    - docker logout $CI_REGISTRY
+  only:
+    - schedules
+
+test:
+  stage: test
+  script:
+    - docker build -t testpages --build-arg BASE_IMAGE=$IMAGE . && docker run testpages
+  except:
+    - schedules
