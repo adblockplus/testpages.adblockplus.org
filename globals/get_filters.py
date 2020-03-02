@@ -13,6 +13,8 @@ class FilterHTMLParser(HTMLParser):
   def handle_starttag(self, tag, attrs):
     if tag == "section" and dict(attrs).get("class") == "site-panel":
       self.in_site_panel = True
+    elif tag == "ul" and dict(attrs).get("class") == "testcase-filters":
+      self.in_site_panel = True
     elif self.in_site_panel and tag == "pre":
       self.in_filter_pre = True
 
@@ -20,6 +22,8 @@ class FilterHTMLParser(HTMLParser):
     if self.in_filter_pre and tag == "pre":
       self.in_filter_pre = False
     elif self.in_site_panel and tag == "section":
+      self.in_site_panel = False
+    elif self.in_site_panel and tag == "ul":
       self.in_site_panel = False
 
   def handle_data(self, data):
