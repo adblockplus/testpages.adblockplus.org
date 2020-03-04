@@ -1,0 +1,91 @@
+title = abort-current-inline-script
+template = testcase
+
+<section class="site-panel">
+  <h2>abort-current-inline-script</h2>
+  <p>Check that the abort-current-inline-script snippet is working as expected.</p>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="basic">Basic usage</h2>
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="basic-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should be aborted and not add a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#abort-current-inline-script console.group</pre></li>
+  </ul>
+</section>
+
+<script>
+  console.group("abort-current-inline-script");
+  let target = document.getElementById("basic-target");
+  let failElement = document.createElement("div");
+  failElement.innerHTML = "Failed. Script ran and was applied to the page.";
+  failElement.className = "testcase-bad-element blocked";
+  target.appendChild(failElement);
+  console.log( "Failed. Script 1 ran completely and was applied to the page." );
+</script>
+
+<section class="testcase-panel">
+  <h2 id="search">Search usage</h2>
+  <p>Test that usage of the snippet with the optional search parameter works as expected.</p>
+  <div id="search-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should be aborted and not add a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#abort-current-inline-script console.info acis-search</pre></li>
+  </ul>
+</section>
+
+<script>
+  console.info("acis-search");
+  let target2 = document.getElementById("search-target");
+  let failElement2 = document.createElement("div");
+  failElement2.innerHTML = "Failed. Script ran and was applied to the page.";
+  failElement2.className = "testcase-bad-element blocked";
+  target2.appendChild(failElement2);
+  console.log( "Failed. Script 2 ran completely and was applied to the page." );
+</script>
+
+<section class="testcase-panel">
+  <h2 id="regex">Regex usage</h2>
+  <p>Test that usage of the snippet with the optional search parameter as a regex works as expected.</p>
+  <div id="regex-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should be aborted and not add a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#abort-current-inline-script console.warn '/acis-regex[1-2]/'</pre></li>
+  </ul>
+</section>
+
+<script>
+  console.warn("acis-regex1");
+  let target3 = document.getElementById("regex-target");
+  let failElement3 = document.createElement("div");
+  failElement3.innerHTML = "Failed. Script ran and was applied to the page.";
+  failElement3.className = "testcase-bad-element blocked";
+  target3.appendChild(failElement3);
+  console.log( "Failed. Script 3 ran completely and was applied to the page." );
+</script>

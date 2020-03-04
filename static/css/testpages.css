@@ -265,6 +265,13 @@ h3 { font-size: 1.1rem; }
   list-style-position: inside;
 }
 
+.testcase-bad-element {
+  flex-grow: 1;
+	padding: .5rem;
+	color: #fff;
+	background-color: #c70d2c;
+}
+
 .testcase-filters pre {
 	padding: .1rem;
 	overflow: scroll;
