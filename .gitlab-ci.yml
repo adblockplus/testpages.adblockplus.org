@@ -43,9 +43,19 @@ build:
   only:
     - schedules
 
-test:
+.test_template:
   stage: test
   script:
-    - docker build -t testpages --build-arg BASE_IMAGE=$IMAGE . && docker run testpages
+    - docker build -t testpages --build-arg BASE_IMAGE=$IMAGE . && docker run -e BROWSER=$BROWSER testpages
   except:
     - schedules
+
+test:chrome:
+  extends: .test_template
+  variables:
+    BROWSER: Chromium
+
+test:firefox:
+  extends: .test_template
+  variables:
+    BROWSER: Firefox
