@@ -14,6 +14,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 FROM registry.gitlab.com/eyeo/docker/adblockplus-ci:node10
+ARG REVISION
 
 # Build CMS
 RUN git clone https://github.com/adblockplus/cms.git
@@ -21,7 +22,7 @@ RUN cd cms && pip install -r requirements.txt
 
 # Build test env
 RUN git clone https://gitlab.com/eyeo/adblockplus/adblockpluschrome.git
-RUN cd adblockpluschrome && npm install && npm_config_unsafe_perm=true \
-                                           python ensure_dependencies.py
-# create screenshots folder to avoid `Error: ENOENT: no such file or directory`
-RUN mkdir adblockpluschrome/test/screenshots
+RUN git -C adblockpluschrome checkout $REVISION
+RUN cd adblockpluschrome \
+  && npm install \
+  && npm_config_unsafe_perm=true python ensure_dependencies.py

@@ -14,18 +14,36 @@ The following tools are needed:
 The execution is done in Docker. The CI/CD pipeline uses a cached image that
 does not exist locally. In order to create the image, run:
 ```
-docker build -t testpagesbuild -f test/build.Dockerfile .
+docker build -t cachedimage -f test/build.Dockerfile .
 ```
 
 Now tests can be executed with:
 ```
-docker build -t testpages --build-arg BASE_IMAGE=testpagesbuild . && docker run -it testpages
+docker build -t testpages --build-arg IMAGE=cachedimage .
+docker run -it testpages
 ```
 
-Firefox is the default browser. If you'd like to use Chrome instead, you can do:
+### Revision
+
+`next` is the default revision of `adblockpluschrome` used to build the
+`cachedimage` image. Other revisions can be built using the `REVISION` argument:
 ```
-docker build -t testpages --build-arg BASE_IMAGE=testpagesbuild . && docker run -e BROWSER=Chromium -it testpages
+docker build -t cachedimage --build-arg REVISION=master -f test/build.Dockerfile .
 ```
+
+### Browser
+
+`Firefox (latest)` is the default browser. Other browsers can be run using the
+`BROWSER` argument:
+```
+docker run -e BROWSER="Chromium \(latest\)" -it testpages
+```
+
+The available browsers are:
+* Chromium \(latest\)
+* Chromium \(oldest\)
+* Firefox \(latest\)
+* Firefox \(oldest\)
 
 ## Local testpages execution
 

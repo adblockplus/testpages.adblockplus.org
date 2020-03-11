@@ -1,10 +1,8 @@
 #! /bin/bash
 
 # Browser config
-if [[ "$BROWSER" == "" ]]; then
-  BROWSER="Firefox"
-elif [[ "$BROWSER" == "Chromium" ]]; then
-  XVFB="xvfb-run -a"
+if [[ "$BROWSER" == *"Chromium"* ]]; then
+  XVFB_CMD="xvfb-run -a"
 fi
 
 # Run CMS
@@ -15,6 +13,8 @@ cd ..
 # Run tests
 cd adblockpluschrome
 export TEST_PAGES_URL="http://localhost:5000"
+echo "INFO: Tests will execute based on the following revision:"
+git status 2>&1 | head -n 1
+git log -5 --oneline
 # subscribe test is excluded until adblockpluschrome#155 is fixed
-# popup test should be re-enabled when adblockpluschrome/issues/129 is fixed
-$XVFB npm run test-only -- -g "^$BROWSER \(latest\)((?!qunit|subscribe|popup).)*\$"
+$XVFB_CMD npm run test-only -- -g "^$BROWSER((?!qunit|subscribe).)*\$"
