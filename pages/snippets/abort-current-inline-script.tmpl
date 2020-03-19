@@ -66,17 +66,18 @@ template = testcase
 <script>
   function injectScript(id, code)
   {
+    let target = document.getElementById(`${id}-target`);
+    target.querySelector(".testcase-waitingcontent").remove();
+
     let script = document.createElement('script');
     script.textContent = `
       (function()
       {
-        let target = document.getElementById("${id}-target");
-        target.querySelector(".testcase-waitingcontent").remove();
         ${code}
         let failElement = document.createElement("div");
         failElement.textContent = "Failed. Script ran and was applied to the page.";
         failElement.className = "testcase-bad-element blocked";
-        target.appendChild(failElement);
+        document.getElementById("${id}-target").appendChild(failElement);
         console.log('Failed. Script "${id}" ran completely and was applied to the page.');
       })();`;
     document.body.appendChild(script);
