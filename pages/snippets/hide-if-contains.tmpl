@@ -1,0 +1,124 @@
+title = hide-if-contains
+template = testcase
+
+<section class="site-panel">
+  <h2>hide-if-contains</h2>
+  <p>Check that the hide-if-contains snippet is working as expected.</p>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="basic-static">Basic static usage</h2>
+  <p>Test that basic usage of the snippet works as expected against a static target.</p>
+  <div id="basic-static-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <p id="hic-static-id" class="testcase-bad-element blocked">hic-basic-static<br>Failed. Element is not hidden.</p>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element inside in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains 'hic-basic-static' p[id]</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="basic-dynamic">Basic dynamic usage</h2>
+  <p>Test that basic usage of the snippet works as expected against a dynamic target.</p>
+  <div id="basic-dynamic-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element added to the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains 'hic-basic-dynamic' p[id]</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="search">Search usage</h2>
+  <p>Test that usage of the snippet with the search parameter works as expected.</p>
+  <div id="search1-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-output-expected">hic-search<br>Should not be hidden</div>
+  </div>
+  <div id="search2-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element inside in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains 'hic-search' p[id] .target</pre></li>
+  </ul>
+</section>
+
+<script>
+  function injectElement(id, element)
+  {
+    let target = document.getElementById(`${id}-target`)
+    target.querySelector(".testcase-waitingcontent").remove();
+    if (target.querySelector(".testcase-output-expected"))
+      target.querySelector(".testcase-output-expected").remove();
+    target.appendChild(element);
+  }
+
+  setTimeout(() =>
+  {
+    let dynamic = document.createElement("p");
+    dynamic.id = "hic-dynamic-id";
+    dynamic.innerHTML = "<div>hic-basic-dynamic<br>Failed. Element is not hidden.</div>";
+    dynamic.className = "testcase-bad-element blocked";
+
+    let search1 = document.createElement("p");
+    search1.id = Math.random().toString(36).substring(2);
+    search1.className = "testcase-good-element"
+    search1.innerHTML = "hic-search<br>Should not be hidden";
+
+    let search2 = document.createElement("p");
+    search2.id = Math.random().toString(36).substring(2);
+    search2.className = "testcase-bad-element blocked target"
+    search2.innerHTML = "hic-search<br>Failed. Element is not hidden.";
+
+    injectElement("basic-dynamic", dynamic);
+    injectElement("search1", search1);
+    injectElement("search2", search2);
+  },
+  500);
+</script>
+
+<section class="testcase-panel">
+  <h2 id="regex">Regex usage</h2>
+  <p>Test that usage of the snippet with regex works as expected.</p>
+  <div class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <p id="hic-regex-1" class="testcase-good-element">hic-regex-1<br>Should not be hidden</p>
+    <p id="hic-regex-2" class="testcase-bad-element blocked">hic-regex-2<br>Failed. Element is not hidden.</p>
+    <p id="hic-regex-3" class="testcase-bad-element blocked">hic-regex-3<br>Failed. Element is not hidden.</p>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red elements inside in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains /hic-regex-[2-3]/ p[id]</pre></li>
+  </ul>
+</section>

@@ -5,6 +5,13 @@ if [[ "$BROWSER" == *"Chromium"* ]]; then
   XVFB_CMD="xvfb-run -a"
 fi
 
+# subscribe test is excluded until adblockpluschrome#155 is fixed
+excluded="qunit|subscribe"
+if [[ "$BROWSER" == "Firefox \(oldest\)" ]]; then
+  # shadowing requires Firefox 63+ or 59+ with flag dom.webcomponents.shadowdom.enabled
+  excluded="${excluded}|hide-if-shadow-contains"
+fi
+
 # Run CMS
 cd testpages.adblockplus.org
 python ../cms/runserver.py </dev/null &>/dev/null &
@@ -16,5 +23,4 @@ export TEST_PAGES_URL="http://localhost:5000"
 echo "INFO: Tests will execute based on the following revision:"
 git status 2>&1 | head -n 1
 git log -5 --oneline
-# subscribe test is excluded until adblockpluschrome#155 is fixed
-$XVFB_CMD npm run test-only -- -g "^$BROWSER((?!qunit|subscribe).)*\$"
+$XVFB_CMD npm run test-only -- -g "^$BROWSER((?!$excluded).)*\$"

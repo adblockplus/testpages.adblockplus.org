@@ -1,0 +1,107 @@
+title = hide-if-contains-visible-text
+template = testcase
+
+<section class="site-panel">
+  <h2>hide-if-shadow-contains</h2>
+  <p>Check that the hide-if-shadow-contains snippet is working as expected.</p>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="basic">Basic usage</h2>
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="basic-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
+    <p class="testcase-bad-element blocked"></p>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element inside in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-shadow-contains 'hisc-basic' p</pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 52 (requires 53+)</p>
+  <p>Not supported in Firefox 58 (requires 63+ or 59+ with flag dom.webcomponents.shadowdom.enabled)</p>
+  <p>Not supported in Opera 39 (requires 40+)</p>
+  <p>Not supported in Edge (EdgeHTML)</p>
+</section>
+
+<script>
+  setTimeout(() =>
+  {
+    let root = document.getElementById("basic-target");
+    root.querySelector(".testcase-waitingcontent").remove();
+
+    let failElement = document.createElement("div");
+    failElement.id = "hisc-basic-id";
+    failElement.className = "testcase-bad-element blocked";
+    failElement.innerHTML = "<div><span>hisc-basic<br>Failed. Element is not hidden.</span></div>";
+    let shadowRoot = root.lastElementChild.attachShadow({mode: "closed"});
+    shadowRoot.appendChild(failElement);
+  },
+  500);
+</script>
+
+<section class="testcase-panel">
+  <h2 id="regex">Regex usage</h2>
+  <p>Test that usage of the snippet with regex works as expected.</p>
+  <div id="regex-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-good-element"></div>
+    <div class="testcase-output-expected">hic-search<br>Should not be hidden</div>
+    <div class="testcase-bad-element blocked"></div>
+    <div class="testcase-bad-element blocked"></div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red elements inside in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-shadow-contains '/hisc-regex[1-2]/' div</pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 52 (requires 53+)</p>
+  <p>Not supported in Firefox 58 (requires 63+ or 59+ with flag dom.webcomponents.shadowdom.enabled)</p>
+  <p>Not supported in Opera 39 (requires 40+)</p>
+  <p>Not supported in Edge (EdgeHTML)</p>
+</section>
+
+<script>
+  setTimeout(() =>
+  {
+    let root = document.getElementById("regex-target");
+    root.querySelector(".testcase-waitingcontent").remove();
+    root.querySelector(".testcase-output-expected").remove();
+
+    let target = document.createElement("div");
+    target.id = "hisc-regex-id1";
+    target.className = "testcase-bad-element blocked";
+    target.innerHTML = "<div><span>hisc-regex1<br>Failed. Element is not hidden.</span></div>";
+    let shadowRoot = root.lastElementChild.attachShadow({mode: "closed"});
+    shadowRoot.appendChild(target);
+
+    let target2 = document.createElement("div");
+    target2.id = "hisc-regex-id2";
+    target2.className = "testcase-bad-element blocked";
+    target2.innerHTML = "<div><span>hisc-regex2<br>Failed. Element is not hidden.</span></div>";
+    let shadowRoot2 = root.lastElementChild.previousElementSibling.attachShadow({mode: "closed"});
+    shadowRoot2.appendChild(target2);
+
+    let target3 = document.createElement("div");
+    target3.id = "hisc-basic-id3";
+    target3.className = "testcase-good-element";
+    target3.innerHTML = "<div><span>hisc-regex3<br>This element should not be hidden.</span></div>";
+    let shadowRoot3 = root.lastElementChild.previousElementSibling.previousElementSibling.attachShadow({mode: "closed"});
+    shadowRoot3.appendChild(target3);
+  },
+  500);
+</script>

@@ -1,0 +1,65 @@
+title = hide-if-contains-visible-text
+template = testcase
+
+<section class="site-panel">
+  <h2>hide-if-contains-visible-text</h2>
+  <p>Check that the hide-if-contains-visible-text snippet is working as expected.</p>
+</section>
+
+<style type="text/css">
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  .transparent {
+    opacity: 0;
+    position: absolute;
+    display: block;
+  }
+  .zerosize {
+    font-size: 0;
+  }
+  div {
+    display: block;
+  }
+  .a {
+    display: inline-block;
+    white-space: pre-wrap;
+  }
+  .transparent {
+    color: transparent;
+  }
+  .article {
+    overflow-wrap: break-word;
+     padding: .5rem;
+  }
+  #parent {
+    background-color: #c70d2c;
+
+    color: #fff;
+  }
+</style>
+
+<section class="testcase-panel">
+  <h2 id="basic">Basic usage</h2>
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="basic-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div id="parent" data-expectedresult="blocked" class="blocked">
+      <div class="article">
+       <div class="label"><div class="a transparent">Sp</div><div class="a">Sp</div><div class="a zerosize">S</div><div class="a transparent">on</div><div class="a">on</div><div class="a zerosize">S</div>sored-hicvt</div>
+  This is the ad.
+      </div>
+    </div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element inside in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-visible-text Sponsored-hicvt '#parent > .article' '#parent > .article .label'</pre></li>
+  </ul>
+</section>

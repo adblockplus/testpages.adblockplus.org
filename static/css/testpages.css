@@ -272,6 +272,14 @@ h3 { font-size: 1.1rem; }
   list-style-position: inside;
 }
 
+.testcase-good-element,
+.testcase-output-expected {
+  flex-grow: 1;
+	padding: .5rem;
+	color: #fff;
+	background-color: #0dc74b;
+}
+
 .testcase-bad-element {
   flex-grow: 1;
 	padding: .5rem;
@@ -396,7 +404,8 @@ img.blocked[data-expectedresult="blocked"] {
 .expected .stripes-red,
 .expected .blocked,
 .expected #testcase-output,
-#testcase-output-expected {
+#testcase-output-expected,
+.testcase-output-expected {
   display: none;
 }
 
@@ -404,6 +413,8 @@ img.blocked[data-expectedresult="blocked"] {
   visibility: hidden;
 }
 
-.expected #testcase-output-expected {
+/* .testcase-output-expected will replace #testcase-output-expected when new test pages are completed */
+.expected #testcase-output-expected,
+.expected .testcase-output-expected {
   display: block;
 }
