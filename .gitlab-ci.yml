@@ -32,11 +32,15 @@ before_script:
 .build:
   stage: build
   before_script:
+    - apk update && apk add git
+    - git clone https://gitlab.com/eyeo/adblockplus/adblockpluschrome.git --depth 1 --single-branch --branch $REVISION
+    - REVISION_HEAD=`git -C adblockpluschrome rev-parse --short HEAD`
+    - rm -rf adblockpluschrome
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
     - IMAGE=$CI_REGISTRY_IMAGE/abp:$REVISION
     - docker pull $IMAGE || true
-    - docker build --cache-from $IMAGE -t $IMAGE --build-arg REVISION=$REVISION -f test/build.Dockerfile .
+    - docker build --cache-from $IMAGE -t $IMAGE --build-arg REVISION=$REVISION_HEAD -f test/build.Dockerfile .
     - docker push $IMAGE
   after_script:
     - docker logout $CI_REGISTRY
@@ -57,8 +61,6 @@ build:next:
     - IMAGE=$CI_REGISTRY_IMAGE/abp:$REVISION
     - docker build -t testpages --build-arg IMAGE=$IMAGE .
     - docker run -e BROWSER="$BROWSER" testpages
-  except:
-    - schedules
   interruptible: true
 
 .test:master:
