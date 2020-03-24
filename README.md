@@ -45,6 +45,15 @@ The available browsers are:
 * Firefox \(latest\)
 * Firefox \(oldest\)
 
+### Screenshots
+
+In order to access the screenshots for failing tests, run the following command:
+```
+docker cp $(docker ps -aqf ancestor=testpages | head -n 1):/adblockpluschrome/test/screenshots <destination>
+```
+
+Screenshots will be available in `<destination>` folder.
+
 ## Local testpages execution
 
 Test pages run through the CMS test server. That project needs to be cloned:

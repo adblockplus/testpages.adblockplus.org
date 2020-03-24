@@ -61,6 +61,13 @@ build:next:
     - IMAGE=$CI_REGISTRY_IMAGE/abp:$REVISION
     - docker build -t testpages --build-arg IMAGE=$IMAGE .
     - docker run -e BROWSER="$BROWSER" testpages
+  after_script:
+    - docker cp $(docker ps -aqf ancestor=testpages):/adblockpluschrome/test/screenshots . 2> /dev/null
+  artifacts:
+    paths:
+      - screenshots/
+    when: on_failure
+    expire_in: 1 mo
   interruptible: true
 
 .test:master:
