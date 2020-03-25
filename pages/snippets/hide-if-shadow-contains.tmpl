@@ -54,9 +54,6 @@ template = testcase
     <div class="testcase-examplecontent">Example Content</div>
     <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
     <div class="testcase-output-expected"><span>hisc-regex3<br>This element should not be hidden.</span></div>
-    <div class="testcase-good-element"></div>
-    <div class="testcase-bad-element blocked"></div>
-    <div class="testcase-bad-element blocked"></div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -81,6 +78,13 @@ template = testcase
     let root = document.getElementById("regex-target");
     root.querySelector(".testcase-waitingcontent").remove();
     root.querySelector(".testcase-output-expected").remove();
+
+    for (className of ["testcase-good-element", "testcase-bad-element blocked", "testcase-bad-element blocked"])
+    {
+      let rootChild = document.createElement("div");
+      rootChild.className = className;
+      root.appendChild(rootChild);
+    }
 
     let target = document.createElement("div");
     target.id = "hisc-regex-id1";
