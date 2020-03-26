@@ -1,0 +1,49 @@
+title = Third Party
+template = testcase
+
+<section class="site-panel">
+  <h2>Third Party</h2>
+  <p>Check that a filter using the $third-party filter option is working as expected.</p>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="block-third-party">Block Third Party</h2>
+  <p>Test that a filter using the $third-party filter option works a third party resource.</p>
+  <div class="testcase-area testcase-container">
+    <img style="padding: .5rem; background-color:#c70d2c; width:166px; height:166px;" src="https://adblockplus.org/img/navbar-logo.svg" data-expectedresult="blocked" class="blocked"/>
+    <img style="padding: .5rem; background-color:#0dc74b; width:166px; height:166px;" src="/testfiles/third-party/navbar-logo.svg" data-expectedresult="notblocked"/>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red logo should be blocked and the space collapsed.</li>
+    <li>The green logo containing should not be blocked.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>navbar-logo.svg$third-party</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="block-first-party">Block First Party</h2>
+  <p>Test that a filter using the inverse $third-party filter option works a first party resource.</p>
+  <div class="testcase-area testcase-container">
+    <img style="padding: .5rem; color: #fff; background-color:#c70d2c;" src="/testfiles/third-party/abb-logo.png" data-expectedresult="blocked" class="blocked"/>
+    <img style="padding: .5rem; background-color:#0dc74b;" src="https://adblockplus.org/img/abb-logo.png" data-expectedresult="notblocked"/>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red logo should be blocked and the space collapsed.</li>
+    <li>The green logo containing should not be blocked.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>abb-logo.png$~third-party</pre></li>
+  </ul>
+</section>

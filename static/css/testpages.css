@@ -132,18 +132,19 @@ h3 { font-size: 1.1rem; }
 }
 
 .testcase-panel > p {
-	padding: .5rem;
-	border-bottom: 1px solid #ccc;
+  padding: .5rem;
+  border-bottom: 1px solid #ccc;
 }
 
 .testcase-panel > h2 {
-	padding: .5rem;
-	border-bottom: 1px solid #ccc;
+  padding: .5rem;
+  border-bottom: 1px solid #ccc;
+  font-size: 1.2rem; /* to be moved to global h2 when new test pages are completed */
 }
 
 .testcase-panel > h3 {
-	padding: .5rem;
-	border-bottom: 1px solid #ccc;
+  padding: .5rem;
+  border-bottom: 1px solid #ccc;
 }
 
 .site-pagelist {
