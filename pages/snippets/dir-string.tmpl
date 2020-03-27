@@ -1,0 +1,59 @@
+title = dir-string
+template = testcase
+
+<section class="site-panel">
+  <h2>dir-string</h2>
+  <p>Check that the dir-string snippet is working as expected.</p>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="basic">Basic usage</h2>
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="basic-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
+    <div id="atsy2t" class="testcase-bad-element blocked">Failed. Element is not hidden.</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element inside in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#dir-string</pre></li>
+  </ul>
+</section>
+
+<script>
+function snippetTest(times)
+{
+  let re = /foo/;
+  let n = 0;
+
+  re.toString = function()
+  {
+    if (++n > times)
+    {
+      let element = document.getElementById("atsy2t");
+      element.parentElement.removeChild(element);
+
+      delete re.toString;
+    }
+    return "";
+  };
+
+  console.dir(re);
+}
+
+setTimeout(() =>
+{
+  let target = document.getElementById("basic-target");
+  target.querySelector(".testcase-waitingcontent").remove();
+
+  let times = navigator.userAgent.includes("Chrome") ? 1 : 0;
+  snippetTest(times);
+},
+500);
+</script>
