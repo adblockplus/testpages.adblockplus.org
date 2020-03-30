@@ -1,0 +1,157 @@
+title = hide-if-contains-image-hash
+template = testcase
+
+<section class="site-panel">
+  <h2>hide-if-contains-image-hash</h2>
+  <p>Check that the hide-if-contains-image-hash snippet is working as expected.</p>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="basic">Basic usage</h2>
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="basic-target" class="testcase-area testcase-container">
+    <img src="/testfiles/hide-if-contains-image-hash/hash-selector.png" data-expectedresult="blocked" class="blocked"/>
+    <img src="/testfiles/hide-if-contains-image-hash/hash-selector_notblocked.png" data-expectedresult="notblocked" />
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image inside in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-image-hash 0000007e7e000000 '#basic-target img'</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="search">Search usage</h2>
+  <p>Test that search usage of the snippet works as expected.</p>
+  <div class="testcase-area testcase-container">
+    <div id="search-target"><div><img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector.png" data-expectedresult="blocked" class="blocked"/></div></div>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image inside in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-image-hash 0101017f7f0100ff '#search-target > div'</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="search-selection">Search selection usage</h2>
+  <p>Test that search selection usage of the snippet works as expected.</p>
+  <div class="testcase-area testcase-container">
+    <div id="search-selection-target"><div><img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector-selection.png" data-expectedresult="blocked" class="blocked"/></div></div>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image containing a blue square inside in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-image-hash ffffffffffffffff '#search-selection-target > div' 0 8 126x0x44x44</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="search-selection-negative">Search selection negative usage</h2>
+  <p>Test that search selection negative usage of the snippet works as expected.</p>
+  <div class="testcase-area testcase-container">
+    <div id="search-selection-negative-target"><div><img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector-selection.png" data-expectedresult="blocked" class="blocked"/></div></div>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image containing a blue square inside in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-image-hash ffffffffffffffff '#search-selection-negative-target > div' 0 8 -44x0x44x44</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="search-selection-maxdistance">Search selection maxDistance usage</h2>
+  <p>Test that search selection maxDistance usage of the snippet works as expected.</p>
+  <div class="testcase-area testcase-container">
+    <div id="search-selection-maxdistance-target"><div><img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector-selection-maxDistance.png" data-expectedresult="blocked" class="blocked"/></div></div>
+    <div id="search-selection-maxdistance-target-notblocked"><div><img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector-selection-maxDistance_notblocked.png" data-expectedresult="notblocked"/></div></div>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image containing a blue square in the test case above should be hidden.</li>
+    <li>Add filter #2.</li>
+    <li>Refresh page.</li>
+    <li>The green image containing a blue square in the test case above should not be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-image-hash ffffffffffffffff '#search-selection-maxdistance-target > div' 1 8 126x0x44x44</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-image-hash ffffffffffffffff '#search-selection-maxdistance-target-notblocked > div' 0 8 126x0x44x44</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="search-selection-maxdistance-blockbits">Search selection maxDistance blockbits usage</h2>
+  <p>Test that search selection maxDistance blockbits usage of the snippet works as expected.</p>
+  <div class="testcase-area testcase-container">
+    <div id="search-selection-maxdistance-blockbits-target"><div><img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector-selection-maxDistance-blockbits.png" data-expectedresult="blocked" class="blocked"/></div></div>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-image-hash 00000000000016f01ff813d01ff807e007e01ff00ff80ff00f3000000000ffff '#search-selection-maxdistance-blockbits-target > div' 0 16 0x0x159x160</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="dynamic">Dynamic usage</h2>
+  <p>Test that dynamic usage of the snippet works as expected.</p>
+  <div id="dynamic-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image inside in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-image-hash ff00007e7e140000 '* img'</pre></li>
+  </ul>
+</section>
+
+<script>
+  setTimeout(() =>
+  {
+    let root = document.getElementById("dynamic-target");
+    let target = document.createElement("div");
+    target.className = "blocked";
+    target.setAttribute("data-expectedresult", "blocked");
+    target.innerHTML = "<img src='/testfiles/hide-if-contains-image-hash/hash-selector-dynamic.png' />";
+    root.appendChild(target);
+  }, 500);
+</script>
