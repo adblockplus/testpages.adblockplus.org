@@ -11,6 +11,7 @@ template = testcase
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -29,6 +30,7 @@ template = testcase
   <p>Test that usage of the snippet with the optional search parameter works as expected.</p>
   <div id="search-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -47,6 +49,7 @@ template = testcase
   <p>Test that usage of the snippet with the optional search parameter as a regex works as expected.</p>
   <div id="regex-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -61,8 +64,28 @@ template = testcase
 </section>
 
 <script>
-  let script = document.createElement("script");
-  script.src = "/testfiles/abort-current-inline-script/script.js?" + Math.floor(Math.random() * 1e8);
-  script.async = false;
-  document.head.appendChild(script);
+function injectScript(id, code)
+  {
+    let target = document.getElementById(`${id}-target`);
+    target.querySelector(".testcase-waitingcontent").remove();
+
+    let script = document.createElement('script');
+    script.textContent = `
+      (function()
+      {
+        ${code}
+        let failElement = document.createElement("div");
+        failElement.textContent = "Failed. Script ran and was applied to the page.";
+        failElement.className = "testcase-bad-element blocked";
+        document.getElementById("${id}-target").appendChild(failElement);
+        console.log('Failed. Script "${id}" ran completely and was applied to the page.');
+      })();`;
+    document.body.appendChild(script);
+  }
+
+  setTimeout(function() {
+    injectScript("basic", 'console.group("abort-current-inline-script");');
+    injectScript("search", 'console.info("acis-search");');
+    injectScript("regex", 'console.warn("acis-regex1");');
+  }, 500);
 </script>
