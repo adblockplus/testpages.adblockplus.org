@@ -1,0 +1,98 @@
+title = strip-fetch-query-parameter
+template = testcase
+
+<section class="site-panel">
+  <h2>strip-fetch-query-parameter</h2>
+  <p>Check that the strip-fetch-query-parameter snippet is working as expected.</p>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="basic">Basic usage</h2>
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="basic-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-output-expected">basicAllowed was called.</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element and not a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#strip-fetch-query-parameter basicBlocked {{ site_url|domain }}</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="other">Other usage</h2>
+  <p>Test that other usage of the snippet works as expected.</p>
+  <div id="other-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-output-expected">otherAllowed1 was called.</div>
+    <div class="testcase-output-expected">otherAllowed2 was called.</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display two green elements to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#strip-fetch-query-parameter otherAllowed2 other-domain</pre></li>
+  </ul>
+</section>
+
+
+<script>
+  function handleResponseBasic(response)
+  {
+    if (response.url.includes("basicBlocked"))
+    {
+      let element = document.createElement("div");
+      element.className = "testcase-bad-element blocked";
+      element.innerHTML = "Failed. basicBlocked was called.";
+      document.getElementById("basic-target").appendChild(element);
+    }
+    if (response.url.includes("basicAllowed"))
+    {
+      let element = document.createElement("div");
+      element.className = "testcase-good-element";
+      element.innerHTML = "basicAllowed was called.";
+      document.getElementById("basic-target").appendChild(element);
+    }
+  }
+
+  function handleResponseOther(response)
+  {
+    console.log(response.url)
+    for (param of ["otherAllowed1", "otherAllowed2"])
+    {
+      if (response.url.includes(param))
+      {
+        let element = document.createElement("div");
+        element.className = "testcase-good-element";
+        element.innerHTML = `${param} was called.`;
+        document.getElementById("other-target").appendChild(element);
+      }
+    }
+  }
+
+  setTimeout(function() {
+    for (id of ["basic-target", "other-target"])
+    {
+      let root = document.getElementById(id);
+      root.querySelector(".testcase-waitingcontent").remove();
+      while (root.querySelector(".testcase-output-expected"))
+        root.querySelector(".testcase-output-expected").remove();
+    }
+
+    let url = `${location.protocol}//{{ site_url|strip_proto }}/testfiles/strip-fetch-query-parameter/foo.txt`;
+    fetch(`${url}?basicBlocked=1&basicAllowed=2`).then(handleResponseBasic);
+    fetch(`${url}?otherAllowed1=1&otherAllowed2=2`).then(handleResponseOther);
+  }, 500);
+</script>
