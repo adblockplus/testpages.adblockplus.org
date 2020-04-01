@@ -1,0 +1,123 @@
+title = readd
+template = testcase
+
+<section class="site-panel">
+  <h2>readd</h2>
+  <p>Check that the readd snippet is working as expected.</p>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="basic">Basic usage</h2>
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="basic-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-output-expected">Basic<br>Should not lose the green style.</div>
+    <div id="basic-style-target" class="testcase-output-actual">Basic<br>Should not lose the green style.</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should not remove the style of the green element from the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#readd style body</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="link">Link usage</h2>
+  <p>Test that link usage of the snippet works as expected.</p>
+  <div id="link-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-output-expected">Link<br>Should not lose the green style.</div>
+    <div id="link-style-target" class="testcase-output-actual">Link<br>Should not lose the green style.</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should not remove the style of the green element from the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#readd link[rel="stylesheet"] body</pre></li>
+  </ul>
+</section>
+
+<main>
+  <style>
+    /* Style here must match style from .testcase-output-expected */
+    #twice-style-first-target {
+      flex-grow: 1;
+      padding: .5rem;
+      color: #fff;
+      background-color: #0dc74b;
+    }
+  </style>
+  <link rel="stylesheet" type="text/css" href="/testfiles/readd/twice-style.css">
+</main>
+<section class="testcase-panel">
+  <h2 id="twice">Twice usage</h2>
+  <p>Test that twice usage of the snippet works as expected.</p>
+  <div id="twice-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-output-expected">First<br>Should not lose the green style.</div>
+    <div class="testcase-output-expected">Second<br>Should not lose the green style.</div>
+    <div id="twice-style-first-target" class="testcase-output-actual">First<br>Should not lose the green style.</div>
+    <div id="twice-style-second-target" class="testcase-output-actual">Second<br>Should not lose the green style.</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should not remove the style of the two green elements from the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#readd style main; readd link[rel="stylesheet"] main</pre></li>
+  </ul>
+</section>
+
+<script>
+  let style = document.createElement("style");
+  // Style here must match style from .testcase-output-expected
+  style.innerHTML = `
+    #basic-style-target {
+      flex-grow: 1;
+      padding: .5rem;
+      color: #fff;
+      background-color: #0dc74b;
+    }`;
+  document.body.appendChild(style);
+
+  let link = document.createElement("link");
+  link.rel = "stylesheet";
+  link.type = "text/css";
+  link.href = "/testfiles/readd/link-style.css";
+  document.body.appendChild(link);
+
+  setTimeout(() =>
+  {
+    for (let id of ["basic-target", "link-target", "twice-target"])
+    {
+      let target = document.getElementById(id);
+      target.querySelector(".testcase-waitingcontent").remove();
+    }
+
+    let styleElement = document.getElementsByTagName("style")[0];
+    styleElement.parentElement.removeChild(styleElement);
+    styleElement = document.getElementsByTagName("style")[0];
+    styleElement.parentElement.removeChild(styleElement);
+
+    let linkElement = document.querySelector("link[type='text/css']");
+    linkElement.parentElement.removeChild(linkElement);
+    linkElement = document.querySelector("link[type='text/css']");
+    linkElement.parentElement.removeChild(linkElement);
+  },
+  500);
+</script>

@@ -402,9 +402,11 @@ img.blocked[data-expectedresult="blocked"] {
   }
 }
 
+/* .testcase-output-actual will replace #testcase-output when new test pages are completed */
 .expected .stripes-red,
 .expected .blocked,
 .expected #testcase-output,
+.expected .testcase-output-actual,
 #testcase-output-expected,
 .testcase-output-expected {
   display: none;

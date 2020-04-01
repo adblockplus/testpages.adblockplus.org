@@ -1,0 +1,7 @@
+/* Style here must match style from .testcase-output-expected */
+#twice-style-second-target {
+  flex-grow: 1;
+  padding: .5rem;
+  color: #fff;
+  background-color: #0dc74b;
+}
