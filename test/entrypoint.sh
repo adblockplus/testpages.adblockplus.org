@@ -7,10 +7,6 @@ fi
 
 # subscribe test is excluded until adblockpluschrome#155 is fixed
 excluded="qunit|subscribe"
-if [[ "$BROWSER" == "Firefox \(oldest\)" ]]; then
-  # shadowing requires Firefox 63+ or 59+ with flag dom.webcomponents.shadowdom.enabled
-  excluded="${excluded}|hide-if-shadow-contains"
-fi
 
 # Run CMS
 cd testpages.adblockplus.org
