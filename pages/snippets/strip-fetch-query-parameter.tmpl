@@ -11,7 +11,7 @@ template = testcase
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-waitingcontent blocked">Waiting 1000ms to trigger snippet...</div>
     <div class="testcase-output-expected">basicAllowed was called.</div>
   </div>
   <h3>Steps</h3>
@@ -31,7 +31,7 @@ template = testcase
   <p>Test that other usage of the snippet works as expected.</p>
   <div id="other-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-waitingcontent blocked">Waiting 1000ms to trigger snippet...</div>
     <div class="testcase-output-expected">otherAllowed1 was called.</div>
     <div class="testcase-output-expected">otherAllowed2 was called.</div>
   </div>
@@ -69,7 +69,6 @@ template = testcase
 
   function handleResponseOther(response)
   {
-    console.log(response.url)
     for (param of ["otherAllowed1", "otherAllowed2"])
     {
       if (response.url.includes(param))
@@ -83,16 +82,18 @@ template = testcase
   }
 
   setTimeout(function() {
-    for (id of ["basic-target", "other-target"])
+    for (className of ["testcase-waitingcontent", "testcase-output-expected"])
     {
-      let root = document.getElementById(id);
-      root.querySelector(".testcase-waitingcontent").remove();
-      while (root.querySelector(".testcase-output-expected"))
-        root.querySelector(".testcase-output-expected").remove();
+      let elements = document.getElementsByClassName(className)
+      while (elements.length > 0)
+      {
+        elements[0].remove();
+        elements = document.getElementsByClassName(className);
+      }
     }
 
     let url = `${location.protocol}//{{ site_url|strip_proto }}/testfiles/strip-fetch-query-parameter/foo.txt`;
     fetch(`${url}?basicBlocked=1&basicAllowed=2`).then(handleResponseBasic);
     fetch(`${url}?otherAllowed1=1&otherAllowed2=2`).then(handleResponseOther);
-  }, 500);
+  }, 1000);
 </script>
