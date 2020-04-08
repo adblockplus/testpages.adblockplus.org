@@ -11,8 +11,20 @@ The following tools are needed:
 
 ## Running the tests
 
-The execution is done in Docker. The CI/CD pipeline uses a cached image that
-does not exist locally. In order to create the image, run:
+The execution is done in Docker.
+
+### Lint
+
+Html code is checked with `htmllint-cli` npm package. To run the lint image:
+```
+docker build -t lintimage -f test/lint.Dockerfile .
+docker run -it lintimage
+```
+
+### Page tests
+
+The CI/CD pipeline uses a cached image that does not exist locally. In order to
+create the image, run:
 ```
 docker build -t cachedimage -f test/build.Dockerfile .
 ```
@@ -23,7 +35,7 @@ docker build -t testpages --build-arg IMAGE=cachedimage .
 docker run -it testpages
 ```
 
-### Revision
+#### Revision
 
 `next` is the default revision of `adblockpluschrome` used to build the
 `cachedimage` image. Other revisions can be built using the `REVISION` argument:
@@ -31,7 +43,7 @@ docker run -it testpages
 docker build -t cachedimage --build-arg REVISION=master -f test/build.Dockerfile .
 ```
 
-### Browser
+#### Browser
 
 `Firefox (latest)` is the default browser. Other browsers can be run using the
 `BROWSER` argument:
@@ -45,7 +57,7 @@ The available browsers are:
 * Firefox \(latest\)
 * Firefox \(oldest\)
 
-### Screenshots
+#### Screenshots
 
 In order to access the screenshots for failing tests, run the following command:
 ```

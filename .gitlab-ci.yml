@@ -82,6 +82,14 @@ build:next:
   variables:
     REVISION: next
 
+test:lint:
+  stage: "test"
+  needs: []
+  script:
+    - docker build -t lintimage -f test/lint.Dockerfile .
+    - docker run lintimage
+  interruptible: true
+
 test:master:chrome:latest:
   extends: .test:master
   variables:

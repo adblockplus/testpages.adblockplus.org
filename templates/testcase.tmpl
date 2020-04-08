@@ -11,8 +11,8 @@
     <div class="site-container">
 
       <section class="site-panel site-breadcrumbs">
-        <a href="/" target="_top">Home</a>
-        > <a href="testcases" target="_top">Test cases</a>
+        <a href="/" target="_top">Home</a> &gt;
+        <a href="testcases" target="_top">Test cases</a>
         {{ breadcrumb|safe }}
       </section>
 
@@ -75,19 +75,19 @@
           <li><a href="{{link[1]}}">{{link[0]}}</a></li>
         {% endfor %}
         </ul>
-    </section>
-    {% endif %}
+      </section>
+      {% endif %}
 
     </div>
 
-  <? include footer ?>
+    <? include footer ?>
 
-  <script>
-    function pagelog(message) {
-      var log = document.getElementById("testcase-output");
-      log.innerText = log.innerText + message + "\n";
-      console.log(message);
-    }
-  </script>
+    <script>
+      function pagelog(message) {
+        var log = document.getElementById("testcase-output");
+        log.innerText = log.innerText + message + "\n";
+        console.log(message);
+      }
+    </script>
   </body>
 </html>
