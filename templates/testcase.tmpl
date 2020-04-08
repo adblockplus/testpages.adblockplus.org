@@ -9,11 +9,16 @@
   <body>
     <? include header ?>
     <div class="site-container">
-      
+
       <section class="site-panel site-breadcrumbs">
         <a href="/" target="_top">Home</a>
         > <a href="testcases" target="_top">Test cases</a>
         {{ breadcrumb|safe }}
+      </section>
+
+      <section class="site-panel">
+        <h2>{{ title }}</h2>
+        <p>{{ description }}</p>
       </section>
 
       {{ body|safe }}
