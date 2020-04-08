@@ -16,10 +16,12 @@
         {{ breadcrumb|safe }}
       </section>
 
+      {% if description %}
       <section class="site-panel">
         <h2>{{ title }}</h2>
         <p>{{ description }}</p>
       </section>
+      {% endif %}
 
       {{ body|safe }}
 
