@@ -1,0 +1,66 @@
+title = abort-on-property-read
+description = Check that the abort-on-property-read snippet is working as expected.
+template = testcase
+
+<section class="testcase-panel">
+  <h2 id="basic">Basic usage</h2>
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="basic-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should be aborted and not add a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#abort-on-property-read aoprb</pre></li>
+  </ul>
+</section>
+
+<script src="/testfiles/abort-on-property-read/basic.js"></script>
+
+<section class="testcase-panel">
+  <h2 id="subproperty">Sub property</h2>
+  <p>Test that usage of the snippet with sub properties works as expected.</p>
+  <div id="subproperty-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should be aborted and not add a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#abort-on-property-read aopr.sp</pre></li>
+  </ul>
+</section>
+
+<script src="/testfiles/abort-on-property-read/subproperty.js"></script>
+
+<section class="testcase-panel">
+  <h2 id="functionproperty">Function property</h2>
+  <p>Test that usage of the snippet with function properties works as expected.</p>
+  <div id="functionproperty-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should be aborted and not add a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#abort-on-property-read aoprf.fp</pre></li>
+  </ul>
+</section>
+
+<script src="/testfiles/abort-on-property-read/functionproperty.js"></script>
