@@ -66,6 +66,14 @@ docker cp $(docker ps -aqf ancestor=testpages | head -n 1):/adblockpluschrome/te
 
 Screenshots will be available in `<destination>` folder.
 
+#### Tests subset
+
+In order to run a subset of the tests, use the `TESTS_SUBSET` argument,
+which supports regular expressions. Example:
+```
+docker run -e TESTS_SUBSET="(Blocking|popup)" -it testpages
+```
+
 ## Local testpages execution
 
 Test pages run through the CMS test server. That project needs to be cloned:
