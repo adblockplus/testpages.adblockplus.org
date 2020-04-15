@@ -1,38 +1,64 @@
-title = $popup
 template = testcase
+title = Popup
+description = Check that a filter using the $popup filter option is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options"),
-] %}
+<section class="testcase-panel">
+  <h2 id="link-popup">Link based popup</h2>
+  <p>Test that a filter using the $popup filter option works on a link based popup.</p>
+  <div class="testcase-area testcase-container">
+    <a href="/en/popuptarget" target="_blank" class="testcase-trigger">Trigger link based popup</a>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Click the link above.</li>
+    <li>The popup opened should be closed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/en/popuptarget^$popup</pre></li>
+  </ul>
+</section>
 
+<section class="testcase-panel">
+  <h2 id="script-popup">Script based popup</h2>
+  <p>Test that a filter using the $popup filter option works on a script based popup.</p>
+  <div class="testcase-area testcase-container">
+    <a id="script-trigger" href="#script-popup" class="testcase-trigger" onclick="scriptPopup()">Trigger script based popup</a>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Click the link above.</li>
+    <li>The popup opened should be closed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/en/popuptarget^$popup</pre></li>
+  </ul>
+</section>
 
 <script>
-function do_popup()
-{
-   window.open("/en/popuptarget")
-}
+  "use strict";
+
+  function checkScriptPopup(result) {
+    let trigger = document.getElementById("script-trigger");
+
+    if (result.window === null)
+    {
+      trigger.className = "testcase-trigger-passed";
+      trigger.innerHTML = "Passed. Script based popup was blocked successfully.";
+    }
+    else
+    {
+      trigger.className = "testcase-trigger-failed";
+      trigger.innerHTML = "Failed. Script based popup was NOT blocked.";
+    }
+  }
+
+  function scriptPopup() {
+    let scriptPopupResult = window.open("/en/popuptarget");
+
+    setTimeout(checkScriptPopup, 500);
+  }
 </script>
-
-<section class="site-panel">
-  <h2>$popup</h2>
-  <p>Check that usage of the $popup filter option is working as expected.</p>
-  <p>With the filter displayed below each test case added to ABP (or with the testcase subscription installed and active), the popups triggered by the link/buttons below should be blocked/closed.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Link-based popup</h2>
-  <div class="testcase-container">
-    <a href="/en/popuptarget" target="_blank">Link popup</a><br><br>
-  </div>
-  <h3>Filters</h3>
-  <pre>||{{ site_url|strip_proto }}/en/popuptarget^$popup</pre>
-</section>
-
-<section class="site-panel">
-  <h2>Script-based popup</h2>
-  <div class="testcase-container">
-    <button onclick="do_popup();">window.open() popup</button>
-  </div>
-  <h3>Filters</h3>
-  <pre>||{{ site_url|strip_proto }}/en/popuptarget^$popup</pre>
-</section>

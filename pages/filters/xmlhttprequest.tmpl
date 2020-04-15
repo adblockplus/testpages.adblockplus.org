@@ -1,54 +1,50 @@
-title = $xmlhttprequest
 template = testcase
+title = XMLHTTPRequest
+description = Check that a filter using the $xmlhttprequest filter option is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options"),
-] %}
+<section class="testcase-panel">
+  <h2 id="xmlhttprequest">XMLHTTPRequest</h2>
+  <p>Test that a filter using the $xmlhttprequest filter option works to block a XMLHTTPRequest.</p>
+  <div class="testcase-area testcase-container">
+    <div id="testcase-status" class="testcase-trigger blocked">Trigger XMLHTTPRequest connection</div>
+    <div class="testcase-output-expected">Passed. Connection was blocked.</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The connection should be blocked and its state indicated in the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|strip_proto }}/testfiles/xmlhttprequest/$xmlhttprequest</pre></li>
+  </ul>
+</section>
 
 <script>
-function aborted(evt) {
-  pagelog("XMLHTTPRequest was aborted.");
-}
+  "use strict";
 
-function failed(evt) {
-  pagelog("XMLHTTPRequest failed.");
-}
-
-function makerequest() {
   var req = new XMLHttpRequest();
-  req.addEventListener("error", failed);
-  req.addEventListener("abort", aborted);
-  req.open("GET", "{{ site_url }}/testcasefiles/xmlhttprequest/text.txt", true);
-  req.onload = function(e) {
-    if (this.status == 200) {
-      pagelog(this.responseText);
-       }
-    };
-  req.send();
-}
 
-document.addEventListener('DOMContentLoaded', makerequest, false);
+  req.onerror = function(e)
+  {
+    let result = document.getElementById("testcase-status");
+    result.innerHTML = "Passed. Connection was blocked.";
+    result.className = "testcase-trigger-passed";
+  };
+  req.onload = function(e)
+  {
+    if (this.status == 200)
+    {
+      let result = document.getElementById("testcase-status");
+      result.innerHTML = "Failed. Connection was NOT blocked.";
+      result.className = "testcase-trigger-failed";
+    }
+  };
+
+  setTimeout(() =>
+  {
+    req.open("GET", "{{ site_url }}/testfiles/xmlhttprequest/text.txt", true);
+    req.send();
+  }, 500)
 </script>
-
-<section class="site-panel">
-  <h2>$xmlhttprequest</h2>
-  <p>Check that usage of the $xmlhttprequest filter option works as expected.</p>
-  <p>With the filter displayed below each test case added to ABP (or with the testcase subscription installed and active), the XMLHTTPRequest  in each test case panel should be blocked but the images should not.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <p>The XMLHTTPRequest should be blocked. The Image should not be blocked.</p>
-  <div class="testcase-container">
-    <div class="testcase-row">
-      <h3>XMLHTTPRequest</h3>
-      <div id="testcase-output"></div>
-      <div id="testcase-output-expected">XMLHTTPRequest failed.</div>
-    </div>
-    <div class="testcase-row">
-      <h3>Image</h3><img class="testcase-image" src="/testcasefiles/xmlhttprequest/image.jpg"/>
-    </div>
-  </div>
-  <h3>Filters</h3>
-  <pre>{{ site_url|strip_proto }}/testcasefiles/xmlhttprequest/$xmlhttprequest</pre>
-</section>

@@ -1,26 +1,22 @@
-title = $subdocument
 template = testcase
+title = Subdocument
+description = Check that a filter using the $subdocument filter option is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options"),
-] %}
-
-<section class="site-panel">
-  <h2>$subdocument</h2>
-  <p>Check that usage of the $subdocument filter option works as expected.</p>
-  <p>With the filter displayed below each test case added to ABP (or with the testcase subscription installed and active), the subdocuments/frames in each test case panel should be blocked but the images should not.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <div class="testcase-container">
-    <div class="testcase-row">
-      <h3>Subdocument</h3><iframe src="/testcasefiles/subdocument/frame.html" class="blocked"></iframe>
-    </div>
-    <div class="testcase-row">
-      <h3>Image</h3><img class="testcase-image" src="/testcasefiles/subdocument/image.jpg"/>
-    </div>
+<section class="testcase-panel">
+  <h2 id="subdocument">Subdocument</h2>
+  <p>Test that a filter using the $subdocument filter option works on to block a subdocument.</p>
+  <div class="testcase-area testcase-container">
+    <iframe class="blocked" src="/testfiles/subdocument/subdocument.html" style="border: 0; width: 100px; height: 100px"></iframe>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should be blocked and the red element should not be added to the page.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|strip_proto }}/testcasefiles/subdocument/$subdocument</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|strip_proto }}/testfiles/subdocument/$subdocument</pre></li>
+  </ul>
 </section>

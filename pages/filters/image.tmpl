@@ -1,29 +1,52 @@
-title = $image
 template = testcase
+title = Image
+description = Check that a filter using the $image filter option is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options"),
-] %}
-
-<link rel="stylesheet" href="/testcasefiles/image/stylesheet.css">
-
-<section class="site-panel">
-  <h2>$image</h2>
-  <p>Check that usage of the $image filter option works as expected.</p>
-  <p>With the filter displayed below each test case added to ABP (or with the testcase subscription installed and active), the images in each test case panel should be blocked but the stylesheets should not.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <p>The image should be blocked. The stylesheet should not be blocked</p>
-  <div class="testcase-container">
-    <div class="testcase-row">
-      <h3>Image</h3><img src="/testcasefiles/image/image.jpg" class="blocked"/>
-    </div>
-    <div class="testcase-row">
-      <h3>Stylesheet</h3><div class="testcase-teststylesheet"></div>
-    </div>
+<section class="testcase-panel">
+  <h2 id="static">Static</h2>
+  <p>Test that a filter using the $image filter option works on a static target.</p>
+  <div class="testcase-area testcase-container">
+    <img src="/testfiles/image/static/static.png" data-expectedresult="blocked" class="blocked">
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|strip_proto }}/testcasefiles/image/$image</pre>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/image/static/$image</pre></li>
+  </ul>
 </section>
+
+<section class="testcase-panel">
+  <h2 id="dynamic">Dynamic</h2>
+  <p>Test that a filter using the $image filter option works on a dynamic target.</p>
+  <div id="image-dynamic" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/image/dynamic/$image</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  let image = document.createElement("img");
+  image.src = "/testfiles/image/dynamic/dynamic.png";
+  image.className = "blocked";
+  image.setAttribute("data-expectedresult", "blocked");
+
+  let area = document.getElementById("image-dynamic");
+  area.appendChild(image);
+</script>

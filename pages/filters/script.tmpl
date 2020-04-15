@@ -1,30 +1,27 @@
-title = $script
+title = Script
 template = testcase
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options"),
-] %}
-
-
 <section class="site-panel">
-  <h2>$script</h2>
-  <p>Check that usage of the $script filter option works as expected.</p>
-  <p>With the filter displayed below each test case added to ABP (or with the testcase subscription installed and active), the scripts in each test case panel should be blocked but the images should not.</p>
+  <h2>Script</h2>
+  <p>Check that a filter using the $script filter option is working as expected.</p>
 </section>
 
-<section class="site-panel">
-  <h2>Test case</h2>
-  <p>The script should be blocked. The image should not be blocked.</p>
-  <div class="testcase-container">
-    <div class="testcase-row">
-      <h3>Script</h3><div id="testcase-scripttarget" class="trap">&nbsp;</div>
-    </div>
-    <div class="testcase-row">
-      <h3>Image</h3><img class="testcase-image" src="/testcasefiles/script/image.jpg"/>
-    </div>
+<section class="testcase-panel">
+  <h2 id="script">Script</h2>
+  <p>Test that a filter using the $script filter option works on an external script.</p>
+  <div id="script-target" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should be blocked and the red element should not be added to the page.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|strip_proto }}/testcasefiles/script/$script</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|strip_proto }}/testfiles/script/$script</pre></li>
+  </ul>
 </section>
 
-<script src="/testcasefiles/script/script.js"></script>
+<script src="/testfiles/script/script.js"></script>

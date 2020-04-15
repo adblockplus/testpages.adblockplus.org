@@ -273,15 +273,28 @@ h3 { font-size: 1.1rem; }
   list-style-position: inside;
 }
 
+.testcase-trigger {
+	flex-grow: 1;
+	padding: .5rem;
+	color: #fff;
+	background-color: #ccc;
+}
+
+.testcase-trigger:hover {
+  background-color: #aaa;
+}
+
 .testcase-good-element,
-.testcase-output-expected {
+.testcase-output-expected,
+.testcase-trigger-passed {
   flex-grow: 1;
 	padding: .5rem;
 	color: #fff;
 	background-color: #0dc74b;
 }
 
-.testcase-bad-element {
+.testcase-bad-element,
+.testcase-trigger-failed {
   flex-grow: 1;
 	padding: .5rem;
 	color: #fff;

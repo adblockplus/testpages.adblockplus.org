@@ -1,59 +1,48 @@
-title = $websocket
 template = testcase
+title = WebSocket
+description = Check that a filter using the $websocket filter option is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options"),
-] %}
-
+<section class="testcase-panel">
+  <h2 id="websocket">WebSocket</h2>
+  <p>Test that a filter using the $websocket filter option works on to block a WebSocket connection.</p>
+  <div class="testcase-area testcase-container">
+    <div id="testcase-status" class="testcase-trigger blocked">Trigger WebSocket connection</div>
+    <div class="testcase-output-expected">Passed. Connection was blocked.</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The connection should be blocked and its state indicated in the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>$websocket,domain={{ site_url|domain }}</pre></li>
+  </ul>
+</section>
 
 <script>
-function ws_open(evt) {
-  pagelog("Connected");
-  websocket.send("Test message was echoed back");
-}
-function ws_close(evt) {
-  pagelog("Disconnected");
-}
-function ws_message(evt) {
-  pagelog("Received message: ");
-  pagelog(evt.data);
-}
-function ws_error(evt) {
-  pagelog("WebSocket error / Blocked");
-}
+  "use strict";
 
-function ws_disconnect()
-{
-  websocket.close();
-}
-
-function ws_connect() {
-  var url ="wss://echo.websocket.org";
-  websocket = new WebSocket(url);
-  websocket.onopen = function(evt) { ws_open(evt) };
-  websocket.onclose = function(evt) { ws_disconnect(evt) };
-  websocket.onmessage = function(evt) { ws_message(evt) };
-  websocket.onerror = function(evt) { ws_error(evt) };
-}
-
-document.addEventListener('DOMContentLoaded', ws_connect, false);
+  setTimeout(() =>
+  {
+    let url ="wss://echo.websocket.org";
+    let websocket = new WebSocket(url);
+    websocket.onopen = function(evt)
+    {
+      websocket.send("Test message was echoed back");
+    };
+    websocket.onmessage = function(evt)
+    {
+      let result = document.getElementById("testcase-status");
+      result.innerHTML = "Failed. Connection was NOT blocked.";
+      result.className = "testcase-trigger-failed";
+    };
+    websocket.onerror = function(evt)
+    {
+      let result = document.getElementById("testcase-status");
+      result.innerHTML = "Passed. Connection was blocked.";
+      result.className = "testcase-trigger-passed";
+    };
+  }, 500);
 </script>
-
-<section class="site-panel">
-  <h2>$websocket</h2>
-  <p>Check that usage of the $websocket filter option works as expected.</p>
-  <p>With the filter displayed below each test case added to ABP (or with the testcase subscription installed and active), the websocket connection should be blocked and not echo back the test message.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <div class="testcase-container">
-    <div class="testcase-row">
-      <h3>WebSocket Request</h3>
-      <div id="testcase-output"></div>
-      <div id="testcase-output-expected">WebSocket error / Blocked</div>
-    </div>
-  </div>
-  <h3>Filters</h3>
-  <pre>$websocket,domain={{ site_url|domain }}</pre>
-</section>

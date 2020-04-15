@@ -1,28 +1,60 @@
-title = $object
 template = testcase
+title = Object
+description = Check that a filter using the $object filter option is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options"),
-] %}
-
-<section class="site-panel">
-  <h2>$object</h2>
-  <p>Check that usage of the $object filter option works as expected.</p>
-  <p>With the filter displayed below each test case added to ABP (or with the testcase subscription installed and active), the object/swf file in the test case panel should be blocked but the image should not.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <p>The object should be blocked. The image should not be blocked.</p>
-  <div class="testcase-container">
-    <div class="testcase-row">
-      <h3>Object</h3><object data="/testcasefiles/object/object.swf" type="application/x-shockwave-flash" class="trap" style="width: 250px; height: 250px;"></object>
-    </div>
-    <div class="testcase-row">
-      <h3>Image</h3>
-      <img class="testcase-image" src="/testcasefiles/object/image.jpg"/>
-    </div>
+<section class="testcase-panel">
+  <h2 id="static">Static</h2>
+  <p>Test that a filter using the $object filter option works on a static target.</p>
+  <div class="testcase-area testcase-container">
+    <object data-expectedresult="blocked" class="blocked" data="/testfiles/object/static/static.swf" type="application/x-shockwave-flash" style="width: 100px; height: 100px;"></object>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The flash object should be blocked and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|strip_proto }}/testcasefiles/object/$object</pre>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/object/static/$object</pre></li>
+  </ul>
+  <h3>Known Issues</h3>
+  <p>Chrome - The object is blocked but the space is not collapsed.</p>
+  <p>Opera - The object is blocked but the space is not collapsed.</p>
 </section>
+
+<section class="testcase-panel">
+  <h2 id="dynamic">Dynamic</h2>
+  <p>Test that a filter using the $object filter option works on a dynamic target.</p>
+  <div id="object-dynamic" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The flash object should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/object/dynamic/$object</pre></li>
+  </ul>
+  <h3>Known Issues</h3>
+  <p>Chrome - The object is blocked but the space is not collapsed.</p>
+  <p>Opera - The object is blocked but the space is not collapsed.</p>
+</section>
+
+<script>
+  "use strict";
+
+  let object = document.createElement("object");
+  object.data = "/testfiles/object/dynamic/dynamic.swf";
+  object.type = "application/x-shockwave-flash";
+  object.style = "width: 100px; height: 100px;";
+  object.setAttribute('data-expectedresult', 'blocked');
+  object.setAttribute('class', 'blocked');
+
+  let area = document.getElementById("object-dynamic");
+  area.appendChild(object);
+</script>

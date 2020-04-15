@@ -1,29 +1,51 @@
-title = $stylesheet
 template = testcase
+title = Stylesheet
+description = Check that a filter using the $stylesheet filter option is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options"),
-] %}
-
-<link rel="stylesheet" href="/testcasefiles/stylesheet/stylesheet.css">
-
-<section class="site-panel">
-  <h2>$stylesheet</h2>
-  <p>Check that usage of the $stylesheet filter option works as expected.</p>
-  <p>With the filter displayed below each test case added to ABP (or with the testcase subscription installed and active), the stylesheets in each test case panel should be blocked but the images should not.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <p>The stylesheet should be blocked. The image should not be blocked</p>
-  <div class="testcase-container">
-    <div class="testcase-row">
-      <h3>Stylesheet</h3><div class="testcase-teststylesheet trap">&nbsp;</div>
-    </div>
-    <div class="testcase-row">
-      <h3>Image</h3><img class="testcase-image" src="/testcasefiles/stylesheet/image.jpg"/>
-    </div>
+<section class="testcase-panel">
+  <h2 id="stylesheet">Stylesheet</h2>
+  <p>Test that a filter using the $stylesheet filter option works on an external stylesheet.</p>
+  <div class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger script...</div>
+    <div class="testcase-output-expected">Passed. Stylesheet was blocked.</div>
+    <div id="stylesheet-target" class="blocked"></div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The stylesheet should be blocked and the red element should not be added to the page.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|strip_proto }}/testcasefiles/stylesheet/$stylesheet</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|strip_proto }}/testfiles/stylesheet/$stylesheet</pre></li>
+  </ul>
 </section>
+
+<link rel="stylesheet" href="/testfiles/stylesheet/stylesheet.css">
+
+<script>
+  "use strict";
+
+  setTimeout(() =>
+  {
+    document.querySelector(".testcase-waitingcontent").remove();
+
+    let target = document.getElementById("stylesheet-target");
+    let targetStyle = getComputedStyle(target);
+    if (targetStyle.width === "105px")
+    {
+      target.innerHTML = "Failed. Stylesheet was NOT blocked.";
+    }
+    else
+    {
+      target.innerHTML = "Passed. Stylesheet was blocked.";
+      // Style must be equal to .testcase-output-expected,
+      target.style = `flex-grow: 1;
+        padding: .5rem;
+        color: #fff;
+        background-color: #0dc74b;`;
+    }
+  }, 500);
+</script>
