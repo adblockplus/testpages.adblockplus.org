@@ -15,6 +15,9 @@
 
 FROM registry.gitlab.com/eyeo/docker/adblockplus-ci:node10
 
+# Newer versions of Chromium require `libgbm`
+RUN apt-get install -y libgbm1
+
 # Build CMS
 RUN git clone https://github.com/adblockplus/cms.git
 RUN cd cms && pip install -r requirements.txt
