@@ -7,6 +7,7 @@ description = Check that a filter using the $webrtc filter option is working as 
   <p>Test that a filter using the $webrtc filter option works on to block a webrtc connection.</p>
   <div class="testcase-area testcase-container">
     <div id="testcase-status" class="testcase-trigger blocked">Trigger WebRTC connection</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger script...</div>
     <div class="testcase-output-expected">Passed. Connection was blocked.</div>
   </div>
   <h3>Steps</h3>
@@ -38,7 +39,7 @@ description = Check that a filter using the $webrtc filter option is working as 
     else
     {
       result.innerHTML = "Failed. Connection was NOT blocked.";
-      result.className = "testcase-trigger-failed";
+      result.className = "testcase-trigger-failed blocked";
     }
   }
 
@@ -55,7 +56,12 @@ description = Check that a filter using the $webrtc filter option is working as 
       RTCPeerConnection = webkitRTCPeerConnection;
     }
     var connection = new RTCPeerConnection({iceServers: [{urls: ["stun:example.com"]}]});
-    setTimeout(function(){check(connection)}, 500);
+
+    setTimeout(() => {
+      document.querySelector(".testcase-waitingcontent").remove();
+
+      check(connection)
+    }, 500);
   }
 
   doTest();

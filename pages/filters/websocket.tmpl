@@ -7,6 +7,7 @@ description = Check that a filter using the $websocket filter option is working 
   <p>Test that a filter using the $websocket filter option works on to block a WebSocket connection.</p>
   <div class="testcase-area testcase-container">
     <div id="testcase-status" class="testcase-trigger blocked">Trigger WebSocket connection</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger script...</div>
     <div class="testcase-output-expected">Passed. Connection was blocked.</div>
   </div>
   <h3>Steps</h3>
@@ -26,6 +27,8 @@ description = Check that a filter using the $websocket filter option is working 
 
   setTimeout(() =>
   {
+    document.querySelector(".testcase-waitingcontent").remove();
+
     let url ="wss://echo.websocket.org";
     let websocket = new WebSocket(url);
     websocket.onopen = function(evt)
@@ -36,7 +39,7 @@ description = Check that a filter using the $websocket filter option is working 
     {
       let result = document.getElementById("testcase-status");
       result.innerHTML = "Failed. Connection was NOT blocked.";
-      result.className = "testcase-trigger-failed";
+      result.className = "testcase-trigger-failed blocked";
     };
     websocket.onerror = function(evt)
     {

@@ -7,6 +7,7 @@ description = Check that a filter using the $xmlhttprequest filter option is wor
   <p>Test that a filter using the $xmlhttprequest filter option works to block a XMLHTTPRequest.</p>
   <div class="testcase-area testcase-container">
     <div id="testcase-status" class="testcase-trigger blocked">Trigger XMLHTTPRequest connection</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger script...</div>
     <div class="testcase-output-expected">Passed. Connection was blocked.</div>
   </div>
   <h3>Steps</h3>
@@ -38,12 +39,14 @@ description = Check that a filter using the $xmlhttprequest filter option is wor
     {
       let result = document.getElementById("testcase-status");
       result.innerHTML = "Failed. Connection was NOT blocked.";
-      result.className = "testcase-trigger-failed";
+      result.className = "testcase-trigger-failed blocked";
     }
   };
 
   setTimeout(() =>
   {
+    document.querySelector(".testcase-waitingcontent").remove();
+
     req.open("GET", "{{ site_url }}/testfiles/xmlhttprequest/text.txt", true);
     req.send();
   }, 500)
