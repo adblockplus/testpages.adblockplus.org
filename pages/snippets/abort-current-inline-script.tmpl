@@ -60,12 +60,14 @@ description = Check that the abort-current-inline-script snippet is working as e
 </section>
 
 <script>
-function injectScript(id, code)
+  "use strict";
+
+  function injectScript(id, code)
   {
     let target = document.getElementById(`${id}-target`);
     target.querySelector(".testcase-waitingcontent").remove();
 
-    let script = document.createElement('script');
+    let script = document.createElement("script");
     script.textContent = `
       (function()
       {
@@ -79,7 +81,8 @@ function injectScript(id, code)
     document.body.appendChild(script);
   }
 
-  setTimeout(function() {
+  setTimeout(() =>
+  {
     injectScript("basic", 'console.group("abort-current-inline-script");');
     injectScript("search", 'console.info("acis-search");');
     injectScript("regex", 'console.warn("acis-regex1");');

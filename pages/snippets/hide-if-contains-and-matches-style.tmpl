@@ -43,23 +43,26 @@ description = Check that the hide-if-contains-and-matches-style snippet is worki
 </section>
 
 <script>
+  "use strict";
+
   setTimeout(() =>
   {
     let ad = document.createElement("div");
     ad.id = Math.random().toString(36).substring(2);
     ad.className = "testcase-bad-element blocked";
-    ad.innerHTML = "<div><span>Failed. Script ran and was applied to the page.</span><span class='label'>hicamsd</span></div>";
+    ad.innerHTML = `<div><span>Failed. Script ran and was applied to the page.</span>
+      <span class='label'>hicamsd</span></div>`;
 
     let result = document.createElement("div");
     result.id = Math.random().toString(36).substring(2);
     result.className = "testcase-good-element";
-    result.innerHTML = "<div><span>Should not be hidden.</span><span class='label' style='display: none'>hicamsd</span></div>";
+    result.innerHTML = `<div><span>Should not be hidden.</span>
+      <span class='label' style='display: none'>hicamsd</span></div>`;
 
-    let target = document.getElementById(`dynamic-target`)
+    let target = document.getElementById("dynamic-target");
     target.querySelector(".testcase-waitingcontent").remove();
     target.querySelector(".testcase-output-expected").remove();
     target.appendChild(ad);
     target.appendChild(result);
-  },
-  500);
+  }, 500);
 </script>

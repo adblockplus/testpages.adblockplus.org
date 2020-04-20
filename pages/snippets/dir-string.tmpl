@@ -23,33 +23,34 @@ description = Check that the dir-string snippet is working as expected.
 </section>
 
 <script>
-function snippetTest(times)
-{
-  let re = /foo/;
-  let n = 0;
+  "use strict";
 
-  re.toString = function()
+  function snippetTest(times)
   {
-    if (++n > times)
+    let re = /foo/;
+    let n = 0;
+
+    re.toString = function()
     {
-      let element = document.getElementById("atsy2t");
-      element.parentElement.removeChild(element);
+      if (++n > times)
+      {
+        let element = document.getElementById("atsy2t");
+        element.parentElement.removeChild(element);
 
-      delete re.toString;
-    }
-    return "";
-  };
+        delete re.toString;
+      }
+      return "";
+    };
 
-  console.dir(re);
-}
+    console.dir(re); // eslint-disable-line no-console
+  }
 
-setTimeout(() =>
-{
-  let target = document.getElementById("basic-target");
-  target.querySelector(".testcase-waitingcontent").remove();
+  setTimeout(() =>
+  {
+    let target = document.getElementById("basic-target");
+    target.querySelector(".testcase-waitingcontent").remove();
 
-  let times = navigator.userAgent.includes("Chrome") ? 1 : 0;
-  snippetTest(times);
-},
-500);
+    let times = navigator.userAgent.includes("Chrome") ? 1 : 0;
+    snippetTest(times);
+  }, 500);
 </script>

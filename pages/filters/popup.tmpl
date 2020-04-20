@@ -41,7 +41,8 @@ description = Check that a filter using the $popup filter option is working as e
 <script>
   "use strict";
 
-  function checkScriptPopup(result) {
+  function checkScriptPopup(result)
+  {
     let trigger = document.getElementById("script-trigger");
 
     if (result.window === null)
@@ -56,8 +57,9 @@ description = Check that a filter using the $popup filter option is working as e
     }
   }
 
-  function scriptPopup() {
-    let scriptPopupResult = window.open("/en/popuptarget");
+  function scriptPopup()
+  {
+    window.open("/en/popuptarget");
 
     setTimeout(checkScriptPopup, 500);
   }

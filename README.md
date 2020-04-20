@@ -15,7 +15,11 @@ The execution is done in Docker.
 
 ### Lint
 
-Html code is checked with `htmllint-cli` npm package. To run the lint image:
+Checks are done using the following npm packages:
+* `htmllint-cli` for html
+* `eslint` for javascript
+
+To run the lint image:
 ```
 docker build -t lintimage -f test/lint.Dockerfile .
 docker run -it lintimage

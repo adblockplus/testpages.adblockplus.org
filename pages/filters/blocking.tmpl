@@ -79,10 +79,12 @@ description = Check that basic blocking functionality is working as expected.
 </section>
 
 <script>
+  "use strict";
+
   let image = document.createElement("img");
   image.src = "/testfiles/blocking/dynamic.png";
-  image.setAttribute('data-expectedresult', 'blocked');
-  image.setAttribute('class', 'blocked');
+  image.setAttribute("data-expectedresult", "blocked");
+  image.setAttribute("class", "blocked");
 
   let area = document.getElementById("blocking-dynamic");
   area.appendChild(image);

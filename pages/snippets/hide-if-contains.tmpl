@@ -65,9 +65,11 @@ description = Check that the hide-if-contains snippet is working as expected.
 </section>
 
 <script>
+  "use strict";
+
   function injectElement(id, element)
   {
-    let target = document.getElementById(`${id}-target`)
+    let target = document.getElementById(`${id}-target`);
     target.querySelector(".testcase-waitingcontent").remove();
     if (target.querySelector(".testcase-output-expected"))
       target.querySelector(".testcase-output-expected").remove();
@@ -83,19 +85,18 @@ description = Check that the hide-if-contains snippet is working as expected.
 
     let search1 = document.createElement("p");
     search1.id = Math.random().toString(36).substring(2);
-    search1.className = "testcase-good-element"
+    search1.className = "testcase-good-element";
     search1.innerHTML = "hic-search<br>Should not be hidden";
 
     let search2 = document.createElement("p");
     search2.id = Math.random().toString(36).substring(2);
-    search2.className = "testcase-bad-element blocked target"
+    search2.className = "testcase-bad-element blocked target";
     search2.innerHTML = "hic-search<br>Failed. Element is not hidden.";
 
     injectElement("basic-dynamic", dynamic);
     injectElement("search1", search1);
     injectElement("search2", search2);
-  },
-  500);
+  }, 500);
 </script>
 
 <section class="testcase-panel">

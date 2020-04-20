@@ -25,7 +25,7 @@ description = Check that a filter using the $xmlhttprequest filter option is wor
 <script>
   "use strict";
 
-  var req = new XMLHttpRequest();
+  let req = new XMLHttpRequest();
 
   req.onerror = function(e)
   {
@@ -49,5 +49,5 @@ description = Check that a filter using the $xmlhttprequest filter option is wor
 
     req.open("GET", "{{ site_url }}/testfiles/xmlhttprequest/text.txt", true);
     req.send();
-  }, 500)
+  }, 500);
 </script>

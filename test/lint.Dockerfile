@@ -1,6 +1,10 @@
 FROM node:10
 
-RUN npm install -g htmllint-cli
+# Install packages
+COPY package.json testpages.adblockplus.org/package.json
+RUN cd testpages.adblockplus.org \
+  && npm install
+
 COPY . testpages.adblockplus.org
 
 ENTRYPOINT ./testpages.adblockplus.org/test/lint.sh

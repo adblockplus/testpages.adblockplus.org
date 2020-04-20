@@ -1,8 +1,10 @@
+"use strict";
+
 setTimeout(() =>
 {
   let target = document.getElementById("subproperty-target");
   target.querySelector(".testcase-waitingcontent").remove();
-  
+
   if (!window.aopwsp || !window.aopwsp.showing)
   {
     if (!window.aopwsp || typeof window.aopwsp != "object")
@@ -12,7 +14,5 @@ setTimeout(() =>
     failElement.innerHTML = "Failed. Script ran and was applied to the page.";
     failElement.className = "testcase-bad-element blocked";
     target.appendChild(failElement);
-    console.log("Failed. Script ran and was applied to the page. (subproperty)");
   }
-},
-500);
+}, 500);

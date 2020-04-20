@@ -28,6 +28,8 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
 </section>
 
 <script>
+  "use strict";
+
   setTimeout(() =>
   {
     let root = document.getElementById("basic-target");
@@ -39,8 +41,7 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
     failElement.innerHTML = "<div><span>hisc-basic<br>Failed. Element is not hidden.</span></div>";
     let shadowRoot = root.lastElementChild.attachShadow({mode: "closed"});
     shadowRoot.appendChild(failElement);
-  },
-  500);
+  }, 500);
 </script>
 
 <section class="testcase-panel">
@@ -69,13 +70,16 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
 </section>
 
 <script>
+  "use strict";
+
   setTimeout(() =>
   {
     let root = document.getElementById("regex-target");
     root.querySelector(".testcase-waitingcontent").remove();
     root.querySelector(".testcase-output-expected").remove();
 
-    for (className of ["testcase-good-element", "testcase-bad-element blocked", "testcase-bad-element blocked"])
+    for (let className of ["testcase-good-element", "testcase-bad-element blocked",
+                           "testcase-bad-element blocked"])
     {
       let rootChild = document.createElement("div");
       rootChild.className = className;
@@ -102,6 +106,5 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
     target3.innerHTML = "<div><span>hisc-regex3<br>This element should not be hidden.</span></div>";
     let shadowRoot3 = root.lastElementChild.previousElementSibling.previousElementSibling.attachShadow({mode: "closed"});
     shadowRoot3.appendChild(target3);
-  },
-  500);
+  }, 500);
 </script>

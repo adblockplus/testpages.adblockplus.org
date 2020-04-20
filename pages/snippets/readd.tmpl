@@ -80,6 +80,8 @@ description = Check that the readd snippet is working as expected.
 </section>
 
 <script>
+  "use strict";
+
   let style = document.createElement("style");
   // Style here must match style from .testcase-output-expected
   style.innerHTML = `
@@ -114,6 +116,5 @@ description = Check that the readd snippet is working as expected.
     linkElement.parentElement.removeChild(linkElement);
     linkElement = document.querySelector("link[type='text/css']");
     linkElement.parentElement.removeChild(linkElement);
-  },
-  500);
+  }, 500);
 </script>

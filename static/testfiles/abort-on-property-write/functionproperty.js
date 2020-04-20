@@ -1,4 +1,6 @@
-aopwf = {fp: function () {}};
+"use strict";
+
+var aopwf = {fp() {}}; // eslint-disable-line no-var
 
 setTimeout(() =>
 {
@@ -10,6 +12,4 @@ setTimeout(() =>
   failElement.innerHTML = "Failed. Script ran and was applied to the page.";
   failElement.className = "testcase-bad-element blocked";
   target.appendChild(failElement);
-  console.log("Failed. Script ran and was applied to the page. (functionproperty)");
-},
-500);
+}, 500);

@@ -1,0 +1,29 @@
+{
+  "extends": "eslint-config-eyeo",
+  "root": true,
+  "env": {
+    "browser": true,
+    "webextensions": true
+  },
+  "globals": {
+    "exports": true,
+    "ext": true,
+    "module": true,
+    "require": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 11
+  },
+  "rules": {
+    "curly": ["error", "multi-or-nest", "consistent"],
+    "nonblock-statement-body-position": ["error", "below"],
+    "linebreak-style": 0,
+    "max-len": ["error", { "code": 120 }]
+  },
+  "plugins": ["html"],
+  "settings": {
+    "html/html-extensions": [".html", ".tmpl"],
+    "html/indent": "+2",
+    "html/report-bad-indent": "error"
+  }
+}

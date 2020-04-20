@@ -28,7 +28,7 @@ description = Check that a filter using the $webrtc filter option is working as 
 
   function check(connection)
   {
-    let result = document.getElementById("testcase-status")
+    let result = document.getElementById("testcase-status");
     // If blocked by ABP, the signalingState is quickly set to "closed".
     // When not blocked by ABP, the signalingState stays as "stable" for a while.
     if (connection.signalingState === "closed")
@@ -45,22 +45,23 @@ description = Check that a filter using the $webrtc filter option is working as 
 
   function doTest()
   {
-    if (typeof RTCPeerConnection == 'undefined')
+    if (typeof RTCPeerConnection == "undefined")
     {
-      if (typeof webkitRTCPeerConnection == 'undefined')
+      if (typeof webkitRTCPeerConnection == "undefined")
       {
         let output = document.getElementById("testcase-status");
         output.innerHTML = "This test case is not supported in this browser.";
         return;
       }
-      RTCPeerConnection = webkitRTCPeerConnection;
+      RTCPeerConnection = webkitRTCPeerConnection; // eslint-disable-line no-global-assign, no-undef
     }
-    var connection = new RTCPeerConnection({iceServers: [{urls: ["stun:example.com"]}]});
+    let connection = new RTCPeerConnection({iceServers: [{urls: ["stun:example.com"]}]});
 
-    setTimeout(() => {
+    setTimeout(() =>
+    {
       document.querySelector(".testcase-waitingcontent").remove();
 
-      check(connection)
+      check(connection);
     }, 500);
   }
 

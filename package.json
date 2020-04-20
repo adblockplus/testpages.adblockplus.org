@@ -1,0 +1,19 @@
+{
+  "name": "testpages.adblockplus.org",
+  "repository": "https://hg.adblockplus.org/testpages.adblockplus.org/",
+  "license": "GPL-3.0",
+  "engines": {
+    "node": ">=10.12.0"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-eyeo": "^3.0.0",
+    "eslint-plugin-html": "^6.0.1",
+    "htmllint": "^0.7.2",
+    "htmllint-cli": "^0.0.7"
+  },
+  "scripts": {
+    "htmllint": "htmllint --rc test/.htmllintrc static/**/*.html \\*\\*/\\*.tmpl",
+    "eslint": "eslint --config test/.eslintrc.json static/ pages/**/*.tmpl"
+  }
+}

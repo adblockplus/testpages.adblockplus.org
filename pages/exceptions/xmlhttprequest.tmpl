@@ -6,28 +6,33 @@ template = testcase
 ] %}
 
 <script>
-function aborted(evt) {
-  pagelog("XMLHTTPRequest was aborted.");
-}
+  "use strict";
 
-function failed(evt) {
-  pagelog("XMLHTTPRequest failed.");
-}
+  function aborted(evt)
+  {
+    pagelog("XMLHTTPRequest was aborted."); // eslint-disable-line no-undef
+  }
 
-function makerequest() {
-  var req = new XMLHttpRequest();
-  req.addEventListener("error", failed);
-  req.addEventListener("abort", aborted);
-  req.open("GET", "{{ site_url }}/testcasefiles/xmlhttprequestexception/text.txt", true);
-  req.onload = function(e) {
-    if (this.status == 200) {
-      pagelog(this.responseText);
-       }
+  function failed(evt)
+  {
+    pagelog("XMLHTTPRequest failed."); // eslint-disable-line no-undef
+  }
+
+  function makerequest()
+  {
+    let req = new XMLHttpRequest();
+    req.addEventListener("error", failed);
+    req.addEventListener("abort", aborted);
+    req.open("GET", "{{ site_url }}/testcasefiles/xmlhttprequestexception/text.txt", true);
+    req.onload = function(e)
+    {
+      if (this.status == 200)
+        pagelog(this.responseText); // eslint-disable-line no-undef
     };
-  req.send();
-}
+    req.send();
+  }
 
-document.addEventListener('DOMContentLoaded', makerequest, false);
+  document.addEventListener("DOMContentLoaded", makerequest, false);
 </script>
 
 <section class="site-panel">

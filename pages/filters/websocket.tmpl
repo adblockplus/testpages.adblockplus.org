@@ -29,7 +29,7 @@ description = Check that a filter using the $websocket filter option is working 
   {
     document.querySelector(".testcase-waitingcontent").remove();
 
-    let url ="wss://echo.websocket.org";
+    let url = "wss://echo.websocket.org";
     let websocket = new WebSocket(url);
     websocket.onopen = function(evt)
     {

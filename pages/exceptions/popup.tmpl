@@ -6,10 +6,12 @@ template = testcase
 ] %}
 
 <script>
-function do_popup()
-{
-   window.open("/en/exceptions/popup")
-}
+  "use strict";
+
+  function doPopup()
+  {
+    window.open("/en/exceptions/popup");
+  }
 </script>
 
 <section class="site-panel">
@@ -31,7 +33,7 @@ function do_popup()
 <section class="site-panel">
   <h2>Script-based popup</h2>
   <div class="testcase-container">
-    <button onclick="do_popup();">window.open() popup</button>
+    <button onclick="doPopup();">window.open() popup</button>
   </div>
   <h3>Filters</h3>
   <pre>||{{ site_url|strip_proto }}/en/exceptions/popup^$popup</pre>
