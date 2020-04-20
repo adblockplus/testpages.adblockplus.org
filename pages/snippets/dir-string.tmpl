@@ -47,8 +47,7 @@ description = Check that the dir-string snippet is working as expected.
 
   setTimeout(() =>
   {
-    let target = document.getElementById("basic-target");
-    target.querySelector(".testcase-waitingcontent").remove();
+    removeWaitingElements(); // eslint-disable-line no-undef
 
     let times = navigator.userAgent.includes("Chrome") ? 1 : 0;
     snippetTest(times);

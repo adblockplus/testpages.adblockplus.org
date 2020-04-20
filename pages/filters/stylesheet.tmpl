@@ -30,7 +30,7 @@ description = Check that a filter using the $stylesheet filter option is working
 
   setTimeout(() =>
   {
-    document.querySelector(".testcase-waitingcontent").remove();
+    removeWaitingElements(); // eslint-disable-line no-undef
 
     let target = document.getElementById("stylesheet-target");
     let targetStyle = getComputedStyle(target);

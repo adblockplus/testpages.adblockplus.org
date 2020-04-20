@@ -2,21 +2,17 @@
 
 function addTarget(id, className, innerHTML)
 {
-  let root = document.getElementById(`${id}-target`);
-  root.querySelector(".testcase-waitingcontent").remove();
-  let outputExpected = root.querySelector(".testcase-output-expected");
-  if (outputExpected)
-    root.querySelector(".testcase-output-expected").remove();
-
   let target = document.createElement("div");
   target.id = Math.random().toString(36).substring(2);
   target.className = className;
   target.innerHTML = innerHTML;
-  root.appendChild(target);
+  document.getElementById(`${id}-target`).appendChild(target);
 }
 
 setTimeout(() =>
 {
+  removeWaitingElements(); // eslint-disable-line no-undef
+
   addTarget(
     "basic",
     "testcase-bad-element blocked",

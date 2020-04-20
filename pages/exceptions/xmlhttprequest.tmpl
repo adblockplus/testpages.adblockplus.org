@@ -8,6 +8,13 @@ template = testcase
 <script>
   "use strict";
 
+  function pagelog(message)
+  {
+    let log = document.getElementById("testcase-output");
+    log.innerText = log.innerText + message + "\n";
+    console.log(message); // eslint-disable-line no-console
+  }
+
   function aborted(evt)
   {
     pagelog("XMLHTTPRequest was aborted."); // eslint-disable-line no-undef

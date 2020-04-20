@@ -81,15 +81,7 @@ description = Check that the strip-fetch-query-parameter snippet is working as e
 
   setTimeout(() =>
   {
-    for (let className of ["testcase-waitingcontent", "testcase-output-expected"])
-    {
-      let elements = document.getElementsByClassName(className);
-      while (elements.length > 0)
-      {
-        elements[0].remove();
-        elements = document.getElementsByClassName(className);
-      }
-    }
+    removeWaitingElements(); // eslint-disable-line no-undef
 
     let url = "{{ site_url }}/testfiles/strip-fetch-query-parameter/foo.txt";
     fetch(`${url}?basicBlocked=1&basicAllowed=2`).then(handleResponseBasic);

@@ -146,7 +146,7 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
 
   setTimeout(() =>
   {
-    document.querySelector(".testcase-waitingcontent").remove();
+    removeWaitingElements(); // eslint-disable-line no-undef
 
     let root = document.getElementById("dynamic-target");
     let target = document.createElement("div");

@@ -45,7 +45,7 @@ description = Check that a filter using the $xmlhttprequest filter option is wor
 
   setTimeout(() =>
   {
-    document.querySelector(".testcase-waitingcontent").remove();
+    removeWaitingElements(); // eslint-disable-line no-undef
 
     req.open("GET", "{{ site_url }}/testfiles/xmlhttprequest/text.txt", true);
     req.send();

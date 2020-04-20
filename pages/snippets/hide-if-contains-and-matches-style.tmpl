@@ -47,6 +47,8 @@ description = Check that the hide-if-contains-and-matches-style snippet is worki
 
   setTimeout(() =>
   {
+    removeWaitingElements(); // eslint-disable-line no-undef
+
     let ad = document.createElement("div");
     ad.id = Math.random().toString(36).substring(2);
     ad.className = "testcase-bad-element blocked";
@@ -60,8 +62,6 @@ description = Check that the hide-if-contains-and-matches-style snippet is worki
       <span class='label' style='display: none'>hicamsd</span></div>`;
 
     let target = document.getElementById("dynamic-target");
-    target.querySelector(".testcase-waitingcontent").remove();
-    target.querySelector(".testcase-output-expected").remove();
     target.appendChild(ad);
     target.appendChild(result);
   }, 500);

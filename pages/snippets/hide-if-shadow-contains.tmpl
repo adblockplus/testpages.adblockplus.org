@@ -32,9 +32,9 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
 
   setTimeout(() =>
   {
-    let root = document.getElementById("basic-target");
-    root.querySelector(".testcase-waitingcontent").remove();
+    removeWaitingElements(); // eslint-disable-line no-undef
 
+    let root = document.getElementById("basic-target");
     let failElement = document.createElement("div");
     failElement.id = "hisc-basic-id";
     failElement.className = "testcase-bad-element blocked";
@@ -74,10 +74,9 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
 
   setTimeout(() =>
   {
-    let root = document.getElementById("regex-target");
-    root.querySelector(".testcase-waitingcontent").remove();
-    root.querySelector(".testcase-output-expected").remove();
+    removeWaitingElements(); // eslint-disable-line no-undef
 
+    let root = document.getElementById("regex-target");
     for (let className of ["testcase-good-element", "testcase-bad-element blocked",
                            "testcase-bad-element blocked"])
     {

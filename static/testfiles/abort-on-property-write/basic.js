@@ -2,8 +2,7 @@
 
 setTimeout(() =>
 {
-  let target = document.getElementById("basic-target");
-  target.querySelector(".testcase-waitingcontent").remove();
+  removeWaitingElements(); // eslint-disable-line no-undef
 
   if (!window.aopwb)
   {
@@ -11,6 +10,6 @@ setTimeout(() =>
     let failElement = document.createElement("div");
     failElement.innerHTML = "Failed. Script ran and was applied to the page.";
     failElement.className = "testcase-bad-element blocked";
-    target.appendChild(failElement);
+    document.getElementById("basic-target").appendChild(failElement);
   }
 }, 500);

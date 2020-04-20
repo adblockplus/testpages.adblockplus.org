@@ -30,6 +30,8 @@ description = Check that the hide-if-contains-image snippet is working as expect
 
   setTimeout(() =>
   {
+    removeWaitingElements(); // eslint-disable-line no-undef
+
     let ad = document.createElement("div");
     ad.id = Math.random().toString(36).substring(2);
     ad.className = "testcase-bad-element blocked";
@@ -43,11 +45,9 @@ description = Check that the hide-if-contains-image snippet is working as expect
     ad2.innerHTML = ad.innerHTML;
 
     let before = document.getElementById("before-target");
-    before.querySelector(".testcase-waitingcontent").remove();
     before.insertBefore(ad, before.firstElementChild);
 
     let after = document.getElementById("after-target");
-    after.querySelector(".testcase-waitingcontent").remove();
     after.appendChild(ad2);
   }, 500);
 </script>

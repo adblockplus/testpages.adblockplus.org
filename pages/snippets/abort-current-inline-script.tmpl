@@ -64,9 +64,6 @@ description = Check that the abort-current-inline-script snippet is working as e
 
   function injectScript(id, code)
   {
-    let target = document.getElementById(`${id}-target`);
-    target.querySelector(".testcase-waitingcontent").remove();
-
     let script = document.createElement("script");
     script.textContent = `
       (function()
@@ -83,6 +80,8 @@ description = Check that the abort-current-inline-script snippet is working as e
 
   setTimeout(() =>
   {
+    removeWaitingElements(); // eslint-disable-line no-undef
+
     injectScript("basic", 'console.group("abort-current-inline-script");');
     injectScript("search", 'console.info("acis-search");');
     injectScript("regex", 'console.warn("acis-regex1");');

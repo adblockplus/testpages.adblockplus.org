@@ -59,7 +59,7 @@ description = Check that a filter using the $webrtc filter option is working as 
 
     setTimeout(() =>
     {
-      document.querySelector(".testcase-waitingcontent").remove();
+      removeWaitingElements(); // eslint-disable-line no-undef
 
       check(connection);
     }, 500);

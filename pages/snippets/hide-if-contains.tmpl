@@ -70,14 +70,13 @@ description = Check that the hide-if-contains snippet is working as expected.
   function injectElement(id, element)
   {
     let target = document.getElementById(`${id}-target`);
-    target.querySelector(".testcase-waitingcontent").remove();
-    if (target.querySelector(".testcase-output-expected"))
-      target.querySelector(".testcase-output-expected").remove();
     target.appendChild(element);
   }
 
   setTimeout(() =>
   {
+    removeWaitingElements(); // eslint-disable-line no-undef
+
     let dynamic = document.createElement("p");
     dynamic.id = "hic-dynamic-id";
     dynamic.innerHTML = "<div>hic-basic-dynamic<br>Failed. Element is not hidden.</div>";
