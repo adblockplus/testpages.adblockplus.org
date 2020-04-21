@@ -78,11 +78,11 @@ template = testcase
 <section class="site-panel">
   <h2>Attribute Selector 3</h2>
   <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red" style="width:199px;height:51px;">Target</div>
+    <div class="testcase-contentaside stripes-red" style="width: 199px; height: 51px;">Target</div>
     <div class="testcase-content stripes-grey">Content</div>
   </div>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##div[style="width:199px;height:51px;"]</pre>
+  <pre>{{ site_url|domain }}##div[style="width: 199px; height: 51px;"]</pre>
 </section>
 
 <section class="site-panel">
@@ -99,29 +99,29 @@ template = testcase
 <section class="site-panel">
   <h2>Starts with Selector 2</h2>
   <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red" style="width:201px;height:51px; color: white;">Target</div>
+    <div class="testcase-contentaside stripes-red" style="width: 201px; height: 51px; color: white;">Target</div>
     <div class="testcase-content stripes-grey">Content</div>
   </div>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##div[style^="width:201px;height:51px;"]</pre>
+  <pre>{{ site_url|domain }}##div[style^="width: 201px; height: 51px;"]</pre>
 </section>
 
 <section class="site-panel">
   <h2>Ends with Selector</h2>
   <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red" style="color:white;width:202px;height:51px;">Target</div>
+    <div class="testcase-contentaside stripes-red" style="color: white; width: 202px; height: 51px;">Target</div>
     <div class="testcase-content stripes-grey">Content</div>
   </div>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##div[style$="width:202px;height:51px;"]</pre>
+  <pre>{{ site_url|domain }}##div[style$="width: 202px; height: 51px;"]</pre>
 </section>
 
 <section class="site-panel">
   <h2>Contains Selector</h2>
   <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red" style="width:203px;height:51px;color:white;">Target</div>
+    <div class="testcase-contentaside stripes-red" style="width: 203px; height: 51px; color: white;">Target</div>
     <div class="testcase-content stripes-grey">Content</div>
   </div>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##div[style*="width:203px;height:51px;"]</pre>
+  <pre>{{ site_url|domain }}##div[style*="width: 203px; height: 51px;"]</pre>
 </section>

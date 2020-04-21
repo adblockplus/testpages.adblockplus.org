@@ -18,6 +18,7 @@ The execution is done in Docker.
 Checks are done using the following npm packages:
 * `htmllint-cli` for html
 * `eslint` for javascript
+* `stylelint` for CSS
 
 To run the lint image:
 ```

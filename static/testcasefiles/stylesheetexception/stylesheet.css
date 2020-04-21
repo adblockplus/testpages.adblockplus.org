@@ -1,5 +1,3 @@
-
-
 .testcase-teststylesheet {
   color: white;
   background: green;
@@ -8,4 +6,3 @@
 .testcase-teststylesheet::after {
   content: "Stylesheet was loaded and applied to page.";
 }
-

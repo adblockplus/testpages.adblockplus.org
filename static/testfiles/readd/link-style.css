@@ -1,7 +1,7 @@
 /* Style here must match style from .testcase-output-expected */
 #link-style-target {
   flex-grow: 1;
-  padding: .5rem;
+  padding: 0.5rem;
   color: #fff;
   background-color: #0dc74b;
 }

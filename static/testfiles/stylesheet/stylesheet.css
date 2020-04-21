@@ -1,6 +1,6 @@
 /* This style should be equal to .testcase-bad-element */
 #stylesheet-target {
-  padding: .5rem;
+  padding: 0.5rem;
   min-width: 105px;
   color: #fff;
   background-color: #c70d2c;

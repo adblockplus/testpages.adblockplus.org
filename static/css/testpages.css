@@ -1,19 +1,17 @@
 * { box-sizing: border-box; }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
-
   font-size: 16px;
   font-family: Helvetica, sans-serif;
-
   background-color: #f2f2f2;
 }
 
 h1 { font-size: 1.7rem; }
 h2 { font-size: 1.4rem; }
 h3 { font-size: 1.1rem; }
-
 
 /* Site Header/Footer */
 
@@ -22,27 +20,27 @@ h3 { font-size: 1.1rem; }
   background-color: #c70d2c;
 }
 
-#site-header-logo, #site-header-logo > * {
+#site-header-logo,
+#site-header-logo > * {
   float: left;
 }
 
 #site-header-logo {
-  padding: 0em 1em;
+  padding: 0 1em;
   color: #fff;
 }
 
 #site-header-logo:hover,
 #site-header-logo:active,
-#site-header-logo:focus
-{
-  background-color: #AE0013;
+#site-header-logo:focus {
+  background-color: #ae0013;
   text-decoration: none;
 }
 
 #site-header-logo img {
   height: 4em;
-  padding: 0.5em 0em;
-  margin: 0em 1em 0em 0em;
+  padding: 0.5em 0;
+  margin: 0 1em 0 0;
 }
 
 #site-header-logo > span {
@@ -54,15 +52,14 @@ h3 { font-size: 1.1rem; }
   color: #ececec;
   background-color: #292929;
   font-size: 0.9em;
-  margin: 1rem 0 0 0 ;
-  padding: .5rem;
+  margin: 1rem 0 0 0;
+  padding: 0.5rem;
 }
 
 .site-footer .site-update {
   text-align: center;
   font-size: 0.7rem;
 }
-
 
 /* Site Colours/Patterns */
 
@@ -87,9 +84,8 @@ h3 { font-size: 1.1rem; }
 .stripes-blue {
   border: 2px solid #0079cc;
   background-color: #2231b5;
-  background-image: repeating-linear-gradient(45deg, #2231b5, #2231b5, 10px, #0079cc 10px, #0079cc 20px);;
+  background-image: repeating-linear-gradient(45deg, #2231b5, #2231b5, 10px, #0079cc 10px, #0079cc 20px);
 }
-
 
 /* Site Layout/Panels */
 
@@ -97,13 +93,13 @@ h3 { font-size: 1.1rem; }
   width: 1000px;
   max-width: 100%;
   margin: 0 auto 0 auto;
-  padding: 0 .75rem 0 .75rem;
+  padding: 0 0.75rem 0 0.75rem;
 }
 
 .site-panel {
   background-color: white;
   padding: 1rem;
-  margin-top: .5rem;
+  margin-top: 0.5rem;
 }
 
 .site-panel h2 {
@@ -112,13 +108,13 @@ h3 { font-size: 1.1rem; }
 }
 
 .site-panel h2 + p {
-  margin-top: .5rem;
+  margin-top: 0.5rem;
   margin-bottom: 0;
 }
 
 /* move contents of ".testcase-panel *" to global "*" when new test pages are completed */
 .testcase-panel * {
-  margin: 0px;
+  margin: 0;
   font-size: 16px;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   line-height: 1.4;
@@ -126,24 +122,24 @@ h3 { font-size: 1.1rem; }
 
 /* all .testcase-panel will replace .site-panel when new test pages are completed */
 .testcase-panel {
-  margin: .5rem .5rem 0 .5rem;
+  margin: 0.5rem 0.5rem 0 0.5rem;
   border: 1px solid #ccc;
   background-color: #fff;
 }
 
 .testcase-panel > p {
-  padding: .5rem;
+  padding: 0.5rem;
   border-bottom: 1px solid #ccc;
 }
 
 .testcase-panel > h2 {
-  padding: .5rem;
+  padding: 0.5rem;
   border-bottom: 1px solid #ccc;
   font-size: 1.2rem; /* to be moved to global h2 when new test pages are completed */
 }
 
 .testcase-panel > h3 {
-  padding: .5rem;
+  padding: 0.5rem;
   border-bottom: 1px solid #ccc;
 }
 
@@ -157,14 +153,15 @@ h3 { font-size: 1.1rem; }
   background-color: #f3f3f3;
   display: inline-block;
   width: 100%;
-  margin-top: .25rem;
+  margin-top: 0.25rem;
 }
+
 .site-pagelist li:hover {
   background-color: #eee;
 }
 
 .site-pagelist li a {
-  padding: .5rem;
+  padding: 0.5rem;
   color: #222;
   text-decoration: none;
   display: inline-block;
@@ -177,7 +174,7 @@ h3 { font-size: 1.1rem; }
 }
 
 .site-button {
-  padding: .5rem;
+  padding: 0.5rem;
   background-color: #f3f3f3;
   text-decoration: none;
 }
@@ -186,16 +183,13 @@ h3 { font-size: 1.1rem; }
   background-color: #eee;
 }
 
-
-
-
 /* Testcase */
 .target-red {
   color: #fff;
   border: 2px solid #12bd1f;
   background-color: #f00;
   background-image: repeating-linear-gradient(45deg, #f00, #f00 10px, #c00 10px, #c00 20px);
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
 .target-green {
@@ -203,25 +197,25 @@ h3 { font-size: 1.1rem; }
   border: 2px solid #02c219;
   background-color: #22b522;
   background-image: repeating-linear-gradient(45deg, #22b522, #22b522 10px, #0c0 10px, #0c0 20px);
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
 .testcase-container {
   background-color: #f2f2f2;
   min-height: 10rem;
-  padding: .5rem;
-  margin-top: .5rem;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
   border: 1px solid #ababab;
 }
 
 /* .testcase-area will replace .testcase-container when new test pages are completed */
 .testcase-area {
   display: flex;
-	min-height: 100px;
+  min-height: 100px;
   border-bottom: 1px solid #ccc;
-  padding: 0px; /* remove when .testcase-container is removed */
-  margin-top: 0px;  /* remove when .testcase-container is removed */
-  border: 0px; /* remove when .testcase-container is removed */
+  padding: 0; /* remove when .testcase-container is removed */
+  margin-top: 0;  /* remove when .testcase-container is removed */
+  border: 0; /* remove when .testcase-container is removed */
 }
 
 .testcase-content {
@@ -231,7 +225,7 @@ h3 { font-size: 1.1rem; }
   width: auto;
   overflow: hidden;
   border: 2px solid #bcbcbc;
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
 .testcase-contentaside {
@@ -239,45 +233,45 @@ h3 { font-size: 1.1rem; }
   width: 20%;
   vertical-align: top;
   height: 35%;
-  padding: .5rem;
- float:right;
- margin-left: .5rem;
+  padding: 0.5rem;
+  float: right;
+  margin-left: 0.5rem;
   display: table-cell;
 }
 
 /* .testcase-examplecontent will replace .testcase-content and .testcase-contentaside when new test pages are completed */
 .testcase-examplecontent {
-	flex-grow: 1;
-	padding: .5rem;
-	color: #fff;
-	background-color: #0dc74b;
+  flex-grow: 1;
+  padding: 0.5rem;
+  color: #fff;
+  background-color: #0dc74b;
 }
 
 .testcase-waitingcontent {
-	flex-grow: 1;
-	padding: .5rem;
-	color: #000;
-	background-color: #f5f5f5;
+  flex-grow: 1;
+  padding: 0.5rem;
+  color: #000;
+  background-color: #f5f5f5;
 }
 
 .testcase-steps {
-  padding: .5rem;
+  padding: 0.5rem;
   list-style: decimal;
   list-style-position: inside;
-	border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
 }
 
 .testcase-filters {
-  padding: .5rem;
+  padding: 0.5rem;
   list-style: decimal;
   list-style-position: inside;
 }
 
 .testcase-trigger {
-	flex-grow: 1;
-	padding: .5rem;
-	color: #fff;
-	background-color: #ccc;
+  flex-grow: 1;
+  padding: 0.5rem;
+  color: #fff;
+  background-color: #ccc;
 }
 
 .testcase-trigger:hover {
@@ -288,22 +282,22 @@ h3 { font-size: 1.1rem; }
 .testcase-output-expected,
 .testcase-trigger-passed {
   flex-grow: 1;
-	padding: .5rem;
-	color: #fff;
-	background-color: #0dc74b;
+  padding: 0.5rem;
+  color: #fff;
+  background-color: #0dc74b;
 }
 
 .testcase-bad-element,
 .testcase-trigger-failed {
   flex-grow: 1;
-	padding: .5rem;
-	color: #fff;
-	background-color: #c70d2c;
+  padding: 0.5rem;
+  color: #fff;
+  background-color: #c70d2c;
 }
 
 .testcase-filters pre {
-	padding: .1rem;
-	overflow: scroll;
+  padding: 0.1rem;
+  overflow: scroll;
   scrollbar-width: none;
   white-space: pre-line;
   background-color: #eee;
@@ -313,13 +307,13 @@ h3 { font-size: 1.1rem; }
 }
 
 img.blocked {
-  padding: .5rem;
+  padding: 0.5rem;
   background-color: red;
 }
 
 /* both img.blocked should be deleted when new test pages are completed */
 img.blocked[data-expectedresult="blocked"] {
-  padding: 0px;
+  padding: 0;
 }
 
 .testcase-image {
@@ -328,12 +322,12 @@ img.blocked[data-expectedresult="blocked"] {
 
 .testcase-row {
   background-color: white;
-  padding: .5rem;
-  margin-top: .5rem;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 .testcase-row:first-of-type {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .testcase-column {
@@ -342,33 +336,32 @@ img.blocked[data-expectedresult="blocked"] {
   width: 50%;
   vertical-align: top;
   height: 10rem;
-  padding: .5rem;
+  padding: 0.5rem;
   border: 1px solid #ababab;
 }
 
 .testcase-row > h3 {
   margin-top: 0;
-  margin-bottom: .5rem;
+  margin-bottom: 0.5rem;
 }
 
 .testcase-filter {
-  border: 0px solid #ababab;
-
-  margin-top: .5rem;
+  border: 0 solid #ababab;
+  margin-top: 0.5rem;
 }
 
 .testcase-teststylesheet,
 #testcase-scripttarget {
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
 .testcase-filter .filter {
   background-color: #e0e0e0;
   margin: 0;
-  padding: .5rem;
-  padding-bottom: .75rem;
-  padding-top: .75rem;
-   border-bottom: 1px solid #ccc;
+  padding: 0.5rem;
+  padding-bottom: 0.75rem;
+  padding-top: 0.75rem;
+  border-bottom: 1px solid #ccc;
   font-family: monospace;
   overflow-x: scroll;
   word-break: keep-all;
@@ -377,7 +370,7 @@ img.blocked[data-expectedresult="blocked"] {
 .testcase-filter .description {
   background-color: #f2f2f2;
   margin: 0;
-  padding: .5rem;
+  padding: 0.5rem;
 }
 
 .testcase-es-prop {
@@ -401,17 +394,19 @@ img.blocked[data-expectedresult="blocked"] {
 .testcase-es-regex-1 {
   width: 121px;
 }
+
 .testcase-es-regex-2 {
   width: 122px;
 }
+
 .testcase-es-regex-3 {
   width: 100px;
 }
 
-@media( min-width: 720px ) {
+@media (min-width: 720px) {
   .abp-container {
     width: 75%;
-	max-width: 900px;
+    max-width: 900px;
   }
 }
 
