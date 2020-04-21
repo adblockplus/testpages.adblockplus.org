@@ -2,14 +2,12 @@
 
 function removeWaitingElements()
 {
-  for (let className of ["testcase-waitingcontent", "testcase-output-expected"])
+  let className = "testcase-waitingcontent";
+  let elements = document.getElementsByClassName(className);
+  while (elements.length > 0)
   {
-    let elements = document.getElementsByClassName(className);
-    while (elements.length > 0)
-    {
-      elements[0].remove();
-      elements = document.getElementsByClassName(className);
-    }
+    elements[0].remove();
+    elements = document.getElementsByClassName(className);
   }
 }
 
@@ -37,5 +35,13 @@ function expectedScreenshotsView()
   }
 }
 
+function addViewToDocuments()
+{
+  expectedScreenshotsView();
+
+  for (let frame of document.getElementsByTagName("iframe"))
+    frame.contentDocument.defaultView.addEventListener("DOMContentLoaded", addViewToDocuments);
+}
+
 if (expectedScreenshotsParam())
-  window.addEventListener("DOMContentLoaded", expectedScreenshotsView);
+  window.addEventListener("DOMContentLoaded", addViewToDocuments);

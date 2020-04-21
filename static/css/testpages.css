@@ -420,6 +420,7 @@ img.blocked[data-expectedresult="blocked"] {
 .expected .blocked,
 .expected #testcase-output,
 .expected .testcase-output-actual,
+.expected .testcase-good-element,
 #testcase-output-expected,
 .testcase-output-expected {
   display: none;
