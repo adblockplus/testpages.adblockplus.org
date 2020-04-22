@@ -7,7 +7,6 @@ description = Check that a filter using the $stylesheet filter option is working
   <p>Test that a filter using the $stylesheet filter option works on an external stylesheet.</p>
   <div class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger script...</div>
     <div class="testcase-output-expected">Passed. Stylesheet was blocked.</div>
     <div id="stylesheet-target" class="blocked"></div>
   </div>
@@ -30,8 +29,6 @@ description = Check that a filter using the $stylesheet filter option is working
 
   setTimeout(() =>
   {
-    removeWaitingElements(); // eslint-disable-line no-undef
-
     let target = document.getElementById("stylesheet-target");
     let targetStyle = getComputedStyle(target);
     if (targetStyle.width === "105px")

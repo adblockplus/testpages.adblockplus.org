@@ -6,12 +6,10 @@ description = Check that the hide-if-contains-image snippet is working as expect
   <h2 id="basic">Basic usage</h2>
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="before-target" class="testcase-area testcase-container">
-    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <div id="after-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -30,8 +28,6 @@ description = Check that the hide-if-contains-image snippet is working as expect
 
   setTimeout(() =>
   {
-    removeWaitingElements(); // eslint-disable-line no-undef
-
     let ad = document.createElement("div");
     ad.id = Math.random().toString(36).substring(2);
     ad.className = "testcase-bad-element blocked";

@@ -4,8 +4,6 @@ aoprb = false; // eslint-disable-line no-undef
 
 setTimeout(() =>
 {
-  removeWaitingElements(); // eslint-disable-line no-undef
-
   if (!aoprb) // eslint-disable-line no-undef
   {
     let failElement = document.createElement("div");

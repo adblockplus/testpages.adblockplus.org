@@ -1,16 +1,5 @@
 "use strict";
 
-function removeWaitingElements()
-{
-  let className = "testcase-waitingcontent";
-  let elements = document.getElementsByClassName(className);
-  while (elements.length > 0)
-  {
-    elements[0].remove();
-    elements = document.getElementsByClassName(className);
-  }
-}
-
 function expectedScreenshotsParam()
 {
   let url = new URL(window.location.href);

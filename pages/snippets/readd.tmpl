@@ -7,7 +7,6 @@ description = Check that the readd snippet is working as expected.
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-waitingcontent blocked">Waiting 1500ms to trigger snippet...</div>
     <div class="testcase-output-expected">Basic<br>Should not lose the green style.</div>
     <div id="basic-style-target" class="testcase-output-actual">Basic<br>Should not lose the green style.</div>
   </div>
@@ -28,7 +27,6 @@ description = Check that the readd snippet is working as expected.
   <p>Test that link usage of the snippet works as expected.</p>
   <div id="link-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-waitingcontent blocked">Waiting 1500ms to trigger snippet...</div>
     <div class="testcase-output-expected">Link<br>Should not lose the green style.</div>
     <div id="link-style-target" class="testcase-output-actual">Link<br>Should not lose the green style.</div>
   </div>
@@ -61,7 +59,6 @@ description = Check that the readd snippet is working as expected.
   <p>Test that twice usage of the snippet works as expected.</p>
   <div id="twice-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-waitingcontent blocked">Waiting 1500ms to trigger snippet...</div>
     <div class="testcase-output-expected">First<br>Should not lose the green style.</div>
     <div class="testcase-output-expected">Second<br>Should not lose the green style.</div>
     <div id="twice-style-first-target" class="testcase-output-actual">First<br>Should not lose the green style.</div>
@@ -101,8 +98,6 @@ description = Check that the readd snippet is working as expected.
 
   setTimeout(() =>
   {
-    removeWaitingElements(); // eslint-disable-line no-undef
-
     let styleElement = document.getElementsByTagName("style")[0];
     styleElement.parentElement.removeChild(styleElement);
     styleElement = document.getElementsByTagName("style")[0];

@@ -7,7 +7,6 @@ description = Check that a filter using the $xmlhttprequest filter option is wor
   <p>Test that a filter using the $xmlhttprequest filter option works to block a XMLHTTPRequest.</p>
   <div class="testcase-area testcase-container">
     <div id="testcase-status" class="testcase-trigger blocked">Triggering XMLHTTPRequest connection...</div>
-    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger script...</div>
     <div class="testcase-output-expected">Passed. Connection was blocked.</div>
   </div>
   <h3>Steps</h3>
@@ -45,8 +44,6 @@ description = Check that a filter using the $xmlhttprequest filter option is wor
 
   setTimeout(() =>
   {
-    removeWaitingElements(); // eslint-disable-line no-undef
-
     req.open("GET", "{{ site_url }}/testfiles/xmlhttprequest/text.txt", true);
     req.send();
   }, 500);

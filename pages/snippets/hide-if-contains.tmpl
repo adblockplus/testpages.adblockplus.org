@@ -26,7 +26,6 @@ description = Check that the hide-if-contains snippet is working as expected.
   <p>Test that basic usage of the snippet works as expected against a dynamic target.</p>
   <div id="basic-dynamic-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -45,12 +44,10 @@ description = Check that the hide-if-contains snippet is working as expected.
   <p>Test that usage of the snippet with the search parameter works as expected.</p>
   <div id="search1-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
     <div class="testcase-output-expected">hic-search<br>Should not be hidden</div>
   </div>
   <div id="search2-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -75,8 +72,6 @@ description = Check that the hide-if-contains snippet is working as expected.
 
   setTimeout(() =>
   {
-    removeWaitingElements(); // eslint-disable-line no-undef
-
     let dynamic = document.createElement("p");
     dynamic.id = "hic-dynamic-id";
     dynamic.innerHTML = "<div>hic-basic-dynamic<br>Failed. Element is not hidden.</div>";

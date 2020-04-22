@@ -7,7 +7,6 @@ description = Check that the dir-string snippet is working as expected.
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger snippet...</div>
     <div id="atsy2t" class="testcase-bad-element blocked">Failed. Element is not hidden.</div>
   </div>
   <h3>Steps</h3>
@@ -47,8 +46,6 @@ description = Check that the dir-string snippet is working as expected.
 
   setTimeout(() =>
   {
-    removeWaitingElements(); // eslint-disable-line no-undef
-
     let times = navigator.userAgent.includes("Chrome") ? 1 : 0;
     snippetTest(times);
   }, 500);

@@ -7,7 +7,6 @@ description = Check that a filter using the $webrtc filter option is working as 
   <p>Test that a filter using the $webrtc filter option works on to block a webrtc connection.</p>
   <div class="testcase-area testcase-container">
     <div id="testcase-status" class="testcase-trigger blocked">Trigger WebRTC connection</div>
-    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger script...</div>
     <div class="testcase-output-expected">Passed. Connection was blocked.</div>
   </div>
   <h3>Steps</h3>
@@ -55,14 +54,9 @@ description = Check that a filter using the $webrtc filter option is working as 
       }
       RTCPeerConnection = webkitRTCPeerConnection; // eslint-disable-line no-global-assign, no-undef
     }
+
     let connection = new RTCPeerConnection({iceServers: [{urls: ["stun:example.com"]}]});
-
-    setTimeout(() =>
-    {
-      removeWaitingElements(); // eslint-disable-line no-undef
-
-      check(connection);
-    }, 500);
+    setTimeout(() => check(connection), 500);
   }
 
   doTest();

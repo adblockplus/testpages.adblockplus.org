@@ -4,8 +4,6 @@ var aopwf = {fp() {}}; // eslint-disable-line no-var
 
 setTimeout(() =>
 {
-  removeWaitingElements(); // eslint-disable-line no-undef
-
   aopwf.fp = function() {};
   let failElement = document.createElement("div");
   failElement.innerHTML = "Failed. Script ran and was applied to the page.";

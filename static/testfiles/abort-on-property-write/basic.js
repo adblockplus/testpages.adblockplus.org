@@ -2,8 +2,6 @@
 
 setTimeout(() =>
 {
-  removeWaitingElements(); // eslint-disable-line no-undef
-
   if (!window.aopwb)
   {
     window.aopwb = true;
