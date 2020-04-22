@@ -6,17 +6,18 @@ description = Check that a filter using the $popup filter option is working as e
   <h2 id="link-popup">Link based popup</h2>
   <p>Test that a filter using the $popup filter option works on a link based popup.</p>
   <div class="testcase-area testcase-container">
-    <a href="/en/popuptarget" target="_blank" class="testcase-trigger">Trigger link based popup</a>
+    <a href="/testfiles/popup/link.html" target="_blank" class="testcase-trigger">Trigger link based popup</a>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
     <li>Add filter #1.</li>
+    <li>Refresh page.</li>
     <li>Click the link above.</li>
     <li>The popup opened should be closed.</li>
   </ul>
   <h3>Filters</h3>
   <ul class="testcase-filters">
-    <li><pre>||{{ site_url|strip_proto }}/en/popuptarget^$popup</pre></li>
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/popup/link.html^$popup</pre></li>
   </ul>
 </section>
 
@@ -24,17 +25,18 @@ description = Check that a filter using the $popup filter option is working as e
   <h2 id="script-popup">Script based popup</h2>
   <p>Test that a filter using the $popup filter option works on a script based popup.</p>
   <div class="testcase-area testcase-container">
-    <a id="script-trigger" href="#script-popup" class="testcase-trigger" onclick="scriptPopup()">Trigger script based popup</a>
+    <a id="script-trigger" href="#script-popup" class="testcase-trigger" onclick="scriptPopup();">Trigger script based popup</a>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
     <li>Add filter #1.</li>
+    <li>Refresh page.</li>
     <li>Click the link above.</li>
     <li>The popup opened should be closed.</li>
   </ul>
   <h3>Filters</h3>
   <ul class="testcase-filters">
-    <li><pre>||{{ site_url|strip_proto }}/en/popuptarget^$popup</pre></li>
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/popup/script.html^$popup</pre></li>
   </ul>
 </section>
 
@@ -59,7 +61,7 @@ description = Check that a filter using the $popup filter option is working as e
 
   function scriptPopup()
   {
-    window.open("/en/popuptarget");
+    window.open("/testfiles/popup/script.html");
 
     setTimeout(checkScriptPopup, 500);
   }

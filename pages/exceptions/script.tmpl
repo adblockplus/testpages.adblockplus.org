@@ -1,31 +1,27 @@
-title = $script Exception
 template = testcase
+title = Script Exception
+description = Check that usage of the $script filter option in an exception is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options"),
-] %}
-
-<section class="site-panel">
-  <h2>$script Exception</h2>
-  <p>Check that usage of the $script filter option in an exception filter works as expected.</p>
-  <p>With the filter(s) displayed below each test case added to ABP (or with the testcase subscription installed and active), the image should be blocked while the script should not be blocked.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <div class="testcase-container">
-    <div class="testcase-row">
-      <h3>Image</h3>
-      <img class="blocked" src="/testcasefiles/scriptexception/image.jpg"/>
-    </div>
-    <div class="testcase-row">
-      <h3>Script</h3>
-      <div id="testcase-scripttarget">Script target</div>
-    </div>
+<section class="testcase-panel">
+  <h2>Usage</h2>
+  <p>Test that the $script filter option in an exception works.</p>
+  <div class="testcase-area testcase-container">
+    <img src="/testfiles/script_exception/image.png" data-expectedresult="blocked" class="blocked">
+    <div class="testcase-output-expected">This should be a green block.</div>
+    <div id="script-target" class="testcase-bad-element blocked">This should be a green block.</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filters #1 and #2.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the script should not be blocked, providing a green background to the bock above.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>||{{ site_url|strip_proto }}/testcasefiles/scriptexception/*</pre>
-  <pre>@@{{ site_url|strip_proto }}/testcasefiles/scriptexception/$script</pre>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/script_exception/*</pre></li>
+    <li><pre>@@{{ site_url|strip_proto }}/testfiles/script_exception/$script</pre></li>
+  </ul>
 </section>
 
-<script src="/testcasefiles/scriptexception/script.js"></script>
+<script src="/testfiles/script_exception/script.js"></script>

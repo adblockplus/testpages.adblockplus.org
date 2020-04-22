@@ -1,0 +1,7 @@
+/* This style should be equal to .testcase-good-element */
+#stylesheet-target {
+  flex-grow: 1;
+  padding: 0.5rem;
+  color: #fff;
+  background-color: #0dc74b;
+}

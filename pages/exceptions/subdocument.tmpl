@@ -1,31 +1,29 @@
-title = $subdocument Exception
 template = testcase
+title = Subdocument Exception
+description = Check that usage of the $subdocument filter option in an exception is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options"),
-] %}
+<link rel="stylesheet" href="/testfiles/subdocument_exception/stylesheet.css">
 
-<link rel="stylesheet" href="/testcasefiles/subdocumentexception/stylesheet.css">
-
-<section class="site-panel">
-  <h2>$subdocument Exception</h2>
-  <p>Check that usage of the $subdocument filter option in an exception filter works as expected.</p>
-  <p>With the filter(s) displayed below each test case added to ABP (or with the testcase subscription installed and active), the subdocument/frame should not be blocked while the stylesheet should be.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <div class="testcase-container">
-    <div class="testcase-row">
-      <h3>Frame/Subdocument</h3>
-      <iframe src="/testcasefiles/subdocumentexception/frame.html"></iframe>
-    </div>
-    <div class="testcase-row">
-      <h3>Stylesheet</h3>
-      <div class="testcase-teststylesheet trap">&nbsp;</div>
-    </div>
+<section class="testcase-panel">
+  <h2 id="usage">Usage</h2>
+  <p>Test that the $subdocument filter option in an exception works.</p>
+  <div class="testcase-area testcase-container">
+    <iframe src="/testfiles/subdocument_exception/subdocument.html" style="border: 0; width: 100px; height: 100px;"></iframe>
+    <div class="testcase-output-expected">This should be a green block.</div>
+    <div id="usage-target" class="testcase-good-element">This should be a green block.</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The block should not look red, and the subdocument should be blocked.</li>
+    <li>Add filter #2.</li>
+    <li>The block should still not look red, but the subdocument should become unblocked.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>||{{ site_url|strip_proto }}/testcasefiles/subdocumentexception/*</pre>
-  <pre>@@{{ site_url|strip_proto }}/testcasefiles/subdocumentexception/$subdocument</pre>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/subdocument_exception/*</pre></li>
+    <li><pre>@@{{ site_url|strip_proto }}/testfiles/subdocument_exception/$subdocument</pre></li>
+  </ul>
 </section>

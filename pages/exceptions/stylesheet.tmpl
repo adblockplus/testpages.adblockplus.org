@@ -1,31 +1,27 @@
-title = $stylesheet Exception
 template = testcase
+title = Stylesheet Exception
+description = Check that usage of the $stylesheet filter option in an exception is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options"),
-] %}
+<link rel="stylesheet" href="/testfiles/stylesheet_exception/stylesheet.css">
 
-<link rel="stylesheet" href="/testcasefiles/stylesheetexception/stylesheet.css">
-
-<section class="site-panel">
-  <h2>$stylesheet Exception</h2>
-  <p>Check that usage of the $stylesheet filter option in an exception filter works as expected.</p>
-  <p>With the filter(s) displayed below each test case added to ABP (or with the testcase subscription installed and active), the image should be blocked while the stylesheet should not be.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <div class="testcase-container">
-    <div class="testcase-row">
-      <h3>Image</h3>
-      <img class="blocked" src="/testcasefiles/stylesheetexception/image.jpg"/>
-    </div>
-    <div class="testcase-row">
-      <h3>Stylesheet</h3>
-      <div class="testcase-teststylesheet"></div>
-    </div>
+<section class="testcase-panel">
+  <h2>Usage</h2>
+  <p>Test that the $stylesheet filter option in an exception works.</p>
+  <div class="testcase-area testcase-container">
+    <img src="/testfiles/stylesheet_exception/image.png" data-expectedresult="blocked" class="blocked">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-output-expected">This should be a green block.</div>
+    <div id="stylesheet-target" class="testcase-bad-element blocked">This should be a green block.</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filters #1 and #2.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the stylesheet should not be blocked, providing a green background to the bock above.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>||{{ site_url|strip_proto }}/testcasefiles/stylesheetexception/*</pre>
-  <pre>@@{{ site_url|strip_proto }}/testcasefiles/stylesheetexception/$stylesheet</pre>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/stylesheet_exception/*</pre></li>
+    <li><pre>@@{{ site_url|strip_proto }}/testfiles/stylesheet_exception/$stylesheet</pre></li>
+  </ul>
 </section>

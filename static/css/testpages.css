@@ -416,13 +416,10 @@ img.blocked[data-expectedresult="blocked"] {
 .expected #testcase-output,
 .expected .testcase-output-actual,
 .expected .testcase-good-element,
+.expected .testcase-trigger-passed,
 #testcase-output-expected,
 .testcase-output-expected {
   display: none;
-}
-
-.expected .trap {
-  visibility: hidden;
 }
 
 /* .testcase-output-expected will replace #testcase-output-expected when new test pages are completed */

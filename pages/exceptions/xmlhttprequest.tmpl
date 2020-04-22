@@ -1,69 +1,55 @@
-title = $xmlhttprequest Exception
 template = testcase
+title = XMLHTTPRequest Exception
+description = Check that usage of the $xmlhttprequest filter option in an exception is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options"),
-] %}
+<section class="testcase-panel">
+  <h2>Usage</h2>
+  <p>Test that the $xmlhttprequest filter option in an exception works.</p>
+  <div class="testcase-area testcase-container">
+    <img src="/testfiles/xmlhttprequest_exception/image.png" data-expectedresult="blocked" class="blocked">
+    <div id="testcase-status" class="testcase-trigger blocked">Triggering XMLHTTPRequest connection...</div>
+    <div class="testcase-waitingcontent blocked">Waiting 500ms to trigger script...</div>
+    <div class="testcase-output-expected">Text loaded via XMLHTTPRequest Exception</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filters #1 and #2.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the xmlhttprequest should not be blocked, loading a text in the block above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/xmlhttprequest_exception/*</pre></li>
+    <li><pre>@@{{ site_url|strip_proto }}/testfiles/xmlhttprequest_exception/$xmlhttprequest</pre></li>
+  </ul>
+</section>
 
 <script>
   "use strict";
 
-  function pagelog(message)
-  {
-    let log = document.getElementById("testcase-output");
-    log.innerText = log.innerText + message + "\n";
-    console.log(message); // eslint-disable-line no-console
-  }
+  let req = new XMLHttpRequest();
 
-  function aborted(evt)
+  req.onerror = function(e)
   {
-    pagelog("XMLHTTPRequest was aborted."); // eslint-disable-line no-undef
-  }
-
-  function failed(evt)
+    let result = document.getElementById("testcase-status");
+    result.innerHTML = "Failed. Connection was blocked.";
+    result.className = "testcase-trigger-failed blocked";
+  };
+  req.onload = function(e)
   {
-    pagelog("XMLHTTPRequest failed."); // eslint-disable-line no-undef
-  }
-
-  function makerequest()
-  {
-    let req = new XMLHttpRequest();
-    req.addEventListener("error", failed);
-    req.addEventListener("abort", aborted);
-    req.open("GET", "{{ site_url }}/testcasefiles/xmlhttprequestexception/text.txt", true);
-    req.onload = function(e)
+    if (this.status == 200)
     {
-      if (this.status == 200)
-        pagelog(this.responseText); // eslint-disable-line no-undef
-    };
+      let result = document.getElementById("testcase-status");
+      result.innerHTML = this.responseText;
+      result.className = "testcase-trigger-passed";
+    }
+  };
+
+  setTimeout(() =>
+  {
+    removeWaitingElements(); // eslint-disable-line no-undef
+
+    req.open("GET", "{{ site_url }}/testfiles/xmlhttprequest_exception/text.txt", true);
     req.send();
-  }
-
-  document.addEventListener("DOMContentLoaded", makerequest, false);
+  }, 500);
 </script>
-
-<section class="site-panel">
-  <h2>$xmlhttprequest Exception</h2>
-  <p>Check that usage of the $xmlhttprequest filter option in an exception filter works as expected.</p>
-  <p>With the filter(s) displayed below each test case added to ABP (or with the testcase subscription installed and active), the XMLHTTPRequest should not be blocked while the image should be.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <p>The XMLHTTPRequest should not be blocked. The Image should be blocked.</p>
-  <div class="testcase-container">
-    <div class="testcase-row">
-      <h3>XMLHTTPRequest</h3>
-      <div id="testcase-output"></div>
-      <div id="testcase-output-expected">
-        Text loaded via XMLHTTPRequest
-      </div>
-    </div>
-    <div class="testcase-row">
-      <h3>Image</h3><img class="blocked" src="/testcasefiles/xmlhttprequestexception/image.jpg"/>
-    </div>
-  </div>
-  <h3>Filters</h3>
-  <pre>||{{ site_url|strip_proto }}/testcasefiles/xmlhttprequestexception/*</pre>
-  <pre>@@{{ site_url|strip_proto }}/testcasefiles/xmlhttprequestexception/$xmlhttprequest</pre>
-</section>

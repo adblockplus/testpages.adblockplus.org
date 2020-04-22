@@ -1,41 +1,52 @@
-title = $popup Exception
 template = testcase
+title = Popup Exception
+description = Check that usage of the $popup filter option in an exception is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options"),
-] %}
+<section class="testcase-panel">
+  <h2>Link based popup</h2>
+  <p>Test that the link-based $popup filter option in an exception works.</p>
+  <div class="testcase-area testcase-container">
+    <a href="/testfiles/popup_exception/link.html" target="_blank" class="testcase-trigger">Trigger link based popup</a><br><br>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filters #1 and #2.</li>
+    <li>Refresh page.</li>
+    <li>Click the link above.</li>
+    <li>The popup should not be blocked and open succesfully.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/popup_exception/link.html^$popup</pre></li>
+    <li><pre>@@||{{ site_url|strip_proto }}/testfiles/popup_exception/link.html^$popup</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2 id="script-popup">Script based popup</h2>
+  <p>Test that the script-based $popup filter option in an exception works.</p>
+  <div class="testcase-area testcase-container">
+    <a id="script-trigger" href="#script-popup" class="testcase-trigger" onclick="scriptPopup();">Trigger script based popup</a>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filters #1 and #2.</li>
+    <li>Refresh page.</li>
+    <li>Click the link above.</li>
+    <li>The popup should not be blocked and open succesfully.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/popup_exception/script.html^$popup</pre></li>
+    <li><pre>@@||{{ site_url|strip_proto }}/testfiles/popup_exception/script.html^$popup</pre></li>
+  </ul>
+</section>
 
 <script>
   "use strict";
 
-  function doPopup()
+  function scriptPopup()
   {
-    window.open("/en/exceptions/popup");
+    window.open("/testfiles/popup_exception/script.html");
   }
 </script>
-
-<section class="site-panel">
-  <h2>$popup Exception</h2>
-  <p>Check that usage of the $popup filter option in an exception filter works as expected.</p>
-  <p>With the filter(s) displayed below each test case added to ABP (or with the testcase subscription installed and active), the popup should not be blocked and open succesfully.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Link-based popup</h2>
-  <div class="testcase-container">
-    <a href="/en/exceptions/popup" target="_blank">Link popup</a><br><br>
-  </div>
-  <h3>Filters</h3>
-  <pre>||{{ site_url|strip_proto }}/en/exceptions/popup^$popup</pre>
-  <pre>@@||{{ site_url|strip_proto }}/en/exceptions/popup^$popup</pre>
-</section>
-
-<section class="site-panel">
-  <h2>Script-based popup</h2>
-  <div class="testcase-container">
-    <button onclick="doPopup();">window.open() popup</button>
-  </div>
-  <h3>Filters</h3>
-  <pre>||{{ site_url|strip_proto }}/en/exceptions/popup^$popup</pre>
-  <pre>@@||{{ site_url|strip_proto }}/en/exceptions/popup^$popup</pre>
-</section>
