@@ -1,17 +1,10 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{ title }}</title>
-    <link rel="stylesheet" type="text/css" href="/css/testpages.css"/>
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/abp-32.png">
-  </head>
+  {% set page_title = 'ABP Test Pages' %}
+  <? include head ?>
   <body>
-
     <? include header ?>
-
     {{ body|safe }}
-
     <? include footer ?>
-
   </body>
 </html>

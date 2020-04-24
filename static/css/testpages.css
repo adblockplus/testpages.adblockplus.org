@@ -56,7 +56,7 @@ h3 { font-size: 1.1rem; }
   padding: 0.5rem;
 }
 
-.site-footer .site-update {
+.site-footer #site-update {
   text-align: center;
   font-size: 0.7rem;
 }

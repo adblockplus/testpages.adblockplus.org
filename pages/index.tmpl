@@ -1,0 +1,80 @@
+template = default
+
+<div class="site-container">
+  <section class="site-panel">
+    <h2>Welcome</h2>
+    <p>This site provides test pages for Adblock Plus functionality.</p>
+  </section>
+
+  <section class="site-panel">
+    <h2>Testpages Filter Subscription</h2>
+    <p>This subscription includes all of the filters required to verify the following test cases.</p>
+    <p>You can add this subscription and then click through to each test case page and check that the page state matches the test case description. Alternatively you could add a test cases filter(s) manually in order to check it in isolation.</p>
+    <a class="site-button" href="/en/abp-testcase-subscription.txt" target="_blank">View</a>
+    <a id="subscribe-button" class="site-button" href="abp:subscribe?location={{ (site_url + "/en/abp-testcase-subscription.txt").replace(":", "%3A").replace("/", "%2F") }}&amp;title=ABP%20Testcase%20Subscription">Subscribe</a>
+  </section>
+
+  <section class="site-panel">
+    <h2>Filter test cases</h2>
+    <h3>Blocking and hiding filters</h3>
+    <ul class="site-pagelist">
+      <li><a href="filters/blocking"><h3>Blocking</h3></a></li>
+      <li><a href="filters/element-hiding"><h3>Element Hiding</h3></a></li>
+      <li><a href="filters/element-hiding-emulation"><h3>Element Hiding Emulation / Extended Selectors</h3></a></li>
+    </ul>
+    <h3>Filter options</h3>
+    <ul class="site-pagelist">
+      <li><a href="filters/image"><h3>Image</h3></a></li>
+      <li><a href="filters/object"><h3>Object</h3></a></li>
+      <li><a href="filters/ping"><h3>Ping</h3></a></li>
+      <li><a href="filters/popup"><h3>Popup</h3></a></li>
+      <li><a href="filters/script"><h3>Script</h3></a></li>
+      <li><a href="filters/stylesheet"><h3>Stylesheet</h3></a></li>
+      <li><a href="filters/subdocument"><h3>Subdocument</h3></a></li>
+      <li><a href="filters/webrtc"><h3>WebRTC</h3></a></li>
+      <li><a href="filters/websocket"><h3>WebSocket</h3></a></li>
+      <li><a href="filters/xmlhttprequest"><h3>XMLHTTPRequest</h3></a></li>
+      <li><a href="filters/match-case"><h3>$match-case</h3></a></li>
+      <li><a href="filters/third-party"><h3>Third Party</h3></a></li>
+    </ul>
+    <h3>Exception Filters</h3>
+    <ul class="site-pagelist">
+      <li><a href="exceptions/image"><h3>Image Exception</h3></a></li>
+      <li><a href="exceptions/popup"><h3>Popup Exception</h3></a></li>
+      <li><a href="exceptions/script"><h3>Script Exception</h3></a></li>
+      <li><a href="exceptions/stylesheet"><h3>Stylesheet Exception</h3></a></li>
+      <li><a href="exceptions/subdocument"><h3>Subdocument Exception</h3></a></li>
+      <li><a href="exceptions/xmlhttprequest"><h3>XMLHTTPRequest Exception</h3></a></li>
+      <li><a href="exceptions/elemhide"><h3>$elemhide - Exception</h3></a></li>
+      <li><a href="exceptions/document"><h3>$document - Exception</h3></a></li>
+      <li><a class="online" href="exceptions/sitekey"><h3>$sitekey - Exception</h3></a></li>
+      <li><a href="exceptions/generichide"><h3>$generichide - Exception</h3></a></li>
+      <li><a href="exceptions/genericblock"><h3>$genericblock - Exception</h3></a></li>
+      <li><a href="exceptions/element-hiding"><h3>Element Hiding - Exception</h3></a></li>
+    </ul>
+    <h3>Snippets</h3>
+    <ul class="site-pagelist">
+      <li><a href="snippets/abort-current-inline-script"><h3>abort-current-inline-script</h3></a></li>
+      <li><a href="snippets/abort-on-property-read"><h3>abort-on-property-read</h3></a></li>
+      <li><a href="snippets/abort-on-property-write"><h3>abort-on-property-write</h3></a></li>
+      <li><a href="snippets/dir-string"><h3>dir-string</h3></a></li>
+      <li><a href="snippets/hide-if-contains"><h3>hide-if-contains</h3></a></li>
+      <li><a href="snippets/hide-if-contains-and-matches-style"><h3>hide-if-contains-and-matches-style</h3></a></li>
+      <li><a href="snippets/hide-if-contains-image"><h3>hide-if-contains-image</h3></a></li>
+      <li><a href="snippets/hide-if-contains-image-hash"><h3>hide-if-contains-image-hash</h3></a></li>
+      <li><a href="snippets/hide-if-contains-visible-text"><h3>hide-if-contains-visible-text</h3></a></li>
+      <li><a href="snippets/hide-if-has-and-matches-style"><h3>hide-if-has-and-matches-style</h3></a></li>
+      <li><a href="snippets/hide-if-shadow-contains"><h3>hide-if-shadow-contains</h3></a></li>
+      <li><a href="snippets/readd"><h3>readd</h3></a></li>
+      <li><a href="snippets/strip-fetch-query-parameter"><h3>strip-fetch-query-parameter</h3></a></li>
+    </ul>
+  </section>
+
+  <section class="site-panel">
+    <h2>Circumvention</h2>
+    <ul class="site-pagelist">
+      <li><a href="circumvention/inline-style-important"><h3>Inline style !important</h3></a></li>
+      <li><a href="circumvention/anoniframe-documentwrite"><h3>Anonymous iframe document.write()</h3></a></li>
+    </ul>
+  </section>
+</div>

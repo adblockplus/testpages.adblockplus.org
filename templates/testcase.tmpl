@@ -1,21 +1,10 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>{{ title }} - ABP Test Pages</title>
-    <link rel="stylesheet" href="/css/testpages.css">
-    <link rel="icon" type="image/png" sizes="32x32" href="/images/abp-32.png">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="lib/utils.js"></script>
-  </head>
+  {% set page_title = title + ' - ABP Test Pages' %}
+  <? include head ?>
   <body>
     <? include header ?>
     <div class="site-container">
-
-      <section class="site-panel site-breadcrumbs">
-        <a href="/" target="_top">Home</a> &gt;
-        <a href="testcases" target="_top">Test cases</a>
-        {{ breadcrumb|safe }}
-      </section>
 
       {% if description %}
       <section class="site-panel">
@@ -25,50 +14,6 @@
       {% endif %}
 
       {{ body|safe }}
-
-      {% if testcase_howtotest_steps or testcase_howtotest_notes %}
-      <section class="site-panel">
-        <h2>How to test</h2>
-        {% if testcase_howtotest_steps %}
-        <h3>Steps</h3>
-        <ul>
-          {% for step in testcase_howtotest_steps %}
-          <li>{{ step }}</li>
-          {% endfor %}
-        </ul>
-        {% endif %}
-        {% if testcase_howtotest_notes %}
-        <h3>Notes</h3>
-        <ul>
-          {% for note in testcase_howtotest_notes %}
-          <li>{{ note }}</li>
-          {% endfor %}
-        </ul>
-        {% endif %}
-      </section>
-      {% endif %}
-
-      {% if testcase_filters %}
-      <section class="site-panel">
-        <h2>Example filters</h2>
-        <p>Example filters that can be used when testing this page.</p>
-        {% for filter in testcase_filters %}
-        <div class="testcase-filter">
-          <p class="filter">{{filter[0]}}</p>
-          <p class="description">{{filter[1]}}</p>
-        </div>
-        {% endfor %}
-      </section>
-      {% endif %}
-
-      {% if testcase_passnotes %}
-      <section class="site-panel">
-        <h2>Pass</h2>
-        {% for note in testcase_passnotes %}
-        <p>{{ note }}</p>
-        {% endfor %}
-      </section>
-      {% endif %}
 
       {% if testcase_moreinfo %}
       <section class="site-panel">
@@ -82,7 +27,6 @@
       {% endif %}
 
     </div>
-
     <? include footer ?>
   </body>
 </html>

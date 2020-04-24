@@ -43,5 +43,16 @@ function addViewToDocuments()
     frame.contentDocument.defaultView.addEventListener("DOMContentLoaded", addViewToDocuments);
 }
 
-if (expectedScreenshotsParam())
-  window.addEventListener("DOMContentLoaded", addViewToDocuments);
+async function updateFooterDate()
+{
+  let date = await fetch("/LAST_UPDATE").then(response => response.text());
+  document.getElementById("site-update").innerText = `Last site update: ${date}`;
+}
+
+window.addEventListener("DOMContentLoaded", () =>
+{
+  updateFooterDate();
+
+  if (expectedScreenshotsParam())
+    addViewToDocuments();
+});
