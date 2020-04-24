@@ -2,6 +2,8 @@
 
 setTimeout(() =>
 {
+  removeWaitingContent(); // eslint-disable-line no-undef
+
   if (!window.aopwsp || !window.aopwsp.showing)
   {
     if (!window.aopwsp || typeof window.aopwsp != "object")

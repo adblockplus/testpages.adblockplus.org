@@ -7,6 +7,7 @@ description = Check that the abort-current-inline-script snippet is working as e
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -25,6 +26,7 @@ description = Check that the abort-current-inline-script snippet is working as e
   <p>Test that usage of the snippet with the optional search parameter works as expected.</p>
   <div id="search-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -43,6 +45,7 @@ description = Check that the abort-current-inline-script snippet is working as e
   <p>Test that usage of the snippet with the optional search parameter as a regex works as expected.</p>
   <div id="regex-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -77,6 +80,8 @@ description = Check that the abort-current-inline-script snippet is working as e
 
   setTimeout(() =>
   {
+    removeWaitingContent(); // eslint-disable-line no-undef
+
     injectScript("basic", 'console.group("abort-current-inline-script");');
     injectScript("search", 'console.info("acis-search");');
     injectScript("regex", 'console.warn("acis-regex1");');

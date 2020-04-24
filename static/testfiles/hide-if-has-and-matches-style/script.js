@@ -11,6 +11,8 @@ function addTarget(id, className, innerHTML)
 
 setTimeout(() =>
 {
+  removeWaitingContent(); // eslint-disable-line no-undef
+
   addTarget(
     "basic",
     "testcase-bad-element blocked",

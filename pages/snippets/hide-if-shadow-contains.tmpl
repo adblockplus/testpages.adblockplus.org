@@ -46,6 +46,7 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
   <p>Test that usage of the snippet with regex works as expected.</p>
   <div id="regex-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
     <div class="testcase-output-expected"><span>hisc-regex3<br>This element should not be hidden.</span></div>
   </div>
   <h3>Steps</h3>
@@ -70,6 +71,8 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
 
   setTimeout(() =>
   {
+    removeWaitingContent(); // eslint-disable-line no-undef
+
     let root = document.getElementById("regex-target");
     for (let className of ["testcase-good-element", "testcase-bad-element blocked",
                            "testcase-bad-element blocked"])

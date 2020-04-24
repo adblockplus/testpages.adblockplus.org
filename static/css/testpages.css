@@ -247,6 +247,13 @@ h3 { font-size: 1.1rem; }
   background-color: #0dc74b;
 }
 
+.testcase-waiting-content {
+  flex-grow: 1;
+  padding: 0.5rem;
+  color: #000;
+  background-color: #f5f5f5;
+}
+
 .testcase-steps {
   padding: 0.5rem;
   list-style: decimal;
@@ -410,6 +417,7 @@ img.blocked[data-expectedresult="blocked"] {
 .expected .testcase-output-actual,
 .expected .testcase-good-element,
 .expected .testcase-trigger-passed,
+.expected .testcase-waiting-content,
 #testcase-output-expected,
 .testcase-output-expected {
   display: none;

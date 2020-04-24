@@ -7,6 +7,7 @@ description = Check that the strip-fetch-query-parameter snippet is working as e
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
     <div class="testcase-output-expected">basicAllowed was called.</div>
   </div>
   <h3>Steps</h3>
@@ -26,6 +27,7 @@ description = Check that the strip-fetch-query-parameter snippet is working as e
   <p>Test that other usage of the snippet works as expected.</p>
   <div id="other-target" class="testcase-area testcase-container">
     <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
     <div class="testcase-output-expected">otherAllowed1 was called.</div>
     <div class="testcase-output-expected">otherAllowed2 was called.</div>
   </div>
@@ -79,8 +81,10 @@ description = Check that the strip-fetch-query-parameter snippet is working as e
 
   setTimeout(() =>
   {
+    removeWaitingContent(); // eslint-disable-line no-undef
+
     let url = "{{ site_url }}/testfiles/strip-fetch-query-parameter/foo.txt";
     fetch(`${url}?basicBlocked=1&basicAllowed=2`).then(handleResponseBasic);
     fetch(`${url}?otherAllowed1=1&otherAllowed2=2`).then(handleResponseOther);
-  }, 1000);
+  }, 500);
 </script>
