@@ -1,106 +1,194 @@
-title = Element Hiding Emulation / Extended Selectors
 template = testcase
+title = Element Hiding Emulation / Extended Selectors
+description = Check that element hiding emulation functionality is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Cheatsheet - Extended Selectors", "https://adblockplus.org/filter-cheatsheet#elementhideemulation"),
-] %}
+<style>
+.ehe-properties {
+  width: 213px;
+}
 
-<section class="site-panel">
-  <h2>Element Hiding Emulation / Extended Selectors </h2>
-  <p>Check that element hiding emulation functionality is working as expected.</p>
-  <p>With the filter displayed below each test case added to ABP (or with the testcase subscription installed and active), the red target elements in each test case panel should be hidden while any green elements should not be hidden.</p>
-</section>
+.ehe-chained {
+  width: 214px;
+}
 
-<section class="site-panel">
+.ehe-case {
+  width: 215px;
+}
+
+.ehe-wildcard {
+  cursor: pointer;
+}
+
+.ehe-regex1 {
+  width: 121px;
+}
+
+.ehe-regex2 {
+  width: 125px;
+}
+
+.ehe-regex3 {
+  width: 126px;
+}
+</style>
+
+<section class="testcase-panel">
   <h2>Basic :-abp-properties() usage</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red testcase-es-prop">Target</div>
-    <div class="testcase-content stripes-grey">Content</div>
+  <p>Test that an element hiding emulation filter using a :-abp-properties() selector hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div class="testcase-bad-element ehe-properties blocked" data-expectedresult="blocked">Target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}#?#div:-abp-properties(width: 213px)</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div:-abp-properties(width: 213px)</pre></li>
+  </ul>
 </section>
 
-<section class="site-panel">
+<section class="testcase-panel">
   <h2>Basic :-abp-has() usage</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red">
-      Target
+  <p>Test that an element hiding emulation filter using a :-abp-has() selector hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div class="testcase-bad-element blocked" data-expectedresult="blocked">
       <div>
-        <img class="testcase-es-has">
+        <span class="ehe-has">Target</span>
       </div>
     </div>
-    <div class="testcase-content stripes-grey">Content</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}#?#div:-abp-has(>div>img.testcase-es-has)</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div:-abp-has(>div>span.ehe-has)</pre></li>
+  </ul>
 </section>
 
-
-<section class="site-panel">
+<section class="testcase-panel">
   <h2>Basic :-abp-contains() usage</h2>
-  <div class="testcase-container">
-    <span class="testcase-contentaside stripes-red">ESContainsTarget</span>
-    <div class="testcase-content stripes-grey">Content</div>
+  <p>Test that an element hiding emulation filter using a :-abp-contains() selector hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <span class="testcase-bad-element blocked" data-expectedresult="blocked">ehe-contains-target</span>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}#?#span:-abp-contains(ESContainsTarget)</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#span:-abp-contains(ehe-contains-target)</pre></li>
+  </ul>
 </section>
 
-<section class="site-panel">
+<section class="testcase-panel">
   <h2>Chained extended selectors</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red">
-      <div class="testcase-es-chained">Target</div>
+  <p>Test that element hiding emulation filter using several of the extended selectors hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div class="testcase-bad-element blocked" data-expectedresult="blocked">
+      <div class="ehe-chained">Target</div>
     </div>
-    <div class="testcase-content stripes-grey">Content</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}#?#div:-abp-has(> div:-abp-properties(width: 214px))</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div:-abp-has(> div:-abp-properties(width: 214px))</pre></li>
+  </ul>
 </section>
 
-
-<section class="site-panel">
-  <h2>Case insensative extended selectors</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red testcase-es-case">Target</div>
-    <div class="testcase-content stripes-grey">Content</div>
+<section class="testcase-panel">
+  <h2>Case insensitive extended selectors</h2>
+  <p>Test that an element hiding emulation filter is case insensitive and still hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div class="testcase-bad-element ehe-case blocked" data-expectedresult="blocked">Target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}#?#div:-abp-properties(WiDtH: 215px)</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div:-abp-properties(WiDtH: 215px)</pre></li>
+  </ul>
 </section>
 
-<section class="site-panel">
+<section class="testcase-panel">
   <h2>Wildcard in extended selector</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red testcase-es-wildcard">Target</div>
-    <div class="testcase-content stripes-grey">Content</div>
+  <p>Test that an element hiding emulation filter using wildcards still hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div class="testcase-bad-element ehe-wildcard blocked" data-expectedresult="blocked">Target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}#?#div:-abp-properties(cursor:*)</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div:-abp-properties(cursor:*)</pre></li>
+  </ul>
 </section>
 
-<section class="site-panel">
+<section class="testcase-panel">
   <h2>Regular expression in :-abp-properties()</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red testcase-es-regex-1">Target</div>
-    <div class="testcase-contentaside stripes-red testcase-es-regex-2">Target</div>
-    <div class="testcase-contentaside stripes-green testcase-es-regex-3">Not a Target</div>
-    <div class="testcase-content stripes-grey">Content</div>
+  <p>Test that an element hiding emulation filter using regular expressions still hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div class="testcase-bad-element ehe-regex1 blocked" data-expectedresult="blocked">Target</div>
+    <div class="testcase-bad-element ehe-regex2 blocked" data-expectedresult="blocked">Target</div>
+    <div class="testcase-examplecontent ehe-regex3">Not a target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>Both red target elements should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}#?#div:-abp-properties(/width: 12[1-5]px;/)</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div:-abp-properties(/width: 12[1-5]px;/)</pre></li>
+  </ul>
 </section>
 
-
-<section class="site-panel">
+<section class="testcase-panel">
   <h2>Regular expression in :-abp-contains()</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red">ESContainsRegEx1</div>
-    <div class="testcase-contentaside stripes-red">ESContainsRegEx2</div>
-    <div class="testcase-contentaside stripes-red">ESContainsRegEx3</div>
-    <div class="testcase-content stripes-grey">Content</div>
+  <p>Test that an element hiding emulation filter using regular expressions still hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div class="testcase-bad-element blocked" data-expectedresult="blocked">ehe-containsregex1</div>
+    <div class="testcase-bad-element blocked" data-expectedresult="blocked">ehe-containsregex2</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>Both red target elements should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}#?#div > div:-abp-contains(/ESContainsRegEx\d/)</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div > div:-abp-contains(/ehe-containsregex\d/)</pre></li>
+  </ul>
 </section>

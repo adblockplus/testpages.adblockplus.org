@@ -1,127 +1,212 @@
-title = Element Hiding
 template = testcase
+title = Element Hiding
+description = Check that basic element hiding functionality is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Cheatsheet - Element Hiding", "https://adblockplus.org/filter-cheatsheet#elementhiding"),
-] %}
-
-<section class="site-panel">
-  <h2>Element Hiding</h2>
-  <p>Check that basic element hiding functionality is working as expected.</p>
-  <p>With the filter displayed below each test case added to ABP (or with the testcase subscription installed and active), the red target elements in each test case panel should be hidden.</p>
-</section>
-
-<section class="site-panel">
+<section class="testcase-panel">
   <h2>ID Selector</h2>
-  <div class="testcase-container">
-    <div id="testcase-eh-id" class="testcase-contentaside stripes-red">Target</div>
-    <div class="testcase-content stripes-grey">Content</div>
+  <p>Test that an element hiding filter using an ID selector hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div id="eh-id" class="testcase-bad-element blocked" data-expectedresult="blocked">Target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}###testcase-eh-id</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}###eh-id</pre></li>
+  </ul>
 </section>
 
-<section class="site-panel">
+<section class="testcase-panel">
   <h2>Class Selector</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red testcase-eh-class">Target</div>
-    <div class="testcase-content stripes-grey">Content</div>
+  <p>Test that an element hiding filter using a class selector hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div class="eh-class testcase-bad-element blocked" data-expectedresult="blocked">Target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##.testcase-eh-class</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##.eh-class</pre></li>
+  </ul>
 </section>
 
-<section class="site-panel">
+<section class="testcase-panel">
   <h2>Descendant Selector</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red testcase-eh-descendant">Target</div>
-    <div class="testcase-content stripes-grey">Content</div>
+  <p>Test that an element hiding filter using a descendant selector hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div class="eh-descendant testcase-bad-element blocked" data-expectedresult="blocked">Target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##.testcase-container > .testcase-eh-descendant</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##.testcase-area > .eh-descendant</pre></li>
+  </ul>
 </section>
 
-<section class="site-panel">
+<section class="testcase-panel">
   <h2>Sibling Selector</h2>
-  <div class="testcase-container">
-    <div class="testcase-eh-sibling"></div>
-    <div class="testcase-contentaside stripes-red testcase-eh-sibling-target">Target</div>
-    <div class="testcase-content stripes-grey">Content</div>
+  <p>Test that an element hiding filter using a sibling selector hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="eh-sibling testcase-bad-element blocked" data-expectedresult="blocked">Target</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##.testcase-eh-sibling + .testcase-eh-sibling-target</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##.testcase-examplecontent + .eh-sibling</pre></li>
+  </ul>
 </section>
 
-<section class="site-panel">
+<section class="testcase-panel">
   <h2>Attribute Selector 1</h2>
-  <div class="testcase-container">
-    <table height="100" width="100" class="testcase-contentaside stripes-red testcase-eh">
-      <tr><td>Target</td></tr>
-    </table>
-    <div class="testcase-content stripes-grey">Content</div>
+  <p>Test that an element hiding filter using an attribute selector hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div width="100" height="100" class="eh-sibling testcase-bad-element blocked" data-expectedresult="blocked">Target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##table[height="100"][width="100"]</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[height="100"][width="100"]</pre></li>
+  </ul>
 </section>
 
-<section class="site-panel">
+<section class="testcase-panel">
   <h2>Attribute Selector 2</h2>
-  <div class="testcase-container">
-    <a href="http://testcase-attribute.com/" class="testcase-contentaside stripes-red">Target</a>
-    <div class="testcase-content stripes-grey">Content</div>
+  <p>Test that an element hiding filter using an attribute selector hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div href="http://testcase-attribute.com/" class="eh-sibling testcase-bad-element blocked" data-expectedresult="blocked">Target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##a[href="http://testcase-attribute.com/"]</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[href="http://testcase-attribute.com/"]</pre></li>
+  </ul>
 </section>
 
-
-<section class="site-panel">
+<section class="testcase-panel">
   <h2>Attribute Selector 3</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red" style="width: 199px; height: 51px;">Target</div>
-    <div class="testcase-content stripes-grey">Content</div>
+  <p>Test that an element hiding filter using an attribute selector hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div style="width: 200px;" class="eh-sibling testcase-bad-element blocked" data-expectedresult="blocked">Target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##div[style="width: 199px; height: 51px;"]</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[style="width: 200px;"]</pre></li>
+  </ul>
 </section>
 
-<section class="site-panel">
+<section class="testcase-panel">
   <h2>Starts with Selector 1</h2>
-  <div class="testcase-container">
-    <a href="http://testcase-attributestartswith.com/test" class="testcase-contentaside stripes-red">Target</a>
-    <div class="testcase-content stripes-grey">Content</div>
+  <p>Test that an element hiding filter using a starts with selector hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div href="http://testcase-startswith.com/test" class="eh-sibling testcase-bad-element blocked" data-expectedresult="blocked">Target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##a[href^="http://testcase-attributestartswith.com/"]</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[href^="http://testcase-startswith.com/"]</pre></li>
+  </ul>
 </section>
 
-
-<section class="site-panel">
+<section class="testcase-panel">
   <h2>Starts with Selector 2</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red" style="width: 201px; height: 51px; color: white;">Target</div>
-    <div class="testcase-content stripes-grey">Content</div>
+  <p>Test that an element hiding filter using a starts with selector hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div style="width: 201px; color: white;" class="eh-sibling testcase-bad-element blocked" data-expectedresult="blocked">Target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##div[style^="width: 201px; height: 51px;"]</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[style^="width: 201px;"]</pre></li>
+  </ul>
 </section>
 
-<section class="site-panel">
-  <h2>Ends with Selector</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red" style="color: white; width: 202px; height: 51px;">Target</div>
-    <div class="testcase-content stripes-grey">Content</div>
+<section class="testcase-panel">
+  <h2>Ends with Selector 2</h2>
+  <p>Test that an element hiding filter using a ends with selector hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div style="color: white; width: 202px;" class="eh-sibling testcase-bad-element blocked" data-expectedresult="blocked">Target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##div[style$="width: 202px; height: 51px;"]</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[style$="width: 202px;"]</pre></li>
+  </ul>
 </section>
 
-<section class="site-panel">
-  <h2>Contains Selector</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red" style="width: 203px; height: 51px; color: white;">Target</div>
-    <div class="testcase-content stripes-grey">Content</div>
+<section class="testcase-panel">
+  <h2>Contains</h2>
+  <p>Test that an element hiding filter using a contains selector hides its target.</p>
+  <div class="testcase-area testcase-container">
+    <div style="color: white; width: 203px;" class="eh-sibling testcase-bad-element blocked" data-expectedresult="blocked">Target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##div[style*="width: 203px; height: 51px;"]</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[style*="width: 203px;"]</pre></li>
+  </ul>
 </section>
