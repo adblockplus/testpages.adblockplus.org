@@ -1,26 +1,28 @@
-title = $elemhide Exception
 template = testcase
+title = Elem Hide
+description = Check that a filter using the $elemhide exception filter option is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options"),
-] %}
-
-<section class="site-panel">
-  <h2>$elemhide Exception</h2>
-  <p>Check that usage of the $elemhide filter option works as expected.</p>
-  <p>With the filter displayed below each test case added to ABP (or with the testcase subscription installed and active), the red target elements in each test case panel should be hidden while any green elements should not be hidden.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-green testcase-ex-elemhide">Target</div>
-    <div class="testcase-contentaside stripes-green testcase-ex-elemhide">Target</div>
-    <img class="testcase-contentaside blocked" src="/testcasefiles/elemhide/image.jpg">
-      <div class="testcase-content stripes-grey">Content</div>
+<section class="testcase-panel">
+  <h2 id="elemhide">Basic Usage</h2>
+  <p>Test that a filter using the $elemhide filter option whitelists only hiding filters.</p>
+  <div class="testcase-area testcase-container">
+    <img src="/testfiles/elemhide/image.png" data-expectedresult="blocked" class="blocked">
+    <div class="testcase-output-expected">Exception target</div>
+    <div class="testcase-good-element ex-elemhide" data-expectedresult="notblocked">Exception target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1 and filter #2.</li>
+    <li>Refresh page.</li>
+    <li>Both the red image and the green element containing the white square should be blocked.</li>
+    <li>Add filter #3.</li>
+    <li>The red image should still be blocked but the green element containing the white square should become unblocked.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##.testcase-ex-elemhide</pre>
-  <pre>||{{ site_url|strip_proto }}/testcasefiles/elemhide/image.jpg</pre>
-  <pre>@@{{ site_url|strip_proto }}/en/exceptions/elemhide^$elemhide</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##.ex-elemhide</pre></li>
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/elemhide/*</pre></li>
+    <li><pre>@@{{ site_url|strip_proto }}/en/exceptions/elemhide$elemhide</pre></li>
+  </ul>
 </section>

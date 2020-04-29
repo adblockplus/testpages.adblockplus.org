@@ -5,21 +5,21 @@ description = Check that usage of the $subdocument filter option in an exception
 <link rel="stylesheet" href="/testfiles/subdocument_exception/stylesheet.css">
 
 <section class="testcase-panel">
-  <h2 id="usage">Usage</h2>
+  <h2 id="usage">Exception usage</h2>
   <p>Test that the $subdocument filter option in an exception works.</p>
   <div class="testcase-area testcase-container">
     <iframe src="/testfiles/subdocument_exception/subdocument.html" style="border: 0; width: 100px; height: 100px;"></iframe>
-    <div class="testcase-output-expected">This should be a green block.</div>
-    <div id="usage-target" class="testcase-good-element">This should be a green block.</div>
+    <div class="testcase-output-expected">This should be a green element.</div>
+    <div id="usage-target" class="testcase-good-element">This should be a green element.</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
     <li>Add filter #1.</li>
     <li>Refresh page.</li>
-    <li>The block should not look red, and the subdocument should be blocked.</li>
+    <li>The element should not look red, and the subdocument should be blocked.</li>
     <li>Add filter #2.</li>
-    <li>The block should still not look red, but the subdocument should become unblocked.</li>
+    <li>The element should still not look red, but the subdocument should become unblocked.</li>
   </ul>
   <h3>Filters</h3>
   <ul class="testcase-filters">

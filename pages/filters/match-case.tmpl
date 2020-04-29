@@ -1,22 +1,59 @@
-title = $match-case
 template = testcase
+title = Match Case
+description = Check that a filter using the $match-case filter option is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options")
-] %}
-
-<section class="site-panel">
-  <h2>$match-case</h2>
-  <p>Check that usage of the $match-case filter option works as expected.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <div class="testcase-container">
-    <img class="testcase-contentaside blocked" src="/testcasefiles/matchcase/1/abc.jpg">
-    <img class="testcase-contentaside" src="/testcasefiles/matchcase/2/ABC.jpg">
-    <div class="testcase-content stripes-grey">Content</div>
+<section class="testcase-panel">
+  <h2 id="static">Static</h2>
+  <p>Test that a filter using the $match-case filter option works on a static target.</p>
+  <div class="testcase-area testcase-container">
+    <img src="/testfiles/match-case/static/1/abc.png" data-expectedresult="blocked" class="blocked"/>
+    <img src="/testfiles/match-case/static/2/ABC.png" data-expectedresult="notblocked"/>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+    <li>The green image containing the white square should not be blocked.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>/testcasefiles/matchcase/*/abc.jpg$match-case</pre>
+  <ul class="testcase-filters">
+    <li><pre>/testfiles/match-case/static/*/abc.png$match-case</pre></li>
+  </ul>
 </section>
+
+<section class="testcase-panel">
+  <h2 id="dynamic">Dynamic</h2>
+  <p>Test that a filter using the $match-case filter option works on a dynamic target.</p>
+  <div id="match-case-dynamic" class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+    <li>The green image containing the white square should not be blocked.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>/testfiles/match-case/dynamic/*/abc.png$match-case</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  let image = document.createElement("img");
+  image.src = "/testfiles/match-case/dynamic/1/abc.png";
+  image.setAttribute("data-expectedresult", "blocked");
+  image.setAttribute("class", "blocked");
+
+  let image2 = document.createElement("img");
+  image2.src = "/testfiles/match-case/dynamic/2/ABC.png";
+
+  let area = document.getElementById("match-case-dynamic");
+  area.appendChild(image);
+  area.appendChild(image2);
+</script>

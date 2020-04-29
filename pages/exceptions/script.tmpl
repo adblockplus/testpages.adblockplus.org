@@ -3,19 +3,19 @@ title = Script Exception
 description = Check that usage of the $script filter option in an exception is working as expected.
 
 <section class="testcase-panel">
-  <h2>Usage</h2>
+  <h2>Exception usage</h2>
   <p>Test that the $script filter option in an exception works.</p>
   <div class="testcase-area testcase-container">
     <img src="/testfiles/script_exception/image.png" data-expectedresult="blocked" class="blocked">
-    <div class="testcase-output-expected">This should be a green block.</div>
-    <div id="script-target" class="testcase-bad-element blocked">This should be a green block.</div>
+    <div class="testcase-output-expected">This should be a green element.</div>
+    <div id="script-target" class="testcase-bad-element blocked">This should be a green element.</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
     <li>Add filters #1 and #2.</li>
     <li>Refresh page.</li>
-    <li>The red image should be blocked and the script should not be blocked, providing a green background to the bock above.</li>
+    <li>The red image should be blocked and the script should not be blocked, providing a green background to the element above.</li>
   </ul>
   <h3>Filters</h3>
   <ul class="testcase-filters">

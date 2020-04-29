@@ -1,26 +1,30 @@
-title = $document Exception
 template = testcase
+title = Document
+description = Check that a filter using the $document exception filter option is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options"),
-] %}
-
-<section class="site-panel">
-  <h2>$document Exception</h2>
-  <p>Check that usage of the $document filter option works as expected.</p>
-  <p>With the filter(s) displayed below each test case added to ABP (or with the testcase subscription installed and active), none of the green elements should be hidden.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-green testcase-ex-document">Target</div>
-    <div class="testcase-contentaside stripes-green testcase-ex-document">Target</div>
-    <img class="testcase-contentaside stripes-green" src="/testcasefiles/document/image.jpg">
-    <div class="testcase-content stripes-grey">Content</div>
+<section class="testcase-panel">
+  <h2 id="document">Document</h2>
+  <p>Test that a filter using the $document filter option works whitelists everything on the page.</p>
+  <div id="script-target" class="testcase-area testcase-container">
+    <img src="/images/expected.png" class="testcase-output-expected">
+    <img src="/testfiles/document/image.png" class="testcase-good-element" data-expectedresult="notblocked">
+    <div class="testcase-output-expected">Exception target</div>
+    <div class="testcase-good-element ex-document" data-expectedresult="notblocked">Exception target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1 and filter #2.</li>
+    <li>Refresh page.</li>
+    <li>Both the exception target green element and the green image with white frame above should be blocked.</li>
+    <li>Add filter #3.</li>
+    <li>Refresh page.</li>
+    <li>Both the exception target green element and the green image with white frame above should become unblocked.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##.testcase-ex-document</pre>
-  <pre>||{{ site_url|strip_proto }}/testcasefiles/document/*</pre>
-  <pre>@@{{ site_url|strip_proto }}/en/exceptions/document^$document</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##.ex-document</pre></li>
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/document/*</pre></li>
+    <li><pre>@@{{ site_url|strip_proto }}/en/exceptions/document$document</pre></li>
+  </ul>
 </section>

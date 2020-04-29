@@ -1,31 +1,28 @@
-title = $generichide Exception
 template = testcase
+title = Generic Hide
+description = Check that a filter using the $generichide exception filter option is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options")
-] %}
-
-<section class="site-panel">
-  <h2>$generichide Exception</h2>
-  <p>Check that usage of the $generichide filter option in an exception filter works as expected.</p>
-  <p>With the filter(s) displayed below each test case added to ABP (or with the testcase subscription installed and active), the red element should remain hidden and the green element should be displayed.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <div class="testcase-container">
-    <div class="testcase-row">
-      <h3>Page</h3>
-      <div class="target-green testcase-generichide-generic">Target of generic filter</div>
-      <div class="target-red testcase-generichide-notgeneric blocked">Target of specific filter</div>
-    </div>
-    <div class="testcase-row">
-      <h3>Framed</h3>
-      <iframe src="/testcasefiles/generichide/frame.html" style="width: 100%;"></iframe>
-    </div>
+<section class="testcase-panel">
+  <h2 id="basic">Basic Usage</h2>
+  <p>Test that a filter using the $generichide filter option whitelists only generic hiding filters.</p>
+  <div id="script-target" class="testcase-area testcase-container">
+    <div class="testcase-bad-element ex-gh-specific blocked" data-expectedresult="blocked">Hide Target</div>
+    <div class="testcase-output-expected">Exception target</div>
+    <div class="testcase-good-element ex-gh-generic" data-expectedresult="notblocked">Exception target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1 and filter #2.</li>
+    <li>Refresh page.</li>
+    <li>Both the red element and the green element containing the exception target should be blocked.</li>
+    <li>Add filter #3.</li>
+    <li>The red element should still be blocked but the green element containing the exception target should become unblocked.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>##.testcase-generichide-generic</pre>
-  <pre>{{ site_url|domain }}##.testcase-generichide-notgeneric</pre>
-  <pre>@@||{{ site_url|strip_proto }}/en/exceptions/generichide$generichide</pre>
+  <ul class="testcase-filters">
+    <li><pre>##.ex-gh-generic</pre></li>
+    <li><pre>{{ site_url|domain }}##.ex-gh-specific</pre></li>
+    <li><pre>@@||{{ site_url|strip_proto }}/en/exceptions/generichide$generichide</pre></li>
+  </ul>
 </section>

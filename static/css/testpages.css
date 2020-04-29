@@ -289,6 +289,12 @@ a { color: inherit; }
   background-color: #0dc74b;
 }
 
+img.testcase-good-element,
+img.testcase-output-expected {
+  flex-grow: 0;
+  padding: 0;
+}
+
 .testcase-bad-element,
 .testcase-trigger-failed {
   flex-grow: 1;

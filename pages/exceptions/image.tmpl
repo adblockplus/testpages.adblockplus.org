@@ -5,21 +5,21 @@ description = Check that usage of the $image filter option in an exception is wo
 <link rel="stylesheet" href="/testfiles/image_exception/stylesheet.css">
 
 <section class="testcase-panel">
-  <h2 id="usage">Usage</h2>
+  <h2 id="usage">Exception Usage</h2>
   <p>Test that the $image filter option in an exception works.</p>
   <div class="testcase-area testcase-container">
     <img src="/testfiles/image_exception/image.png">
-    <div class="testcase-output-expected">This should be a green block.</div>
-    <div id="usage-target" class="testcase-good-element">This should be a green block.</div>
+    <div class="testcase-output-expected">This should be a green element.</div>
+    <div id="usage-target" class="testcase-good-element">This should be a green element.</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
     <li>Add filter #1.</li>
     <li>Refresh page.</li>
-    <li>The block should not look red, and the green image containing the white square should be blocked.</li>
+    <li>The element should not look red, and the green image containing the white square should be blocked.</li>
     <li>Add filter #2.</li>
-    <li>The block should still not look red, but the green image containing the white square should become unblocked.</li>
+    <li>The element should still not look red, but the green image containing the white square should become unblocked.</li>
   </ul>
   <h3>Filters</h3>
   <ul class="testcase-filters">

@@ -1,23 +1,26 @@
-title = Element Hiding - Exception
 template = testcase
+title = Element Hiding Exception
+description = Check that usage of the element hiding filter in an exception is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Exception Rules", "https://adblockplus.org/filters#elemhide_exceptions"),
-] %}
-
-<section class="site-panel">
-  <h2>Element Hiding Exception</h2>
-  <p>Check that usage of the of element hiding exceptions work as expected.</p>
-  <p>With the filter(s) displayed below each test case added to ABP (or with the testcase subscription installed and active), the green element in the test case panel should not be hidden.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-green testcase-ehe">Target</div>
-    <div class="testcase-content stripes-grey">Content</div>
+<section class="testcase-panel">
+  <h2 id="usage">Exception Usage</h2>
+  <p>Test that the element hiding filter in an exception works.</p>
+  <div class="testcase-area testcase-container">
+    <div class="testcase-output-expected">Exception Target</div>
+    <div class="testcase-good-element testcase-ehe">Exception Target</div>
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The exception target element should be blocked.</li>
+    <li>Add filter #2.</li>
+    <li>The exception target element should become unblocked.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##.testcase-ehe</pre>
-  <pre>{{ site_url|domain }}#@#.testcase-ehe</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##.testcase-ehe</pre></li>
+    <li><pre>{{ site_url|domain }}#@#.testcase-ehe</pre></li>
+  </ul>
 </section>

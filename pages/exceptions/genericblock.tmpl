@@ -1,31 +1,28 @@
-title = $genericblock Exception
 template = testcase
+title = Generic Block
+description = Check that a filter using the $genericblock exception filter option is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options")
-] %}
-
-<section class="site-panel">
-  <h2>$genericblock Exception</h2>
-  <p>Check that usage of the $genericblock filter option in an exception filter works as expected.</p>
-  <p>With the filter(s) displayed below each test case added to ABP (or with the testcase subscription installed and active), the red element should remain hidden and the green element should be displayed.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <div class="testcase-container">
-    <div class="testcase-row">
-      <h3>Page</h3>
-      <img src="/testcasefiles/genericblock/target-generic.jpg"/>
-      <img class="blocked" src="/testcasefiles/genericblock/target-notgeneric.jpg"/>
-    </div>
-    <div class="testcase-row">
-      <h3>Framed</h3>
-      <iframe src="/testcasefiles/genericblock/frame.html" style="width: 100%;"></iframe>
-    </div>
+<section class="testcase-panel">
+  <h2 id="basic">Basic Usage</h2>
+  <p>Test that a filter using the $genericblock filter option whitelists only generic blocking filters.</p>
+  <div class="testcase-area testcase-container">
+    <img src="/testfiles/genericblock/specific.png" data-expectedresult="blocked" class="blocked">
+    <img src="/images/expected.png" class="testcase-output-expected">
+    <img src="/testfiles/genericblock/generic.png" class="testcase-good-element" data-expectedresult="notblocked">
+    <div class="testcase-examplecontent">Example Content</div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1 and filter #2.</li>
+    <li>Refresh page.</li>
+    <li>Both the red image and the green element containing the white square should be blocked.</li>
+    <li>Add filter #3.</li>
+    <li>The red image should still be blocked but the green element containing the white square should become unblocked.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>/testcasefiles/genericblock/target-generic.jpg</pre>
-  <pre>/testcasefiles/genericblock/target-notgeneric.jpg$domain={{ site_url|domain }}</pre>
-  <pre>@@||{{ site_url|strip_proto }}/en/exceptions/genericblock$genericblock</pre>
+  <ul class="testcase-filters">
+    <li><pre>/testfiles/genericblock/generic.png</pre></li>
+    <li><pre>/testfiles/genericblock/specific.png$domain={{ site_url|domain }}</pre></li>
+    <li><pre>@@||{{ site_url|strip_proto }}/en/exceptions/genericblock$genericblock</pre></li>
+  </ul>
 </section>
