@@ -1,22 +1,35 @@
-title = Anonymous Frame document.write() - Circumvention
 template = testcase
+title = Anonymous frame document.write()
+description = Check that anonymous fame document.write() functionality is working as expected.
 
-<script>
-  "use strict";
-
-  setTimeout(() =>
-  {
-    let iframe = document.getElementById("append");
-    let span = document.createElement("span");
-    span.className = "testcase-circ-anoniframe-docwrite";
-    span.textContent = "This text should be hidden";
-    iframe.contentDocument.body.appendChild(span);
-    let doc = document.getElementById("write").contentDocument;
-    doc.open();
-    doc.write("<span class='testcase-circ-anoniframe-docwrite'>This text should be hidden</span>");
-    doc.close();
-  }, 0);
-</script>
+<section class="testcase-panel">
+  <h2>Frames - Anonymous document.write()</h2>
+  <p>Top frame</p>
+  <div class="testcase-area testcase-container">
+    <span class="testcase-circ-anoniframe-docwrite blocked">This text should be hidden</span>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <p>Sub frame (element.appendChild)</p>
+  <div class="testcase-area testcase-container">
+    <iframe id="append"></iframe>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <p>Sub frame (document.write)</p>
+  <div class="testcase-area testcase-container">
+    <iframe id="write"></iframe>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The text in all three frames should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##.testcase-circ-anoniframe-docwrite</pre></li>
+  </ul>
+</section>
 
 <style>
 iframe {
@@ -32,24 +45,17 @@ iframe {
 }
 </style>
 
-<section class="site-panel">
+<script>
+  "use strict";
 
-  <h2>Test case</h2>
-  <div class="testcase-container">
-    <p>
-      Top frame: [<span class="testcase-circ-anoniframe-docwrite blocked">This text should be hidden</span>]
-    </p>
+  let iframe = document.getElementById("append");
+  let span = document.createElement("span");
+  span.className = "testcase-circ-anoniframe-docwrite";
+  span.textContent = "This text should be hidden";
+  iframe.contentDocument.body.appendChild(span);
 
-    <p>
-      Subframe (Element.appendChild): [<iframe id="append"></iframe>]
-    </p>
-
-    <p>
-      Subframe (document.write): [<iframe id="write"></iframe>]
-    </p>
-  </div>
-  <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##.testcase-circ-anoniframe-docwrite</pre>
-  <h3>Related links</h3>
-  <p><a href="https://issues.adblockplus.org/ticket/3185">Issue #3185</a></p>
-</section>
+  let doc = document.getElementById("write").contentDocument;
+  doc.open();
+  doc.write("<span class='testcase-circ-anoniframe-docwrite'>This text should be hidden</span>");
+  doc.close();
+</script>

@@ -1,18 +1,23 @@
-title = Inline Style !important - Circumvention
 template = testcase
+title = Inline Style !important
+description = Check that inline style !important functionality is working as expected.
 
-<section class="site-panel">
-
-  <h2>Test case</h2>
-  <div class="testcase-container">
-    <div class="testcase-contentaside stripes-red testcase-circ-is">Target without inline-style</div>
-    <div class="blocked">
-      <div class="testcase-contentaside stripes-red testcase-circ-is" style="display: block !important;">Target with inline-style</div>
-    </div>
-    <div class="testcase-content stripes-grey">Content</div>
+<section class="testcase-panel">
+  <h2>Inline style !important</h2>
+  <p>Test that inline style !important functionality blocks its targets.</p>
+  <div class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-bad-element blocked testcase-circ-is">Target without inline-style</div>
+    <div class="testcase-bad-element blocked testcase-circ-is"><div style="display: block !important;">Target with inline-style</div></div>
   </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red elements should be blocked and the space collapsed.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##.testcase-circ-is</pre>
-  <h3>Related links</h3>
-  <p><a href="https://issues.adblockplus.org/ticket/242">Issue #242</a></p>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##.testcase-circ-is</pre></li>
+  </ul>
 </section>

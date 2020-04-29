@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## Upcoming
 
 ### General changes to pages updated to the new format
 
@@ -15,11 +15,16 @@ All notable changes to this project will be documented in this file.
 - Example content: replace `<div class="testcase-content ...">` with `<div class="testcase-examplecontent">`.
 - Other CSS changes: Please check comments in [testpages.css](https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/-/tree/master/static/css).
 
+### Site key page update
+
+- Enable Site Key page and test on docker
+- Update page to the general changes above
+
+## [2020-04-28]
+
 ### Circumvention pages update
 
 - Removes unused CSS classes based on General changes above
-
-## [2020-04-28]
 
 ### Constraints and Exceptions pages update
 
@@ -59,6 +64,6 @@ Added static files:
 - Simplified internal template inclusions.
 - Removed unused site-breadcrumbs and testcases.tmpl page
 
-[2020-04-28]: https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/compare/0c3e3b2...8ce400a
+[2020-04-28]: https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/compare/0c3e3b2...b41de37
 [2020-04-27]: https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/compare/5498946...0c3e3b2
 [2020-04-24]: https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/compare/497eb09...5498946
