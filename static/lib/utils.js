@@ -33,26 +33,13 @@ function expectedScreenshotsView()
       catch (e) {}
     }
   }
-}
-
-function addViewToDocuments()
-{
-  expectedScreenshotsView();
 
   for (let frame of document.getElementsByTagName("iframe"))
-    frame.contentDocument.defaultView.addEventListener("DOMContentLoaded", addViewToDocuments);
-}
-
-async function updateFooterDate()
-{
-  let date = await fetch("/LAST_UPDATE").then(response => response.text());
-  document.getElementById("site-update").innerText = `Last site update: ${date}`;
+    frame.contentDocument.defaultView.addEventListener("DOMContentLoaded", expectedScreenshotsView);
 }
 
 window.addEventListener("DOMContentLoaded", () =>
 {
-  updateFooterDate();
-
   if (expectedScreenshotsParam())
-    addViewToDocuments();
+    expectedScreenshotsView();
 });
