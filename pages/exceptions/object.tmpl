@@ -1,0 +1,29 @@
+template = testcase
+title = Object Exception
+description = Check that usage of the $object filter option in an exception is working as expected.
+
+<link rel="stylesheet" href="/testfiles/object_exception/stylesheet.css">
+
+<section class="testcase-panel">
+  <h2 id="usage">Exception Usage</h2>
+  <p>Test that the $image filter option in an exception works.</p>
+  <div class="testcase-area testcase-container">
+    <object data-expectedresult="notblocked" data="/testfiles/object_exception/object.swf" type="application/x-shockwave-flash" style="width: 100px; height: 100px;"></object>
+    <div class="testcase-output-expected">This should be a green element.</div>
+    <div id="usage-target" class="testcase-good-element">This should be a green element.</div>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The element should not look red, and the object should be blocked.</li>
+    <li>Add filter #2.</li>
+    <li>The element should still not look red, but the object should become unblocked.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/object_exception/*</pre></li>
+    <li><pre>@@{{ site_url|strip_proto }}/testfiles/object_exception/$object</pre></li>
+  </ul>
+</section>

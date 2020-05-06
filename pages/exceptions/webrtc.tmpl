@@ -1,0 +1,63 @@
+template = testcase
+title = WebRTC Exception
+description = Check that usage of the $webrtc filter option in an exception is working as expected.
+
+<section class="testcase-panel">
+  <h2>Exception usage</h2>
+  <p>Test that the $webrtc filter option in an exception works.</p>
+  <div class="testcase-area testcase-container">
+    <div id="testcase-status" class="testcase-trigger blocked">Triggering WebRTC connection...</div>
+    <div class="testcase-output-expected">Passed. Connection was NOT blocked.</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filters #1 and #2.</li>
+    <li>Refresh page.</li>
+    <li>The connection should NOT be blocked and its state indicated in the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>$webrtc,domain={{ site_url|domain }}</pre></li>
+    <li><pre>@@$webrtc,domain={{ site_url|domain }}</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  function check(connection)
+  {
+    let result = document.getElementById("testcase-status");
+    // If blocked by ABP, the signalingState is quickly set to "closed".
+    // When not blocked by ABP, the signalingState stays as "stable" for a while.
+    if (connection.signalingState === "closed")
+    {
+      result.innerHTML = "Failed. Connection was blocked.";
+      result.className = "testcase-trigger-failed blocked";
+    }
+    else
+    {
+      result.innerHTML = "Passed. Connection was NOT blocked.";
+      result.className = "testcase-trigger-passed";
+    }
+  }
+
+  function doTest()
+  {
+    if (typeof RTCPeerConnection == "undefined")
+    {
+      if (typeof webkitRTCPeerConnection == "undefined")
+      {
+        let output = document.getElementById("testcase-status");
+        output.innerHTML = "This test case is not supported in this browser.";
+        return;
+      }
+      RTCPeerConnection = webkitRTCPeerConnection; // eslint-disable-line no-global-assign, no-undef
+    }
+
+    let connection = new RTCPeerConnection({iceServers: [{urls: ["stun:example.com"]}]});
+    setTimeout(() => check(connection), 500);
+  }
+
+  doTest();
+</script>

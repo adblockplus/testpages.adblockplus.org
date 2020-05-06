@@ -1,0 +1,31 @@
+template = testcase
+title = Ping Exception
+description = Check that usage of the $ping filter option in an exception is working as expected.
+
+<link rel="stylesheet" href="/testfiles/ping_exception/stylesheet.css">
+
+<section class="testcase-panel">
+  <h2>Exception Usage</h2>
+  <p>Test that the $ping filter option in an exception works.</p>
+  <div class="testcase-area testcase-container">
+    <a href="#link" class="testcase-trigger" ping="{{ site_url }}/en/exceptions">Trigger link based ping</a>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>Click the link above.</li>
+    <li>The ping request should be blocked on the "Adblock Plus" tab in developer tools.</li>
+    <li>Add filter #2.</li>
+    <li>Refresh page.</li>
+    <li>Click the link above.</li>
+    <li>The ping request should become unblocked on the "Adblock Plus" tab in developer tools.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/*^$ping</pre></li>
+    <li><pre>@@{{ site_url|strip_proto }}/en/*^$ping</pre></li>
+  </ul>
+  <h3>Known Issues</h3>
+  <p>Firefox - Ping request from links may be blocked by tracking protection.</p>
+</section>
