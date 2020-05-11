@@ -72,6 +72,7 @@ build:next:
 
 .test:master:
   extends: .test
+  needs: ["build:master"]
   variables:
     REVISION: master
   # Some master tests are expected to fail. See testpages.adblockplus.org#15
@@ -79,6 +80,7 @@ build:next:
 
 .test:next:
   extends: .test
+  needs: ["build:next"]
   variables:
     REVISION: next
 
