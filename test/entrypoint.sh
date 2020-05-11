@@ -5,8 +5,8 @@ if [[ "$BROWSER" == *"Chromium"* ]]; then
   XVFB_CMD="xvfb-run -a"
 fi
 
-# subscribe test is excluded until adblockpluschrome#155 is fixed
-excluded="qunit|subscribe"
+# subscribe and sitekey tests are excluded until testpages#24 is fixed
+excluded="qunit|subscribe|sitekey"
 
 tests="^$BROWSER((?!$excluded).)*\$"
 if [[ "$TESTS_SUBSET" != "" ]]; then
