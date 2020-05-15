@@ -62,21 +62,26 @@ The available browsers are:
 * Firefox \(latest\)
 * Firefox \(oldest\)
 
-#### Screenshots
-
-In order to access the screenshots for failing tests, run the following command:
-```
-docker cp $(docker ps -aqf ancestor=testpages | head -n 1):/adblockpluschrome/test/screenshots <destination>
-```
-
-Screenshots will be available in `<destination>` folder.
-
 #### Tests subset
 
 In order to run a subset of the tests, use the `TESTS_SUBSET` argument,
 which supports regular expressions. Example:
 ```
 docker run -e TESTS_SUBSET="(Blocking|popup)" -it testpages
+```
+
+#### Debugging failing tests
+
+In order to access the screenshots for failing tests run the following command,
+which copies the screenshots to `<destination>` folder:
+```
+docker cp $(docker ps -aqf ancestor=testpages | head -n 1):/adblockpluschrome/test/screenshots <destination>
+```
+
+Another useful resource are the nginx (test pages server) logs. In order to
+access them, run the following command:
+```
+docker cp $(docker ps -aqf ancestor=testpages | head -n 1):/var/log/nginx/ <destination>
 ```
 
 ## Local testpages execution

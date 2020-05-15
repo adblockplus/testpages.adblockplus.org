@@ -63,9 +63,11 @@ build:next:
     - docker run -e BROWSER="$BROWSER" testpages
   after_script:
     - docker cp $(docker ps -aqf ancestor=testpages):/adblockpluschrome/test/screenshots . 2> /dev/null
+    - docker cp $(docker ps -aqf ancestor=testpages):/var/log/nginx/ .
   artifacts:
     paths:
       - screenshots/
+      - nginx/
     when: on_failure
     expire_in: 1 mo
   interruptible: true

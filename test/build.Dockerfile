@@ -15,14 +15,29 @@
 
 FROM registry.gitlab.com/eyeo/docker/adblockplus-ci:node10
 
-# Newer versions of Chromium require `libgbm`
-RUN apt-get install -y libgbm1
+# Running sitescripts requires spawn-fcgi, python-flup and python-m2crypto
+RUN apt-get install -y spawn-fcgi python-flup python-m2crypto nginx
+
+# nginx config
+COPY test/etc /etc
+RUN rm /etc/nginx/sites-enabled/default
+RUN rm /etc/nginx/sites-available/default
+RUN cd /etc/nginx && openssl req -x509 -newkey rsa:4096 \
+  -keyout local.testpages.adblockplus.org_key.pem \
+  -out local.testpages.adblockplus.org_cert.pem \
+  -days 365 -nodes -subj '/CN=local.testpages.adblockplus.org'
+
+# spawn-fcgi config
+RUN touch /var/run/500-multiplexer_spawn-fcgi.pid
+
+# Build sitescripts
+RUN git clone https://gitlab.com/eyeo/devops/legacy/sitescripts.git
 
 # Build CMS
 RUN git clone https://github.com/adblockplus/cms.git
 RUN cd cms && pip install -r requirements.txt
 
-# Build test env
+# Build adblockpluschrome test env
 RUN git clone https://gitlab.com/eyeo/adblockplus/adblockpluschrome.git
 ARG REVISION
 RUN cd adblockpluschrome \

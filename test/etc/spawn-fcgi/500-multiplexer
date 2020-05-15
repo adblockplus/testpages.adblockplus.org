@@ -1,0 +1,8 @@
+-s /tmp/multiplexer-fastcgi.sock
+    -M 0666
+    -U www-data
+-G www-data
+-F 1
+-u www-data
+-g www-data
+-- /sitescripts/multiplexer.fcgi

@@ -5,22 +5,19 @@ if [[ "$BROWSER" == *"Chromium"* ]]; then
   XVFB_CMD="xvfb-run -a"
 fi
 
-# subscribe and sitekey tests are excluded until testpages#24 is fixed
-excluded="qunit|subscribe|sitekey"
+tests="$BROWSER.*Test pages.*$TESTS_SUBSET"
 
-tests="^$BROWSER((?!$excluded).)*\$"
-if [[ "$TESTS_SUBSET" != "" ]]; then
-  tests="$BROWSER.*$TESTS_SUBSET"
-fi
+# Run sitescripts
+/etc/init.d/spawn-fcgi restart
 
-# Run CMS
-cd testpages.adblockplus.org
-python ../cms/runserver.py </dev/null &>/dev/null &
-cd ..
+# Run test pages server
+echo -e "\n127.0.0.1 local.testpages.adblockplus.org" >> /etc/hosts
+nginx
 
 # Run tests
 cd adblockpluschrome
-export TEST_PAGES_URL="http://localhost:5000"
+export TEST_PAGES_URL="https://local.testpages.adblockplus.org/en/"
+export TEST_PAGES_INSECURE="true"
 echo "INFO: Tests will execute based on the following revision:"
 git status 2>&1 | head -n 1
 git log -5 --oneline
