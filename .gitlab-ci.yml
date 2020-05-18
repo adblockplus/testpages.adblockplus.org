@@ -13,55 +13,31 @@
 # You should have received a copy of the GNU General Public License
 # along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
 
-image: docker:19.03.5
+default:
+  image: docker:19.03.5
+  services:
+    - docker:19.03.5-dind
+  before_script:
+    - docker info
 
 stages:
-  - build
   - test
 
 variables:
   DOCKER_HOST: tcp://docker:2375/
   DOCKER_DRIVER: overlay2
 
-services:
-  - docker:19.03.5-dind
-
-before_script:
-  - docker info
-
-.build:
-  stage: build
+.test:
+  stage: test
   before_script:
-    - apk update && apk add git
-    - git clone https://gitlab.com/eyeo/adblockplus/adblockpluschrome.git --depth 1 --single-branch --branch $REVISION
-    - REVISION_HEAD=`git -C adblockpluschrome rev-parse --short HEAD`
-    - rm -rf adblockpluschrome
     - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
     - IMAGE=$CI_REGISTRY_IMAGE/abp:$REVISION
     - docker pull $IMAGE || true
-    - docker build --cache-from $IMAGE -t $IMAGE --build-arg REVISION=$REVISION_HEAD -f test/build.Dockerfile .
-    - docker push $IMAGE
-  after_script:
-    - docker logout $CI_REGISTRY
-
-build:master:
-  extends: .build
-  variables:
-    REVISION: master
-
-build:next:
-  extends: .build
-  variables:
-    REVISION: next
-
-.test:
-  stage: test
-  script:
-    - IMAGE=$CI_REGISTRY_IMAGE/abp:$REVISION
-    - docker build -t testpages --build-arg IMAGE=$IMAGE .
+    - docker build --cache-from $IMAGE -t testpages --build-arg REVISION=$REVISION .
     - docker run -e BROWSER="$BROWSER" testpages
   after_script:
+    - docker logout $CI_REGISTRY
     - docker cp $(docker ps -aqf ancestor=testpages):/adblockpluschrome/test/screenshots . 2> /dev/null
     - docker cp $(docker ps -aqf ancestor=testpages):/var/log/nginx/ .
   artifacts:
@@ -72,21 +48,19 @@ build:next:
     expire_in: 1 mo
   interruptible: true
 
-.test:master:
+.master:
   extends: .test
-  needs: ["build:master"]
   variables:
     REVISION: master
   # Some master tests are expected to fail. See testpages.adblockplus.org#15
   allow_failure: true
 
-.test:next:
+.next:
   extends: .test
-  needs: ["build:next"]
   variables:
     REVISION: next
 
-test:lint:
+lint:
   stage: "test"
   needs: []
   script:
@@ -94,42 +68,42 @@ test:lint:
     - docker run lintimage
   interruptible: true
 
-test:master:chrome:latest:
-  extends: .test:master
+master:chrome:latest:
+  extends: .master
   variables:
     BROWSER: Chromium \(latest\)
 
-test:master:chrome:oldest:
-  extends: .test:master
+master:chrome:oldest:
+  extends: .master
   variables:
     BROWSER: Chromium \(oldest\)
 
-test:master:firefox:latest:
-  extends: .test:master
+master:firefox:latest:
+  extends: .master
   variables:
     BROWSER: Firefox \(latest\)
 
-test:master:firefox:oldest:
-  extends: .test:master
+master:firefox:oldest:
+  extends: .master
   variables:
     BROWSER: Firefox \(oldest\)
 
-test:next:chrome:latest:
-  extends: .test:next
+next:chrome:latest:
+  extends: .next
   variables:
     BROWSER: Chromium \(latest\)
 
-test:next:chrome:oldest:
-  extends: .test:next
+next:chrome:oldest:
+  extends: .next
   variables:
     BROWSER: Chromium \(oldest\)
 
-test:next:firefox:latest:
-  extends: .test:next
+next:firefox:latest:
+  extends: .next
   variables:
     BROWSER: Firefox \(latest\)
 
-test:next:firefox:oldest:
-  extends: .test:next
+next:firefox:oldest:
+  extends: .next
   variables:
     BROWSER: Firefox \(oldest\)

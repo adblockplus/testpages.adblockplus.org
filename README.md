@@ -28,24 +28,18 @@ docker run -it lintimage
 
 ### Page tests
 
-The CI/CD pipeline uses a cached image that does not exist locally. In order to
-create the image, run:
+Tests can be executed with:
 ```
-docker build -t cachedimage -f test/build.Dockerfile .
-```
-
-Now tests can be executed with:
-```
-docker build -t testpages --build-arg IMAGE=cachedimage .
+docker build -t testpages .
 docker run -it testpages
 ```
 
 #### Revision
 
 `next` is the default revision of `adblockpluschrome` used to build the
-`cachedimage` image. Other revisions can be built using the `REVISION` argument:
+`testpages` image. Other revisions can be built using the `REVISION` argument:
 ```
-docker build -t cachedimage --build-arg REVISION=master -f test/build.Dockerfile .
+docker build -t testpages --build-arg REVISION=master .
 ```
 
 #### Browser
