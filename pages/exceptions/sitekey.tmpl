@@ -1,32 +1,35 @@
-title = $sitekey Exception
 template = testcase
+title = Sitekey
+description = Check that a filter using the $sitekey exception filter option is working as expected.
 
-{% set testcase_moreinfo = [
-  ("Filter Options", "https://adblockplus.org/filters#options")
-] %}
-
-<section class="site-panel">
-  <h2>$sitekey Exception</h2>
-  <p>Check that usage of the $sitekey filter option works as expected.</p>
-  <p>With the first two filters below, the target element and image should be hidden in both the page and the frame. With the third filter below, the element and image inside of the frame (but not those on the page) should then be whitelisted.</p>
-</section>
-
-<section class="site-panel">
-  <h2>Test case</h2>
-  <div class="testcase-container">
-    <div class="testcase-row">
-      <h3>Out of frame elements</h3>
-      <div class="stripes-red testcase-sitekey-eh" style="color: #fff; padding: 0.5rem; margin-bottom: 0.5rem;">Target</div>
-      <img src="/testcasefiles/sitekey/image.jpg" class="blocked"/>
-    </div>
-    <div class="testcase-row">
-      <h3>In frame elements</h3>
-      {# /sitekey-frame is served by https://gitlab.com/eyeo/devops/legacy/sitescripts/-/tree/master/sitescripts/testpages/web which parses /templates/sitekey_frame.tmpl #}
-      <iframe src="/sitekey-frame" style="width: 100%;"></iframe>
-    </div>
+<section class="testcase-panel">
+  <h2>Sitekey</h2>
+  <p>Test that a filter using the $sitekey option whitelists in frame elements.</p>
+  <h3>Out of frame elements</h3>
+  <div class="testcase-area testcase-container">
+    <div class="testcase-bad-element blocked testcase-sitekey-eh">Target element</div>
+    <div class="testcase-examplecontent">Example Content</div>
+    <img src="/testfiles/sitekey/outofframe.png" data-expectedresult="blocked" class="blocked">
   </div>
+  <h3>In frame elements</h3>
+  <div class="testcase-area testcase-container">
+    {# /sitekey-frame is served by https://gitlab.com/eyeo/devops/legacy/sitescripts/-/tree/master/sitescripts/testpages/web which parses /templates/sitekey_frame.tmpl #}
+    <iframe src="/sitekey-frame" style="width: 100%;"></iframe>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filters #1, #2 and #3.</li>
+    <li>Refresh page.</li>
+    <li>All elements should be blocked from both out of frame and in frame above.</li>
+    <li>Add filter #4.</li>
+    <li>Refresh page.</li>
+    <li>Out of frame elements should keep blocked, and in frame elements should become unblocked.</li>
+  </ul>
   <h3>Filters</h3>
-  <pre>{{ site_url|domain }}##.testcase-sitekey-eh</pre>
-  <pre>||{{ site_url|strip_proto }}/testcasefiles/sitekey/image.jpg</pre>
-  <pre>@@$document,sitekey=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANGtTstne7e8MbmDHDiMFkGbcuBgXmiVesGOG3gtYeM1EkrzVhBjGUvKXYE4GLFwqty3v5MuWWbvItUWBTYoVVsCAwEAAQ</pre>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##.testcase-sitekey-eh</pre></li>
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/sitekey/outofframe.png</pre></li>
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/sitekey/inframe.png</pre></li>
+    <li><pre>@@$document,sitekey=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANGtTstne7e8MbmDHDiMFkGbcuBgXmiVesGOG3gtYeM1EkrzVhBjGUvKXYE4GLFwqty3v5MuWWbvItUWBTYoVVsCAwEAAQ</pre></li>
+  </ul>
 </section>

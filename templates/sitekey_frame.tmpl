@@ -10,16 +10,16 @@
       }
 
       .testcase-sitekey-eh {
-        color: #fff;
-        background: red;
+        flex-grow: 1;
         padding: 0.5rem;
-        margin-bottom: 0.5rem;
+        color: #fff;
+        background-color: #0dc74b;
       }
     </style>
     {{ head|safe }}
   </head>
   <body>
-    <div class="testcase-sitekey-eh">Target</div>
-    <img src="/testcasefiles/sitekey/image.jpg"/>
+    <div id="inframe-target" class="testcase-sitekey-eh">Exception Target</div>
+    <img id="inframe-image" src="/testfiles/sitekey/inframe.png"/>
   </body>
 </html>

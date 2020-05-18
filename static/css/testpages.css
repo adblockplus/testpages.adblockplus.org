@@ -63,14 +63,6 @@ a { color: inherit; }
   font-size: 0.7rem;
 }
 
-/* Site Colours/Patterns */
-
-.stripes-red {
-  border: 2px solid #12bd1f;
-  background-color: #f00;
-  background-image: repeating-linear-gradient(45deg, #f00, #f00 10px, #c00 10px, #c00 20px);
-}
-
 /* Site Layout/Panels */
 
 .site-container {
@@ -168,22 +160,11 @@ a { color: inherit; }
 }
 
 /* Testcase */
-.testcase-container {
-  background-color: #f2f2f2;
-  min-height: 10rem;
-  padding: 0.5rem;
-  margin-top: 0.5rem;
-  border: 1px solid #ababab;
-}
-
-/* .testcase-area will replace .testcase-container when new test pages are completed */
 .testcase-area {
   display: flex;
   min-height: 100px;
   border-bottom: 1px solid #ccc;
-  padding: 0; /* remove when .testcase-container is removed */
-  margin-top: 0;  /* remove when .testcase-container is removed */
-  border: 0; /* remove when .testcase-container is removed */
+  border: 0;
 }
 
 .testcase-examplecontent {
@@ -268,115 +249,15 @@ img.blocked[data-expectedresult="blocked"] {
   padding: 0;
 }
 
-.testcase-image {
-  height: 5rem;
-}
-
-.testcase-row {
-  background-color: white;
-  padding: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.testcase-row:first-of-type {
-  margin-top: 0;
-}
-
-.testcase-column {
-  background-color: white;
-  display: inline-block;
-  width: 50%;
-  vertical-align: top;
-  height: 10rem;
-  padding: 0.5rem;
-  border: 1px solid #ababab;
-}
-
-.testcase-row > h3 {
-  margin-top: 0;
-  margin-bottom: 0.5rem;
-}
-
-.testcase-filter {
-  border: 0 solid #ababab;
-  margin-top: 0.5rem;
-}
-
-.testcase-teststylesheet,
-#testcase-scripttarget {
-  padding: 0.5rem;
-}
-
-.testcase-filter .filter {
-  background-color: #e0e0e0;
-  margin: 0;
-  padding: 0.5rem;
-  padding-bottom: 0.75rem;
-  padding-top: 0.75rem;
-  border-bottom: 1px solid #ccc;
-  font-family: monospace;
-  overflow-x: scroll;
-  word-break: keep-all;
-}
-
-.testcase-filter .description {
-  background-color: #f2f2f2;
-  margin: 0;
-  padding: 0.5rem;
-}
-
-.testcase-es-prop {
-  width: 213px;
-}
-
-.testcase-es-chained {
-  width: 214px;
-}
-
-.testcase-es-case {
-  width: 215px;
-}
-
-.testcase-es-wildcard {
-  width: 216px;
-  height: 50px;
-  cursor: pointer;
-}
-
-.testcase-es-regex-1 {
-  width: 121px;
-}
-
-.testcase-es-regex-2 {
-  width: 122px;
-}
-
-.testcase-es-regex-3 {
-  width: 100px;
-}
-
-@media (min-width: 720px) {
-  .abp-container {
-    width: 75%;
-    max-width: 900px;
-  }
-}
-
-/* .testcase-output-actual will replace #testcase-output when new test pages are completed */
-.expected .stripes-red,
 .expected .blocked,
-.expected #testcase-output,
 .expected .testcase-output-actual,
 .expected .testcase-good-element,
 .expected .testcase-trigger-passed,
 .expected .testcase-waiting-content,
-#testcase-output-expected,
 .testcase-output-expected {
   display: none;
 }
 
-/* .testcase-output-expected will replace #testcase-output-expected when new test pages are completed */
-.expected #testcase-output-expected,
 .expected .testcase-output-expected {
   display: block;
 }

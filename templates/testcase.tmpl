@@ -15,17 +15,6 @@
 
       {{ body|safe }}
 
-      {% if testcase_moreinfo %}
-      <section class="site-panel">
-        <h2>More information</h2>
-        <ul>
-        {% for link in testcase_moreinfo %}
-          <li><a href="{{link[1]}}">{{link[0]}}</a></li>
-        {% endfor %}
-        </ul>
-      </section>
-      {% endif %}
-
     </div>
     <? include footer ?>
   </body>
