@@ -1,0 +1,30 @@
+template = testcase
+title = Content Security Policy - All sites
+description = Check that a filter using the $csp filter option is working as expected.
+
+<section class="testcase-panel">
+  <h2>All sites</h2>
+  <p>Test that a filter using the $cps filter option works in all sites.</p>
+  <div class="testcase-area testcase-container">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div id="block-javascript" data-expectedresult="blocked" class="blocked"></div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>*$csp=script-src 'none'</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  let image = document.createElement("img");
+  image.src = "/testfiles/csp/image.png";
+  document.getElementById("block-javascript").appendChild(image);
+</script>
