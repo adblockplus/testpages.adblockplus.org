@@ -37,7 +37,7 @@ def get_filters(context):
   for page, format in context["source"].list_pages():
     parser = FilterHTMLParser()
     parser.feed(context["source"].read_page(page, format)[0])
-    if parser.filters:
+    if parser.filters and not any("csp" in s for s in parser.filters):
       filters += ["", "! " + page] + parser.filters
 
   return context.environment.from_string("\n".join(filters)).render(context)
