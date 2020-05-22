@@ -45,7 +45,7 @@ description = Check that the readd snippet is working as expected.
 </section>
 
 <main>
-  <style>
+  <style id="main-style">
     /* Style here must match style from .testcase-output-expected */
     #twice-style-first-target {
       flex-grow: 1;
@@ -54,7 +54,7 @@ description = Check that the readd snippet is working as expected.
       background-color: #0dc74b;
     }
   </style>
-  <link rel="stylesheet" type="text/css" href="/testfiles/readd/twice-style.css">
+  <link id="main-link-style" rel="stylesheet" type="text/css" href="/testfiles/readd/twice-style.css">
 </main>
 <section class="testcase-panel">
   <h2 id="twice">Twice usage</h2>
@@ -84,6 +84,7 @@ description = Check that the readd snippet is working as expected.
 
   let style = document.createElement("style");
   // Style here must match style from .testcase-output-expected
+  style.id= "dynamic-style";
   style.innerHTML = `
     #basic-style-target {
       flex-grow: 1;
@@ -94,6 +95,7 @@ description = Check that the readd snippet is working as expected.
   document.body.appendChild(style);
 
   let link = document.createElement("link");
+  link.id= "link-style";
   link.rel = "stylesheet";
   link.type = "text/css";
   link.href = "/testfiles/readd/link-style.css";
@@ -103,14 +105,7 @@ description = Check that the readd snippet is working as expected.
   {
     removeWaitingContent(); // eslint-disable-line no-undef
 
-    let styleElement = document.getElementsByTagName("style")[0];
-    styleElement.parentElement.removeChild(styleElement);
-    styleElement = document.getElementsByTagName("style")[0];
-    styleElement.parentElement.removeChild(styleElement);
-
-    let linkElement = document.querySelector("link[type='text/css']");
-    linkElement.parentElement.removeChild(linkElement);
-    linkElement = document.querySelector("link[type='text/css']");
-    linkElement.parentElement.removeChild(linkElement);
+    for (let id of ["dynamic-style", "main-style", "link-style", "main-link-style"])
+      document.getElementById(id).remove();
   }, 500);
 </script>
