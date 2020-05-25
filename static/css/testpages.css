@@ -1,122 +1,69 @@
-* { box-sizing: border-box; }
-
-html,
-body {
-  margin: 0;
-  padding: 0;
-  font-size: 16px;
-  font-family: Helvetica, sans-serif;
-  background-color: #f2f2f2;
+* {
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
-h1 { font-size: 1.7rem; }
-h2 { font-size: 1.4rem; }
-h3 { font-size: 1.1rem; }
+body {
+  margin: 0 auto 0 auto;
+  padding: 0;
+  font-size: 16px;
+  background-color: #f2f2f2;
+  width: 1000px;
+  max-width: 100%;
+}
 
 a { color: inherit; }
 
-/* Site Header/Footer */
-
-.site-header {
-  height: 4em;
+#site-header {
+  margin: 0;
+  padding-left: 2em;
   background-color: #c70d2c;
 }
 
-#site-header-logo,
-#site-header-logo > * {
-  float: left;
-}
-
-#site-header-logo {
-  padding: 0 1em;
+#site-header a {
+  display: inline-block;
   color: #fff;
-}
-
-#site-header-logo:hover,
-#site-header-logo:active,
-#site-header-logo:focus {
-  background-color: #ae0013;
   text-decoration: none;
 }
 
-#site-header-logo img {
-  height: 4em;
-  padding: 0.5em 0;
-  margin: 0 1em 0 0;
-}
+#site-header a:hover { background-color: #970a21; }
 
-#site-header-logo > span {
-  line-height: 2.51em;
-  font-size: 1.5em;
-}
-
-.site-footer {
+#site-footer {
   color: #ececec;
   background-color: #292929;
   font-size: 0.9em;
-  margin: 1rem 0 0 0;
-  padding: 0.5rem;
+  margin-top: 1em;
+  padding: 0.5em;
 }
 
-.site-footer #site-update {
-  text-align: center;
-  font-size: 0.7rem;
-}
-
-/* Site Layout/Panels */
-
-.site-container {
-  width: 1000px;
-  max-width: 100%;
-  margin: 0 auto 0 auto;
-  padding: 0 0.75rem 0 0.75rem;
-}
+#site-update { text-align: center; }
 
 .site-panel {
   background-color: white;
-  padding: 1rem;
-  margin-top: 0.5rem;
+  padding: 0.1em 1em 0.1em 1em;
+  margin-top: 0.5em;
 }
 
-.site-panel h2 {
-  margin-top: 0;
-  margin-bottom: 0;
-}
-
-.site-panel h2 + p {
-  margin-top: 0.5rem;
-  margin-bottom: 0;
-}
-
-/* move contents of ".testcase-panel *" to global "*" when new test pages are completed */
 .testcase-panel * {
   margin: 0;
-  font-size: 16px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  line-height: 1.4;
+  line-height: 1.4em;
 }
 
-/* all .testcase-panel will replace .site-panel when new test pages are completed */
 .testcase-panel {
-  margin: 0.5rem 0.5rem 0 0.5rem;
+  margin-top: 0.5em;
   border: 1px solid #ccc;
   background-color: #fff;
 }
 
-.testcase-panel > p {
-  padding: 0.5rem;
+.testcase-panel > p,
+.testcase-panel > h2,
+.testcase-panel > h3 {
+  padding: 0.5em;
   border-bottom: 1px solid #ccc;
 }
 
 .testcase-panel > h2 {
-  padding: 0.5rem;
-  border-bottom: 1px solid #ccc;
-  font-size: 1.2rem; /* to be moved to global h2 when new test pages are completed */
-}
-
-.testcase-panel > h3 {
-  padding: 0.5rem;
-  border-bottom: 1px solid #ccc;
+  font-size: 1.2em;
 }
 
 .site-pagelist {
@@ -129,7 +76,7 @@ a { color: inherit; }
   background-color: #f3f3f3;
   display: inline-block;
   width: 100%;
-  margin-top: 0.25rem;
+  margin-top: 0.25em;
 }
 
 .site-pagelist li:hover {
@@ -137,7 +84,7 @@ a { color: inherit; }
 }
 
 .site-pagelist li a {
-  padding: 0.5rem;
+  padding: 0.5em;
   color: #222;
   text-decoration: none;
   display: inline-block;
@@ -150,7 +97,7 @@ a { color: inherit; }
 }
 
 .site-button {
-  padding: 0.5rem;
+  padding: 0.5em;
   background-color: #f3f3f3;
   text-decoration: none;
 }
@@ -159,7 +106,6 @@ a { color: inherit; }
   background-color: #eee;
 }
 
-/* Testcase */
 .testcase-area {
   display: flex;
   min-height: 100px;
@@ -169,34 +115,34 @@ a { color: inherit; }
 
 .testcase-examplecontent {
   flex-grow: 1;
-  padding: 0.5rem;
+  padding: 0.5em;
   color: #fff;
   background-color: #0dc74b;
 }
 
 .testcase-waiting-content {
   flex-grow: 1;
-  padding: 0.5rem;
+  padding: 0.5em;
   color: #000;
   background-color: #f5f5f5;
 }
 
 .testcase-steps {
-  padding: 0.5rem;
+  padding: 0.5em;
   list-style: decimal;
   list-style-position: inside;
   border-bottom: 1px solid #ccc;
 }
 
 .testcase-filters {
-  padding: 0.5rem;
+  padding: 0.5em;
   list-style: decimal;
   list-style-position: inside;
 }
 
 .testcase-trigger {
   flex-grow: 1;
-  padding: 0.5rem;
+  padding: 0.5em;
   color: #fff;
   background-color: #ccc;
 }
@@ -209,7 +155,7 @@ a { color: inherit; }
 .testcase-output-expected,
 .testcase-trigger-passed {
   flex-grow: 1;
-  padding: 0.5rem;
+  padding: 0.5em;
   color: #fff;
   background-color: #0dc74b;
 }
@@ -223,16 +169,19 @@ img.testcase-output-expected {
 .testcase-bad-element,
 .testcase-trigger-failed {
   flex-grow: 1;
-  padding: 0.5rem;
+  padding: 0.5em;
   color: #fff;
   background-color: #c70d2c;
 }
 
 .testcase-filters pre {
-  padding: 0.1rem;
-  overflow: scroll;
-  scrollbar-width: none;
-  white-space: pre-line;
+  padding: 0.1em;
+  overflow: hidden;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
   background-color: #eee;
   border: 1px solid #ccc;
   border-radius: 2px;
@@ -240,11 +189,10 @@ img.testcase-output-expected {
 }
 
 img.blocked {
-  padding: 0.5rem;
+  padding: 0.5em;
   background-color: red;
 }
 
-/* both img.blocked should be deleted when new test pages are completed */
 img.blocked[data-expectedresult="blocked"] {
   padding: 0;
 }

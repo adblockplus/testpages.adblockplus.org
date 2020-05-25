@@ -1,12 +1,12 @@
 template = testcase
-title = Content Security Policy - Specific site
+title = CSP - Specific site
 description = Check that a filter using the $csp filter option is working as expected.
 meta = http-equiv="Content-Security-Policy" content="frame-src 'none'"
 
 <section class="testcase-panel">
   <h2>Specific site</h2>
   <p>Test that a filter using the $cps filter option works on a specific site.</p>
-  <div class="testcase-area testcase-container">
+  <div class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <div id="block-javascript" data-expectedresult="blocked" class="blocked"></div>
   </div>
@@ -33,7 +33,7 @@ meta = http-equiv="Content-Security-Policy" content="frame-src 'none'"
 <section class="testcase-panel">
   <h2>frame-src</h2>
   <p>Test that a filter using the $cps filter option works on a specific site.</p>
-  <div class="testcase-area testcase-container">
+  <div class="testcase-area">
     <iframe class="blocked" src="/testfiles/subdocument/subdocument.html" style="border: 0; width: 200px; height: 100px;"></iframe>
     <div class="testcase-examplecontent">Example Content</div>
   </div>

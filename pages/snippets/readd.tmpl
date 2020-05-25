@@ -5,7 +5,7 @@ description = Check that the readd snippet is working as expected.
 <section class="testcase-panel">
   <h2 id="basic">Basic usage</h2>
   <p>Test that basic usage of the snippet works as expected.</p>
-  <div id="basic-target" class="testcase-area testcase-container">
+  <div id="basic-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
     <div class="testcase-output-expected">Basic<br>Should not lose the green style.</div>
@@ -26,7 +26,7 @@ description = Check that the readd snippet is working as expected.
 <section class="testcase-panel">
   <h2 id="link">Link usage</h2>
   <p>Test that link usage of the snippet works as expected.</p>
-  <div id="link-target" class="testcase-area testcase-container">
+  <div id="link-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
     <div class="testcase-output-expected">Link<br>Should not lose the green style.</div>
@@ -59,7 +59,7 @@ description = Check that the readd snippet is working as expected.
 <section class="testcase-panel">
   <h2 id="twice">Twice usage</h2>
   <p>Test that twice usage of the snippet works as expected.</p>
-  <div id="twice-target" class="testcase-area testcase-container">
+  <div id="twice-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
     <div class="testcase-output-expected">First<br>Should not lose the green style.</div>
@@ -84,7 +84,7 @@ description = Check that the readd snippet is working as expected.
 
   let style = document.createElement("style");
   // Style here must match style from .testcase-output-expected
-  style.id= "dynamic-style";
+  style.id = "dynamic-style";
   style.innerHTML = `
     #basic-style-target {
       flex-grow: 1;
@@ -95,7 +95,7 @@ description = Check that the readd snippet is working as expected.
   document.body.appendChild(style);
 
   let link = document.createElement("link");
-  link.id= "link-style";
+  link.id = "link-style";
   link.rel = "stylesheet";
   link.type = "text/css";
   link.href = "/testfiles/readd/link-style.css";

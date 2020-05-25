@@ -6,13 +6,13 @@ description = Check that a filter using the $sitekey exception filter option is 
   <h2>Sitekey</h2>
   <p>Test that a filter using the $sitekey option whitelists in frame elements.</p>
   <h3>Out of frame elements</h3>
-  <div class="testcase-area testcase-container">
+  <div class="testcase-area">
     <div class="testcase-bad-element blocked testcase-sitekey-eh">Target element</div>
     <div class="testcase-examplecontent">Example Content</div>
     <img src="/testfiles/sitekey/outofframe.png" data-expectedresult="blocked" class="blocked">
   </div>
   <h3>In frame elements</h3>
-  <div class="testcase-area testcase-container">
+  <div class="testcase-area">
     {# /sitekey-frame is served by https://gitlab.com/eyeo/devops/legacy/sitescripts/-/tree/master/sitescripts/testpages/web which parses /templates/sitekey_frame.tmpl #}
     <iframe src="/sitekey-frame" style="width: 100%;"></iframe>
   </div>

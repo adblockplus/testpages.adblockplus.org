@@ -6,19 +6,19 @@ All notable changes to this project will be documented in this file.
 
 ### General changes to pages updated to the new format
 
-- Static test files: move from `/static/testcasefiles` to `/static/testfiles`. Some particular test case files may also change their names and extensions.
-- Filters: in `<li><pre>` tags instead of just `<pre>`.
 - Test elements: new `.testcase-good-element`, `.testcase-bad-element` and `.testcase-waitingcontent` classes.
-- Testcase panels: replace `<section class="site-panel">` with `<section class="testcase-panel">`.
-- Testcase areas: replace `<div class="testcase-container">` with `<div class="testcase-area">`. That needs changes to `adblockpluschrome`, they will coexist for now.
+- Testcase areas: replace `<div class="testcase-container">` with `<div class="testcase-area">` in Ping and Popup test pages.
 - Blocked elements: replace `class="blocked"` with `data-expectedresult="blocked"`. Currently coexisting.
-- Example content: replace `<div class="testcase-content ...">` with `<div class="testcase-examplecontent">`.
-- Other CSS changes: Please check comments in [testpages.css](https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/-/tree/master/static/css).
+
+## [2020-05-22]
 
 ### Index page update
 
-- New structure: Blocking and Hiding, Filter Options - Resource Types, Filter Options - Resource Type Exceptions, Filter Options - Constraints, Filter Options - Exceptions, Filter Options - Other, Snippets
-- Update page to the general changes above
+- New structure: Blocking and Hiding, Filter Options - Resource Types, Filter Options - Resource Type Exceptions, Filter Options - Constraints, Filter Options - Exceptions, Filter Options - Content Security Policy, Snippets, Circumvention
+- Static test files: all moved from `/static/testcasefiles` to `/static/testfiles`. Some particular test case files may also change their names and extensions.
+- Filters: in `<li><pre>` tags instead of just `<pre>`.
+- Example content: replaced `<div class="testcase-content ...">` with `<div class="testcase-examplecontent">`.
+- Testcase areas: replaced `<div class="testcase-container">` with `<div class="testcase-area">`, except for Ping and Popup test pages.
 
 ## [2020-05-19]
 
@@ -71,6 +71,7 @@ Added static files:
 - Simplified internal template inclusions.
 - Removed unused site-breadcrumbs and testcases.tmpl page
 
+[2020-05-22]: https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/compare/4a25ef4...f97ed9c
 [2020-05-19]: https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/compare/b41de37...4a25ef4
 [2020-04-28]: https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/compare/0c3e3b2...b41de37
 [2020-04-27]: https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/compare/5498946...0c3e3b2

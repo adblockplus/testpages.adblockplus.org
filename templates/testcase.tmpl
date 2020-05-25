@@ -4,18 +4,16 @@
   <? include head ?>
   <body>
     <? include header ?>
-    <div class="site-container">
 
-      {% if description %}
-      <section class="site-panel">
-        <h2>{{ title }}</h2>
-        <p>{{ description }}</p>
-      </section>
-      {% endif %}
+    {% if description %}
+    <section class="site-panel">
+      <h2>{{ title }}</h2>
+      <p>{{ description }}</p>
+    </section>
+    {% endif %}
 
-      {{ body|safe }}
+    {{ body|safe }}
 
-    </div>
     <? include footer ?>
   </body>
 </html>
