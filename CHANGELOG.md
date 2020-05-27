@@ -7,10 +7,14 @@ All notable changes to this project will be documented in this file.
 ### General changes to pages updated to the new format
 
 - Test elements: new `.testcase-good-element`, `.testcase-bad-element` and `.testcase-waitingcontent` classes.
-- Testcase areas: replace `<div class="testcase-container">` with `<div class="testcase-area">` in Ping and Popup test pages.
 - Blocked elements: replace `class="blocked"` with `data-expectedresult="blocked"`. Currently coexisting.
 
-## [2020-05-22]
+## 2020-05-29
+
+- Testcase areas: replaced `<div class="testcase-container">` with `<div class="testcase-area">` in Ping and Popup test pages.
+- Removed `<h3>` from test links in index pag.
+
+## 2020-05-22
 
 ### Index page update
 
@@ -20,14 +24,14 @@ All notable changes to this project will be documented in this file.
 - Example content: replaced `<div class="testcase-content ...">` with `<div class="testcase-examplecontent">`.
 - Testcase areas: replaced `<div class="testcase-container">` with `<div class="testcase-area">`, except for Ping and Popup test pages.
 
-## [2020-05-19]
+## 2020-05-19
 
 ### Site key page update
 
 - Enable Site Key page and test on docker
 - Update page to the general changes above
 
-## [2020-04-28]
+## 2020-04-28
 
 ### Circumvention pages update
 
@@ -57,22 +61,16 @@ Added static files:
 - `static/testfiles/match-case/static/1/abc.png`
 - `static/testfiles/match-case/static/2/ABC.png`
 
-## [2020-04-27]
+## 2020-04-27
 
 ### Added
 
 - This `CHANGELOG.md` file.
 - Project info added to the head section of [test pages](https://testpages.adblockplus.org/) index linking to `CHANGELOG.md`
 
-## [2020-04-24]
+## 2020-04-24
 
 ### Changed
 
 - Simplified internal template inclusions.
 - Removed unused site-breadcrumbs and testcases.tmpl page
-
-[2020-05-22]: https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/compare/4a25ef4...f97ed9c
-[2020-05-19]: https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/compare/b41de37...4a25ef4
-[2020-04-28]: https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/compare/0c3e3b2...b41de37
-[2020-04-27]: https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/compare/5498946...0c3e3b2
-[2020-04-24]: https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/compare/497eb09...5498946
