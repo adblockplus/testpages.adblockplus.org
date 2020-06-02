@@ -52,8 +52,6 @@ variables:
   extends: .test
   variables:
     REVISION: master
-  # Some master tests are expected to fail. See testpages.adblockplus.org#15
-  allow_failure: true
 
 .next:
   extends: .test
