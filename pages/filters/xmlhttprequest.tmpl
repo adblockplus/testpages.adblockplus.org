@@ -3,11 +3,11 @@ title = XMLHTTPRequest
 description = Check that a filter using the $xmlhttprequest filter option is working as expected.
 
 <section class="testcase-panel">
-  <h2 id="xmlhttprequest">XMLHTTPRequest</h2>
+  <h2>XMLHTTPRequest</h2>
   <p>Test that a filter using the $xmlhttprequest filter option works to block a XMLHTTPRequest.</p>
   <div class="testcase-area">
-    <div id="testcase-status" class="testcase-trigger blocked">Triggering XMLHTTPRequest connection...</div>
-    <div class="testcase-output-expected">Passed. Connection was blocked.</div>
+    <div id="testcase-status" class="testcase-trigger">Triggering XMLHTTPRequest connection...</div>
+    <div class="testcase-expected-view">Passed. Connection was blocked.</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -30,7 +30,7 @@ description = Check that a filter using the $xmlhttprequest filter option is wor
   {
     let result = document.getElementById("testcase-status");
     result.innerHTML = "Passed. Connection was blocked.";
-    result.className = "testcase-trigger-passed";
+    result.setAttribute("data-expectedresult", "pass");
   };
   req.onload = function(e)
   {
@@ -38,7 +38,7 @@ description = Check that a filter using the $xmlhttprequest filter option is wor
     {
       let result = document.getElementById("testcase-status");
       result.innerHTML = "Failed. Connection was NOT blocked.";
-      result.className = "testcase-trigger-failed blocked";
+      result.setAttribute("data-expectedresult", "fail");
     }
   };
 

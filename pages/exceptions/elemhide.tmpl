@@ -3,12 +3,12 @@ title = Elem Hide
 description = Check that a filter using the $elemhide exception filter option is working as expected.
 
 <section class="testcase-panel">
-  <h2 id="elemhide">Basic Usage</h2>
+  <h2>Basic Usage</h2>
   <p>Test that a filter using the $elemhide filter option whitelists only hiding filters.</p>
   <div class="testcase-area">
-    <img src="/testfiles/elemhide/image.png" data-expectedresult="blocked" class="blocked">
-    <div class="testcase-output-expected">Exception target</div>
-    <div class="testcase-good-element ex-elemhide" data-expectedresult="notblocked">Exception target</div>
+    <img src="/testfiles/elemhide/image.png" data-expectedresult="fail">
+    <div class="testcase-expected-view">Exception target</div>
+    <div class="ex-elemhide" data-expectedresult="pass">Exception target</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>

@@ -3,11 +3,11 @@ title = hide-if-shadow-contains
 description = Check that the hide-if-shadow-contains snippet is working as expected.
 
 <section class="testcase-panel">
-  <h2 id="basic">Basic usage</h2>
+  <h2>Basic usage</h2>
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
-    <p class="testcase-bad-element blocked"></p>
+    <p data-expectedresult="fail"></p>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -34,7 +34,7 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
     let root = document.getElementById("basic-target");
     let failElement = document.createElement("div");
     failElement.id = "hisc-basic-id";
-    failElement.className = "testcase-bad-element blocked";
+    failElement.setAttribute("data-expectedresult", "fail");
     failElement.innerHTML = "<div><span>hisc-basic<br>Failed. Element is not hidden.</span></div>";
     let shadowRoot = root.lastElementChild.attachShadow({mode: "closed"});
     shadowRoot.appendChild(failElement);
@@ -42,12 +42,12 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
 </script>
 
 <section class="testcase-panel">
-  <h2 id="regex">Regex usage</h2>
+  <h2>Regex usage</h2>
   <p>Test that usage of the snippet with regex works as expected.</p>
   <div id="regex-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
-    <div class="testcase-output-expected"><span>hisc-regex3<br>This element should not be hidden.</span></div>
+    <div class="testcase-expected-view"><span>hisc-regex3<br>This element should not be hidden.</span></div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -74,31 +74,30 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
     removeWaitingContent(); // eslint-disable-line no-undef
 
     let root = document.getElementById("regex-target");
-    for (let className of ["testcase-good-element", "testcase-bad-element blocked",
-                           "testcase-bad-element blocked"])
+    for (let expectedResult of ["pass", "fail", "fail"])
     {
       let rootChild = document.createElement("div");
-      rootChild.className = className;
+      rootChild.setAttribute("data-expectedresult", expectedResult);
       root.appendChild(rootChild);
     }
 
     let target = document.createElement("div");
     target.id = "hisc-regex-id1";
-    target.className = "testcase-bad-element blocked";
+    target.setAttribute("data-expectedresult", "fail");
     target.innerHTML = "<div><span>hisc-regex1<br>Failed. Element is not hidden.</span></div>";
     let shadowRoot = root.lastElementChild.attachShadow({mode: "closed"});
     shadowRoot.appendChild(target);
 
     let target2 = document.createElement("div");
     target2.id = "hisc-regex-id2";
-    target2.className = "testcase-bad-element blocked";
+    target2.setAttribute("data-expectedresult", "fail");
     target2.innerHTML = "<div><span>hisc-regex2<br>Failed. Element is not hidden.</span></div>";
     let shadowRoot2 = root.lastElementChild.previousElementSibling.attachShadow({mode: "closed"});
     shadowRoot2.appendChild(target2);
 
     let target3 = document.createElement("div");
     target3.id = "hisc-basic-id3";
-    target3.className = "testcase-good-element";
+    target3.setAttribute("data-expectedresult", "pass");
     target3.innerHTML = "<div><span>hisc-regex3<br>This element should not be hidden.</span></div>";
     let shadowRoot3 = root.lastElementChild.previousElementSibling.previousElementSibling.attachShadow({mode: "closed"});
     shadowRoot3.appendChild(target3);

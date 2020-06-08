@@ -4,10 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## Upcoming
 
-### General changes to pages updated to the new format
+- New test pages: Constraints (Domain), Rewrite, Resource type (Other)
 
-- Test elements: new `.testcase-good-element`, `.testcase-bad-element` and `.testcase-waitingcontent` classes.
-- Blocked elements: replace `class="blocked"` with `data-expectedresult="blocked"`. Currently coexisting.
+## 2020-05-29
+
+- New test elements: `[data-expectedresult="pass"]`, `[data-expectedresult="fail"]`, `.testcase-expected-view`, `.testcase-nostyle`
+- Removed elements: `[data-expectedresult="notblocked"]`, `[data-expectedresult="blocked"]`, `.blocked`, `.testcase-good-element`, `.testcase-bad-element`, `testcase-output-expected`
 
 ## 2020-05-29
 

@@ -6,8 +6,8 @@ description = Check that usage of the $websocket filter option in an exception i
   <h2>Exception usage</h2>
   <p>Test that the $websocket filter option in an exception works.</p>
   <div class="testcase-area">
-    <div id="testcase-status" class="testcase-trigger blocked">Triggering WebSocket connection...</div>
-    <div class="testcase-output-expected">Passed. Connection was NOT blocked.</div>
+    <div id="testcase-status" class="testcase-trigger">Triggering WebSocket connection...</div>
+    <div class="testcase-expected-view">Passed. Connection was NOT blocked.</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -37,13 +37,13 @@ description = Check that usage of the $websocket filter option in an exception i
     {
       let result = document.getElementById("testcase-status");
       result.innerHTML = "Passed. Connection was NOT blocked.";
-      result.className = "testcase-trigger-passed";
+      result.setAttribute("data-expectedresult", "pass");
     };
     websocket.onerror = function(evt)
     {
       let result = document.getElementById("testcase-status");
       result.innerHTML = "Failed. Connection was blocked.";
-      result.className = "testcase-trigger-failed blocked";
+      result.setAttribute("data-expectedresult", "fail");
     };
   }, 500);
 </script>

@@ -9,6 +9,6 @@ setTimeout(() =>
   aopwf.fp = function() {};
   let failElement = document.createElement("div");
   failElement.innerHTML = "Failed. Script ran and was applied to the page.";
-  failElement.className = "testcase-bad-element blocked";
+  failElement.setAttribute("data-expectedresult", "fail");
   document.getElementById("functionproperty-target").appendChild(failElement);
 }, 500);

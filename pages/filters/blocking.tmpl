@@ -3,10 +3,10 @@ title = Blocking
 description = Check that basic blocking functionality is working as expected.
 
 <section class="testcase-panel">
-  <h2 id="fullpath">Full Path</h2>
+  <h2>Full Path</h2>
   <p>Test that a blocking filter describing a full path blocks its target.</p>
   <div class="testcase-area">
-    <img src="/testfiles/blocking/full-path.png" data-expectedresult="blocked" class="blocked">
+    <img src="/testfiles/blocking/full-path.png" data-expectedresult="fail">
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -22,10 +22,10 @@ description = Check that basic blocking functionality is working as expected.
 </section>
 
 <section class="testcase-panel">
-  <h2 id="partialpath">Partial Path</h2>
+  <h2>Partial Path</h2>
   <p>Test that a blocking filter describing a partial path blocks its target.</p>
   <div class="testcase-area">
-    <img src="/testfiles/blocking/partial-path/partial-path.png" data-expectedresult="blocked" class="blocked">
+    <img src="/testfiles/blocking/partial-path/partial-path.png" data-expectedresult="fail">
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -41,11 +41,11 @@ description = Check that basic blocking functionality is working as expected.
 </section>
 
 <section class="testcase-panel">
-  <h2 id="wildcard">Wildcard</h2>
+  <h2>Wildcard</h2>
   <p>Test that a blocking filter describing a path with wildcards blocks its target.</p>
   <div class="testcase-area">
-    <img src="/testfiles/blocking/wildcard/1/wildcard.png" data-expectedresult="blocked" class="blocked">
-    <img src="/testfiles/blocking/wildcard/2/wildcard.png" data-expectedresult="blocked" class="blocked">
+    <img src="/testfiles/blocking/wildcard/1/wildcard.png" data-expectedresult="fail">
+    <img src="/testfiles/blocking/wildcard/2/wildcard.png" data-expectedresult="fail">
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -61,7 +61,7 @@ description = Check that basic blocking functionality is working as expected.
 </section>
 
 <section class="testcase-panel">
-  <h2 id="dynamic">Dynamic</h2>
+  <h2>Dynamic</h2>
   <p>Test that a blocking filter describing a path of a resource that is later dynamically added to the page blocks its target.</p>
   <div id="blocking-dynamic" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -83,8 +83,7 @@ description = Check that basic blocking functionality is working as expected.
 
   let image = document.createElement("img");
   image.src = "/testfiles/blocking/dynamic.png";
-  image.setAttribute("data-expectedresult", "blocked");
-  image.setAttribute("class", "blocked");
+  image.setAttribute("data-expectedresult", "fail");
 
   let area = document.getElementById("blocking-dynamic");
   area.appendChild(image);

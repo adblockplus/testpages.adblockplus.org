@@ -1,4 +1,4 @@
-/* This style should be equal to .testcase-bad-element */
+/* This style should be equal to [data-expectedresult="pass"] */
 #stylesheet-target {
   padding: 0.5rem;
   min-width: 105px;

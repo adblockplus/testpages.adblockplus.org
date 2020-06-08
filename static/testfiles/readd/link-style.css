@@ -1,4 +1,4 @@
-/* Style here must match style from .testcase-output-expected */
+/* Style here must match style from [data-expectedresult="pass"] */
 #link-style-target {
   flex-grow: 1;
   padding: 0.5rem;

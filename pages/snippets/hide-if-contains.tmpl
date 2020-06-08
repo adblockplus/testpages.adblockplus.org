@@ -3,11 +3,11 @@ title = hide-if-contains
 description = Check that the hide-if-contains snippet is working as expected.
 
 <section class="testcase-panel">
-  <h2 id="basic-static">Basic static usage</h2>
+  <h2>Basic static usage</h2>
   <p>Test that basic usage of the snippet works as expected against a static target.</p>
-  <div id="basic-static-target" class="testcase-area">
+  <div class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
-    <p id="hic-static-id" class="testcase-bad-element blocked">hic-basic-static<br>Failed. Element is not hidden.</p>
+    <p id="hic-static-id" data-expectedresult="fail">hic-basic-static<br>Failed. Element is not hidden.</p>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -22,7 +22,7 @@ description = Check that the hide-if-contains snippet is working as expected.
 </section>
 
 <section class="testcase-panel">
-  <h2 id="basic-dynamic">Basic dynamic usage</h2>
+  <h2>Basic dynamic usage</h2>
   <p>Test that basic usage of the snippet works as expected against a dynamic target.</p>
   <div id="basic-dynamic-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -41,12 +41,12 @@ description = Check that the hide-if-contains snippet is working as expected.
 </section>
 
 <section class="testcase-panel">
-  <h2 id="search">Search usage</h2>
+  <h2>Search usage</h2>
   <p>Test that usage of the snippet with the search parameter works as expected.</p>
   <div id="search1-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
-    <div class="testcase-output-expected">hic-search<br>Should not be hidden</div>
+    <div class="testcase-expected-view">hic-search<br>Should not be hidden</div>
   </div>
   <div id="search2-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -80,16 +80,18 @@ description = Check that the hide-if-contains snippet is working as expected.
     let dynamic = document.createElement("p");
     dynamic.id = "hic-dynamic-id";
     dynamic.innerHTML = "<div>hic-basic-dynamic<br>Failed. Element is not hidden.</div>";
-    dynamic.className = "testcase-bad-element blocked";
+    dynamic.setAttribute("data-expectedresult", "fail");
+
 
     let search1 = document.createElement("p");
     search1.id = Math.random().toString(36).substring(2);
-    search1.className = "testcase-good-element";
+    search1.setAttribute("data-expectedresult", "pass");
     search1.innerHTML = "hic-search<br>Should not be hidden";
 
     let search2 = document.createElement("p");
     search2.id = Math.random().toString(36).substring(2);
-    search2.className = "testcase-bad-element blocked target";
+    search2.className = "target";
+    search2.setAttribute("data-expectedresult", "fail");
     search2.innerHTML = "hic-search<br>Failed. Element is not hidden.";
 
     injectElement("basic-dynamic", dynamic);
@@ -99,14 +101,14 @@ description = Check that the hide-if-contains snippet is working as expected.
 </script>
 
 <section class="testcase-panel">
-  <h2 id="regex">Regex usage</h2>
+  <h2>Regex usage</h2>
   <p>Test that usage of the snippet with regex works as expected.</p>
   <div class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
-    <p class="testcase-output-expected">hic-regex-1<br>Should not be hidden</p>
-    <p id="hic-regex-1" class="testcase-good-element">hic-regex-1<br>Should not be hidden</p>
-    <p id="hic-regex-2" class="testcase-bad-element blocked">hic-regex-2<br>Failed. Element is not hidden.</p>
-    <p id="hic-regex-3" class="testcase-bad-element blocked">hic-regex-3<br>Failed. Element is not hidden.</p>
+    <p class="testcase-expected-view">hic-regex-1<br>Should not be hidden</p>
+    <p id="hic-regex-1" data-expectedresult="pass">hic-regex-1<br>Should not be hidden</p>
+    <p id="hic-regex-2" data-expectedresult="fail">hic-regex-2<br>Failed. Element is not hidden.</p>
+    <p id="hic-regex-3" data-expectedresult="fail">hic-regex-3<br>Failed. Element is not hidden.</p>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">

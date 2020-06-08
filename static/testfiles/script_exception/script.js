@@ -1,4 +1,4 @@
 "use strict";
 
 let target = document.getElementById("script-target");
-target.className = "testcase-good-element blocked";
+target.setAttribute("data-expectedresult", "pass");

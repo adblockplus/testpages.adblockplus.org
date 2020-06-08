@@ -5,12 +5,13 @@ description = Check that usage of the $object filter option in an exception is w
 <link rel="stylesheet" href="/testfiles/object_exception/stylesheet.css">
 
 <section class="testcase-panel">
-  <h2 id="usage">Exception Usage</h2>
-  <p>Test that the $image filter option in an exception works.</p>
+  <h2>Exception Usage</h2>
+  <p>Test that the $object filter option in an exception works.</p>
   <div class="testcase-area">
-    <object data-expectedresult="notblocked" data="/testfiles/object_exception/object.swf" type="application/x-shockwave-flash" style="width: 100px; height: 100px;"></object>
-    <div class="testcase-output-expected">This should be a green element.</div>
-    <div id="usage-target" class="testcase-good-element">This should be a green element.</div>
+    <object class="testcase-expected-view" data="/testfiles/object_exception/object.swf" type="application/x-shockwave-flash" style="width: 100px; height: 100px;"></object>
+    <object data-expectedresult="pass" data="/testfiles/object_exception/object.swf" type="application/x-shockwave-flash" style="width: 100px; height: 100px;"></object>
+    <div class="testcase-expected-view">This should be a green element.</div>
+    <div id="exception-target" data-expectedresult="pass">This should be a green element.</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>

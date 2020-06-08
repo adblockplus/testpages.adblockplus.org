@@ -3,13 +3,13 @@ title = Document
 description = Check that a filter using the $document exception filter option is working as expected.
 
 <section class="testcase-panel">
-  <h2 id="document">Document</h2>
+  <h2>Document</h2>
   <p>Test that a filter using the $document filter option works whitelists everything on the page.</p>
-  <div id="script-target" class="testcase-area">
-    <img src="/images/expected.png" class="testcase-output-expected">
-    <img src="/testfiles/document/image.png" class="testcase-good-element" data-expectedresult="notblocked">
-    <div class="testcase-output-expected">Exception target</div>
-    <div class="testcase-good-element ex-document" data-expectedresult="notblocked">Exception target</div>
+  <div class="testcase-area">
+    <img src="/images/expected.png" class="testcase-expected-view">
+    <img src="/testfiles/document/image.png" data-expectedresult="pass">
+    <div class="testcase-expected-view">Exception target</div>
+    <div class="ex-document" data-expectedresult="pass">Exception target</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>

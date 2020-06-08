@@ -3,7 +3,7 @@ title = hide-if-contains-image
 description = Check that the hide-if-contains-image snippet is working as expected.
 
 <section class="testcase-panel">
-  <h2 id="basic">Basic usage</h2>
+  <h2>Basic usage</h2>
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="before-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -34,13 +34,13 @@ description = Check that the hide-if-contains-image snippet is working as expect
 
     let ad = document.createElement("div");
     ad.id = Math.random().toString(36).substring(2);
-    ad.className = "testcase-bad-element blocked";
+    ad.setAttribute("data-expectedresult", "fail");
     ad.setAttribute("shouldhide", "true");
     ad.innerHTML = "<div style='padding: .5rem; width: 100px; height: 100px; background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAIAAAD/gAIDAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAHYcAAB2HAY/l8WUAAADrSURBVHhe7dChAYBAEMCwA88m7L8Ca2F+gKtPTH2v73mHnfuUBbMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCswKzArMCs9Zmfv+MAcgY/EOpAAAAAElFTkSuQmCC)'>Should be hidden</div>"; // eslint-disable-line max-len
 
     let ad2 = document.createElement("div");
     ad2.id = Math.random().toString(36).substring(2);
-    ad2.className = "testcase-bad-element blocked";
+    ad2.setAttribute("data-expectedresult", "fail");
     ad2.setAttribute("shouldhide", "true");
     ad2.innerHTML = ad.innerHTML;
 

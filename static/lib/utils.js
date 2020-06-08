@@ -11,19 +11,19 @@ function removeWaitingContent()
   }
 }
 
-function expectedScreenshotsParam()
+function expectedParameter()
 {
   let url = new URL(window.location.href);
   return url.searchParams.get("expected") == "1";
 }
 
-function expectedScreenshotsView()
+function expectedPageView()
 {
   let documents = [document];
   while (documents.length > 0)
   {
     let doc = documents.shift();
-    doc.body.classList.add("expected");
+    doc.body.classList.add("expected-view");
     for (let i = 0; i < doc.defaultView.frames.length; i++)
     {
       try
@@ -35,11 +35,11 @@ function expectedScreenshotsView()
   }
 
   for (let frame of document.getElementsByTagName("iframe"))
-    frame.contentDocument.defaultView.addEventListener("DOMContentLoaded", expectedScreenshotsView);
+    frame.contentDocument.defaultView.addEventListener("DOMContentLoaded", expectedPageView);
 }
 
 window.addEventListener("DOMContentLoaded", () =>
 {
-  if (expectedScreenshotsParam())
-    expectedScreenshotsView();
+  if (expectedParameter())
+    expectedPageView();
 });

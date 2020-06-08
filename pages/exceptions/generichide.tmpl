@@ -3,12 +3,12 @@ title = Generic Hide
 description = Check that a filter using the $generichide exception filter option is working as expected.
 
 <section class="testcase-panel">
-  <h2 id="basic">Basic Usage</h2>
+  <h2>Basic Usage</h2>
   <p>Test that a filter using the $generichide filter option whitelists only generic hiding filters.</p>
-  <div id="script-target" class="testcase-area">
-    <div class="testcase-bad-element ex-gh-specific blocked" data-expectedresult="blocked">Hide Target</div>
-    <div class="testcase-output-expected">Exception target</div>
-    <div class="testcase-good-element ex-gh-generic" data-expectedresult="notblocked">Exception target</div>
+  <div class="testcase-area">
+    <div class="ex-gh-specific" data-expectedresult="fail">Hide Target</div>
+    <div class="testcase-expected-view">Exception target</div>
+    <div class="ex-gh-generic" data-expectedresult="pass">Exception target</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>

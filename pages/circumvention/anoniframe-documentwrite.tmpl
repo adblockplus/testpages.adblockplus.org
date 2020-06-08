@@ -6,7 +6,7 @@ description = Check that anonymous fame document.write() functionality is workin
   <h2>Frames - Anonymous document.write()</h2>
   <p>Top frame</p>
   <div class="testcase-area">
-    <span class="testcase-circ-anoniframe-docwrite blocked">This text should be hidden</span>
+    <span class="testcase-circ-anoniframe-docwrite" data-expectedresult="fail">This element should be blocked</span>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <p>Sub frame (element.appendChild)</p>
@@ -23,7 +23,7 @@ description = Check that anonymous fame document.write() functionality is workin
   <ul class="testcase-steps">
     <li>Add filter #1.</li>
     <li>Refresh page.</li>
-    <li>The text in all three frames should be hidden.</li>
+    <li>The top frame element should be blocked, and the text in both sub frames should be hidden.</li>
   </ul>
   <h3>Filters</h3>
   <ul class="testcase-filters">
@@ -38,7 +38,7 @@ iframe {
   height: 200px;
 }
 
-.expected iframe {
+.expected-view iframe {
   width: 98px;
   height: 98px;
   padding: 98px;
@@ -49,13 +49,18 @@ iframe {
   "use strict";
 
   let iframe = document.getElementById("append");
-  let span = document.createElement("span");
-  span.className = "testcase-circ-anoniframe-docwrite";
-  span.textContent = "This text should be hidden";
-  iframe.contentDocument.body.appendChild(span);
+  iframe.addEventListener("load", () =>
+  {
+    let span = document.createElement("span");
+    span.className = "testcase-circ-anoniframe-docwrite";
+    span.setAttribute("data-expectedresult", "fail");
+    span.textContent = "This text should be hidden";
+    iframe.contentDocument.body.appendChild(span);
+  });
 
   let doc = document.getElementById("write").contentDocument;
   doc.open();
-  doc.write("<span class='testcase-circ-anoniframe-docwrite'>This text should be hidden</span>");
+  doc.write("<span class='testcase-circ-anoniframe-docwrite' " +
+            "data-expectedresult='blocked'>This text should be hidden</span>");
   doc.close();
 </script>

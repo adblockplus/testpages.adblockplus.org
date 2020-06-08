@@ -3,12 +3,12 @@ title = Stylesheet
 description = Check that a filter using the $stylesheet filter option is working as expected.
 
 <section class="testcase-panel">
-  <h2 id="stylesheet">Stylesheet</h2>
+  <h2>Stylesheet</h2>
   <p>Test that a filter using the $stylesheet filter option works on an external stylesheet.</p>
   <div class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-output-expected">Passed. Stylesheet was blocked.</div>
-    <div id="stylesheet-target" class="blocked"></div>
+    <div class="testcase-expected-view">Passed. Stylesheet was blocked.</div>
+    <div id="stylesheet-target" data-expectedresult="fail"></div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -38,7 +38,7 @@ description = Check that a filter using the $stylesheet filter option is working
     else
     {
       target.innerHTML = "Passed. Stylesheet was blocked.";
-      // Style must be equal to .testcase-output-expected,
+      // Style must be equal to .testcase-expected-view,
       target.style = `flex-grow: 1;
         padding: .5rem;
         color: #fff;

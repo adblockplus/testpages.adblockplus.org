@@ -7,9 +7,9 @@ description = Check that a filter using the $sitekey exception filter option is 
   <p>Test that a filter using the $sitekey option whitelists in frame elements.</p>
   <h3>Out of frame elements</h3>
   <div class="testcase-area">
-    <div class="testcase-bad-element blocked testcase-sitekey-eh">Target element</div>
+    <div class="testcase-sitekey-eh" data-expectedresult="fail">Target element</div>
     <div class="testcase-examplecontent">Example Content</div>
-    <img src="/testfiles/sitekey/outofframe.png" data-expectedresult="blocked" class="blocked">
+    <img src="/testfiles/sitekey/outofframe.png" data-expectedresult="fail">
   </div>
   <h3>In frame elements</h3>
   <div class="testcase-area">

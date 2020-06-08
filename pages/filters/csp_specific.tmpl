@@ -5,10 +5,10 @@ meta = http-equiv="Content-Security-Policy" content="frame-src 'none'"
 
 <section class="testcase-panel">
   <h2>Specific site</h2>
-  <p>Test that a filter using the $cps filter option works on a specific site.</p>
+  <p>Test that a filter using the $csp filter option works on a specific site.</p>
   <div class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
-    <div id="block-javascript" data-expectedresult="blocked" class="blocked"></div>
+    <div id="block-javascript" class="testcase-nostyle"></div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -27,14 +27,15 @@ meta = http-equiv="Content-Security-Policy" content="frame-src 'none'"
 
   let image = document.createElement("img");
   image.src = "/testfiles/csp/image.png";
+  image.setAttribute("data-expectedresult", "fail");
   document.getElementById("block-javascript").appendChild(image);
 </script>
 
 <section class="testcase-panel">
   <h2>frame-src</h2>
-  <p>Test that a filter using the $cps filter option works on a specific site.</p>
+  <p>Test that a filter using the $csp filter option works on a specific site.</p>
   <div class="testcase-area">
-    <iframe class="blocked" src="/testfiles/subdocument/subdocument.html" style="border: 0; width: 200px; height: 100px;"></iframe>
+    <iframe src="/testfiles/subdocument/subdocument.html" style="border: 0; width: 200px; height: 100px;" data-expectedresult="fail"></iframe>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>

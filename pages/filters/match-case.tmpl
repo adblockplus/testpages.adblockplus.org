@@ -3,11 +3,12 @@ title = Match Case
 description = Check that a filter using the $match-case filter option is working as expected.
 
 <section class="testcase-panel">
-  <h2 id="static">Static</h2>
+  <h2>Static</h2>
   <p>Test that a filter using the $match-case filter option works on a static target.</p>
   <div class="testcase-area">
-    <img src="/testfiles/match-case/static/1/abc.png" data-expectedresult="blocked" class="blocked"/>
-    <img src="/testfiles/match-case/static/2/ABC.png" data-expectedresult="notblocked"/>
+    <img src="/testfiles/match-case/static/1/abc.png" data-expectedresult="fail"/>
+    <img src="/testfiles/match-case/static/2/ABC.png" class="testcase-expected-view">
+    <img src="/testfiles/match-case/static/2/ABC.png" data-expectedresult="pass"/>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -24,7 +25,7 @@ description = Check that a filter using the $match-case filter option is working
 </section>
 
 <section class="testcase-panel">
-  <h2 id="dynamic">Dynamic</h2>
+  <h2>Dynamic</h2>
   <p>Test that a filter using the $match-case filter option works on a dynamic target.</p>
   <div id="match-case-dynamic" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -47,8 +48,7 @@ description = Check that a filter using the $match-case filter option is working
 
   let image = document.createElement("img");
   image.src = "/testfiles/match-case/dynamic/1/abc.png";
-  image.setAttribute("data-expectedresult", "blocked");
-  image.setAttribute("class", "blocked");
+  image.setAttribute("data-expectedresult", "fail");
 
   let image2 = document.createElement("img");
   image2.src = "/testfiles/match-case/dynamic/2/ABC.png";

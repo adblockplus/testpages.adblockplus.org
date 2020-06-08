@@ -3,13 +3,13 @@ title = readd
 description = Check that the readd snippet is working as expected.
 
 <section class="testcase-panel">
-  <h2 id="basic">Basic usage</h2>
+  <h2>Basic usage</h2>
   <p>Test that basic usage of the snippet works as expected.</p>
-  <div id="basic-target" class="testcase-area">
+  <div class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
-    <div class="testcase-output-expected">Basic<br>Should not lose the green style.</div>
-    <div id="basic-style-target" class="testcase-output-actual">Basic<br>Should not lose the green style.</div>
+    <div class="testcase-expected-view">Basic<br>Should not lose the green style.</div>
+    <div id="basic-style-target" class="testcase-nostyle">Basic<br>Should not lose the green style.</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -24,13 +24,13 @@ description = Check that the readd snippet is working as expected.
 </section>
 
 <section class="testcase-panel">
-  <h2 id="link">Link usage</h2>
+  <h2>Link usage</h2>
   <p>Test that link usage of the snippet works as expected.</p>
-  <div id="link-target" class="testcase-area">
+  <div class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
-    <div class="testcase-output-expected">Link<br>Should not lose the green style.</div>
-    <div id="link-style-target" class="testcase-output-actual">Link<br>Should not lose the green style.</div>
+    <div class="testcase-expected-view">Link<br>Should not lose the green style.</div>
+    <div id="link-style-target" class="testcase-nostyle">Link<br>Should not lose the green style.</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -46,7 +46,7 @@ description = Check that the readd snippet is working as expected.
 
 <main>
   <style id="main-style">
-    /* Style here must match style from .testcase-output-expected */
+    /* Style here must match style from [data-expectedresult="pass"] */
     #twice-style-first-target {
       flex-grow: 1;
       padding: 0.5rem;
@@ -57,15 +57,15 @@ description = Check that the readd snippet is working as expected.
   <link id="main-link-style" rel="stylesheet" type="text/css" href="/testfiles/readd/twice-style.css">
 </main>
 <section class="testcase-panel">
-  <h2 id="twice">Twice usage</h2>
+  <h2>Twice usage</h2>
   <p>Test that twice usage of the snippet works as expected.</p>
-  <div id="twice-target" class="testcase-area">
+  <div class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
-    <div class="testcase-output-expected">First<br>Should not lose the green style.</div>
-    <div class="testcase-output-expected">Second<br>Should not lose the green style.</div>
-    <div id="twice-style-first-target" class="testcase-output-actual">First<br>Should not lose the green style.</div>
-    <div id="twice-style-second-target" class="testcase-output-actual">Second<br>Should not lose the green style.</div>
+    <div class="testcase-expected-view">First<br>Should not lose the green style.</div>
+    <div class="testcase-expected-view">Second<br>Should not lose the green style.</div>
+    <div id="twice-style-first-target" class="testcase-nostyle">First<br>Should not lose the green style.</div>
+    <div id="twice-style-second-target" class="testcase-nostyle">Second<br>Should not lose the green style.</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -83,7 +83,7 @@ description = Check that the readd snippet is working as expected.
   "use strict";
 
   let style = document.createElement("style");
-  // Style here must match style from .testcase-output-expected
+  // Style here must match style from [data-expectedresult="pass"]
   style.id = "dynamic-style";
   style.innerHTML = `
     #basic-style-target {

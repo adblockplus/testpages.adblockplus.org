@@ -4,10 +4,10 @@ description = Check that a filter using the $csp filter option is working as exp
 
 <section class="testcase-panel">
   <h2>All sites</h2>
-  <p>Test that a filter using the $cps filter option works in all sites.</p>
+  <p>Test that a filter using the $csp filter option works in all sites.</p>
   <div class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
-    <div id="block-javascript" data-expectedresult="blocked" class="blocked"></div>
+    <div id="block-javascript" class="testcase-nostyle"></div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -26,5 +26,6 @@ description = Check that a filter using the $csp filter option is working as exp
 
   let image = document.createElement("img");
   image.src = "/testfiles/csp/image.png";
+  image.setAttribute("data-expectedresult", "fail");
   document.getElementById("block-javascript").appendChild(image);
 </script>

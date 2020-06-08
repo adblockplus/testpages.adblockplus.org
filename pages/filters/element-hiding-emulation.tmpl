@@ -36,7 +36,7 @@ description = Check that element hiding emulation functionality is working as ex
   <h2>Basic :-abp-properties() usage</h2>
   <p>Test that an element hiding emulation filter using a :-abp-properties() selector hides its target.</p>
   <div class="testcase-area">
-    <div class="testcase-bad-element ehe-properties blocked" data-expectedresult="blocked">Target</div>
+    <div class="ehe-properties" data-expectedresult="fail">Target</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -55,7 +55,7 @@ description = Check that element hiding emulation functionality is working as ex
   <h2>Basic :-abp-has() usage</h2>
   <p>Test that an element hiding emulation filter using a :-abp-has() selector hides its target.</p>
   <div class="testcase-area">
-    <div class="testcase-bad-element blocked" data-expectedresult="blocked">
+    <div data-expectedresult="fail">
       <div>
         <span class="ehe-has">Target</span>
       </div>
@@ -78,7 +78,7 @@ description = Check that element hiding emulation functionality is working as ex
   <h2>Basic :-abp-contains() usage</h2>
   <p>Test that an element hiding emulation filter using a :-abp-contains() selector hides its target.</p>
   <div class="testcase-area">
-    <span class="testcase-bad-element blocked" data-expectedresult="blocked">ehe-contains-target</span>
+    <span data-expectedresult="fail">ehe-contains-target</span>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -97,7 +97,7 @@ description = Check that element hiding emulation functionality is working as ex
   <h2>Chained extended selectors</h2>
   <p>Test that element hiding emulation filter using several of the extended selectors hides its target.</p>
   <div class="testcase-area">
-    <div class="testcase-bad-element blocked" data-expectedresult="blocked">
+    <div data-expectedresult="fail">
       <div class="ehe-chained">Target</div>
     </div>
     <div class="testcase-examplecontent">Example Content</div>
@@ -118,7 +118,7 @@ description = Check that element hiding emulation functionality is working as ex
   <h2>Case insensitive extended selectors</h2>
   <p>Test that an element hiding emulation filter is case insensitive and still hides its target.</p>
   <div class="testcase-area">
-    <div class="testcase-bad-element ehe-case blocked" data-expectedresult="blocked">Target</div>
+    <div class="ehe-case" data-expectedresult="fail">Target</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -137,7 +137,7 @@ description = Check that element hiding emulation functionality is working as ex
   <h2>Wildcard in extended selector</h2>
   <p>Test that an element hiding emulation filter using wildcards still hides its target.</p>
   <div class="testcase-area">
-    <div class="testcase-bad-element ehe-wildcard blocked" data-expectedresult="blocked">Target</div>
+    <div class="ehe-wildcard" data-expectedresult="fail">Target</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -156,8 +156,8 @@ description = Check that element hiding emulation functionality is working as ex
   <h2>Regular expression in :-abp-properties()</h2>
   <p>Test that an element hiding emulation filter using regular expressions still hides its target.</p>
   <div class="testcase-area">
-    <div class="testcase-bad-element ehe-regex1 blocked" data-expectedresult="blocked">Target</div>
-    <div class="testcase-bad-element ehe-regex2 blocked" data-expectedresult="blocked">Target</div>
+    <div class="ehe-regex1" data-expectedresult="fail">Target</div>
+    <div class="ehe-regex2" data-expectedresult="fail">Target</div>
     <div class="testcase-examplecontent ehe-regex3">Not a target</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
@@ -177,8 +177,8 @@ description = Check that element hiding emulation functionality is working as ex
   <h2>Regular expression in :-abp-contains()</h2>
   <p>Test that an element hiding emulation filter using regular expressions still hides its target.</p>
   <div class="testcase-area">
-    <div class="testcase-bad-element blocked" data-expectedresult="blocked">ehe-containsregex1</div>
-    <div class="testcase-bad-element blocked" data-expectedresult="blocked">ehe-containsregex2</div>
+    <div data-expectedresult="fail">ehe-containsregex1</div>
+    <div data-expectedresult="fail">ehe-containsregex2</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>

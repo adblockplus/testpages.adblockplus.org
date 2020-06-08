@@ -3,13 +3,13 @@ title = hide-if-contains-and-matches-style
 description = Check that the hide-if-contains-and-matches-style snippet is working as expected.
 
 <section class="testcase-panel">
-  <h2 id="basic-static">Basic static usage</h2>
+  <h2>Basic static usage</h2>
   <p>Test that basic usage of the snippet works as expected against a static target.</p>
-  <div id="basic-static-target" class="testcase-area">
+  <div class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
-    <div id="isnfnv" class="testcase-bad-element blocked"><div><span>Failed. Element is not hidden.</span><span class="label">hicamss</span></div></div>
-    <div class="testcase-output-expected"><div><span>Should not be hidden.</span></div></div>
-    <div id="lkvsaq" class="testcase-good-element"><div><span>Should not be hidden.</span><span class="label" style="display: none;">hicamss</span></div></div>
+    <div id="isnfnv" data-expectedresult="fail"><div><span>Failed. Element is not hidden.</span><span class="label">hicamss</span></div></div>
+    <div class="testcase-expected-view"><div><span>Should not be hidden.</span></div></div>
+    <div id="lkvsaq" data-expectedresult="pass"><div><span>Should not be hidden.</span><span class="label" style="display: none;">hicamss</span></div></div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -24,12 +24,12 @@ description = Check that the hide-if-contains-and-matches-style snippet is worki
 </section>
 
 <section class="testcase-panel">
-  <h2 id="basic-dynamic">Basic dynamic usage</h2>
+  <h2>Basic dynamic usage</h2>
   <p>Test that basic usage of the snippet works as expected against a dynamic target.</p>
   <div id="dynamic-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
-    <div class="testcase-output-expected"><div><span>Should not be hidden.</span></div></div>
+    <div class="testcase-expected-view"><div><span>Should not be hidden.</span></div></div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -52,13 +52,13 @@ description = Check that the hide-if-contains-and-matches-style snippet is worki
 
     let ad = document.createElement("div");
     ad.id = Math.random().toString(36).substring(2);
-    ad.className = "testcase-bad-element blocked";
+    ad.setAttribute("data-expectedresult", "fail");
     ad.innerHTML = `<div><span>Failed. Script ran and was applied to the page.</span>
       <span class='label'>hicamsd</span></div>`;
 
     let result = document.createElement("div");
     result.id = Math.random().toString(36).substring(2);
-    result.className = "testcase-good-element";
+    result.setAttribute("data-expectedresult", "pass");
     result.innerHTML = `<div><span>Should not be hidden.</span>
       <span class='label' style='display: none'>hicamsd</span></div>`;
 

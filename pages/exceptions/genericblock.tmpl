@@ -3,12 +3,12 @@ title = Generic Block
 description = Check that a filter using the $genericblock exception filter option is working as expected.
 
 <section class="testcase-panel">
-  <h2 id="basic">Basic Usage</h2>
+  <h2>Basic Usage</h2>
   <p>Test that a filter using the $genericblock filter option whitelists only generic blocking filters.</p>
   <div class="testcase-area">
-    <img src="/testfiles/genericblock/specific.png" data-expectedresult="blocked" class="blocked">
-    <img src="/images/expected.png" class="testcase-output-expected">
-    <img src="/testfiles/genericblock/generic.png" class="testcase-good-element" data-expectedresult="notblocked">
+    <img src="/testfiles/genericblock/specific.png" data-expectedresult="fail">
+    <img src="/images/expected.png" class="testcase-expected-view">
+    <img src="/testfiles/genericblock/generic.png" data-expectedresult="pass">
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>

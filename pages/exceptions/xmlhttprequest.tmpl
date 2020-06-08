@@ -6,9 +6,9 @@ description = Check that usage of the $xmlhttprequest filter option in an except
   <h2>Exception usage</h2>
   <p>Test that the $xmlhttprequest filter option in an exception works.</p>
   <div class="testcase-area">
-    <img src="/testfiles/xmlhttprequest_exception/image.png" data-expectedresult="blocked" class="blocked">
-    <div id="testcase-status" class="testcase-trigger blocked">Triggering XMLHTTPRequest connection...</div>
-    <div class="testcase-output-expected">Text loaded via XMLHTTPRequest Exception</div>
+    <img src="/testfiles/xmlhttprequest_exception/image.png" data-expectedresult="fail">
+    <div id="testcase-status" class="testcase-trigger">Triggering XMLHTTPRequest connection...</div>
+    <div class="testcase-expected-view">Text loaded via XMLHTTPRequest Exception</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -32,7 +32,7 @@ description = Check that usage of the $xmlhttprequest filter option in an except
   {
     let result = document.getElementById("testcase-status");
     result.innerHTML = "Failed. Connection was blocked.";
-    result.className = "testcase-trigger-failed blocked";
+    result.setAttribute("data-expectedresult", "fail");
   };
   req.onload = function(e)
   {
@@ -40,7 +40,7 @@ description = Check that usage of the $xmlhttprequest filter option in an except
     {
       let result = document.getElementById("testcase-status");
       result.innerHTML = this.responseText;
-      result.className = "testcase-trigger-passed";
+      result.setAttribute("data-expectedresult", "pass");
     }
   };
 
