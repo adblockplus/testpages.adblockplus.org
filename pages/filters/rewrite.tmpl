@@ -1,0 +1,72 @@
+title = Rewrite
+template = testcase
+description = Check that a filter using the $rewrite filter option is working as expected.
+
+<section class="testcase-panel">
+  <h2>Script</h2>
+  <p>Test that a filter using the $rewrite filter option works on a script.</p>
+  <div id="rewrite-target" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should be blocked and the red element should not be added to the page.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/*.js$rewrite=abp-resource:blank-js,domain={{ site_url|domain }}</pre></li>
+  </ul>
+</section>
+
+<script src="/testfiles/rewrite/script.js"></script>
+
+<section class="testcase-panel">
+  <h2>Audio</h2>
+  <p>Test that a filter using the $rewrite filter option works on an audio file.</p>
+  <div class="testcase-area">
+    <audio controls class="testcase-nostyle"><source id="mp3-target" src="/testfiles/rewrite/audio.mp3" type="audio/mpeg"></audio>
+    <audio controls class="testcase-expected-view"><source src="/media/blank.mp3" type="audio/mpeg"></audio>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Check that the embedded audio shows some seconds length.</li>
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The embedded audio should be replaced by a blank mp3 of zero seconds length.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/*.mp3$rewrite=abp-resource:blank-mp3,domain={{ site_url|domain }}</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  // Timestamp is needed to avoid caching, which would make tests fail
+  let mp3 = document.getElementById("mp3-target");
+  mp3.src = `${mp3.src}?${Date.now()}`;
+</script>
+
+<section class="testcase-panel">
+  <h2>Video</h2>
+  <p>Test that a filter using the $rewrite filter option works on a video file.</p>
+  <div class="testcase-area">
+    <video class="testcase-nostyle"><source src="/testfiles/rewrite/video.mp4" type="video/mp4"></video>
+    <video class="testcase-expected-view"><source src="/media/blank.mp4" type="video/mp4"></video>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The embedded video should be blocked.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/*.mp4$rewrite=abp-resource:blank-mp4,domain={{ site_url|domain }}</pre></li>
+  </ul>
+</section>
