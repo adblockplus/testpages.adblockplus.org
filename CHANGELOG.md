@@ -4,17 +4,19 @@ All notable changes to this project will be documented in this file.
 
 ## Upcoming
 
-- New test pages: Constraints (Domain), Rewrite, Resource type (Other)
+- New test pages: Constraints (Domain)
+
+
+## 2020-06-11
+
+- New test pages: Rewrite, Resource type (Other)
 
 ## 2020-05-29
 
 - New test elements: `[data-expectedresult="pass"]`, `[data-expectedresult="fail"]`, `.testcase-expected-view`, `.testcase-nostyle`
 - Removed elements: `[data-expectedresult="notblocked"]`, `[data-expectedresult="blocked"]`, `.blocked`, `.testcase-good-element`, `.testcase-bad-element`, `testcase-output-expected`
-
-## 2020-05-29
-
 - Testcase areas: replaced `<div class="testcase-container">` with `<div class="testcase-area">` in Ping and Popup test pages.
-- Removed `<h3>` from test links in index pag.
+- Removed `<h3>` from test links in index page.
 
 ## 2020-05-22
 
