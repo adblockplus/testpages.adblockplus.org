@@ -92,4 +92,4 @@ python <CMS_LOCATION>/runserver.py
 
 Test pages should now be accessible at http://localhost:5000.
 
-For more information and usage instructions see [CMS documentation](https://github.com/adblockplus/cms/blob/master/README.md#content-structure).
+For more information and usage instructions see [CMS documentation](https://gitlab.com/eyeo/websites/cms/-/blob/master/README.md).

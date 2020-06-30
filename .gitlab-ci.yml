@@ -29,21 +29,59 @@ variables:
 
 .test:
   stage: test
-  before_script:
-    - docker login -u gitlab-ci-token -p $CI_JOB_TOKEN $CI_REGISTRY
   script:
-    - IMAGE=$CI_REGISTRY_IMAGE/abp:$REVISION
-    - docker pull $IMAGE || true
-    - docker build --cache-from $IMAGE -t testpages --build-arg REVISION=$REVISION .
+    - docker build -t testpages --build-arg REVISION=$REVISION .
     - docker run -e BROWSER="$BROWSER" testpages
   after_script:
-    - docker logout $CI_REGISTRY
     - docker cp $(docker ps -aqf ancestor=testpages):/adblockpluschrome/test/screenshots . 2> /dev/null
     - docker cp $(docker ps -aqf ancestor=testpages):/var/log/nginx/ .
   artifacts:
     paths:
       - screenshots/
       - nginx/
+    when: on_failure
+    expire_in: 1 mo
+  interruptible: true
+
+.test_edge:
+  stage: test
+  tags:
+    - shared-windows
+    - windows
+    - windows-1809
+  needs:
+    - &build
+      job: build:chrome
+      artifacts: true
+      project: eyeo/adblockplus/adblockpluschrome
+  before_script:
+    # Install packages
+    - choco install -y microsoft-edge --version=79.0.309.71
+    - choco install -y python2
+    - $Env:Path += ";C:\Python27;C:\Python27\Scripts"
+    # Build CMS
+    - git clone https://gitlab.com/eyeo/websites/cms.git
+    - pip install -r cms\requirements.txt
+    # Build adblockpluschrome
+    - git clone https://gitlab.com/eyeo/adblockplus/adblockpluschrome.git
+    - Expand-Archive -Path adblockpluschrome-*.zip -DestinationPath adblockpluschrome\devenv.chrome
+    - cd adblockpluschrome
+    - git checkout $Env:REVISION
+    - npm install
+    - cd ..
+  script:
+    - Start-Process -NoNewWindow python cms\runserver.py -RedirectStandardError ".\cms.txt" -PassThru
+    - cd adblockpluschrome
+    - npm run test-only -- -g '"^"Edge((?!qunit"|"subscribe"|"sitekey"|"Final).)*$'
+    - $Env:TEST_EXIT_CODE = $lastExitCode
+    - Stop-Process -Name "python" -Force -PassThru
+    - "[Environment]::Exit($Env:TEST_EXIT_CODE)"
+  variables:
+    TEST_PAGES_URL: http://localhost:5000
+    SKIP_BUILD: "true"
+  artifacts:
+    paths:
+      - adblockpluschrome/test/screenshots/
     when: on_failure
     expire_in: 1 mo
   interruptible: true
@@ -59,7 +97,7 @@ variables:
     REVISION: next
 
 lint:
-  stage: "test"
+  stage: test
   needs: []
   script:
     - docker build -t lintimage -f test/lint.Dockerfile .
@@ -75,6 +113,14 @@ master:chrome:oldest:
   extends: .master
   variables:
     BROWSER: Chromium \(oldest\)
+
+master:edge:
+  extends: .test_edge
+  needs:
+    - <<: *build
+      ref: master
+  variables:
+    REVISION: master
 
 master:firefox:latest:
   extends: .master
@@ -95,6 +141,14 @@ next:chrome:oldest:
   extends: .next
   variables:
     BROWSER: Chromium \(oldest\)
+
+next:edge:
+  extends: .test_edge
+  needs:
+    - <<: *build
+      ref: next
+  variables:
+    REVISION: next
 
 next:firefox:latest:
   extends: .next
