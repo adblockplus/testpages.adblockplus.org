@@ -26,7 +26,7 @@ description = Check that a filter using the $rewrite filter option is working as
   <h2>Audio</h2>
   <p>Test that a filter using the $rewrite filter option works on an audio file.</p>
   <div class="testcase-area">
-    <audio controls class="testcase-nostyle"><source id="mp3-target" src="/testfiles/rewrite/audio.mp3" type="audio/mpeg"></audio>
+    <audio controls class="testcase-nostyle" id="mp3-target"></audio>
     <audio controls class="testcase-expected-view"><source src="/media/blank.mp3" type="audio/mpeg"></audio>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
@@ -43,19 +43,11 @@ description = Check that a filter using the $rewrite filter option is working as
   </ul>
 </section>
 
-<script>
-  "use strict";
-
-  // Timestamp is needed to avoid caching, which would make tests fail
-  let mp3 = document.getElementById("mp3-target");
-  mp3.src = `${mp3.src}?${Date.now()}`;
-</script>
-
 <section class="testcase-panel">
   <h2>Video</h2>
   <p>Test that a filter using the $rewrite filter option works on a video file.</p>
   <div class="testcase-area">
-    <video class="testcase-nostyle"><source src="/testfiles/rewrite/video.mp4" type="video/mp4"></video>
+    <video class="testcase-nostyle" id="mp4-target"></video>
     <video class="testcase-expected-view"><source src="/media/blank.mp4" type="video/mp4"></video>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
@@ -70,3 +62,13 @@ description = Check that a filter using the $rewrite filter option is working as
     <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/*.mp4$rewrite=abp-resource:blank-mp4,domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>
+
+<script>
+  "use strict";
+
+  // Timestamp is needed to avoid caching, which would make tests fail
+  let mp3 = document.getElementById("mp3-target");
+  mp3.innerHTML = `<source src="/testfiles/rewrite/audio.mp3?${Date.now()}" type="audio/mpeg">`;
+  let mp4 = document.getElementById("mp4-target");
+  mp4.innerHTML = `<source src="/testfiles/rewrite/video.mp4?${Date.now()}" type="video/mp4">`;
+</script>
