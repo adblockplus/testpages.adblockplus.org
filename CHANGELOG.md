@@ -6,6 +6,10 @@ All notable changes to this project will be documented in this file.
 
 - New test pages: Constraints (Domain)
 
+## 2020-07-24
+
+- Added hide-if-labelled-by test page
+
 ## 2020-07-06
 
 - Removed readd test page (that snippet has been removed from ABP)
