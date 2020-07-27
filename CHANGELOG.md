@@ -2,9 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## Upcoming
+## 2020-07-24
 
-- New test pages: Constraints (Domain)
+- Added Constraints (Domain) test page
 
 ## 2020-07-24
 

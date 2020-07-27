@@ -1,0 +1,52 @@
+template = testcase
+title = Domain
+description = Check that a filter using the $domain filter option is working as expected.
+
+<section class="testcase-panel">
+  <h2>Static</h2>
+  <p>Test that a filter using the $domain filter option works on a static target.</p>
+  <div class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <img src="/testfiles/domain/static/excluded/image.png">
+    <img src="/testfiles/domain/static/target/image.png" data-expectedresult="fail">
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The green image containing the white square should not be blocked, and the red image should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>/testfiles/domain/static/target/*$domain={{ site_url|domain }}</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2>Dynamic</h2>
+  <p>Test that a filter using the $domain filter option works on a dynamic target.</p>
+  <div id="dynamic-target" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>/testfiles/domain/dynamic/*$domain={{ site_url|domain }}</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  let image = document.createElement("img");
+  image.src = "/testfiles/domain/dynamic/image.png";
+  image.setAttribute("data-expectedresult", "fail");
+
+  let area = document.getElementById("dynamic-target");
+  area.appendChild(image);
+</script>
