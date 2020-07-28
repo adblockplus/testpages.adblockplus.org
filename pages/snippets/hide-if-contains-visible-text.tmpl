@@ -33,9 +33,14 @@ description = Check that the hide-if-contains-visible-text snippet is working as
     padding: 0.5rem;
   }
 
-  #parent {
+  #parent-basic,
+  #parent-content {
     background-color: #c70d2c;
     color: #fff;
+  }
+
+  .content-test::before {
+    content: "-content";
   }
 </style>
 
@@ -44,10 +49,10 @@ description = Check that the hide-if-contains-visible-text snippet is working as
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
-    <div id="parent" class="testcase-nostyle">
+    <div id="parent-basic" class="testcase-nostyle">
       <div class="article" data-expectedresult="fail">
-        <div class="label"><div class="a transparent">Sp</div><div class="a">Sp</div><div class="a zerosize">S</div><div class="a transparent">on</div><div class="a">on</div><div class="a zerosize">S</div>sored-hicvt</div>
-  This is the ad.
+        <div class="label"><div class="a transparent">Sp</div><div class="a">Sp</div><div class="a zerosize">S</div><div class="a transparent">on</div><div class="a">on</div><div class="a zerosize">S</div>sored-hicvt-basic</div>
+          This is the ad.
       </div>
     </div>
   </div>
@@ -59,6 +64,30 @@ description = Check that the hide-if-contains-visible-text snippet is working as
   </ul>
   <h3>Filters</h3>
   <ul class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-contains-visible-text Sponsored-hicvt '#parent > .article' '#parent > .article .label'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-visible-text Sponsored-hicvt-basic '#parent-basic > .article' '#parent-basic > .article .label'</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2>::content usage</h2>
+  <p>Test that usage of the snippet with elements using the ::content CSS property works as expected.</p>
+  <div id="content-target" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div id="parent-content" class="testcase-nostyle">
+      <div class="article" data-expectedresult="fail">
+        <div class="label"><div class="a transparent">Sp</div><div class="a">Sp</div><div class="a zerosize">S</div><div class="a transparent">on</div><div class="a">on</div><div class="a zerosize">S</div>sored-hicvt<div class="content-test"></div></div>
+        This is the ad.
+      </div>
+    </div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element inside in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-visible-text Sponsored-hicvt-content '#parent-content > .article' '#parent-content > .article .label'</pre></li>
   </ul>
 </section>

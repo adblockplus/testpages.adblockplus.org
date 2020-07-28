@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2020-07-28
+
+- Added ::content test case for hide-if-contains-visible-text snippet.
+
 ## 2020-07-24
 
 - Added Constraints (Domain) test page
