@@ -32,9 +32,12 @@ class FilterHTMLParser(HTMLParser):
 
 
 @contextfunction
-def get_filters(context):
+def get_filters(context, specific_pages=[]):
   filters = []
   for page, format in context["source"].list_pages():
+    if specific_pages and page not in specific_pages:
+      continue
+
     parser = FilterHTMLParser()
     parser.feed(context["source"].read_page(page, format)[0])
     if parser.filters and not any("csp" in s for s in parser.filters):
