@@ -15,6 +15,7 @@
 
 FROM registry.gitlab.com/eyeo/docker/adblockplus-ci:node10
 
+RUN apt-get update
 # Running sitescripts requires spawn-fcgi, python-flup and python-m2crypto
 RUN apt-get install -y spawn-fcgi python-flup python-m2crypto nginx
 
