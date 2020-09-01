@@ -1,0 +1,576 @@
+template = testcase
+title = freeze-element
+description = Check that the freeze-element snippet is working as expected.
+
+<style>
+  #fe-properties {
+    background-color: blue;
+  }
+
+  #fe-properties > div {
+    background-color: #0dc74b;
+    text-align: right;
+    color: #fff;
+    width: 30%;
+    border-bottom: 1px solid #ccc;
+    padding: .5rem;
+  }
+
+  #fe-properties > div.target {
+    background-color: #fff;
+    color: inherit;
+    text-align: left;
+    width: 70%;
+  }
+
+  #fe-properties > div.target > .bad {
+    color: #fff;
+    padding: .5rem;
+    background-color: #c70d2c;
+  }
+
+  .support {
+    background-color: yellow;
+    padding: .5rem;
+    border: 1px solid orange;
+  }
+</style>
+
+<section class="testcase-panel">
+  <h2>Basic usage - DOM mutation properties</h2>
+  <p>Test that basic usage of the snippet works as expected against each property.</p>
+  <div class="testcase-area">
+    <div id="fe-properties" style="width: 100%; display: flex; flex-wrap: wrap;">
+      <div>appendChild</div>
+      <div id="fe-prop-target-ac" class="target">
+        <div class="testcase-examplecontent">Example Content</div>
+      </div>
+      <div>append</div>
+      <div id="fe-prop-target-ap" class="target">
+        <div class="testcase-examplecontent">Example Content</div>
+      </div>
+      <div>prepend</div>
+      <div id="fe-prop-target-pp" class="target">
+        <div class="testcase-examplecontent">Example Content</div>
+      </div>
+      <div>insertBefore</div>
+      <div id="fe-prop-target-ib" class="target">
+        <div class="testcase-examplecontent">Example Content</div>
+      </div>
+      <div>replaceChild</div>
+      <div id="fe-prop-target-rc" class="target">
+        <div class="testcase-examplecontent">Example Content</div>
+      </div>
+      <div>replaceWith</div>
+      <div id="fe-prop-target-rw" class="target">
+        <div class="testcase-examplecontent">Example Content</div>
+      </div>
+      <div>after</div>
+      <div id="fe-prop-target-af" class="target">
+        <div class="testcase-examplecontent">Example Content</div>
+      </div>
+      <div>before</div>
+      <div id="fe-prop-target-be" class="target">
+        <div class="testcase-examplecontent">Example Content</div>
+      </div>
+      <div>insertAdjacentElement</div>
+      <div id="fe-prop-target-iae" class="target">
+        <div class="testcase-examplecontent">Example Content</div>
+      </div>
+      <div>insertAdjacentHTML</div>
+      <div id="fe-prop-target-iah" class="target">
+        <div class="testcase-examplecontent">Example Content</div>
+      </div>
+      <div>insertAdjacentText</div>
+      <div id="fe-prop-target-iat" class="target">
+        <div class="testcase-examplecontent">Example Content</div>
+      </div>
+      <div>innerHTML</div>
+      <div id="fe-prop-target-ih" class="target">
+        <div class="testcase-examplecontent">Example Content</div>
+      </div>
+      <div>outerHTML</div>
+      <div id="fe-prop-target-oh" class="target">
+        <div class="testcase-examplecontent">Example Content</div>
+      </div>
+      <div>textContent</div>
+      <div id="fe-prop-target-tc" class="target">
+        <div class="testcase-examplecontent">Example Content</div>
+      </div>
+      <div>innerText</div>
+      <div id="fe-prop-target-it" class="target">
+        <div class="testcase-examplecontent">Example Content</div>
+      </div>
+      <div>nodeValue</div>
+      <div id="fe-prop-target-nv" class="target">
+        <div class="testcase-examplecontent">Example Content</div>
+      </div>
+    </div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element inside in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#freeze-element div#fe-properties</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2>Basic usage</h2>
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="basic-target" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element added to the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#freeze-element div#basic-target</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2>Basic subtree usage</h2>
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="subtree-target" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+    <div id="subtree-subtree-target">
+      <div class="testcase-examplecontent">Example Content</div>
+    </div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element added to the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#freeze-element div#subtree-target subtree</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2>Basic exception usage</h2>
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="exception-target" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element added to the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#freeze-element div#exception-target '' .good</pre></li>
+  </ul>
+</section>
+
+
+<section class="testcase-panel">
+  <h2>Basic exception usage with text</h2>
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="exception-text-target" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element added to the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#freeze-element div#exception-text-target '' .good /hello/</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2>Basic exception usage with ANY text</h2>
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="exception-text-wc-target" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element added to the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#freeze-element div#exception-text-wc-target '' .good /.*/</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2>Multiple exceptions</h2>
+  <p>Test that snippet handles multiple exception parameters as expected.</p>
+  <div id="exception-multiple" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element added to the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#freeze-element div#exception-multiple '' .good #goodid</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2>Multiple exceptions subtree</h2>
+  <p>Test that snippet handles multiple exception parameters as expected.</p>
+  <div id="exception-multiple-subtree" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+    <div id="exception-multiple-subtree-inner"></div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element added to the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#freeze-element div#exception-multiple-subtree subtree .good #goodid</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2>Abort</h2>
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="abort" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element added to the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#freeze-element div#abort abort</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2>Abort Subtree</h2>
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="abort-subtree" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+    <div id="abort-subtree-inner"></div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element added to the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#freeze-element div#abort-subtree subtree+abort</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2>Abort Subtree Exception</h2>
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="abort-subtree-exception" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+    <div id="abort-subtree-exception-inner"></div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element added to the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#freeze-element div#abort-subtree-exception subtree+abort .good</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  function injectElement(id, element)
+  {
+    let target = document.getElementById(`${id}-target`);
+    target.appendChild(element);
+  }
+
+  function makeTestElement(tag, text)
+  {
+    let el = document.createElement(tag);
+    el.innerText = text;
+    el.className = "bad";
+    return el;
+  }
+
+  function makeTestElementClass(tag, text, className)
+  {
+    let el = document.createElement(tag);
+    el.innerText = text;
+    el.className = className;
+    return el;
+  }
+
+  function create_element(tag, text, classStr="", idStr="")
+  {
+    let el = document.createElement(tag);
+    el.innerText = text;
+    el.className = classStr;
+    el.id = idStr;
+    return el;
+  }
+
+  function check_support(el, func) 
+  {
+    if(typeof el[func] === "function") {
+      return true;
+    } else {
+      el.appendChild(create_element("div",`.${func}() is not supported in this browser.`, "support"));
+      return false;
+    }
+  }
+
+  function run_property_testcase() 
+  {
+    // appendChild
+    let target_ac = document.getElementById("fe-prop-target-ac"); 
+    target_ac.appendChild(makeTestElement("div", "Element from appendChild"));
+
+    // append
+    let t_ap = document.getElementById("fe-prop-target-ap");
+    if(check_support(t_ap, "append")) {
+      t_ap.append(create_element("div", ".append() element.", "bad"));
+    }
+
+    // prepend
+    let t_pp = document.getElementById("fe-prop-target-pp");
+    if(check_support(t_pp, "prepend")) {
+      t_pp.prepend(create_element("div", ".prepend() element.", "bad"));
+    }
+
+    // insertBefore
+    let t_ib = document.getElementById("fe-prop-target-ib");
+    if(check_support(t_ib, "insertBefore")) {
+      t_ib.insertBefore(create_element("div", ".insertBefore() element.", "bad"), t_ib.firstChild);
+    }
+
+    // replaceChild
+    let t_rc = document.getElementById("fe-prop-target-rc");
+    if(check_support(t_rc, "replaceChild")) {
+      t_rc.replaceChild(create_element("div", ".replaceChild() element.", "bad"), t_rc.firstChild);
+    }
+
+    // replaceWith
+    let t_rw = document.getElementById("fe-prop-target-rw");
+    if(check_support(t_rw, "replaceWith")) {
+      t_rw.firstChild.replaceWith(create_element("div", ".replaceWith() element.", "bad"));
+    }
+
+    // after
+    let t_af = document.getElementById("fe-prop-target-af");
+    if(check_support(t_af, "after")) {
+      t_af.firstChild.after(create_element("div", ".after() element.", "bad"));
+    }
+
+    // before
+    let t_be = document.getElementById("fe-prop-target-be");
+    if(check_support(t_be, "before")) {
+      t_be.firstChild.before(create_element("div", ".before() element.", "bad"));
+    }
+
+    // insertAdjacentElement
+    let t_iae = document.getElementById("fe-prop-target-iae");
+    if(check_support(t_iae, "insertAdjacentElement")) {
+      t_iae.insertAdjacentElement("beforeend", create_element("div", ".insertAdjacentElement() element.", "bad"));
+    }
+
+    // insertAdjacentHTML
+    let t_iah = document.getElementById("fe-prop-target-iah");
+    if(check_support(t_iah, "insertAdjacentHTML")) {
+      t_iah.insertAdjacentHTML("beforeend", "<div class='bad'>insertAdjacentHTML() element.</div>");
+    }
+
+    // insertAdjacentText
+    let t_iat = document.getElementById("fe-prop-target-iat");
+    if(check_support(t_iat, "insertAdjacentText")) {
+      t_iat.insertAdjacentText("beforeend", "insertAdjacentText() text node.");
+    }
+
+    // innerHTML
+    let t_ih = document.getElementById("fe-prop-target-ih");
+    t_ih.innerHTML = "<div class='bad'>.innerHTML set element. (Destroys Example Content)</div>";
+
+    // outerHTML
+    let t_oh = document.getElementById("fe-prop-target-oh");
+    t_oh.outerHTML = '<div id="fe-prop-target-oh" class="target"><div class="testcase-examplecontent">Example Content</div><div class="bad">.outerHTML set element.</div></div>';
+
+    // textContent
+    let t_tc = document.getElementById("fe-prop-target-tc");
+    t_tc.textContent = ".textContent set TextNode.";
+
+    // innerText
+    let t_it = document.getElementById("fe-prop-target-it");
+    t_it.innerText = ".innerText set TextNode.";
+
+    // nodeValue
+    //let target_nv = document.getElementById("fe-prop-target-nv");
+    //target_nv.innerText.nodeValue = "Element(Text) from nodeValue";
+  }
+
+  function test_exception_multiple() 
+  {
+    let parent = document.getElementById("exception-multiple");
+
+    let el_bad = create_element("div", "BadElement", "bad");
+    let el_good_class = create_element("div", "GoodElementClass", "good");
+    let el_good_id = create_element("div", "GoodElementID", "", "goodid");
+ 
+    parent.appendChild(el_bad);
+    parent.appendChild(el_good_class);
+    parent.appendChild(el_good_id);
+  }
+
+  function test_exception_multiple_subtree() 
+  {
+    let parent = document.getElementById("exception-multiple-subtree");
+    let parent_inner = document.getElementById("exception-multiple-subtree-inner");
+
+    let el_bad = create_element("div", "BadElement", "bad");
+    let el_good_class = create_element("div", "GoodElementClass", "good");
+    let el_good_id = create_element("div", "GoodElementID", "", "goodid");
+ 
+    parent.appendChild(el_bad);
+    parent.appendChild(el_good_class);
+    parent.appendChild(el_good_id);
+
+    let el_bad2 = create_element("div", "BadElement", "bad");
+    let el_good_class2 = create_element("div", "GoodElementClass", "good");
+    let el_good_id2 = create_element("div", "GoodElementID", "", "goodid");
+
+    parent_inner.appendChild(el_bad2);
+    parent_inner.appendChild(el_good_class2);
+    parent_inner.appendChild(el_good_id2);
+  }
+
+  function test_abort()
+  {
+     let parent = document.getElementById("abort");
+
+     let el_addnow = create_element("div", "abort", "bad");
+     let el_addafter = create_element("div", "Script not aborted.", "bad");
+
+     parent.appendChild(el_addnow);
+     console.log("Not aborted.");
+     parent.appendChild(el_addafter);
+  }
+
+  function test_abort_subtree()
+  {
+     let parent_inner = document.getElementById("abort-subtree-inner");
+
+     let el_addnow = create_element("div", "abort", "bad");
+     let el_addafter = create_element("div", "Script not aborted.", "bad");
+
+     parent_inner.appendChild(el_addnow);
+     console.log("Not aborted.");
+     parent_inner.appendChild(el_addafter);
+  }
+
+  function test_abort_subtree_exception()
+  {
+     let parent_inner = document.getElementById("abort-subtree-exception-inner");
+
+     let el_good = create_element("div", "GoodElementClass", "good");
+     let el_addnow = create_element("div", "abort", "bad");
+     let el_addafter = create_element("div", "Script not aborted.", "bad");
+
+     parent_inner.appendChild(el_good);
+     parent_inner.appendChild(el_addnow);
+     console.log("Not aborted.");
+     parent_inner.appendChild(el_addafter);
+  }
+
+  setTimeout(() =>
+  {
+    removeWaitingContent(); // eslint-disable-line no-undef
+
+    run_property_testcase();
+
+    // Basic usage.
+    let target_basic = document.getElementById("basic-target");
+    let el_basic = makeTestElement("div", "Element for basic");
+    target_basic.appendChild(el_basic);
+
+    // Basic subtree usage.
+    let target_basic_subtree = document.getElementById("subtree-target");
+    let target_basic_subtree_inner = document.getElementById("subtree-target");
+    let el_basic_subtree = makeTestElement("div", "Element for subtree");
+    let el_basic_subtree_inner = makeTestElement("div", "Element for subtree inner");
+    target_basic_subtree.appendChild(el_basic_subtree);
+    target_basic_subtree_inner.appendChild(el_basic_subtree_inner);
+
+    // Basic exception usage.
+    let t_exception = document.getElementById("exception-target");
+    let el_exception_bad = makeTestElementClass("div", "Element for exception bad.", "bad");
+    let el_exception_good = makeTestElementClass("div", "Element for exception good.", "good");
+    console.log(el_exception_good);
+    t_exception.appendChild(el_exception_bad);
+    t_exception.appendChild(el_exception_good);
+
+    // Basic exception text usage.
+    let t_exception_text = document.getElementById("exception-text-target");
+    let el_exception_text_bad = makeTestElementClass("div", "Element for exception bad.", "bad");
+    let el_exception_text_good_badtext = makeTestElementClass("div", "Element for exception good.", "good");
+    let el_exception_text_good_goodtext = document.createTextNode("hello");
+    console.log(el_exception_good);
+    t_exception_text.appendChild(el_exception_text_bad);
+    t_exception_text.appendChild(el_exception_text_good_badtext);
+    t_exception_text.appendChild(el_exception_text_good_goodtext);
+
+    // Basic exception any text usage.
+    let t_exception_text2 = document.getElementById("exception-text-wc-target");
+    let el_exception_text_bad2 = makeTestElementClass("div", "Element for exception bad.", "bad");
+    let el_exception_text_good_badtext2 = makeTestElementClass("div", "Element for exception good.", "good");
+    let el_exception_text_good_goodtext2 =  document.createTextNode("TextNodeContent");
+    t_exception_text2.appendChild(el_exception_text_bad2);
+    t_exception_text2.appendChild(el_exception_text_good_badtext2);
+    t_exception_text2.appendChild(el_exception_text_good_goodtext2);
+
+    test_exception_multiple();
+    test_exception_multiple_subtree();
+    test_abort();
+    test_abort_subtree();
+    test_abort_subtree_exception();
+  }, 500);
+  
+</script>
