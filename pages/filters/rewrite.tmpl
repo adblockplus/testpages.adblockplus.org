@@ -26,16 +26,16 @@ description = Check that a filter using the $rewrite filter option is working as
   <h2>Audio</h2>
   <p>Test that a filter using the $rewrite filter option works on an audio file.</p>
   <div class="testcase-area">
-    <audio controls class="testcase-nostyle" id="mp3-target"></audio>
-    <audio controls class="testcase-expected-view"><source src="/media/blank.mp3" type="audio/mpeg"></audio>
+    <audio id="mp3-target" class="testcase-nostyle"></audio>
     <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-expected-view">Duration:<br>0.144</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
-    <li>Check that the embedded audio shows some seconds length.</li>
+    <li>Check that the duration element shows more than one second length.</li>
     <li>Add filter #1.</li>
     <li>Refresh page.</li>
-    <li>The embedded audio should be replaced by a blank mp3 of zero seconds length.</li>
+    <li>Check that the duration element shows less than one second length.</li>
   </ul>
   <h3>Filters</h3>
   <ul class="testcase-filters">
@@ -47,7 +47,7 @@ description = Check that a filter using the $rewrite filter option is working as
   <h2>Video</h2>
   <p>Test that a filter using the $rewrite filter option works on a video file.</p>
   <div class="testcase-area">
-    <video class="testcase-nostyle" id="mp4-target"></video>
+    <video id="mp4-target" class="testcase-nostyle"></video>
     <video class="testcase-expected-view"><source src="/media/blank.mp4" type="video/mp4"></video>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
@@ -66,9 +66,27 @@ description = Check that a filter using the $rewrite filter option is working as
 <script>
   "use strict";
 
+  function printDuration(mediaElement)
+  {
+    let duration = document.createElement("div");
+    duration.innerHTML = `Duration:<br>${mediaElement.duration}`;
+    if (mediaElement.duration < 1)
+      duration.setAttribute("data-expectedresult", "pass");
+    else
+      duration.setAttribute("data-expectedresult", "fail");
+
+    mediaElement.parentNode.appendChild(duration);
+  }
+
   // Timestamp is needed to avoid caching, which would make tests fail
   let mp3 = document.getElementById("mp3-target");
   mp3.innerHTML = `<source src="/testfiles/rewrite/audio.mp3?${Date.now()}" type="audio/mpeg">`;
   let mp4 = document.getElementById("mp4-target");
   mp4.innerHTML = `<source src="/testfiles/rewrite/video.mp4?${Date.now()}" type="video/mp4">`;
+
+  // mp4 should also print duration after adblockpluscore#254 is fixed
+  if (mp3.readyState >= 1)
+    printDuration(mp3);
+  else
+    mp3.addEventListener("loadedmetadata", () => printDuration(mp3));
 </script>
