@@ -44,8 +44,8 @@ ARG REVISION=next
 RUN cd adblockpluschrome \
   && git fetch \
   && git checkout $REVISION \
-  && npm install \
-  && npm_config_unsafe_perm=true python ensure_dependencies.py
+  && git submodule update --init --recursive \
+  && npm install --unsafe-perm
 
 COPY . testpages.adblockplus.org
 

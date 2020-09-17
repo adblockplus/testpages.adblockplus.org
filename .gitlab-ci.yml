@@ -79,7 +79,7 @@ variables:
     # Build adblockpluschrome
     - git clone https://gitlab.com/eyeo/adblockplus/adblockpluschrome.git
     - Expand-Archive -Path adblockpluschrome-*.zip -DestinationPath adblockpluschrome\devenv.chrome
-    - cd adblockpluschrome; git checkout $Env:REVISION; npm install; cd ..
+    - cd adblockpluschrome; git checkout $Env:REVISION; git submodule update --init --recursive; npm install; cd ..
     # Generate test pages files
     - mkdir -p $Env:NGINX\html\local.testpages.adblockplus.org
     - (Get-Content settings.ini).replace("testpages.adblockplus.org", "local.testpages.adblockplus.org")
