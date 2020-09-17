@@ -23,30 +23,56 @@ description = Check that usage of the $popup filter option in an exception is wo
 </section>
 
 <section class="testcase-panel">
-  <h2 id="script-target">Script based popup exception</h2>
+  <h2 id="script-target-1">Script based popup (tab) exception</h2>
   <p>Test that the script-based $popup filter option in an exception works.</p>
   <div class="testcase-area">
-    <a href="#script-target" class="testcase-trigger" onclick="scriptPopup();">Trigger script based popup</a>
+    <a href="#script-target-1" class="testcase-trigger" onclick="scriptPopupTab();">Trigger script based popup</a>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
     <li>Add filters #1 and #2.</li>
     <li>Refresh page.</li>
     <li>Click the link above.</li>
-    <li>The popup should not be blocked and open succesfully.</li>
+    <li>The popup/tab should not be blocked and open succesfully.</li>
   </ul>
   <h3>Filters</h3>
   <ul class="testcase-filters">
-    <li><pre>||{{ site_url|strip_proto }}/testfiles/popup_exception/script.html^$popup</pre></li>
-    <li><pre>@@||{{ site_url|strip_proto }}/testfiles/popup_exception/script.html^$popup</pre></li>
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/popup_exception/script-tab.html^$popup</pre></li>
+    <li><pre>@@||{{ site_url|strip_proto }}/testfiles/popup_exception/script-tab.html^$popup</pre></li>
   </ul>
 </section>
+
+<section class="testcase-panel">
+  <h2 id="script-target-2">Script based popup (window) exception</h2>
+  <p>Test that the script-based $popup filter option in an exception works.</p>
+  <div class="testcase-area">
+    <a href="#script-target-2" class="testcase-trigger" onclick="scriptPopupWindow();">Trigger script based popup</a>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filters #1 and #2.</li>
+    <li>Refresh page.</li>
+    <li>Click the link above.</li>
+    <li>The popup/window should not be blocked and open succesfully.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/popup_exception/script-window.html^$popup</pre></li>
+    <li><pre>@@||{{ site_url|strip_proto }}/testfiles/popup_exception/script-window.html^$popup</pre></li>
+  </ul>
+</section>
+
 
 <script>
   "use strict";
 
-  function scriptPopup()
+  function scriptPopupTab()
   {
-    window.open("/testfiles/popup_exception/script.html");
+    window.open("/testfiles/popup_exception/script-tab.html");
+  }
+
+  function scriptPopupWindow()
+  {
+    window.open("/testfiles/popup_exception/script-window.html", "some-popup", "resizable");
   }
 </script>
