@@ -31,7 +31,7 @@ description = Check that a filter using the $stylesheet filter option is working
   {
     let target = document.getElementById("stylesheet-target");
     let targetStyle = getComputedStyle(target);
-    if (targetStyle.width === "105px")
+    if (targetStyle.width === "150px")
     {
       target.innerHTML = "Failed. Stylesheet was NOT blocked.";
     }

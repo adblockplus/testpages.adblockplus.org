@@ -1,7 +1,7 @@
-/* This style should be equal to [data-expectedresult="fail"] */
 #stylesheet-target {
   padding: 0.5rem;
-  min-width: 105px;
+  width: 150px;
+  max-width: 150px;
   color: #fff;
   background-color: #c70d2c;
 }
