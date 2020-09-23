@@ -13,7 +13,7 @@ description = Check that the hide-if-contains snippet is working as expected.
   <ul class="testcase-steps">
     <li>Add filter #1.</li>
     <li>Refresh page.</li>
-    <li>The red element inside in the test case above should be hidden.</li>
+    <li>The red element in the test case above should be hidden.</li>
   </ul>
   <h3>Filters</h3>
   <ul class="testcase-filters">
@@ -56,7 +56,7 @@ description = Check that the hide-if-contains snippet is working as expected.
   <ul class="testcase-steps">
     <li>Add filter #1.</li>
     <li>Refresh page.</li>
-    <li>The red element inside in the test case above should be hidden and the green one not hidden.</li>
+    <li>The red element in the test case above should be hidden and the green one not hidden.</li>
   </ul>
   <h3>Filters</h3>
   <ul class="testcase-filters">
@@ -114,10 +114,30 @@ description = Check that the hide-if-contains snippet is working as expected.
   <ul class="testcase-steps">
     <li>Add filter #1.</li>
     <li>Refresh page.</li>
-    <li>The red elements inside in the test case above should be hidden and the green one not hidden.</li>
+    <li>The red elements in the test case above should be hidden and the green one not hidden.</li>
   </ul>
   <h3>Filters</h3>
   <ul class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains /hic-regex-[2-3]/ p[id]</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2>Frame usage</h2>
+  <p>Test that usage of the snippet in a frame works as expected.</p>
+  <div class="testcase-area">
+    <iframe src="/testfiles/hide-if-contains/subdocument_expected.html" style="border: 0; width: 200px; height: 100px;" class="testcase-expected-view"></iframe>
+    <iframe src="/testfiles/hide-if-contains/subdocument.html" style="border: 0; width: 200px; height: 100px; flex-grow: 1;" data-expectedresult="pass"></iframe>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains hidden span#frame-target</pre></li>
   </ul>
 </section>
