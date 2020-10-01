@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-FROM registry.gitlab.com/eyeo/docker/adblockplus-ci:node10
+FROM registry.gitlab.com/eyeo/docker/adblockplus-ci:node12
 
 RUN apt-get update
 # Running sitescripts requires spawn-fcgi, python-flup and python-m2crypto

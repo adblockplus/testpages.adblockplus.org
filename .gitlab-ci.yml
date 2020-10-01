@@ -63,6 +63,7 @@ variables:
     - choco install -y microsoft-edge --version=79.0.309.71
     - choco install -y python2
     - $Env:Path += ";C:\Python27;C:\Python27\Scripts"
+    - choco upgrade -y nodejs --version 12.17.0
     # nginx config
     - xcopy test\etc\nginx\* $Env:NGINX\conf\ /E /V /F /H
     - (Get-Content $Env:NGINX\conf\nginx.conf).replace(
