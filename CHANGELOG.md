@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2020-10-01
+
+- Removed Object and Object Exception test pages. More info [here](https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/-/issues/55)
+
 ## 2020-07-28
 
 - Added ::content test case for hide-if-contains-visible-text snippet.
