@@ -59,9 +59,9 @@ The available browsers are:
 #### Tests subset
 
 In order to run a subset of the tests, use the `TESTS_SUBSET` argument,
-which supports regular expressions. Example:
+which uses regular expressions. Example:
 ```
-docker run -e TESTS_SUBSET="(Blocking|popup)" -it testpages
+docker run -e TESTS_SUBSET=".*(Blocking|Popup)" -it testpages
 ```
 
 #### Debugging failing tests

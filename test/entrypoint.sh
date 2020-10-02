@@ -5,7 +5,7 @@ if [[ "$BROWSER" == *"Chromium"* ]]; then
   XVFB_CMD="xvfb-run -a"
 fi
 
-tests="$BROWSER.*Test pages.*$TESTS_SUBSET"
+tests="^$BROWSER.*Test pages$TESTS_SUBSET((?!Final checks).)*\$"
 
 # Run sitescripts
 /etc/init.d/spawn-fcgi restart
