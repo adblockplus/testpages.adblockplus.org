@@ -1,6 +1,5 @@
 {
   "indent-width": 2,
-  "line-end-style": false,
   "raw-ignore-regex": "(\\s*?<script>[\\s\\S]*?<\/script>|\\s*?<pre>.*?<\/pre>|\\s*?{{.*?}}|\\s*?{%[\\s\\S]*?%})",
   "head-req-title": false,
   "id-class-style": false,

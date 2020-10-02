@@ -17,7 +17,6 @@
   "rules": {
     "curly": ["error", "multi-or-nest", "consistent"],
     "nonblock-statement-body-position": ["error", "below"],
-    "linebreak-style": 0,
     "max-len": ["error", { "code": 120 }]
   },
   "plugins": ["html"],
