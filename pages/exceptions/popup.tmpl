@@ -3,7 +3,7 @@ title = Popup Exception
 description = Check that usage of the $popup filter option in an exception is working as expected.
 
 <section class="testcase-panel">
-  <h2>Link based popup exception</h2>
+  {{ heading("Link based popup exception") }}
   <p>Test that the link-based $popup filter option in an exception works.</p>
   <div class="testcase-area">
     <a href="/testfiles/popup_exception/link.html" target="_blank" class="testcase-trigger">Trigger link based popup</a><br><br>
@@ -23,10 +23,10 @@ description = Check that usage of the $popup filter option in an exception is wo
 </section>
 
 <section class="testcase-panel">
-  <h2 id="script-target-1">Script based popup (tab) exception</h2>
+  {{ heading("Script based popup exception (tab)") }}
   <p>Test that the script-based $popup filter option in an exception works.</p>
   <div class="testcase-area">
-    <a href="#script-target-1" class="testcase-trigger" onclick="scriptPopupTab();">Trigger script based popup</a>
+    <a href="#script-based-popup-exception-tab" class="testcase-trigger" onclick="scriptPopupTab();">Trigger script based popup</a>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -43,10 +43,10 @@ description = Check that usage of the $popup filter option in an exception is wo
 </section>
 
 <section class="testcase-panel">
-  <h2 id="script-target-2">Script based popup (window) exception</h2>
+  {{ heading("Script based popup exception (window)") }}
   <p>Test that the script-based $popup filter option in an exception works.</p>
   <div class="testcase-area">
-    <a href="#script-target-2" class="testcase-trigger" onclick="scriptPopupWindow();">Trigger script based popup</a>
+    <a href="#script-based-popup-exception-window" class="testcase-trigger" onclick="scriptPopupWindow();">Trigger script based popup</a>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">

@@ -4,7 +4,7 @@ description = Check that a filter using the $csp filter option is working as exp
 meta = http-equiv="Content-Security-Policy" content="frame-src 'none'"
 
 <section class="testcase-panel">
-  <h2>Specific site</h2>
+  {{ heading("Specific site") }}
   <p>Test that a filter using the $csp filter option works on a specific site.</p>
   <div class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -32,7 +32,7 @@ meta = http-equiv="Content-Security-Policy" content="frame-src 'none'"
 </script>
 
 <section class="testcase-panel">
-  <h2>frame-src</h2>
+  {{ heading("frame-src") }}
   <p>Test that a filter using the $csp filter option works on a specific site.</p>
   <div class="testcase-area">
     <iframe src="/testfiles/subdocument/subdocument.html" style="border: 0; width: 200px; height: 100px;" data-expectedresult="fail"></iframe>

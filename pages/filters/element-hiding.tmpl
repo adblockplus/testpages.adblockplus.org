@@ -3,7 +3,7 @@ title = Element Hiding
 description = Check that basic element hiding functionality is working as expected.
 
 <section class="testcase-panel">
-  <h2>ID Selector</h2>
+  {{ heading("ID Selector") }}
   <p>Test that an element hiding filter using an ID selector hides its target.</p>
   <div class="testcase-area">
     <div id="eh-id" data-expectedresult="fail">Target</div>
@@ -22,7 +22,7 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  <h2>Class Selector</h2>
+  {{ heading("Class Selector") }}
   <p>Test that an element hiding filter using a class selector hides its target.</p>
   <div class="testcase-area">
     <div class="eh-class" data-expectedresult="fail">Target</div>
@@ -41,7 +41,7 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  <h2>Descendant Selector</h2>
+  {{ heading("Descendant Selector") }}
   <p>Test that an element hiding filter using a descendant selector hides its target.</p>
   <div class="testcase-area">
     <div class="eh-descendant" data-expectedresult="fail">Target</div>
@@ -60,7 +60,7 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  <h2>Sibling Selector</h2>
+  {{ heading("Sibling Selector") }}
   <p>Test that an element hiding filter using a sibling selector hides its target.</p>
   <div class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -79,7 +79,7 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  <h2>Attribute Selector 1</h2>
+  {{ heading("Attribute Selector 1") }}
   <p>Test that an element hiding filter using an attribute selector hides its target.</p>
   <div class="testcase-area">
     <div width="100" height="100" class="eh-sibling" data-expectedresult="fail">Target</div>
@@ -98,7 +98,7 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  <h2>Attribute Selector 2</h2>
+  {{ heading("Attribute Selector 2") }}
   <p>Test that an element hiding filter using an attribute selector hides its target.</p>
   <div class="testcase-area">
     <div href="http://testcase-attribute.com/" class="eh-sibling" data-expectedresult="fail">Target</div>
@@ -117,7 +117,7 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  <h2>Attribute Selector 3</h2>
+  {{ heading("Attribute Selector 3") }}
   <p>Test that an element hiding filter using an attribute selector hides its target.</p>
   <div class="testcase-area">
     <div style="width: 200px;" class="eh-sibling" data-expectedresult="fail">Target</div>
@@ -136,7 +136,7 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  <h2>Starts with Selector 1</h2>
+  {{ heading("Starts with Selector 1") }}
   <p>Test that an element hiding filter using a starts with selector hides its target.</p>
   <div class="testcase-area">
     <div href="http://testcase-startswith.com/test" class="eh-sibling" data-expectedresult="fail">Target</div>
@@ -155,7 +155,7 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  <h2>Starts with Selector 2</h2>
+  {{ heading("Starts with Selector 2") }}
   <p>Test that an element hiding filter using a starts with selector hides its target.</p>
   <div class="testcase-area">
     <div style="width: 201px; color: white;" class="eh-sibling" data-expectedresult="fail">Target</div>
@@ -174,7 +174,7 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  <h2>Ends with Selector 2</h2>
+  {{ heading("Ends with Selector") }}
   <p>Test that an element hiding filter using a ends with selector hides its target.</p>
   <div class="testcase-area">
     <div style="color: white; width: 202px;" class="eh-sibling" data-expectedresult="fail">Target</div>
@@ -193,7 +193,7 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  <h2>Contains</h2>
+  {{ heading("Contains") }}
   <p>Test that an element hiding filter using a contains selector hides its target.</p>
   <div class="testcase-area">
     <div style="color: white; width: 203px;" class="eh-sibling" data-expectedresult="fail">Target</div>

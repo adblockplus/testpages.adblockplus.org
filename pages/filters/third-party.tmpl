@@ -3,7 +3,7 @@ template = testcase
 description = Check that a filter using the $third-party filter option is working as expected.
 
 <section class="testcase-panel">
-  <h2>Block Third Party</h2>
+  {{ heading("Block Third Party") }}
   <p>Test that a filter using the $third-party filter option works a third party resource.</p>
   <div class="testcase-area">
     <img style="padding: 0.5rem; background-color: #c70d2c; width: 166px; height: 166px;" src="https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/-/raw/master/static/testfiles/third-party/adblockplus-icon-colour-web.svg" data-expectedresult="fail"/>
@@ -25,7 +25,7 @@ description = Check that a filter using the $third-party filter option is workin
 </section>
 
 <section class="testcase-panel">
-  <h2>Block First Party</h2>
+  {{ heading("Block First Party") }}
   <p>Test that a filter using the inverse $third-party filter option works a first party resource.</p>
   <div class="testcase-area">
     <img style="padding: 0.5rem; color: #fff; background-color: #c70d2c;" src="/testfiles/third-party/abb-logo.png" data-expectedresult="fail"/>

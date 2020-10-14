@@ -3,7 +3,7 @@ title = Blocking
 description = Check that basic blocking functionality is working as expected.
 
 <section class="testcase-panel">
-  <h2>Full Path</h2>
+  {{ heading("Full Path") }}
   <p>Test that a blocking filter describing a full path blocks its target.</p>
   <div class="testcase-area">
     <img src="/testfiles/blocking/full-path.png" data-expectedresult="fail">
@@ -22,7 +22,7 @@ description = Check that basic blocking functionality is working as expected.
 </section>
 
 <section class="testcase-panel">
-  <h2>Partial Path</h2>
+  {{ heading("Partial Path") }}
   <p>Test that a blocking filter describing a partial path blocks its target.</p>
   <div class="testcase-area">
     <img src="/testfiles/blocking/partial-path/partial-path.png" data-expectedresult="fail">
@@ -41,7 +41,7 @@ description = Check that basic blocking functionality is working as expected.
 </section>
 
 <section class="testcase-panel">
-  <h2>Wildcard</h2>
+  {{ heading("Wildcard") }}
   <p>Test that a blocking filter describing a path with wildcards blocks its target.</p>
   <div class="testcase-area">
     <img src="/testfiles/blocking/wildcard/1/wildcard.png" data-expectedresult="fail">
@@ -61,7 +61,7 @@ description = Check that basic blocking functionality is working as expected.
 </section>
 
 <section class="testcase-panel">
-  <h2>Dynamic</h2>
+  {{ heading("Dynamic") }}
   <p>Test that a blocking filter describing a path of a resource that is later dynamically added to the page blocks its target.</p>
   <div id="blocking-dynamic" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
