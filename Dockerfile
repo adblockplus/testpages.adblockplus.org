@@ -54,7 +54,13 @@ RUN mkdir -p /var/www/local.testpages.adblockplus.org
 RUN sed -i '/siteurl/c\siteurl = https:\/\/local.testpages.adblockplus.org' testpages.adblockplus.org/settings.ini
 RUN PYTHONPATH=cms python -m cms.bin.generate_static_pages testpages.adblockplus.org /var/www/local.testpages.adblockplus.org
 
+# Unpack custom extension
+ARG EXTENSION_FILE=""
+ARG TARGET=""
+RUN if [ "$EXTENSION_FILE" != "" ]; then unzip -q testpages.adblockplus.org/$EXTENSION_FILE -d adblockpluschrome/devenv.$TARGET; fi
+
 ENV BROWSER="Firefox \(latest\)"
 ENV TESTS_SUBSET=""
+ENV SKIP_BUILD=""
 
 ENTRYPOINT ./testpages.adblockplus.org/test/entrypoint.sh

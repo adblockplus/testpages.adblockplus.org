@@ -64,6 +64,25 @@ which uses regular expressions. Example:
 docker run -e TESTS_SUBSET=".*(Blocking|Popup)" -it testpages
 ```
 
+#### Packed extensions
+
+You may use custom extension packages by using the `EXTENSION_FILE` and `TARGET`
+arguments when building the image. Example:
+```
+docker build -t testpages --build-arg EXTENSION_FILE="adblockpluschrome-*.zip" --build-arg TARGET="chrome" .
+```
+
+The available `TARGET` values are:
+* chrome
+* firefox
+
+For actually launching the tests with the custom extension package, you must
+provide the `SKIP_BUILD` argument set to `true`, otherwise it will still use the
+default extension. Example:
+```
+docker run -e SKIP_BUILD="true" -e BROWSER="Chromium \(latest\)" -it testpages
+```
+
 #### Debugging failing tests
 
 In order to access the screenshots for failing tests run the following command,

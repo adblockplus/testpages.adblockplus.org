@@ -27,11 +27,25 @@ variables:
   DOCKER_HOST: tcp://docker:2375/
   DOCKER_DRIVER: overlay2
 
+.build_chrome:
+  needs:
+    - &build_chrome
+      job: build:chrome
+      artifacts: true
+      project: eyeo/adblockplus/adblockpluschrome
+
+.build_firefox:
+  needs:
+    - &build_firefox
+      job: build:firefox
+      artifacts: true
+      project: eyeo/adblockplus/adblockpluschrome
+
 .test:
   stage: test
   script:
-    - docker build -t testpages --build-arg REVISION=$REVISION .
-    - docker run -e BROWSER="$BROWSER" testpages
+    - docker build -t testpages --build-arg REVISION="$REVISION" --build-arg EXTENSION_FILE="$EXTENSION_FILE" --build-arg TARGET="$TARGET" .
+    - docker run -e BROWSER="$BROWSER" -e SKIP_BUILD="true" testpages
   after_script:
     - docker cp $(docker ps -aqf ancestor=testpages):/adblockpluschrome/test/screenshots . 2> /dev/null
     - docker cp $(docker ps -aqf ancestor=testpages):/var/log/nginx/ .
@@ -43,17 +57,24 @@ variables:
     expire_in: 1 mo
   interruptible: true
 
+.test_chrome:
+  extends: .test
+  variables:
+    EXTENSION_FILE: adblockpluschrome-*.zip
+    TARGET: chrome
+
+.test_firefox:
+  extends: .test
+  variables:
+    EXTENSION_FILE: adblockplusfirefox-*.xpi
+    TARGET: firefox
+
 .test_edge:
   stage: test
   tags:
     - shared-windows
     - windows
     - windows-1809
-  needs:
-    - &build
-      job: build:chrome
-      artifacts: true
-      project: eyeo/adblockplus/adblockpluschrome
   before_script:
     # Install packages
     - choco install -y nginx --version=1.19.0
@@ -111,13 +132,35 @@ variables:
     expire_in: 1 mo
   interruptible: true
 
-.master:
-  extends: .test
+.master_chrome:
+  extends: .test_chrome
+  needs:
+    - <<: *build_chrome
+      ref: master
   variables:
     REVISION: master
 
-.next:
-  extends: .test
+.master_firefox:
+  extends: .test_firefox
+  needs:
+    - <<: *build_firefox
+      ref: master
+  variables:
+    REVISION: master
+
+.next_chrome:
+  extends: .test_chrome
+  needs:
+    - <<: *build_chrome
+      ref: next
+  variables:
+    REVISION: next
+
+.next_firefox:
+  extends: .test_firefox
+  needs:
+    - <<: *build_firefox
+      ref: next
   variables:
     REVISION: next
 
@@ -130,57 +173,57 @@ lint:
   interruptible: true
 
 master:chrome:latest:
-  extends: .master
+  extends: .master_chrome
   variables:
     BROWSER: Chromium \(latest\)
 
 master:chrome:oldest:
-  extends: .master
+  extends: .master_chrome
   variables:
     BROWSER: Chromium \(oldest\)
 
 master:edge:
   extends: .test_edge
   needs:
-    - <<: *build
+    - <<: *build_chrome
       ref: master
   variables:
     REVISION: master
 
 master:firefox:latest:
-  extends: .master
+  extends: .master_firefox
   variables:
     BROWSER: Firefox \(latest\)
 
 master:firefox:oldest:
-  extends: .master
+  extends: .master_firefox
   variables:
     BROWSER: Firefox \(oldest\)
 
 next:chrome:latest:
-  extends: .next
+  extends: .next_chrome
   variables:
     BROWSER: Chromium \(latest\)
 
 next:chrome:oldest:
-  extends: .next
+  extends: .next_chrome
   variables:
     BROWSER: Chromium \(oldest\)
 
 next:edge:
   extends: .test_edge
   needs:
-    - <<: *build
+    - <<: *build_chrome
       ref: next
   variables:
     REVISION: next
 
 next:firefox:latest:
-  extends: .next
+  extends: .next_firefox
   variables:
     BROWSER: Firefox \(latest\)
 
 next:firefox:oldest:
-  extends: .next
+  extends: .next_firefox
   variables:
     BROWSER: Firefox \(oldest\)

@@ -14,6 +14,12 @@ tests="^$BROWSER.*Test pages$TESTS_SUBSET((?!Final checks).)*\$"
 echo -e "\n127.0.0.1 local.testpages.adblockplus.org" >> /etc/hosts
 nginx
 
+# Force build - see .Dockerfile
+if [ "$SKIP_BUILD" == "true" ] && [ -f .FORCE_BUILD ]; then
+  echo "WARNING: SKIP_BUILD was ignored"
+  export SKIP_BUILD=""
+fi
+
 # Run tests
 cd adblockpluschrome
 export TEST_PAGES_URL="https://local.testpages.adblockplus.org/en/"
