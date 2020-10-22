@@ -117,7 +117,7 @@ variables:
       git status | Select -First 1; git log -5 --oneline
     # Sitekey test disabled - testpages#41
     - $npm_process = (Start-Process -NoNewWindow "npm"
-      -ArgumentList "run test-only -- -g '`"^`"Edge((?!qunit`"|`"Sitekey`"|`"Final).)*$'" -PassThru -Wait)
+      -ArgumentList "run test-only -- -g '`"^`"Edge.*Test`" `"pages((?!Sitekey`"|`"Final`" `"checks).)*$'" -PassThru -Wait)
     - Stop-Process -Name "nginx" -Force -PassThru
     - Start-Sleep -Seconds 3 # Allow npm process to finish
     - Exit($npm_process.ExitCode)
