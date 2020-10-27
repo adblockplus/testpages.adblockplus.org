@@ -18,6 +18,8 @@ FROM registry.gitlab.com/eyeo/docker/adblockplus-ci:node12
 RUN apt-get update
 # Running sitescripts requires spawn-fcgi, python-flup and python-m2crypto
 RUN apt-get install -y spawn-fcgi python-flup python-m2crypto nginx
+# CMS requires python3
+RUN apt-get install -y python3 python3-pip
 
 # nginx config
 COPY test/etc /etc
@@ -35,8 +37,9 @@ RUN touch /var/run/500-multiplexer_spawn-fcgi.pid
 RUN git clone https://gitlab.com/eyeo/devops/legacy/sitescripts.git
 
 # Build CMS
-RUN git clone https://github.com/adblockplus/cms.git
-RUN cd cms && pip install -r requirements.txt
+# -b option should be removed once `cms-py3` branch reaches master on CMS
+RUN git clone -b cms-py3 --depth 1 https://gitlab.com/eyeo/websites/cms
+RUN pip3 install -r cms/requirements.txt
 
 # Build adblockpluschrome test env
 RUN git clone https://gitlab.com/eyeo/adblockplus/adblockpluschrome.git
@@ -52,7 +55,7 @@ COPY . testpages.adblockplus.org
 # Generate test pages files
 RUN mkdir -p /var/www/local.testpages.adblockplus.org
 RUN sed -i '/siteurl/c\siteurl = https:\/\/local.testpages.adblockplus.org' testpages.adblockplus.org/settings.ini
-RUN PYTHONPATH=cms python -m cms.bin.generate_static_pages testpages.adblockplus.org /var/www/local.testpages.adblockplus.org
+RUN PYTHONPATH=cms python3 -m cms.bin.generate_static_pages testpages.adblockplus.org /var/www/local.testpages.adblockplus.org
 
 # Unpack custom extension
 ARG EXTENSION_FILE=""

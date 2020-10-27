@@ -76,15 +76,16 @@ variables:
     - windows
     - windows-1809
   before_script:
+    # Fix for refreshenv - https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/13#note_337853320
+    - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
     # Install packages
     - choco install -y nginx --version=1.19.0
     - $Env:NGINX = "C:\tools\nginx-1.19.0"; $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
     - choco install -y openssl.light
-    - $Env:Path += ";C:\Program Files\OpenSSL\bin\"
     - choco install -y microsoft-edge --version=79.0.309.71
-    - choco install -y python2
-    - $Env:Path += ";C:\Python27;C:\Python27\Scripts"
+    - choco install -y python3
     - choco upgrade -y nodejs --version 12.17.0
+    - refreshenv
     # nginx config
     - xcopy test\etc\nginx\* $Env:NGINX\conf\ /E /V /F /H
     - (Get-Content $Env:NGINX\conf\nginx.conf).replace(
@@ -96,7 +97,8 @@ variables:
       -days 365 -nodes -subj "/CN=local.testpages.adblockplus.org"
     - echo "`n127.0.0.1 local.testpages.adblockplus.org" | Add-Content c:\windows\system32\drivers\etc\hosts
     # Build CMS
-    - git clone https://gitlab.com/eyeo/websites/cms.git
+    # -b option should be removed once `cms-py3` branch reaches master on CMS
+    - git clone -b cms-py3 --depth 1 https://gitlab.com/eyeo/websites/cms.git
     - pip install -r cms\requirements.txt
     # Build adblockpluschrome
     - git clone https://gitlab.com/eyeo/adblockplus/adblockpluschrome.git
