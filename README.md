@@ -15,10 +15,12 @@ The execution is done in Docker.
 
 ### Lint
 
-Checks are done using the following npm packages:
-* `htmllint-cli` for html
-* `eslint` for javascript
-* `stylelint` for CSS
+Checks are done using:
+* `flake8` with the [flake8-eyeo extension](https://gitlab.com/eyeo/auxiliary/eyeo-coding-style/-/tree/master/flake8-eyeo)
+for python scripts
+* npm `htmllint-cli` for html content
+* npm `eslint` for javascript content
+* npm `stylelint` for CSS content
 
 To run the lint image:
 ```

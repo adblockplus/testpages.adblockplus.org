@@ -1,5 +1,6 @@
-from jinja2 import contextfunction
 from datetime import datetime
+from jinja2 import contextfunction
+
 
 @contextfunction
 def get_date(context):

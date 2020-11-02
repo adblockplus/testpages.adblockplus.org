@@ -1,2 +1,2 @@
 def strip_proto(url):
-  return url.split("://", 1)[-1]
+    return url.split('://', 1)[-1]

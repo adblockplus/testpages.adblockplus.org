@@ -1,6 +1,6 @@
 import re
-
 from jinja2.utils import Markup, escape
+
 
 def heading(title):
     return Markup('<h2 id="{}">{}</h2>'.format(
