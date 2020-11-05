@@ -1,4 +1,4 @@
-from html.parser import HTMLParser
+from HTMLParser import HTMLParser
 
 from jinja2 import contextfunction
 

@@ -1,4 +1,4 @@
-from urllib import parse
+import urlparse
 
 def domain(url):
-  return parse.urlsplit(url).netloc.split(":")[0]
+  return urlparse.urlsplit(url).netloc.split(":")[0]

@@ -6,7 +6,7 @@ automatically from the files in this repository.
 ## Getting started
 
 The following tools are needed:
-* Python 3.7+
+* Python 2.7
 * Docker
 
 ## Running the tests
@@ -99,21 +99,20 @@ docker cp $(docker ps -aqf ancestor=testpages | head -n 1):/var/log/nginx/ <dest
 
 ## Local testpages execution
 
-Test pages run through the CMS test server. That project needs to be cloned
-checking out its Python 3 port branch called `cms-py3`:
+Test pages run through the CMS test server. That project needs to be cloned:
 ```
-git clone -b cms-py3 https://gitlab.com/eyeo/websites/cms.git
+git clone https://gitlab.com/eyeo/websites/cms.git
 ```
 
 After that, CMS dependencies need to be installed:
 ```
-pip3 install -r <CMS_PATH>/requirements.txt
+pip install -r <CMS_PATH>/requirements.txt
 ```
 
 Finally, to start the CMS server run the following command from the testpages
 project root folder:
 ```
-python3 <CMS_PATH>/runserver.py
+python <CMS_PATH>/runserver.py
 ```
 
 Test pages should now be accessible at http://localhost:5000.
