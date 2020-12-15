@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2020-12-14
+
+- Added subpage containing only Testpages supported by ABPKit. Subpage is available under link: https://testpages.adblockplus.org/en/abpkit
+
 ## 2020-10-06
 
 - Added anchor ID's to test cases for linking

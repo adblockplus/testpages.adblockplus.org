@@ -1,0 +1,74 @@
+template = abpkit
+
+<section class="site-panel">
+  <h2>Welcome to ABPKit Test Pages</h2>
+  <p>This page provides list of test pages for  <a href="https://gitlab.com/eyeo/adblockplus/ABPKit" target="_blank">ABP Kit Library </a>functionality.</p>
+  <p>For more information on the tespages project, please visit the <a href="/">tespages main site</a></p>
+</section>
+
+<section class="site-panel">
+  <h2>Content Blocker Rules Set </h2>
+  <p>If you want to test if testpages work correctly, first include JSON blocker rules to ABP Kit solution.</p>
+  <p>You can add this by copy pasting whole json file into your json list or by providing custom URL (or overriding ABP Kit easylist URL)</p>
+  <a class="site-button" href="/abpkit/testpages-filters.json" target="_blank">Blocking</a>
+  <a class="site-button" href="/abpkit/testpages-filters+exceptions.json" target="_blank">Blocking + Exceptions</a>
+  <p> There are two types of List: </p>
+  <p>Blocking is only blocking content. </p>
+  <p> Blocking with Exceptions is also testing "exceptions" scenarios </p>
+  <p> !!! You can also convert ABP Testpages filters from <a href= "/en/abp-testcase-subscription.txt"> ABP Testpages filter list</a>, but please be aware that conversion tool has <a href="https://jira.eyeo.com/browse/ABC-114">   bug for now</a></p>
+</section>
+
+<section class="site-panel">
+  <h2>Filter test cases</h2>
+  <h3>Blocking and Hiding</h3>
+  <ul class="site-pagelist">
+    <li><a class="test-link" href="filters/blocking">Blocking</a></li>
+    <li><a class="test-link" href="filters/element-hiding">Element Hiding</a></li>
+  </ul>
+  <h3>Filter Options - Resource Types</h3>
+  <ul class="site-pagelist">
+    <li><a class="test-link" href="filters/image">Image</a></li>
+    <li><a class="test-link" href="filters/ping">Ping</a></li>
+    <li><a class="test-link" href="filters/popup-abpkit">Popup</a></li>
+    <li><a class="test-link" href="filters/script">Script</a></li>
+    <li><a class="test-link" href="filters/stylesheet">Stylesheet</a></li>
+    <li><a class="test-link" href="filters/webrtc">WebRTC</a></li>
+    <li><a class="test-link" href="filters/websocket">WebSocket</a></li>
+    <li><a class="test-link" href="filters/xmlhttprequest">XMLHTTPRequest</a></li>
+  </ul>
+  <h3>Filter Options - Resource Type Exceptions</h3>
+  <ul class="site-pagelist">
+    <li><a class="test-link" href="exceptions/image">Image Exception</a></li>
+    <li><a class="test-link" href="exceptions/ping">Ping Exception</a></li>
+    <li><a class="test-link" href="exceptions/popup">Popup Exception</a></li>
+    <li><a class="test-link" href="exceptions/script">Script Exception</a></li>
+    <li><a class="test-link" href="exceptions/stylesheet">Stylesheet Exception</a></li>
+    <li><a class="test-link" href="exceptions/subdocument">Subdocument Exception</a></li>
+    <li><a class="test-link" href="exceptions/webrtc">WebRTC Exception</a></li>
+    <li><a class="test-link" href="exceptions/websocket">WebSocket Exception</a></li>
+    <li><a class="test-link" href="exceptions/xmlhttprequest">XMLHTTPRequest Exception</a></li>
+  </ul>
+  <h3>Filter Options - Constraints</h3>
+  <ul class="site-pagelist">
+    <li><a class="test-link" href="filters/domain">Domain</a></li>
+    <li><a class="test-link" href="filters/match-case">Match Case</a></li>
+    <li><a class="test-link" href="filters/other">Other</a></li>
+    <li><a class="test-link" href="filters/third-party">Third Party</a></li>
+  </ul>
+  <h3>Filter Options - Exceptions</h3>
+  <ul class="site-pagelist">
+    <li><a class="test-link" href="exceptions/document">Document</a></li>
+    <li><a class="test-link" href="exceptions/elemhide">Elem Hide</a></li>
+    <li><a class="test-link" href="exceptions/element-hiding">Element Hiding Exception</a></li>
+    <li><a class="test-link" href="exceptions/generichide">Generic Hide</a></li>
+    <li><a class="test-link" href="exceptions/sitekey">Sitekey</a></li>
+  </ul>
+  <h3>Filter Options - Rewrite</h3>
+  <ul class="site-pagelist">
+    <li><a class="test-link" href="filters/rewrite">Rewrite</a></li>
+  </ul>
+  <h3>Circumvention</h3>
+  <ul class="site-pagelist">
+    <li><a class="test-link" href="circumvention/inline-style-important">Inline style !important</a></li>
+  </ul>
+</section>
