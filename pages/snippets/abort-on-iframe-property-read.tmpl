@@ -1,0 +1,87 @@
+title = abort-on-iframe-property-read
+description = Check that the abort-on-iframe-property-read snippet is working as expected.
+template = testcase
+
+<script src="/testfiles/abort-on-iframe/utils.js"></script>
+
+<section class="testcase-panel">
+  {{ heading("Basic usage") }}
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="basic-target" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should be aborted and not add a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#abort-on-iframe-property-read aoiprb</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  testAbortOnIframePropertyRead("basic", ["aoiprb"], // eslint-disable-line no-undef
+                                iframe => iframe.contentWindow.aoiprb = false);
+</script>
+
+<section class="testcase-panel">
+  {{ heading("Sub property") }}
+  <p>Test that usage of the snippet with sub properties works as expected.</p>
+  <div id="subproperty-target" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should be aborted and not add a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#abort-on-iframe-property-read aoipr.sp</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  testAbortOnIframePropertyRead("subproperty", ["aoipr.sp"], // eslint-disable-line no-undef
+                                iframe => iframe.contentWindow.aoipr = {sp: false});
+</script>
+
+<section class="testcase-panel">
+  {{ heading("Multiple properties") }}
+  <p>Test that usage of the snippet with multiple properties works as expected.</p>
+  <div id="multipleproperties-target" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should be aborted and not add a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#abort-on-iframe-property-read aoipr1 aoipr2</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  testAbortOnIframePropertyRead("multipleproperties", ["aoipr1", "aoipr2"],  // eslint-disable-line no-undef
+                                iframe =>
+                                {
+                                  iframe.contentWindow.aoipr1 = false;
+                                  iframe.contentWindow.aoipr2 = false;
+                                });
+</script>
