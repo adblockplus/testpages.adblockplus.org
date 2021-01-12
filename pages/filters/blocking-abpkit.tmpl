@@ -1,0 +1,71 @@
+template = testcase
+title = Blocking ABPKit Version
+description = Check that basic blocking functionality is working as expected.
+
+<section class="testcase-panel">
+  {{ heading("Full Path") }}
+  <p>Test that a blocking filter describing a full path blocks its target.</p>
+  <div class="testcase-area">
+    <img src="/testfiles/blocking/full-path.png" data-expectedresult="fail">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/blocking/full-path.png</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  {{ heading("Wildcard") }}
+  <p>Test that a blocking filter describing a path with wildcards blocks its target.</p>
+  <div class="testcase-area">
+    <img src="/testfiles/blocking/wildcard/1/wildcard.png" data-expectedresult="fail">
+    <img src="/testfiles/blocking/wildcard/2/wildcard.png" data-expectedresult="fail">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red images should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>/testfiles/blocking/wildcard/*/wildcard.png</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  {{ heading("Dynamic") }}
+  <p>Test that a blocking filter describing a path of a resource that is later dynamically added to the page blocks its target.</p>
+  <div id="blocking-dynamic" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>/testfiles/blocking/dynamic.png</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  let image = document.createElement("img");
+  image.src = "/testfiles/blocking/dynamic.png";
+  image.setAttribute("data-expectedresult", "fail");
+
+  let area = document.getElementById("blocking-dynamic");
+  area.appendChild(image);
+</script>
