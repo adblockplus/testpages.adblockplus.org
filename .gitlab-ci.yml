@@ -13,6 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
 
+---
+
 default:
   image: docker:19.03.5
   services:
@@ -44,10 +46,13 @@ variables:
 .test:
   stage: test
   script:
-    - docker build -t testpages --build-arg REVISION="$REVISION" --build-arg EXTENSION_FILE="$EXTENSION_FILE" --build-arg TARGET="$TARGET" .
+    - docker build -t testpages --build-arg REVISION="$REVISION"
+      --build-arg EXTENSION_FILE="$EXTENSION_FILE"
+      --build-arg TARGET="$TARGET" .
     - docker run -e BROWSER="$BROWSER" -e SKIP_BUILD="true" testpages
   after_script:
-    - docker cp $(docker ps -aqf ancestor=testpages):/adblockpluschrome/test/screenshots . 2> /dev/null
+    - docker cp $(docker ps -aqf ancestor=testpages)
+      :/adblockpluschrome/test/screenshots . 2> /dev/null
     - docker cp $(docker ps -aqf ancestor=testpages):/var/log/nginx/ .
   artifacts:
     paths:
@@ -76,11 +81,13 @@ variables:
     - windows
     - windows-1809
   before_script:
-    # Fix for refreshenv - https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/13#note_337853320
+    # Fix for refreshenv
+    # https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/13#note_337853320
     - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
     # Install packages
     - choco install -y nginx --version=1.19.0
-    - $Env:NGINX = "C:\tools\nginx-1.19.0"; $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
+    - $Env:NGINX = "C:\tools\nginx-1.19.0"
+    - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
     - choco install -y openssl.light
     - choco install -y microsoft-edge --version=79.0.309.71
     - choco install -y python2
@@ -88,37 +95,45 @@ variables:
     - refreshenv
     # nginx config
     - xcopy test\etc\nginx\* $Env:NGINX\conf\ /E /V /F /H
-    - (Get-Content $Env:NGINX\conf\nginx.conf).replace(
-      "octet-stream;", "octet-stream;`n include $Env:NGINX_LINUX/conf/sites-enabled-windows/*.conf;")
-      | Set-Content $Env:NGINX\conf\nginx.conf
+    - (Get-Content $Env:NGINX\conf\nginx.conf).replace("octet-stream;",
+        "octet-stream;`n
+        include $Env:NGINX_LINUX/conf/sites-enabled-windows/*.conf;"
+      ) | Set-Content $Env:NGINX\conf\nginx.conf
     - openssl req -x509 -newkey rsa:4096
       -keyout $Env:NGINX\conf\local.testpages.adblockplus.org_key.pem
       -out $Env:NGINX\conf\local.testpages.adblockplus.org_cert.pem
       -days 365 -nodes -subj "/CN=local.testpages.adblockplus.org"
-    - echo "`n127.0.0.1 local.testpages.adblockplus.org" | Add-Content c:\windows\system32\drivers\etc\hosts
+    - echo "`n127.0.0.1 local.testpages.adblockplus.org" |
+      Add-Content c:\windows\system32\drivers\etc\hosts
     # Build CMS
     - git clone https://gitlab.com/eyeo/websites/cms.git
     - pip install -r cms\requirements.txt
     # Build adblockpluschrome
     - git clone https://gitlab.com/eyeo/adblockplus/adblockpluschrome.git
-    - Expand-Archive -Path adblockpluschrome-*.zip -DestinationPath adblockpluschrome\devenv.chrome
-    - cd adblockpluschrome; git checkout $Env:REVISION; git submodule update --init --recursive; npm install; cd ..
+    - Expand-Archive -Path adblockpluschrome-*.zip
+      -DestinationPath adblockpluschrome\devenv.chrome
+    - cd adblockpluschrome; git checkout $Env:REVISION;
+      git submodule update --init --recursive; npm install; cd ..
     # Generate test pages files
     - mkdir -p $Env:NGINX\html\local.testpages.adblockplus.org
-    - (Get-Content settings.ini).replace("testpages.adblockplus.org", "local.testpages.adblockplus.org")
-      | Set-Content settings.ini
+    - (Get-Content settings.ini).replace(
+        "testpages.adblockplus.org", "local.testpages.adblockplus.org"
+      ) | Set-Content settings.ini
     - $Env:PYTHONPATH = "cms"
-    - python -m cms.bin.generate_static_pages . $Env:NGINX\html\local.testpages.adblockplus.org
+    - python -m cms.bin.generate_static_pages .
+      $Env:NGINX\html\local.testpages.adblockplus.org
   script:
     # Run testpages server
-    - Start-Process -NoNewWindow "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX" -PassThru
+    - Start-Process -NoNewWindow "$Env:NGINX\nginx.exe"
+      -WorkingDirectory "$Env:NGINX" -PassThru
     # Run tests
     - cd adblockpluschrome
     - echo "INFO - Tests will execute based on the following revision:";
       git status | Select -First 1; git log -5 --oneline
     # Sitekey test disabled - testpages#41
     - $npm_process = (Start-Process -NoNewWindow "npm"
-      -ArgumentList "run test-only -- -g '`"^`"Edge.*Test`" `"pages((?!Sitekey`"|`"Final`" `"checks).)*$'" -PassThru -Wait)
+      -ArgumentList "run test-only -- -g '`"^`"Edge.*Test`"
+      `"pages((?!Sitekey`"|`"Final`" `"checks).)*$'" -PassThru -Wait)
     - Stop-Process -Name "nginx" -Force -PassThru
     - Start-Sleep -Seconds 3 # Allow npm process to finish
     - Exit($npm_process.ExitCode)
