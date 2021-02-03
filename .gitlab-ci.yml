@@ -15,19 +15,26 @@
 
 ---
 
-default:
+.production:
+  variables:
+    DOMAIN: testpages.adblockplus.org
+  tags:
+    - eyeo_cms_web_server_testpages-1.uplink.eyeo.it
+
+.test_runner:
   image: docker:19.03.5
   services:
     - docker:19.03.5-dind
   before_script:
     - docker info
+  variables:
+    DOCKER_HOST: tcp://docker:2375/
+    DOCKER_DRIVER: overlay2
 
 stages:
   - test
-
-variables:
-  DOCKER_HOST: tcp://docker:2375/
-  DOCKER_DRIVER: overlay2
+  - build_production
+  - deploy_production
 
 .build_chrome:
   needs:
@@ -44,6 +51,7 @@ variables:
       project: eyeo/adblockplus/adblockpluschrome
 
 .test:
+  extends: .test_runner
   stage: test
   script:
     - docker build -t testpages --build-arg REVISION="$REVISION"
@@ -181,6 +189,7 @@ variables:
     REVISION: next
 
 lint:
+  extends: .test_runner
   stage: test
   needs: []
   script:
@@ -188,15 +197,20 @@ lint:
     - docker run lintimage
   interruptible: true
 
+# some of the test jobs are expected to fail when there are breaking
+# changes between adblockpluschrome's next and master revisions, so
+# master:* jobs are tagged to allow failure
 master:chrome:latest:
   extends: .master_chrome
   variables:
     BROWSER: Chromium \(latest\)
+  allow_failure: true
 
 master:chrome:oldest:
   extends: .master_chrome
   variables:
     BROWSER: Chromium \(oldest\)
+  allow_failure: true
 
 master:edge:
   extends: .test_edge
@@ -205,16 +219,19 @@ master:edge:
       ref: master
   variables:
     REVISION: master
+  allow_failure: true
 
 master:firefox:latest:
   extends: .master_firefox
   variables:
     BROWSER: Firefox \(latest\)
+  allow_failure: true
 
 master:firefox:oldest:
   extends: .master_firefox
   variables:
     BROWSER: Firefox \(oldest\)
+  allow_failure: true
 
 next:chrome:latest:
   extends: .next_chrome
@@ -243,3 +260,34 @@ next:firefox:oldest:
   extends: .next_firefox
   variables:
     BROWSER: Firefox \(oldest\)
+
+build_production:
+  stage:
+    build_production
+  extends:
+    .production
+  script:
+    - env PYTHONPATH=/opt/cms:/opt/sitescripts
+      python -m cms.bin.generate_static_pages $PWD build
+  artifacts:
+    name:
+      $CI_COMMIT_REF_SLUG
+    paths:
+      - build
+  only:
+    - master
+
+deploy_production:
+  stage:
+    deploy_production
+  extends:
+    .production
+  dependencies:
+    - build_production
+  script:
+    - sudo /usr/local/sbin/deploy_eyeo_cms_web_$DOMAIN $CI_PROJECT_DIR/build/
+  environment:
+    name: $DOMAIN
+    url: http://$DOMAIN
+  only:
+    - master
