@@ -59,9 +59,9 @@ stages:
       --build-arg TARGET="$TARGET" .
     - docker run -e BROWSER="$BROWSER" -e SKIP_BUILD="true" testpages
   after_script:
-    - docker cp $(docker ps -aqf ancestor=testpages)
-      :/adblockpluschrome/test/screenshots . 2> /dev/null
-    - docker cp $(docker ps -aqf ancestor=testpages):/var/log/nginx/ .
+    - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
+    - docker cp $IMAGE_ID:/adblockpluschrome/test/screenshots . 2> /dev/null
+    - docker cp $IMAGE_ID:/var/log/nginx/ .
   artifacts:
     paths:
       - screenshots/
