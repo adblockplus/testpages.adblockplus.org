@@ -20,13 +20,14 @@ RUN apt-get update
 RUN apt-get install -y spawn-fcgi python-flup python-m2crypto nginx
 
 # nginx config
+ARG DOMAIN=local.testpages.adblockplus.org
 COPY test/etc /etc
 RUN rm /etc/nginx/sites-enabled/default
 RUN rm /etc/nginx/sites-available/default
 RUN cd /etc/nginx && openssl req -x509 -newkey rsa:4096 \
-  -keyout local.testpages.adblockplus.org_key.pem \
-  -out local.testpages.adblockplus.org_cert.pem \
-  -days 365 -nodes -subj '/CN=local.testpages.adblockplus.org'
+  -keyout ${DOMAIN}_key.pem \
+  -out ${DOMAIN}_cert.pem \
+  -days 365 -nodes -subj '/CN=$DOMAIN'
 
 # spawn-fcgi config
 RUN touch /var/run/500-multiplexer_spawn-fcgi.pid
@@ -50,9 +51,9 @@ RUN cd adblockpluschrome \
 COPY . testpages.adblockplus.org
 
 # Generate test pages files
-RUN mkdir -p /var/www/local.testpages.adblockplus.org
-RUN sed -i '/siteurl/c\siteurl = https:\/\/local.testpages.adblockplus.org' testpages.adblockplus.org/settings.ini
-RUN PYTHONPATH=cms python -m cms.bin.generate_static_pages testpages.adblockplus.org /var/www/local.testpages.adblockplus.org
+ARG SITE_URL=https://$DOMAIN
+RUN mkdir -p /var/www/$DOMAIN
+RUN PYTHONPATH=cms python -m cms.bin.generate_static_pages testpages.adblockplus.org /var/www/$DOMAIN
 
 # Unpack custom extension
 ARG EXTENSION_FILE=""

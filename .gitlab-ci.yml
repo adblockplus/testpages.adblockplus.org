@@ -15,14 +15,16 @@
 
 ---
 
-.production:
-  variables:
-    DOMAIN: testpages.adblockplus.org
-  tags:
-    - eyeo_cms_web_server_testpages-1.uplink.eyeo.it
+stages:
+  - test
+  - build_production
+  - deploy_production
+
+# TEST #########################################################################
 
 .test_runner:
   image: docker:19.03.5
+  stage: test
   services:
     - docker:19.03.5-dind
   before_script:
@@ -30,29 +32,16 @@
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
+  interruptible: true
 
-stages:
-  - test
-  - build_production
-  - deploy_production
-
-.build_chrome:
-  needs:
-    - &build_chrome
-      job: build:chrome
-      artifacts: true
-      project: eyeo/adblockplus/adblockpluschrome
-
-.build_firefox:
-  needs:
-    - &build_firefox
-      job: build:firefox
-      artifacts: true
-      project: eyeo/adblockplus/adblockpluschrome
+lint:
+  extends: .test_runner
+  script:
+    - docker build -t lintimage -f test/lint.Dockerfile .
+    - docker run lintimage
 
 .test:
   extends: .test_runner
-  stage: test
   script:
     - docker build -t testpages --build-arg REVISION="$REVISION"
       --build-arg EXTENSION_FILE="$EXTENSION_FILE"
@@ -68,7 +57,6 @@ stages:
       - nginx/
     when: on_failure
     expire_in: 1 mo
-  interruptible: true
 
 .test_chrome:
   extends: .test
@@ -108,10 +96,10 @@ stages:
         include $Env:NGINX_LINUX/conf/sites-enabled-windows/*.conf;"
       ) | Set-Content $Env:NGINX\conf\nginx.conf
     - openssl req -x509 -newkey rsa:4096
-      -keyout $Env:NGINX\conf\local.testpages.adblockplus.org_key.pem
-      -out $Env:NGINX\conf\local.testpages.adblockplus.org_cert.pem
-      -days 365 -nodes -subj "/CN=local.testpages.adblockplus.org"
-    - echo "`n127.0.0.1 local.testpages.adblockplus.org" |
+      -keyout $Env:NGINX\conf\${Env:DOMAIN}_key.pem
+      -out $Env:NGINX\conf\${Env:DOMAIN}_cert.pem
+      -days 365 -nodes -subj "/CN=$Env:DOMAIN"
+    - echo "`n127.0.0.1 $Env:DOMAIN" |
       Add-Content c:\windows\system32\drivers\etc\hosts
     # Build CMS
     - git clone https://gitlab.com/eyeo/websites/cms.git
@@ -123,13 +111,9 @@ stages:
     - cd adblockpluschrome; git checkout $Env:REVISION;
       git submodule update --init --recursive; npm install; cd ..
     # Generate test pages files
-    - mkdir -p $Env:NGINX\html\local.testpages.adblockplus.org
-    - (Get-Content settings.ini).replace(
-        "testpages.adblockplus.org", "local.testpages.adblockplus.org"
-      ) | Set-Content settings.ini
+    - mkdir -p $Env:NGINX\html\$Env:DOMAIN
     - $Env:PYTHONPATH = "cms"
-    - python -m cms.bin.generate_static_pages .
-      $Env:NGINX\html\local.testpages.adblockplus.org
+    - python -m cms.bin.generate_static_pages . $Env:NGINX\html\$Env:DOMAIN
   script:
     # Run testpages server
     - Start-Process -NoNewWindow "$Env:NGINX\nginx.exe"
@@ -147,6 +131,8 @@ stages:
     - Exit($npm_process.ExitCode)
   variables:
     TEST_PAGES_URL: https://local.testpages.adblockplus.org/en/
+    SITE_URL: https://local.testpages.adblockplus.org
+    DOMAIN: local.testpages.adblockplus.org
     TEST_PAGES_INSECURE: "true"
     SKIP_BUILD: "true"
   artifacts:
@@ -156,26 +142,45 @@ stages:
     expire_in: 1 mo
   interruptible: true
 
+.extension_chrome:
+  needs:
+    - &extension_chrome
+      job: build:chrome
+      artifacts: true
+      project: eyeo/adblockplus/adblockpluschrome
+
+.extension_firefox:
+  needs:
+    - &extension_firefox
+      job: build:firefox
+      artifacts: true
+      project: eyeo/adblockplus/adblockpluschrome
+
+# some of the test jobs are expected to fail when there are breaking
+# changes between adblockpluschrome's next and master revisions, so
+# master:* jobs are tagged to allow failure
 .master_chrome:
   extends: .test_chrome
   needs:
-    - <<: *build_chrome
+    - <<: *extension_chrome
       ref: master
   variables:
     REVISION: master
+  allow_failure: true
 
 .master_firefox:
   extends: .test_firefox
   needs:
-    - <<: *build_firefox
+    - <<: *extension_firefox
       ref: master
   variables:
     REVISION: master
+  allow_failure: true
 
 .next_chrome:
   extends: .test_chrome
   needs:
-    - <<: *build_chrome
+    - <<: *extension_chrome
       ref: next
   variables:
     REVISION: next
@@ -183,39 +188,25 @@ stages:
 .next_firefox:
   extends: .test_firefox
   needs:
-    - <<: *build_firefox
+    - <<: *extension_firefox
       ref: next
   variables:
     REVISION: next
 
-lint:
-  extends: .test_runner
-  stage: test
-  needs: []
-  script:
-    - docker build -t lintimage -f test/lint.Dockerfile .
-    - docker run lintimage
-  interruptible: true
-
-# some of the test jobs are expected to fail when there are breaking
-# changes between adblockpluschrome's next and master revisions, so
-# master:* jobs are tagged to allow failure
 master:chrome:latest:
   extends: .master_chrome
   variables:
     BROWSER: Chromium \(latest\)
-  allow_failure: true
 
 master:chrome:oldest:
   extends: .master_chrome
   variables:
     BROWSER: Chromium \(oldest\)
-  allow_failure: true
 
 master:edge:
   extends: .test_edge
   needs:
-    - <<: *build_chrome
+    - <<: *extension_chrome
       ref: master
   variables:
     REVISION: master
@@ -225,13 +216,11 @@ master:firefox:latest:
   extends: .master_firefox
   variables:
     BROWSER: Firefox \(latest\)
-  allow_failure: true
 
 master:firefox:oldest:
   extends: .master_firefox
   variables:
     BROWSER: Firefox \(oldest\)
-  allow_failure: true
 
 next:chrome:latest:
   extends: .next_chrome
@@ -246,7 +235,7 @@ next:chrome:oldest:
 next:edge:
   extends: .test_edge
   needs:
-    - <<: *build_chrome
+    - <<: *extension_chrome
       ref: next
   variables:
     REVISION: next
@@ -261,33 +250,54 @@ next:firefox:oldest:
   variables:
     BROWSER: Firefox \(oldest\)
 
-build_production:
-  stage:
-    build_production
-  extends:
-    .production
+# BUILD, DEPLOY ################################################################
+
+.production:
+  tags:
+    - eyeo_cms_web_server_testpages-1.uplink.eyeo.it
+  only:
+    - master
+
+.build_production:
+  stage: build_production
+  extends: .production
   script:
     - env PYTHONPATH=/opt/cms:/opt/sitescripts
       python -m cms.bin.generate_static_pages $PWD build
   artifacts:
-    name:
-      $CI_COMMIT_REF_SLUG
+    name: $CI_COMMIT_REF_SLUG
     paths:
       - build
-  only:
-    - master
 
-deploy_production:
-  stage:
-    deploy_production
-  extends:
-    .production
-  dependencies:
-    - build_production
+build:testpages:
+  extends: .build_production
+  variables:
+    SITE_URL: https://testpages.adblockplus.org
+
+build:abptestpages:
+  extends: .build_production
+  variables:
+    SITE_URL: https://abptestpages.org
+
+.deploy_production:
+  stage: deploy_production
+  extends: .production
   script:
     - sudo /usr/local/sbin/deploy_eyeo_cms_web_$DOMAIN $CI_PROJECT_DIR/build/
   environment:
     name: $DOMAIN
-    url: http://$DOMAIN
-  only:
-    - master
+    url: https://$DOMAIN
+
+deploy:testpages:
+  extends: .deploy_production
+  dependencies:
+    - build:testpages
+  variables:
+    DOMAIN: testpages.adblockplus.org
+
+deploy:abptestpages:
+  extends: .deploy_production
+  dependencies:
+    - build:abptestpages
+  variables:
+    DOMAIN: abptestpages.org

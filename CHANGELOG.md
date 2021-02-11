@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2020-02-08
+
+- Deployed new testpages top-level domain: https://abptestpages.org
+
 ## 2020-12-14
 
 - Added subpage containing only Testpages supported by ABPKit. Subpage is available under link: https://testpages.adblockplus.org/en/abpkit
