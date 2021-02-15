@@ -116,22 +116,17 @@ lint:
     - python -m cms.bin.generate_static_pages . $Env:NGINX\html\$Env:DOMAIN
   script:
     # Run testpages server
-    - Start-Process -NoNewWindow "$Env:NGINX\nginx.exe"
-      -WorkingDirectory "$Env:NGINX" -PassThru
+    - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
+      -PassThru
     # Run tests
     - cd adblockpluschrome
     - echo "INFO - Tests will execute based on the following revision:";
       git status | Select -First 1; git log -5 --oneline
     # Sitekey test disabled - testpages#41
-    - $npm_process = (Start-Process -NoNewWindow "npm"
-      -ArgumentList "run test-only -- -g '`"^`"Edge.*Test`"
-      `"pages((?!Sitekey`"|`"Final`" `"checks).)*$'" -PassThru -Wait)
-    - Stop-Process -Name "nginx" -Force -PassThru
-    - Start-Sleep -Seconds 3 # Allow npm process to finish
-    - Exit($npm_process.ExitCode)
+    - npm run test-only -- -g "^Edge.*Test pages((?!Sitekey|Final checks).)*$"
   variables:
-    TEST_PAGES_URL: https://local.testpages.adblockplus.org/en/
-    SITE_URL: https://local.testpages.adblockplus.org
+    TEST_PAGES_URL: https://local.testpages.adblockplus.org:5000/en/
+    SITE_URL: https://local.testpages.adblockplus.org:5000
     DOMAIN: local.testpages.adblockplus.org
     TEST_PAGES_INSECURE: "true"
     SKIP_BUILD: "true"

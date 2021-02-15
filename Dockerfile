@@ -20,7 +20,7 @@ RUN apt-get update
 RUN apt-get install -y spawn-fcgi python-flup python-m2crypto nginx
 
 # nginx config
-ARG DOMAIN=local.testpages.adblockplus.org
+ENV DOMAIN=local.testpages.adblockplus.org
 COPY test/etc /etc
 RUN rm /etc/nginx/sites-enabled/default
 RUN rm /etc/nginx/sites-available/default
@@ -51,7 +51,7 @@ RUN cd adblockpluschrome \
 COPY . testpages.adblockplus.org
 
 # Generate test pages files
-ARG SITE_URL=https://$DOMAIN
+ENV SITE_URL=https://$DOMAIN:5000
 RUN mkdir -p /var/www/$DOMAIN
 RUN PYTHONPATH=cms python -m cms.bin.generate_static_pages testpages.adblockplus.org /var/www/$DOMAIN
 
