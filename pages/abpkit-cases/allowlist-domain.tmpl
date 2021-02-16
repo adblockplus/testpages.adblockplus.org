@@ -1,0 +1,69 @@
+template = testcase
+title = ABP Kit Allowlist Domains
+description = Check that a filters are not applied when domain is added to Allowlist Domains in ABP Kit.
+
+<section class="testcase-panel">
+  {{ heading("Dynamic") }}
+  <p>Image, dynamic target.</p>
+  <div id="image-dynamic" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="example">Example Content</div>
+  </div>
+</section>
+
+<section class="testcase-panel">
+  {{ heading("Static Domain") }}
+  <p>Static target with excluded.</p>
+  <div class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="example">Example Content</div>
+    <img src="/testfiles/domain/static/excluded/image.png">
+    <img src="/testfiles/domain/static/target/image.png" data-expectedresult="fail" aria-label="fail">
+  </div>
+</section>
+
+<section class="testcase-panel">
+  {{ heading("Image Static") }}
+  <p>Image on a static target.</p>
+  <div class="testcase-area" >
+    <img src="/testfiles/image/static/static.png" data-expectedresult="fail" aria-label="fail">
+    <div class="testcase-examplecontent" aria-label="example">Example Content</div>
+  </div>
+</section>
+
+<section class="testcase-panel">
+  {{ heading("Stylesheet") }}
+  <p>Stylesheet on an external stylesheet.</p>
+  <div class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="example">Example Content</div>
+    <div class="testcase-expected-view" aria-label="example">Passed. Stylesheet was blocked.</div>
+    <div id="stylesheet-target" data-expectedresult="fail" aria-label="fail"></div>
+  </div>
+</section>
+
+<section class="testcase-panel">
+  {{ heading("Resource from other domain") }}
+  <p>Resource loaded from other domain</p>
+  <div class="testcase-area">
+    <img style="padding: 0.5rem; background-color: #c70d2c; width: 166px; height: 166px;" src="https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/-/raw/master/static/testfiles/third-party/adblockplus-icon-colour-web.svg" data-expectedresult="fail"/>
+    <img style="padding: 0.5rem; background-color: #0dc74b; width: 166px; height: 166px;" src="/testfiles/third-party/adblockplus-icon-colour-web.svg" class="testcase-expected-view"/>
+    <img style="padding: 0.5rem; background-color: #0dc74b; width: 166px; height: 166px;" src="/testfiles/third-party/adblockplus-icon-colour-web.svg" data-expectedresult="pass"/>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+</section>
+
+
+<link rel="stylesheet" href="/testfiles/stylesheet/stylesheet.css">
+<script>
+  "use strict";
+  
+  function setAttributes(el, attrs)
+  {
+    for (let key in attrs)
+      el.setAttribute(key, attrs[key]);
+  }
+  
+  let image = document.createElement("img");
+  let area = document.getElementById("image-dynamic");
+  image.src = "/testfiles/image/dynamic/dynamic.png";
+  setAttributes(image, {"data-expectedresult": "fail", "aria-label": "fail"});
+  area.appendChild(image);
+</script>
