@@ -1,0 +1,58 @@
+template = testcase
+title = Popup Exception - ABP Kit Version
+description = Check that usage of the $popup filter option in an exception is working as expected.
+
+<section class="testcase-panel">
+  {{ heading("Script based popup exception (tab)") }}
+  <p>Test that the script-based $popup filter option in an exception works.</p>
+  <div class="testcase-area">
+    <a href="#script-based-popup-exception-tab" class="testcase-trigger" onclick="scriptPopupTab();">Trigger script based popup</a>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filters #1 and #2.</li>
+    <li>Refresh page.</li>
+    <li>Click the link above.</li>
+    <li>The popup/tab should not be blocked and open succesfully.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/popup_exception/script-tab.html^$popup</pre></li>
+    <li><pre>@@||{{ site_url|strip_proto }}/testfiles/popup_exception/script-tab.html^$popup</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  {{ heading("Script based popup exception (window)") }}
+  <p>Test that the script-based $popup filter option in an exception works.</p>
+  <div class="testcase-area">
+    <a href="#script-based-popup-exception-window" class="testcase-trigger" onclick="scriptPopupWindow();">Trigger script based popup</a>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filters #1 and #2.</li>
+    <li>Refresh page.</li>
+    <li>Click the link above.</li>
+    <li>The popup/window should not be blocked and open succesfully.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/popup_exception/script-window.html^$popup</pre></li>
+    <li><pre>@@||{{ site_url|strip_proto }}/testfiles/popup_exception/script-window.html^$popup</pre></li>
+  </ul>
+</section>
+
+
+<script>
+  "use strict";
+
+  function scriptPopupTab()
+  {
+    window.open("/testfiles/popup_exception/script-tab.html");
+  }
+
+  function scriptPopupWindow()
+  {
+    window.open("/testfiles/popup_exception/script-window.html", "some-popup", "resizable");
+  }
+</script>

@@ -1,111 +1,110 @@
 [
-    {
-      "trigger": {
-        "url-filter": "^https?://",
-        "url-filter-is-case-sensitive": true
-      },
-      "action": {
-        "type": "css-display-none",
-        "selector": ".ex-gh-generic"
-      }
+  {
+    "trigger": {
+      "url-filter": "^https?://",
+      "url-filter-is-case-sensitive": true
     },
-    {
-      "trigger": {
-        "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?",
-        "url-filter-is-case-sensitive": true
-      },
-      "action": {
-        "type": "css-display-none",
-        "selector": ".ex-gh-specific,.ex-elemhide,.testcase-ehe,.testcase-sitekey-eh,.ex-document,.testcase-circ-is,.testcase-circ-anoniframe-docwrite,#eh-id,.eh-class,.testcase-area > .eh-descendant,.testcase-examplecontent + .eh-sibling,div[height=\"100\"][width=\"100\"],div[href=\"http://testcase-attribute.com/\"],div[style=\"width: 200px;\"],div[href^=\"http://testcase-startswith.com/\"],div[style^=\"width: 201px;\"],div[style$=\"width: 202px;\"],div[style*=\"width: 203px;\"]"
-      }
+    "action": {
+      "type": "css-display-none",
+      "selector": ".ex-gh-generic"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?",
+      "url-filter-is-case-sensitive": true
     },
-    {
-      "trigger": {
-        "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/elemhide/",
-        "resource-type": [
-          "image",
-          "style-sheet",
-          "script",
-          "font",
-          "media",
-          "raw",
-          "document"
-        ]
-      },
-      "action": {
-        "type": "block"
-      }
+    "action": {
+      "type": "css-display-none",
+      "selector": ".ex-gh-specific,.ex-elemhide,.testcase-ehe,.testcase-sitekey-eh,.ex-document,.testcase-circ-is,.testcase-circ-anoniframe-docwrite,#eh-id,.eh-class,.testcase-area > .eh-descendant,.testcase-examplecontent + .eh-sibling,div[height=\"100\"][width=\"100\"],div[href=\"http://testcase-attribute.com/\"],div[style=\"width: 200px;\"],div[href^=\"http://testcase-startswith.com/\"],div[style^=\"width: 201px;\"],div[style$=\"width: 202px;\"],div[style*=\"width: 203px;\"]"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/elemhide/",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw",
+        "document"
+      ]
     },
-    {
-      "trigger": {
-        "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/sitekey/outofframe\\.png",
-        "resource-type": [
-          "image",
-          "style-sheet",
-          "script",
-          "font",
-          "media",
-          "raw",
-          "document"
-        ]
-      },
-      "action": {
-        "type": "block"
-      }
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/sitekey/outofframe\\.png",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw",
+        "document"
+      ]
     },
-    {
-      "trigger": {
-        "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/sitekey/inframe\\.png",
-        "resource-type": [
-          "image",
-          "style-sheet",
-          "script",
-          "font",
-          "media",
-          "raw",
-          "document"
-        ]
-      },
-      "action": {
-        "type": "block"
-      }
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/sitekey/inframe\\.png",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw",
+        "document"
+      ]
     },
-    {
-      "trigger": {
-        "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/image_exception/",
-        "resource-type": [
-          "image",
-          "style-sheet",
-          "script",
-          "font",
-          "media",
-          "raw",
-          "document"
-        ]
-      },
-      "action": {
-        "type": "block"
-      }
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/image_exception/",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw",
+        "document"
+      ]
     },
-    {
-      "trigger": {
-        "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/subdocument_exception/",
-        "resource-type": [
-          "image",
-          "style-sheet",
-          "script",
-          "font",
-          "media",
-          "raw",
-          "document"
-        ]
-      },
-      "action": {
-        "type": "block"
-      }
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/subdocument_exception/",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw",
+        "document"
+      ]
     },
-    
-    {
+    "action": {
+      "type": "block"
+    }
+  },
+  {
     "trigger": {
       "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/xmlhttprequest_exception/",
       "resource-type": [
@@ -122,474 +121,463 @@
       "type": "block"
     }
   },
-    {
-      "trigger": {
-          "url-filter": "^https?://.*testpages\\.adblockplus\\.org/testfiles/xmlhttprequest_exception/",
-          "resource-type": [
-              "raw"
-          ]
-      },
-      "action": {
-          "type": "ignore-previous-rules"
-      }
+  {
+    "trigger": {
+      "url-filter": "^https?://.*testpages\\.adblockplus\\.org/testfiles/xmlhttprequest_exception/",
+      "resource-type": [
+        "raw"
+      ]
+    },
+    "action": {
+      "type": "ignore-previous-rules"
+    }
   },
-    {
-      "trigger": {
-        "url-filter": "^[^:]+:(//)?.*/testfiles/genericblock/generic\\.png",
-        "resource-type": [
-          "image",
-          "style-sheet",
-          "script",
-          "font",
-          "media",
-          "raw"
-        ]
-      },
-      "action": {
-        "type": "block"
-      }
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?.*/testfiles/genericblock/generic\\.png",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw"
+      ]
     },
-    
-    {
-      "trigger": {
-        "url-filter": "^[^:]+:(//)?.*/testfiles/genericblock/specific\\.png",
-        "resource-type": [
-          "image",
-          "style-sheet",
-          "script",
-          "font",
-          "media",
-          "raw"
-        ],
-        "if-top-url": [
-          "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
-        ]
-      },
-      "action": {
-        "type": "block"
-      }
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?.*/testfiles/genericblock/specific\\.png",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw"
+      ],
+      "if-top-url": [
+        "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
+      ]
     },
-    
-    {
-      "trigger": {
-        "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/document/",
-        "resource-type": [
-          "image",
-          "style-sheet",
-          "script",
-          "font",
-          "media",
-          "raw",
-          "document"
-        ]
-      },
-      "action": {
-        "type": "block"
-      }
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/document/",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw",
+        "document"
+      ]
     },
-    {
-        "trigger": {
-            "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/script_exception/",
-            "resource-type": [
-                "image",
-                "style-sheet",
-                "script",
-                "font",
-                "media",
-                "raw",
-                "document"
-            ]
-        },
-        "action": {
-            "type": "block"
-        }
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/script_exception/",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw",
+        "document"
+      ]
     },
-    {
-        "trigger": {
-          "url-filter": "^https?://.*testpages\\.adblockplus\\.org/testfiles/script_exception/",
-          "resource-type": [
-            "script"
-          ]
-        },
-        "action": {
-          "type": "ignore-previous-rules"
-        }
-      },
-    {
-      "trigger": {
-        "url-filter": "^https?://([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/popup(_exception)?/link\\.html([^-_.%A-Za-z0-9].*)?$",
-        "resource-type": [
-          "popup"
-        ],
-        "unless-top-url": [
-          "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
-        ]
-      },
-      "action": {
-        "type": "block"
-      }
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^https?://.*testpages\\.adblockplus\\.org/testfiles/script_exception/",
+      "resource-type": [
+        "script"
+      ]
     },
-    {
-      "trigger": {
-        "url-filter": "^https?://([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/popup(_exception)?/script-tab\\.html([^-_.%A-Za-z0-9].*)?$",
-        "resource-type": [
-          "popup"
-        ],
-        "unless-top-url": [
-          "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
-        ]
-      },
-      "action": {
-        "type": "block"
-      }
+    "action": {
+      "type": "ignore-previous-rules"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^https?://([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/popup/link\\.html([^-_.%A-Za-z0-9].*)?$",
+      "resource-type": [
+        "popup"
+      ]
     },
-    {
-      "trigger": {
-        "url-filter": "^https?://([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/popup(_exception)?/script-window\\.html([^-_.%A-Za-z0-9].*)?$",
-        "resource-type": [
-          "popup"
-        ],
-        "unless-top-url": [
-          "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
-        ]
-      },
-      "action": {
-        "type": "block"
-      }
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^https?://([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/popup/script-tab\\.html([^-_.%A-Za-z0-9].*)?$",
+      "resource-type": [
+        "popup"
+      ]
     },
-    {
-      "trigger": {
-        "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/stylesheet_exception/",
-        "resource-type": [
-          "image",
-          "style-sheet",
-          "script",
-          "font",
-          "media",
-          "raw",
-          "document"
-        ]
-      },
-      "action": {
-        "type": "block"
-      }
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^https?://([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/popup/script-window\\.html([^-_.%A-Za-z0-9].*)?$",
+      "resource-type": [
+        "popup"
+      ]
     },
-    {
-        "trigger": {
-            "url-filter": "^https?://.*testpages\\.adblockplus\\.org/testfiles/stylesheet_exception/",
-            "resource-type": [
-                "style-sheet"
-            ]
-        },
-        "action": {
-            "type": "ignore-previous-rules"
-        }
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/stylesheet_exception/",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw",
+        "document"
+      ]
     },
-    {
-      "trigger": {
-        "url-filter": "^https?://([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/image/static/",
-        "resource-type": [
-          "image"
-        ]
-      },
-      "action": {
-        "type": "block"
-      }
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^https?://.*testpages\\.adblockplus\\.org/testfiles/stylesheet_exception/",
+      "resource-type": [
+        "style-sheet"
+      ]
     },
-    {
-      "trigger": {
-        "url-filter": "^https?://([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/image/dynamic/",
-        "resource-type": [
-          "image"
-        ]
-      },
-      "action": {
-        "type": "block"
-      }
+    "action": {
+      "type": "ignore-previous-rules"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^https?://([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/image/static/",
+      "resource-type": [
+        "image"
+      ]
     },
-    {
-      "trigger": {
-        "url-filter": "^https?://.*testpages\\.adblockplus\\.org/testfiles/xmlhttprequest/",
-        "resource-type": [
-          "raw"
-        ]
-      },
-      "action": {
-        "type": "block"
-      }
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^https?://([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/image/dynamic/",
+      "resource-type": [
+        "image"
+      ]
     },
-    {
-        "trigger": {
-          "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/rewrite/.*\\.js",
-          "resource-type": [
-            "image",
-            "style-sheet",
-            "script",
-            "font",
-            "media",
-            "raw",
-            "document"
-          ],
-          "if-top-url": [
-            "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
-          ]
-        },
-        "action": {
-          "type": "block"
-        }
-      },
-      {
-        "trigger": {
-          "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/rewrite/.*\\.mp[34]",
-          "resource-type": [
-            "image",
-            "style-sheet",
-            "script",
-            "font",
-            "media",
-            "raw",
-            "document"
-          ],
-          "if-top-url": [
-            "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
-          ]
-        },
-        "action": {
-          "type": "block"
-        }
-      } ,
-      {
-        "trigger": {
-          "url-filter": "^[^:]+:(//)?.*adblockplus-icon-colour-web\\.svg",
-          "resource-type": [
-            "image",
-            "style-sheet",
-            "script",
-            "font",
-            "media",
-            "raw"
-          ],
-          "load-type": [
-            "third-party"
-          ]
-        },
-        "action": {
-          "type": "block"
-        }
-      },
-      {
-        "trigger": {
-          "url-filter": "^[^:]+:(//)?.*abb-logo\\.png",
-          "resource-type": [
-            "image",
-            "style-sheet",
-            "script",
-            "font",
-            "media",
-            "raw"
-          ],
-          "load-type": [
-            "first-party"
-          ]
-        },
-        "action": {
-          "type": "block"
-        }
-      },
-      {
-        "trigger": {
-          "url-filter": "^https?://.*testpages\\.adblockplus\\.org/testfiles/script/",
-          "resource-type": [
-            "script"
-          ]
-        },
-        "action": {
-          "type": "block"
-        }
-      },
-        {
-          "trigger": {
-            "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/blocking/full-path\\.png",
-            "resource-type": [
-              "image",
-              "style-sheet",
-              "script",
-              "font",
-              "media",
-              "raw",
-              "document"
-            ]
-          },
-          "action": {
-            "type": "block"
-          }
-        },
-        {
-          "trigger": {
-            "url-filter": "^[^:]+:(//)?.*/testfiles/blocking/wildcard/.*/wildcard\\.png",
-            "resource-type": [
-              "image",
-              "style-sheet",
-              "script",
-              "font",
-              "media",
-              "raw"
-            ]
-          },
-          "action": {
-            "type": "block"
-          }
-        },
-        {
-          "trigger": {
-            "url-filter": "^[^:]+:(//)?.*/testfiles/blocking/dynamic\\.png",
-            "resource-type": [
-              "image",
-              "style-sheet",
-              "script",
-              "font",
-              "media",
-              "raw"
-            ]
-          },
-          "action": {
-            "type": "block"
-          }
-        },
-          {
-            "trigger": {
-              "url-filter": "^https?://.*testpages\\.adblockplus\\.org/testfiles/stylesheet/",
-              "resource-type": [
-                "style-sheet"
-              ]
-            },
-            "action": {
-              "type": "block"
-            }
-          },
-          {
-            "trigger": {
-              "url-filter": "^[^:]+:(//)?.*/testfiles/domain/static/target/",
-              "resource-type": [
-                "image",
-                "style-sheet",
-                "script",
-                "font",
-                "media",
-                "raw"
-              ],
-              "if-top-url": [
-                "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
-              ]
-            },
-            "action": {
-              "type": "block"
-            }
-          },
-          {
-            "trigger": {
-              "url-filter": "^[^:]+:(//)?.*/testfiles/domain/dynamic/",
-              "resource-type": [
-                "image",
-                "style-sheet",
-                "script",
-                "font",
-                "media",
-                "raw"
-              ],
-              "if-top-url": [
-                "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
-              ]
-            },
-            "action": {
-              "type": "block"
-            }
-          },
-          {
-            "trigger": {
-              "url-filter": "^stuns?:.*",
-              "resource-type": [
-                "raw"
-              ],
-              "if-top-url": [
-                "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
-              ]
-            },
-            "action": {
-              "type": "block"
-            }
-          },
-          {
-            "trigger": {
-              "url-filter": "^turns?:.*",
-              "resource-type": [
-                "raw"
-              ],
-              "if-top-url": [
-                "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
-              ]
-            },
-            "action": {
-              "type": "block"
-            }
-          },
-          {
-            "trigger": {
-              "url-filter": "^[^:]+:(//)?.*/testfiles/match-case/static/.*/abc\\.png",
-              "url-filter-is-case-sensitive": true,
-              "resource-type": [
-                "image",
-                "style-sheet",
-                "script",
-                "font",
-                "media",
-                "raw"
-              ]
-            },
-            "action": {
-              "type": "block"
-            }
-          },
-          {
-            "trigger": {
-              "url-filter": "^[^:]+:(//)?.*/testfiles/match-case/dynamic/.*/abc\\.png",
-              "url-filter-is-case-sensitive": true,
-              "resource-type": [
-                "image",
-                "style-sheet",
-                "script",
-                "font",
-                "media",
-                "raw"
-              ]
-            },
-            "action": {
-              "type": "block"
-            }
-          },
-          {
-              "trigger": {
-                  "url-filter": "^wss?://.*",
-                  "resource-type": [
-                      "raw"
-                  ],
-                  "if-top-url": [
-                      "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
-                  ]
-              },
-              "action": {
-                  "type": "block"
-              }
-          },
-          {
-      "trigger": {
-          "url-filter": "^https?://.*testpages\\.adblockplus\\.org/.*([^-_.%A-Za-z0-9].*)?$",
-          "resource-type": [
-              "raw"
-          ]
-      },
-      "action": {
-          "type": "block"
-      }
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^https?://.*testpages\\.adblockplus\\.org/testfiles/xmlhttprequest/",
+      "resource-type": [
+        "raw"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/rewrite/.*\\.js",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw",
+        "document"
+      ],
+      "if-top-url": [
+        "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/rewrite/.*\\.mp[34]",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw",
+        "document"
+      ],
+      "if-top-url": [
+        "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?.*adblockplus-icon-colour-web\\.svg",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw"
+      ],
+      "load-type": [
+        "third-party"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?.*abb-logo\\.png",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw"
+      ],
+      "load-type": [
+        "first-party"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^https?://.*testpages\\.adblockplus\\.org/testfiles/script/",
+      "resource-type": [
+        "script"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/blocking/full-path\\.png",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw",
+        "document"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?.*/testfiles/blocking/wildcard/.*/wildcard\\.png",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?.*/testfiles/blocking/dynamic\\.png",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^https?://.*testpages\\.adblockplus\\.org/testfiles/stylesheet/",
+      "resource-type": [
+        "style-sheet"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?.*/testfiles/domain/static/target/",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw"
+      ],
+      "if-top-url": [
+        "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?.*/testfiles/domain/dynamic/",
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw"
+      ],
+      "if-top-url": [
+        "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^stuns?:.*",
+      "resource-type": [
+        "raw"
+      ],
+      "if-top-url": [
+        "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^turns?:.*",
+      "resource-type": [
+        "raw"
+      ],
+      "if-top-url": [
+        "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?.*/testfiles/match-case/static/.*/abc\\.png",
+      "url-filter-is-case-sensitive": true,
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^[^:]+:(//)?.*/testfiles/match-case/dynamic/.*/abc\\.png",
+      "url-filter-is-case-sensitive": true,
+      "resource-type": [
+        "image",
+        "style-sheet",
+        "script",
+        "font",
+        "media",
+        "raw"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^wss?://.*",
+      "resource-type": [
+        "raw"
+      ],
+      "if-top-url": [
+        "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^https?://.*testpages\\.adblockplus\\.org/.*([^-_.%A-Za-z0-9].*)?$",
+      "resource-type": [
+        "raw"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
   }
-    ]
+]

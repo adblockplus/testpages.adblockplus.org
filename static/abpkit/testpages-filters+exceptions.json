@@ -728,5 +728,60 @@
     "action": {
       "type": "ignore-previous-rules"
     }
+  },
+  {
+    "trigger": {
+      "url-filter": "^https?://([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/popup_exception/link\\.html([^-_.%A-Za-z0-9].*)?$",
+      "resource-type": [
+        "popup"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^https?://([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/popup_exception/script-tab\\.html([^-_.%A-Za-z0-9].*)?$",
+      "resource-type": [
+        "popup"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^https?://([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/popup_exception/script-window\\.html([^-_.%A-Za-z0-9].*)?$",
+      "resource-type": [
+        "popup"
+      ]
+    },
+    "action": {
+      "type": "block"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^https?://([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/popup_exception/script-tab\\.html([^-_.%A-Za-z0-9].*)?$",
+      "resource-type": [
+        "popup"
+      ]
+    },
+    "action": {
+      "type": "ignore-previous-rules"
+    }
+  },
+  {
+    "trigger": {
+      "url-filter": "^https?://([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/popup_exception/script-window\\.html([^-_.%A-Za-z0-9].*)?$",
+      "resource-type": [
+        "popup"
+      ]
+    },
+    "action": {
+      "type": "ignore-previous-rules"
+    }
   }
 ]
