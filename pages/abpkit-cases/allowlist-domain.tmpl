@@ -39,18 +39,6 @@ description = Check that a filters are not applied when domain is added to Allow
   </div>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Resource from other domain") }}
-  <p>Resource loaded from other domain</p>
-  <div class="testcase-area">
-    <img style="padding: 0.5rem; background-color: #c70d2c; width: 166px; height: 166px;" src="https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/-/raw/master/static/testfiles/third-party/adblockplus-icon-colour-web.svg" data-expectedresult="fail"/>
-    <img style="padding: 0.5rem; background-color: #0dc74b; width: 166px; height: 166px;" src="/testfiles/third-party/adblockplus-icon-colour-web.svg" class="testcase-expected-view"/>
-    <img style="padding: 0.5rem; background-color: #0dc74b; width: 166px; height: 166px;" src="/testfiles/third-party/adblockplus-icon-colour-web.svg" data-expectedresult="pass"/>
-    <div class="testcase-examplecontent">Example Content</div>
-  </div>
-</section>
-
-
 <link rel="stylesheet" href="/testfiles/stylesheet/stylesheet.css">
 <script>
   "use strict";
@@ -60,6 +48,25 @@ description = Check that a filters are not applied when domain is added to Allow
     for (let key in attrs)
       el.setAttribute(key, attrs[key]);
   }
+
+  setTimeout(() =>
+  {
+    let target = document.getElementById("stylesheet-target");
+    let targetStyle = getComputedStyle(target);
+    if (targetStyle.width === "150px")
+    {
+      target.innerHTML = "Failed. Stylesheet was NOT blocked.";
+    }
+    else
+    {
+      target.innerHTML = "Passed. Stylesheet was blocked.";
+      // Style must be equal to .testcase-expected-view,
+      target.style = `flex-grow: 1;
+        padding: .5rem;
+        color: #fff;
+        background-color: #0dc74b;`;
+    }
+  }, 500);
   
   let image = document.createElement("img");
   let area = document.getElementById("image-dynamic");
