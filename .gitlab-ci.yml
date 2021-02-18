@@ -273,6 +273,10 @@ build:abptestpages:
   extends: .build_production
   variables:
     SITE_URL: https://abptestpages.org
+  # FIXME Remove this
+  needs: []
+  only:
+    - dynamic_sitekey_frame
 
 .deploy_production:
   stage: deploy_production
@@ -292,7 +296,10 @@ deploy:testpages:
 
 deploy:abptestpages:
   extends: .deploy_production
-  dependencies:
+  needs:
     - build:abptestpages
   variables:
     DOMAIN: abptestpages.org
+  # FIXME Remove this
+  only:
+    - dynamic_sitekey_frame
