@@ -34,7 +34,7 @@ stages:
     DOCKER_DRIVER: overlay2
   interruptible: true
 
-lint:
+test:lint:
   extends: .test_runner
   script:
     - docker build -t lintimage -f test/lint.Dockerfile .
@@ -44,13 +44,16 @@ lint:
   extends: .test_runner
   script:
     - docker build -t testpages --build-arg REVISION="$REVISION"
-      --build-arg EXTENSION_FILE="$EXTENSION_FILE"
+      --build-arg EXTENSION_FILE="adblockpluschrome/$EXTENSION_FILE"
       --build-arg TARGET="$TARGET" .
     - docker run -e BROWSER="$BROWSER" -e SKIP_BUILD="true" testpages
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
-    - docker cp $IMAGE_ID:/adblockpluschrome/test/screenshots . 2> /dev/null
+    - docker cp $IMAGE_ID:/ablockplusui/adblockpluschrome/test/screenshots .
+      2> /dev/null
     - docker cp $IMAGE_ID:/var/log/nginx/ .
+  variables:
+    REVISION: release-2020-1
   artifacts:
     paths:
       - screenshots/
@@ -58,24 +61,60 @@ lint:
     when: on_failure
     expire_in: 1 mo
 
+.extension:
+  needs:
+    - &extension
+      artifacts: true
+      project: eyeo/adblockplus/abpui/adblockplusui
+      ref: release-2020-1
+
 .test_chrome:
   extends: .test
+  needs:
+    - <<: *extension
+      job: build:chrome
   variables:
     EXTENSION_FILE: adblockpluschrome-*.zip
     TARGET: chrome
 
 .test_firefox:
   extends: .test
+  needs:
+    - <<: *extension
+      job: build:firefox
   variables:
     EXTENSION_FILE: adblockplusfirefox-*.xpi
     TARGET: firefox
 
-.test_edge:
+test:chrome:latest:
+  extends: .test_chrome
+  variables:
+    BROWSER: Chromium \(latest\)
+
+test:chrome:oldest:
+  extends: .test_chrome
+  variables:
+    BROWSER: Chromium \(oldest\)
+
+test:firefox:latest:
+  extends: .test_firefox
+  variables:
+    BROWSER: Firefox \(latest\)
+
+test:firefox:oldest:
+  extends: .test_firefox
+  variables:
+    BROWSER: Firefox \(oldest\)
+
+test:edge:
   stage: test
   tags:
     - shared-windows
     - windows
     - windows-1809
+  needs:
+    - <<: *extension
+      job: build:chrome
   before_script:
     # Fix for refreshenv
     # https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/13#note_337853320
@@ -111,11 +150,12 @@ lint:
     - git clone https://gitlab.com/eyeo/websites/cms.git
     - pip install -r cms\requirements.txt
     # Build adblockpluschrome
-    - git clone https://gitlab.com/eyeo/adblockplus/adblockpluschrome.git
-    - Expand-Archive -Path adblockpluschrome-*.zip
-      -DestinationPath adblockpluschrome\devenv.chrome
-    - cd adblockpluschrome; git checkout $Env:REVISION;
-      git submodule update --init --recursive; npm install; cd ..
+    - git clone -b $Env:REVISION --depth 5
+      https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
+    - Expand-Archive -Path adblockpluschrome\adblockpluschrome-*.zip
+      -DestinationPath adblockplusui\adblockpluschrome\devenv.chrome
+    - cd adblockplusui\adblockpluschrome;
+      git submodule update --init --recursive; npm install; cd ..\..
     # Generate test pages files
     - mkdir -p $Env:NGINX\html\$Env:DOMAIN
     - $Env:PYTHONPATH = "cms"
@@ -125,12 +165,13 @@ lint:
     - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
       -PassThru
     # Run tests
-    - cd adblockpluschrome
+    - cd adblockplusui\adblockpluschrome
     - echo "INFO - Tests will execute based on the following revision:";
       git status | Select -First 1; git log -5 --oneline
     # Sitekey test disabled - testpages#41
     - npm run test-only -- -g "^Edge.*Test pages((?!Sitekey|Final checks).)*$"
   variables:
+    REVISION: release-2020-1
     TEST_PAGES_URL: https://local.testpages.adblockplus.org:5000/en/
     SITE_URL: https://local.testpages.adblockplus.org:5000
     DOMAIN: local.testpages.adblockplus.org
@@ -138,118 +179,10 @@ lint:
     SKIP_BUILD: "true"
   artifacts:
     paths:
-      - adblockpluschrome/test/screenshots/
+      - adblockplusui/adblockpluschrome/test/screenshots/
     when: on_failure
     expire_in: 1 mo
   interruptible: true
-
-.extension_chrome:
-  needs:
-    - &extension_chrome
-      job: build:chrome
-      artifacts: true
-      project: eyeo/adblockplus/adblockpluschrome
-
-.extension_firefox:
-  needs:
-    - &extension_firefox
-      job: build:firefox
-      artifacts: true
-      project: eyeo/adblockplus/adblockpluschrome
-
-# some of the test jobs are expected to fail when there are breaking
-# changes between adblockpluschrome's next and master revisions, so
-# master:* jobs are tagged to allow failure
-.master_chrome:
-  extends: .test_chrome
-  needs:
-    - <<: *extension_chrome
-      ref: master
-  variables:
-    REVISION: master
-  allow_failure: true
-
-.master_firefox:
-  extends: .test_firefox
-  needs:
-    - <<: *extension_firefox
-      ref: master
-  variables:
-    REVISION: master
-  allow_failure: true
-
-.next_chrome:
-  extends: .test_chrome
-  needs:
-    - <<: *extension_chrome
-      ref: next
-  variables:
-    REVISION: next
-
-.next_firefox:
-  extends: .test_firefox
-  needs:
-    - <<: *extension_firefox
-      ref: next
-  variables:
-    REVISION: next
-
-master:chrome:latest:
-  extends: .master_chrome
-  variables:
-    BROWSER: Chromium \(latest\)
-
-master:chrome:oldest:
-  extends: .master_chrome
-  variables:
-    BROWSER: Chromium \(oldest\)
-
-master:edge:
-  extends: .test_edge
-  needs:
-    - <<: *extension_chrome
-      ref: master
-  variables:
-    REVISION: master
-  allow_failure: true
-
-master:firefox:latest:
-  extends: .master_firefox
-  variables:
-    BROWSER: Firefox \(latest\)
-
-master:firefox:oldest:
-  extends: .master_firefox
-  variables:
-    BROWSER: Firefox \(oldest\)
-
-next:chrome:latest:
-  extends: .next_chrome
-  variables:
-    BROWSER: Chromium \(latest\)
-
-next:chrome:oldest:
-  extends: .next_chrome
-  variables:
-    BROWSER: Chromium \(oldest\)
-
-next:edge:
-  extends: .test_edge
-  needs:
-    - <<: *extension_chrome
-      ref: next
-  variables:
-    REVISION: next
-
-next:firefox:latest:
-  extends: .next_firefox
-  variables:
-    BROWSER: Firefox \(latest\)
-
-next:firefox:oldest:
-  extends: .next_firefox
-  variables:
-    BROWSER: Firefox \(oldest\)
 
 # BUILD, DEPLOY ################################################################
 

@@ -15,7 +15,7 @@ echo -e "\n127.0.0.1 $DOMAIN" >> /etc/hosts
 nginx
 
 # Run tests
-cd adblockpluschrome
+cd adblockplusui/adblockpluschrome
 export TEST_PAGES_URL="$SITE_URL/en/"
 export TEST_PAGES_INSECURE="true"
 echo "INFO: Tests will execute based on the following revision:"

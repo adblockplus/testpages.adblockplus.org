@@ -40,11 +40,9 @@ RUN git clone https://github.com/adblockplus/cms.git
 RUN pip install -r cms/requirements.txt
 
 # Build adblockpluschrome test env
-RUN git clone https://gitlab.com/eyeo/adblockplus/adblockpluschrome.git
-ARG REVISION=next
-RUN cd adblockpluschrome \
-  && git fetch \
-  && git checkout $REVISION \
+ARG REVISION=release-2020-1
+RUN git clone -b $REVISION --depth 5 https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
+RUN cd adblockplusui/adblockpluschrome \
   && git submodule update --init --recursive \
   && npm install --unsafe-perm
 
@@ -58,7 +56,7 @@ RUN PYTHONPATH=cms python -m cms.bin.generate_static_pages testpages.adblockplus
 # Unpack custom extension
 ARG EXTENSION_FILE=""
 ARG TARGET=""
-RUN if [ "$EXTENSION_FILE" != "" ]; then unzip -q testpages.adblockplus.org/$EXTENSION_FILE -d adblockpluschrome/devenv.$TARGET; fi
+RUN if [ "$EXTENSION_FILE" != "" ]; then unzip -q testpages.adblockplus.org/$EXTENSION_FILE -d adblockplusui/adblockpluschrome/devenv.$TARGET; fi
 
 ENV BROWSER="Firefox \(latest\)"
 ENV TESTS_SUBSET=""

@@ -38,8 +38,9 @@ docker run -it testpages
 
 #### Revision
 
-`next` is the default revision of `adblockpluschrome` used to build the
-`testpages` image. Other revisions can be built using the `REVISION` argument:
+`release-2020-1` is the revision of `adblockplusui/adblockpluschrome` used to
+build the `testpages` test image. Other revisions can be built using the
+`REVISION` argument:
 ```
 docker build -t testpages --build-arg REVISION=master .
 ```
@@ -90,7 +91,7 @@ docker run -e SKIP_BUILD="true" -e BROWSER="Chromium \(latest\)" -it testpages
 In order to access the screenshots for failing tests run the following command,
 which copies the screenshots to `<destination>` folder:
 ```
-docker cp $(docker ps -aqf ancestor=testpages | head -n 1):/adblockpluschrome/test/screenshots <destination>
+docker cp $(docker ps -aqf ancestor=testpages | head -n 1):/adblockplusui/adblockpluschrome/test/screenshots <destination>
 ```
 
 Another useful resource are the nginx (test pages server) logs. In order to
