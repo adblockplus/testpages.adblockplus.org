@@ -118,5 +118,8 @@ description = Check that a filter using the $rewrite filter option is working as
   }
 
   manageMedia("mp3-target", "audio/mpeg", "audio.mp3");
-  manageMedia("mp4-target", "video/mp4; codecs=\"avc1.42E01E\"", "video.mp4");
+  if (typeof netscape != "undefined")
+    setTimeout(() => manageMedia("mp4-target", "video/mp4; codecs=\"avc1.42E01E\"", "video.mp4"), 200);
+  else
+    manageMedia("mp4-target", "video/mp4; codecs=\"avc1.42E01E\"", "video.mp4");
 </script>
