@@ -26,8 +26,15 @@ a { color: inherit; }
   background-color: #0d20c7;
 }
 
+#site-header-dp {
+  margin: 0;
+  padding-left: 2em;
+  background-color: #111;
+}
+
 #site-header a,
-#site-header-abpkit a {
+#site-header-abpkit a,
+#site-header-dp a {
   display: inline-block;
   color: #fff;
   text-decoration: none;
@@ -36,6 +43,8 @@ a { color: inherit; }
 #site-header a:hover { background-color: #970a21; }
 
 #site-header-abpkit a:hover { background-color: #062f55; }
+
+#site-header-dp a:hover { background-color: #292929; }
 
 #site-footer {
   color: #ececec;
