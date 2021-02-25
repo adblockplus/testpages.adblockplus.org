@@ -6,17 +6,17 @@ description = Check that anonymous fame document.write() functionality is workin
   {{ heading("Anonymous frame document.write()") }}
   <p>Top frame</p>
   <div class="testcase-area">
-    <span class="testcase-circ-anoniframe-docwrite" data-expectedresult="fail">This element should be blocked</span>
+    <span class="testcase-circ-anoniframe-docwrite" data-expectedresult="fail" data-dp="fail">This element should be blocked</span>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <p>Sub frame (element.appendChild)</p>
   <div class="testcase-area">
-    <iframe id="append"></iframe>
+    <iframe id="append" dp-data="append"></iframe>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <p>Sub frame (document.write)</p>
   <div class="testcase-area">
-    <iframe id="write"></iframe>
+    <iframe id="write" dp-data="write"></iframe>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -54,6 +54,7 @@ iframe {
     let span = document.createElement("span");
     span.className = "testcase-circ-anoniframe-docwrite";
     span.setAttribute("data-expectedresult", "fail");
+    span.setAttribute("data-dp", "fail");
     span.textContent = "This text should be hidden";
     iframe.contentDocument.body.appendChild(span);
   });
@@ -61,6 +62,6 @@ iframe {
   let doc = document.getElementById("write").contentDocument;
   doc.open();
   doc.write("<span class='testcase-circ-anoniframe-docwrite' " +
-            "data-expectedresult='blocked'>This text should be hidden</span>");
+            "data-expectedresult='blocked' data-dp='fail'>This text should be hidden</span>");
   doc.close();
 </script>

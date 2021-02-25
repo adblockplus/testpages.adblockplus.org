@@ -6,7 +6,7 @@ description = Check that a filter using the $popup filter option is working as e
   {{ heading("Link based popup") }}
   <p>Test that a filter using the $popup filter option works on a link based popup.</p>
   <div class="testcase-area">
-    <a href="/testfiles/popup/link.html" target="_blank" class="testcase-trigger">Trigger link based popup</a>
+    <a href="/testfiles/popup/link.html" target="_blank" class="testcase-trigger" data-dp="popup-link">Trigger link based popup</a>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -25,7 +25,7 @@ description = Check that a filter using the $popup filter option is working as e
   {{ heading("Script based popup (tab)") }}
   <p>Test that a filter using the $popup filter option works on a script based popup.</p>
   <div class="testcase-area">
-    <a href="#script-based-popup-tab" class="testcase-trigger" onclick="scriptPopupTab();">Trigger script based popup (tab)</a>
+    <a href="#script-based-popup-tab" class="testcase-trigger" onclick="scriptPopupTab();" data-dp="popup-script">Trigger script based popup (tab)</a>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">

@@ -31,6 +31,7 @@ description = Check that a filter using the $xmlhttprequest filter option is wor
     let result = document.getElementById("testcase-status");
     result.innerHTML = "Passed. Connection was blocked.";
     result.setAttribute("data-expectedresult", "pass");
+    result.setAttribute("data-dp", "pass");
   };
   req.onload = function(e)
   {
@@ -39,6 +40,7 @@ description = Check that a filter using the $xmlhttprequest filter option is wor
       let result = document.getElementById("testcase-status");
       result.innerHTML = "Failed. Connection was NOT blocked.";
       result.setAttribute("data-expectedresult", "fail");
+      result.setAttribute("data-dp", "fail");
     }
   };
 

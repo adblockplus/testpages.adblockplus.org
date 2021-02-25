@@ -6,7 +6,7 @@ description = Check that usage of the $popup filter option in an exception is wo
   {{ heading("Link based popup exception") }}
   <p>Test that the link-based $popup filter option in an exception works.</p>
   <div class="testcase-area">
-    <a href="/testfiles/popup_exception/link.html" target="_blank" class="testcase-trigger">Trigger link based popup</a><br><br>
+    <a href="/testfiles/popup_exception/link.html" target="_blank" class="testcase-trigger" data-dp="popup-link">Trigger link based popup</a><br><br>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -26,7 +26,7 @@ description = Check that usage of the $popup filter option in an exception is wo
   {{ heading("Script based popup exception (tab)") }}
   <p>Test that the script-based $popup filter option in an exception works.</p>
   <div class="testcase-area">
-    <a href="#script-based-popup-exception-tab" class="testcase-trigger" onclick="scriptPopupTab();">Trigger script based popup</a>
+    <a href="#script-based-popup-exception-tab" class="testcase-trigger" onclick="scriptPopupTab();" data-dp="popup-script">Trigger script based popup</a>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
