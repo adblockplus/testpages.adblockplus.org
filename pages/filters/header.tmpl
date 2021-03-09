@@ -1,0 +1,87 @@
+template = testcase
+title = Header
+description = Check that a filter using the $header filter option is working as expected.
+
+<section class="testcase-panel">
+  {{ heading("Script") }}
+  <p>Test that a filter using the $header filter option works on an external script.</p>
+  <div id="script-target" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should be blocked and the red element should not be added to the page.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/header/$header=content-type=application/javascript</pre></li>
+  </ul>
+</section>
+
+<script src="/testfiles/header/script.js"></script>
+
+<section class="testcase-panel">
+  {{ heading("Image") }}
+  <p>Test that a filter using the $header filter option works on an image.</p>
+  <div class="testcase-area">
+    <img src="/testfiles/header/image.png" data-expectedresult="fail">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/header/$header=content-type=image/png</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  {{ heading("Stylesheet") }}
+  <p>Test that a filter using the $header filter option works on an external stylesheet.</p>
+  <div class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-expected-view">Passed. Stylesheet was blocked.</div>
+    <div id="stylesheet-target" data-expectedresult="fail"></div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The stylesheet should be blocked and the red element should not be added to the page.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/header/$header=content-type=text/css</pre></li>
+  </ul>
+</section>
+
+<link rel="stylesheet" href="/testfiles/header/stylesheet.css">
+
+<script>
+  "use strict";
+
+  setTimeout(() =>
+  {
+    let target = document.getElementById("stylesheet-target");
+    let targetStyle = getComputedStyle(target);
+    if (targetStyle.width === "150px")
+    {
+      target.innerHTML = "Failed. Stylesheet was NOT blocked.";
+    }
+    else
+    {
+      target.innerHTML = "Passed. Stylesheet was blocked.";
+      // Style must be equal to .testcase-expected-view,
+      target.style = `flex-grow: 1;
+        padding: .5rem;
+        color: #fff;
+        background-color: #0dc74b;`;
+    }
+  }, 500);
+</script>
