@@ -1,0 +1,66 @@
+template = testcase
+title = hide-if-matches-xpath
+description = Check that the hide-if-matches-xpath snippet is working as expected.
+
+<section class="testcase-panel">
+  <h2>Basic static usage</h2>
+  <p>Test that basic usage of the snippet works as expected against a static target.</p>
+  <div class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div id="isnfnv" data-expectedresult="fail"><div><span>Failed. Element is not hidden.</span></div></div>
+    <div class="testcase-expected-view"><div><span>Should not be hidden.</span></div></div>
+    <div id="nothidden" data-expectedresult="pass"><div><span>Should not be hidden.</span></div></div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element inside in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-matches-xpath //*[@id="isnfnv"]</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2>Class Usage</h2>
+  <p>Test that basic usage of the snippet works as expected against target that is containing specific class.</p>
+    <div class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div data-expectedresult="fail" class="to-be-hidden">Failed. Element is not hidden</div>
+    <div class="testcase-expected-view"><div><span>Should not be hidden.</span></div></div>
+    <div data-expectedresult="pass"><div><span>Should not be hidden.</span></div></div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element inside in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-matches-xpath //*[@class="to-be-hidden"]</pre></li>
+  </ul>
+</section>
+
+<section class="testcase-panel">
+  <h2>Hide if Id starts with</h2>
+  <p>Test that basic usage of the snippet works as expected against target that is starting with ID.</p>
+    <div class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div id="fail isnfnv" data-expectedresult="fail"><div><span>Failed. Element is not hidden.</span></div></div>
+    <div class="testcase-expected-view" id="urllink fail" ><div><span>Should not be hidden.</span></div></div>
+    <div data-expectedresult="pass"><div><span>Should not be hidden.</span></div></div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element inside in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-matches-xpath //div[starts-with(@id,"fail")]</pre></li>
+  </ul>
+</section>
