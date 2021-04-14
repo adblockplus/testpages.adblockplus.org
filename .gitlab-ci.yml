@@ -16,6 +16,7 @@
 ---
 
 stages:
+  - build_test
   - test
   - build_production
   - deploy_production
@@ -25,6 +26,7 @@ stages:
 .test_runner:
   image: docker:19.03.5
   stage: test
+  needs: []
   services:
     - docker:19.03.5-dind
   before_script:
@@ -43,10 +45,8 @@ test:lint:
 .test:
   extends: .test_runner
   script:
-    - docker build -t testpages --build-arg REVISION="$REVISION"
-      --build-arg EXTENSION_FILE="adblockpluschrome/$EXTENSION_FILE"
-      --build-arg TARGET="$TARGET" .
-    - docker run -e BROWSER="$BROWSER" -e SKIP_BUILD="true" testpages
+    - docker build -t testpages --build-arg REVISION="$REVISION" .
+    - docker run -e BROWSER="$BROWSER" testpages
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
     - docker cp $IMAGE_ID:/ablockplusui/adblockpluschrome/test/screenshots .
@@ -61,48 +61,39 @@ test:lint:
     when: on_failure
     expire_in: 1 mo
 
-.extension:
-  needs:
-    - &extension
-      artifacts: true
-      project: eyeo/adblockplus/abpui/adblockplusui
-      ref: release-2020-1
-
-.test_chrome:
+build:chrome_extension:
+  stage: build_test
   extends: .test
-  needs:
-    - <<: *extension
-      job: build:chrome
-  variables:
-    EXTENSION_FILE: adblockpluschrome-*.zip
-    TARGET: chrome
-
-.test_firefox:
-  extends: .test
-  needs:
-    - <<: *extension
-      job: build:firefox
-  variables:
-    EXTENSION_FILE: adblockplusfirefox-*.xpi
-    TARGET: firefox
+  script:
+    - docker build -t testpages --build-arg REVISION="$REVISION" .
+    - docker run -e TARGET=chrome --entrypoint
+      ./testpages.adblockplus.org/test/build_extension.sh -t testpages
+  after_script:
+    - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
+    - mkdir -p ablockplusui/adblockpluschrome
+    - docker cp $IMAGE_ID:/adblockplusui/adblockpluschrome/devenv.chrome .
+  artifacts:
+    paths:
+      - devenv.chrome/
+    when: on_success
 
 test:chrome:latest:
-  extends: .test_chrome
+  extends: .test
   variables:
     BROWSER: Chromium \(latest\)
 
 test:chrome:oldest:
-  extends: .test_chrome
+  extends: .test
   variables:
     BROWSER: Chromium \(oldest\)
 
 test:firefox:latest:
-  extends: .test_firefox
+  extends: .test
   variables:
     BROWSER: Firefox \(latest\)
 
 test:firefox:oldest:
-  extends: .test_firefox
+  extends: .test
   variables:
     BROWSER: Firefox \(oldest\)
 
@@ -113,8 +104,7 @@ test:edge:
     - windows
     - windows-1809
   needs:
-    - <<: *extension
-      job: build:chrome
+    - job: build:chrome_extension
   before_script:
     # Fix for refreshenv
     # https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/13#note_337853320
@@ -152,8 +142,9 @@ test:edge:
     # Build adblockpluschrome
     - git clone -b $Env:REVISION --depth 5
       https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
-    - Expand-Archive -Path adblockpluschrome\adblockpluschrome-*.zip
-      -DestinationPath adblockplusui\adblockpluschrome\devenv.chrome
+    - mkdir -p adblockplusui\adblockpluschrome\devenv.chrome
+    - Copy-Item -Path "devenv.chrome\*"
+      -Destination "adblockplusui\adblockpluschrome\devenv.chrome" -Recurse
     - cd adblockplusui\adblockpluschrome;
       git submodule update --init --recursive; npm install; cd ..\..
     # Generate test pages files
