@@ -49,7 +49,7 @@ test:lint:
     - docker run -e BROWSER="$BROWSER" testpages
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
-    - docker cp $IMAGE_ID:/ablockplusui/adblockpluschrome/test/screenshots .
+    - docker cp $IMAGE_ID:/adblockplusui/adblockpluschrome/test/screenshots .
       2> /dev/null
     - docker cp $IMAGE_ID:/var/log/nginx/ .
   variables:
@@ -160,7 +160,9 @@ test:edge:
     - echo "INFO - Tests will execute based on the following revision:";
       git status | Select -First 1; git log -5 --oneline
     # Sitekey test disabled - testpages#41
-    - npm run test-only -- -g "^Edge.*Test pages((?!Sitekey|Final checks).)*$"
+    # WebSocket tests disabled - testpages#74
+    - npm run test-only --
+      -g "^Edge.*Test pages((?!Sitekey|WebSocket|Final checks).)*$"
   variables:
     REVISION: release-2020-1
     TEST_PAGES_URL: https://local.testpages.adblockplus.org:5000/en/
