@@ -23,6 +23,318 @@ description = Check that a filter using the $rewrite filter option is working as
 <script src="/testfiles/rewrite/script.js"></script>
 
 <section class="testcase-panel">
+  {{ heading("Stylesheet") }}
+  <p>Test the blank-css $rewrite filter option.</p>
+  <div class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-expected-view">Passed. Stylesheet was blocked.</div>
+    <div id="stylesheet-target" data-expectedresult="fail" data-dp="fail">Failed. Stylesheet was NOT blocked.</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The stylesheet should be blocked and the red element should be visible on the page.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/*.css$rewrite=abp-resource:blank-css,domain={{ site_url|domain }}</pre></li>
+  </ul>
+  <p id="sslog">LOG:</p>
+</section>
+
+<link rel="stylesheet" href="/testfiles/rewrite/stylesheet.css">
+
+<script>
+  "use strict";
+
+  setTimeout(() =>
+  {
+    let target = document.getElementById("stylesheet-target");
+    let targetStyle = getComputedStyle(target);
+    if (targetStyle.width === "150px")
+    {
+      target.innerHTML = "Failed. Stylesheet was NOT blocked.";
+    }
+    else
+    {
+      target.innerHTML = "Passed. Stylesheet was blocked.";
+      target.style.display = "none";
+      // Style must be equal to .testcase-expected-view,
+      target.style = `flex-grow: 1;
+        padding: .5rem;
+        color: #fff;
+        background-color: #0dc74b;`;
+    }
+  }, 200);
+</script>
+
+<section class="testcase-panel">
+  {{ heading("Subdocument") }}
+  <p>Test the blank-html $rewrite filter option.</p>
+  <div class="testcase-area">
+    <iframe id="subdocument-target" src="/testfiles/rewrite/subdocument.html?" style="border: 0; width: 100px; height: 100px;" data-expectedresult="fail" data-dp="fail"></iframe>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The subdocument should be blocked and the red element should not be added to the page.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/*.html$rewrite=abp-resource:blank-html,domain={{ site_url|domain }}</pre></li>
+  </ul>
+  <p id="subdoclog">LOG:</p>
+</section>
+
+<script>
+  "use strict";
+
+  setTimeout(() =>
+  {
+    let target = document.getElementById("subdocument-target");
+    let contentDoc = null;
+
+    // Older versions of Chrome will throw an exception here when the
+    // iframe contentDocument is accessed, because the rewritten
+    // subdocument is technically cross-origin.
+    try
+    {
+      contentDoc = target.contentDocument;
+    }
+    catch (ex)
+    {
+      contentDoc = null;
+    }
+
+    if (contentDoc === null)
+    {
+      target.style.display = "none";
+      target.setAttribute("data-expectedresult", "pass");
+      target.setAttribute("data-dp", "pass");
+      target.style.width = 0;
+      target.style.flexGrow = 0;
+      target.style.padding = 0;
+    }
+    else
+    {
+      target.setAttribute("data-expectedresult", "fail");
+      target.setAttribute("data-dp", "fail");
+      target.style.width = 0;
+    }
+  }, 200);
+</script>
+
+<section class="testcase-panel">
+  {{ heading("Text") }}
+  <p>Test the blank-text $rewrite filter option.</p>
+  <div class="testcase-area">
+    <div id="text-status" class="testcase-trigger">Triggering request for text...</div>
+    <div class="testcase-expected-view">Passed. Text is blank.</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The requested text should be blank and not displayed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/*.txt$rewrite=abp-resource:blank-text,domain={{ site_url|domain }}</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  let req = new XMLHttpRequest();
+
+  req.onerror = function(e)
+  {
+    let result = document.getElementById("text-status");
+    result.innerHTML = "Passed. Text is blank.";
+    result.setAttribute("data-expectedresult", "pass");
+    result.setAttribute("data-dp", "pass");
+  };
+  req.onload = function(e)
+  {
+    let result = document.getElementById("text-status");
+
+    if (this.status == 200)
+    {
+      if (this.responseText == "")
+      {
+        result.innerHTML = "Passed. Text is blank.";
+        result.setAttribute("data-expectedresult", "pass");
+        result.setAttribute("data-dp", "pass");
+      }
+      else
+      {
+        result.innerHTML = this.responseText;
+        result.setAttribute("data-expectedresult", "fail");
+        result.setAttribute("data-dp", "fail");
+      }
+    }
+  };
+
+  setTimeout(() =>
+  {
+    req.open("GET", "{{ site_url }}/testfiles/rewrite/text.txt", true);
+    req.send();
+  }, 500);
+</script>
+
+<section class="testcase-panel">
+  {{ heading("1x1 GIF") }}
+  <p>Test the 1x1-transparent-gif $rewrite filter option.</p>
+  <div class="testcase-area">
+    <div class="testcase-examplecontent">
+      <img id="1x1-target" src="/testfiles/rewrite/1x1.gif" data-expectedresult="fail" data-dp="fail">
+    </div>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/1x1.gif$rewrite=abp-resource:1x1-transparent-gif,domain={{ site_url|domain }}</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  setTimeout(() =>
+  {
+    let target = document.getElementById("1x1-target");
+  
+    if (target.width === 1)
+    {
+      target.setAttribute("data-expectedresult", "pass");
+      target.setAttribute("data-dp", "pass");
+      target.width = 0;
+    }
+  }, 500);
+</script>
+
+<section class="testcase-panel">
+  {{ heading("2x2 PNG") }}
+  <p>Test the 2x2-transparent-png $rewrite filter option.</p>
+  <div class="testcase-area">
+    <div class="testcase-examplecontent">
+      <img id="2x2-target" src="/testfiles/rewrite/2x2.png" data-expectedresult="fail" data-dp="fail">
+    </div>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/2x2.png$rewrite=abp-resource:2x2-transparent-png,domain={{ site_url|domain }}</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  setTimeout(() =>
+  {
+    let target = document.getElementById("2x2-target");
+
+    if (target.width === 2)
+    {
+      target.setAttribute("data-expectedresult", "pass");
+      target.setAttribute("data-dp", "pass");
+      target.width = 0;
+    }
+  }, 500);
+</script>
+
+<section class="testcase-panel">
+  {{ heading("3x2 PNG") }}
+  <p>Test the 3x2-transparent-png $rewrite filter option.</p>
+  <div class="testcase-area">
+    <div class="testcase-examplecontent">
+      <img id="3x2-target" src="/testfiles/rewrite/3x2.png" data-expectedresult="fail" data-dp="fail">
+    </div>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/3x2.png$rewrite=abp-resource:3x2-transparent-png,domain={{ site_url|domain }}</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  setTimeout(() =>
+  {
+    let target = document.getElementById("3x2-target");
+
+    if (target.width === 3)
+    {
+      target.setAttribute("data-expectedresult", "pass");
+      target.setAttribute("data-dp", "pass");
+      target.width = 0;
+    }
+  }, 500);
+</script>
+
+<section class="testcase-panel">
+  {{ heading("32x32 PNG") }}
+  <p>Test the 32x32-transparent-png $rewrite filter option.</p>
+  <div class="testcase-area">
+    <div class="testcase-examplecontent">
+      <img id="32x32-target" src="/testfiles/rewrite/32x32.png" data-expectedresult="fail" data-dp="fail">
+    </div>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/32x32.png$rewrite=abp-resource:32x32-transparent-png,domain={{ site_url|domain }}</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  setTimeout(() =>
+  {
+    let target = document.getElementById("32x32-target");
+
+    if (target.width === 32)
+    {
+      target.setAttribute("data-expectedresult", "pass");
+      target.setAttribute("data-dp", "pass");
+      target.width = 0;
+    }
+  }, 500);
+</script>
+
+<section class="testcase-panel">
   {{ heading("Audio") }}
   <p>Test that a filter using the $rewrite filter option works on an audio file.</p>
   <div class="testcase-area">

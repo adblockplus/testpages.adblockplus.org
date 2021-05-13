@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2021-05-13
+
+- Add missing rewrite examples.
+
 ## 2021-03-12
 
 - Added XPath test page 
