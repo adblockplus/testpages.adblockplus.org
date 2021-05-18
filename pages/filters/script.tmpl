@@ -3,10 +3,11 @@ template = testcase
 description = Check that a filter using the $script filter option is working as expected.
 
 <section class="testcase-panel">
-  {{ heading("Script") }}
+  {% set case = "Script" %}
+  {{ heading(case) }}
   <p>Test that a filter using the $script filter option works on an external script.</p>
   <div id="script-target" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">

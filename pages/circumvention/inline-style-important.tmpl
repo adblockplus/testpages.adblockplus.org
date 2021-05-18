@@ -3,12 +3,13 @@ title = Inline Style !important
 description = Check that inline style !important functionality is working as expected.
 
 <section class="testcase-panel">
-  {{ heading("Inline style !important") }}
+  {% set case = "Inline style !important" %}
+  {{ heading(case) }}
   <p>Test that inline style !important functionality blocks its targets.</p>
   <div class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-circ-is" data-expectedresult="fail" data-dp="fail">Target without inline-style</div>
-    <div class="testcase-circ-is" data-expectedresult="fail" data-dp="fail"><div style="display: block !important;">Target with inline-style</div></div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+    <div class="testcase-circ-is" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target without inline-style</div>
+    <div class="testcase-circ-is" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}2-fail"><div style="display: block !important;">Target with inline-style</div></div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">

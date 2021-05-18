@@ -3,39 +3,43 @@ title = ABP Kit Allowlist Domains
 description = Check that a filters are not applied when domain is added to Allowlist Domains in ABP Kit.
 
 <section class="testcase-panel">
-  {{ heading("Dynamic") }}
+  {% set case = "Dynamic" %}
+  {{ heading(case) }}
   <p>Image, dynamic target.</p>
   <div id="image-dynamic" class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="example">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
 </section>
 
 <section class="testcase-panel">
-  {{ heading("Static Domain") }}
+  {% set case = "Static Domain" %}
+  {{ heading(case) }}
   <p>Static target with excluded.</p>
   <div class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="example">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
     <img src="/testfiles/domain/static/excluded/image.png">
-    <img src="/testfiles/domain/static/target/image.png" data-expectedresult="fail" aria-label="fail">
+    <img src="/testfiles/domain/static/target/image.png" data-expectedresult="fail" aria-label="{{ get_id(case) }}-fail">
   </div>
 </section>
 
 <section class="testcase-panel">
-  {{ heading("Image Static") }}
+  {% set case = "Image Static" %}
+  {{ heading(case) }}
   <p>Image on a static target.</p>
   <div class="testcase-area" >
-    <img src="/testfiles/image/static/static.png" data-expectedresult="fail" aria-label="fail">
-    <div class="testcase-examplecontent" aria-label="example">Example Content</div>
+    <img src="/testfiles/image/static/static.png" data-expectedresult="fail" aria-label="{{ get_id(case) }}-fail">
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
 </section>
 
 <section class="testcase-panel">
-  {{ heading("Stylesheet") }}
+  {% set case = "Stylesheet" %}
+  {{ heading(case) }}
   <p>Stylesheet on an external stylesheet.</p>
   <div class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="example">Example Content</div>
-    <div class="testcase-expected-view" aria-label="example">Passed. Stylesheet was blocked.</div>
-    <div id="stylesheet-target" data-expectedresult="fail" aria-label="fail"></div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+    <div class="testcase-expected-view" aria-label="{{ get_id(case) }}-example">Passed. Stylesheet was blocked.</div>
+    <div id="stylesheet-target" data-expectedresult="fail" aria-label="{{ get_id(case) }}-fail"></div>
   </div>
 </section>
 
@@ -71,6 +75,6 @@ description = Check that a filters are not applied when domain is added to Allow
   let image = document.createElement("img");
   let area = document.getElementById("image-dynamic");
   image.src = "/testfiles/image/dynamic/dynamic.png";
-  setAttributes(image, {"data-expectedresult": "fail", "aria-label": "fail"});
+  setAttributes(image, {"data-expectedresult": "fail", "aria-label": "dynamic-fail"});
   area.appendChild(image);
 </script>

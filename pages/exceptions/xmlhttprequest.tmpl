@@ -3,11 +3,12 @@ title = XMLHTTPRequest Exception
 description = Check that usage of the $xmlhttprequest filter option in an exception is working as expected.
 
 <section class="testcase-panel">
-  {{ heading("Exception usage") }}
+  {% set case = "Exception usage" %}
+  {{ heading(case) }}
   <p>Test that the $xmlhttprequest filter option in an exception works.</p>
   <div class="testcase-area">
-    <img src="/testfiles/xmlhttprequest_exception/image.png" data-expectedresult="fail" data-dp="fail">
-    <div id="testcase-status" class="testcase-trigger">Triggering XMLHTTPRequest connection...</div>
+    <img src="/testfiles/xmlhttprequest_exception/image.png" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">
+    <div id="testcase-status" class="testcase-trigger" aria-label="trigger">Triggering XMLHTTPRequest connection...</div>
     <div class="testcase-expected-view">Text loaded via XMLHTTPRequest Exception.</div>
   </div>
   <h3>Steps</h3>
@@ -34,6 +35,7 @@ description = Check that usage of the $xmlhttprequest filter option in an except
     result.innerHTML = "Failed. Connection was blocked.";
     result.setAttribute("data-expectedresult", "fail");
     result.setAttribute("data-dp", "fail");
+    result.setAttribute("aria-label", "{{ get_id(case) }}-fail");
   };
   req.onload = function(e)
   {
@@ -43,6 +45,7 @@ description = Check that usage of the $xmlhttprequest filter option in an except
       result.innerHTML = this.responseText;
       result.setAttribute("data-expectedresult", "pass");
       result.setAttribute("data-dp", "pass");
+      result.setAttribute("aria-label", "{{ get_id(case) }}-pass");
     }
   };
 

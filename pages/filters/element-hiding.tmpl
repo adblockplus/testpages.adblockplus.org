@@ -3,11 +3,12 @@ title = Element Hiding
 description = Check that basic element hiding functionality is working as expected.
 
 <section class="testcase-panel">
-  {{ heading("ID Selector") }}
+  {% set case = "ID Selector" %}
+  {{ heading(case) }}
   <p>Test that an element hiding filter using an ID selector hides its target.</p>
   <div class="testcase-area">
-    <div id="eh-id" data-expectedresult="fail" data-dp="fail">Target</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div id="eh-id" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -22,11 +23,12 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  {{ heading("Class Selector") }}
+  {% set case = "Class Selector" %}
+  {{ heading(case) }}
   <p>Test that an element hiding filter using a class selector hides its target.</p>
   <div class="testcase-area">
-    <div class="eh-class" data-expectedresult="fail" data-dp="fail">Target</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="eh-class" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -40,12 +42,13 @@ description = Check that basic element hiding functionality is working as expect
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Descendant Selector") }}
+<section class="testcase-panel"> 
+  {% set case = "Descendant Selector" %}
+  {{ heading(case) }}
   <p>Test that an element hiding filter using a descendant selector hides its target.</p>
   <div class="testcase-area">
-    <div class="eh-descendant" data-expectedresult="fail" data-dp="fail">Target</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="eh-descendant" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -60,11 +63,12 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  {{ heading("Sibling Selector") }}
+  {% set case = "Sibling Selector" %}
+  {{ heading(case) }}
   <p>Test that an element hiding filter using a sibling selector hides its target.</p>
   <div class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
-    <div class="eh-sibling" data-expectedresult="fail" data-dp="fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+    <div class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -79,11 +83,12 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  {{ heading("Attribute Selector 1") }}
+  {% set case = "Attribute Selector 1" %}
+  {{ heading(case) }}
   <p>Test that an element hiding filter using an attribute selector hides its target.</p>
   <div class="testcase-area">
-    <div width="100" height="100" class="eh-sibling" data-expectedresult="fail" data-dp="fail">Target</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div width="100" height="100" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -98,11 +103,12 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  {{ heading("Attribute Selector 2") }}
+  {% set case = "Attribute Selector 2" %}
+  {{ heading(case) }}
   <p>Test that an element hiding filter using an attribute selector hides its target.</p>
   <div class="testcase-area">
-    <div href="http://testcase-attribute.com/" class="eh-sibling" data-expectedresult="fail" data-dp="fail">Target</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div href="http://testcase-attribute.com/" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -117,11 +123,12 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  {{ heading("Attribute Selector 3") }}
+  {% set case = "Attribute Selector 3" %}
+  {{ heading(case) }}
   <p>Test that an element hiding filter using an attribute selector hides its target.</p>
   <div class="testcase-area">
-    <div style="width: 200px;" class="eh-sibling" data-expectedresult="fail" data-dp="fail">Target</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div style="width: 200px;" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -136,11 +143,12 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  {{ heading("Starts with Selector 1") }}
+  {% set case = "Starts with Selector 1" %}
+  {{ heading(case) }}
   <p>Test that an element hiding filter using a starts with selector hides its target.</p>
   <div class="testcase-area">
-    <div href="http://testcase-startswith.com/test" class="eh-sibling" data-expectedresult="fail" data-dp="fail">Target</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div href="http://testcase-startswith.com/test" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -155,11 +163,12 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  {{ heading("Starts with Selector 2") }}
+  {% set case = "Starts with Selector 2" %}
+  {{ heading(case) }}
   <p>Test that an element hiding filter using a starts with selector hides its target.</p>
   <div class="testcase-area">
-    <div style="width: 201px; color: white;" class="eh-sibling" data-expectedresult="fail" data-dp="fail">Target</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div style="width: 201px; color: white;" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -174,11 +183,12 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  {{ heading("Ends with Selector") }}
+  {% set case = "Ends with Selector 1" %}
+  {{ heading(case) }}
   <p>Test that an element hiding filter using a ends with selector hides its target.</p>
   <div class="testcase-area">
-    <div style="color: white; width: 202px;" class="eh-sibling" data-expectedresult="fail" data-dp="fail">Target</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div style="color: white; width: 202px;" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -193,11 +203,12 @@ description = Check that basic element hiding functionality is working as expect
 </section>
 
 <section class="testcase-panel">
-  {{ heading("Contains") }}
+  {% set case = "Contains" %}
+  {{ heading(case) }}
   <p>Test that an element hiding filter using a contains selector hides its target.</p>
   <div class="testcase-area">
-    <div style="color: white; width: 203px;" class="eh-sibling" data-expectedresult="fail" data-dp="fail">Target</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div style="color: white; width: 203px;" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">

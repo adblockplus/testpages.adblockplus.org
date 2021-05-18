@@ -5,13 +5,14 @@ description = Check that usage of the $subdocument filter option in an exception
 <link rel="stylesheet" href="/testfiles/subdocument_exception/stylesheet.css">
 
 <section class="testcase-panel">
-  {{ heading("Exception usage") }}
+ {% set case = "Exception usage" %}
+  {{ heading(case) }}
   <p>Test that the $subdocument filter option in an exception works.</p>
   <div class="testcase-area">
     <iframe src="/testfiles/subdocument_exception/subdocument.html" style="border: 0; width: 100px; height: 100px;"></iframe>
-    <div class="testcase-expected-view">This should be a green element.</div>
-    <div id="exception-target" data-expectedresult="pass" data-dp="pass">This should be a green element.</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-expected-view" aria-label="{{ get_id(case) }}-expected">This should be a green element.</div>
+    <div id="exception-target" data-expectedresult="pass" data-dp="pass" aria-label="{{ get_id(case) }}-pass">This should be a green element.</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -27,3 +28,4 @@ description = Check that usage of the $subdocument filter option in an exception
     <li><pre>@@{{ site_url|strip_proto }}/testfiles/subdocument_exception/$subdocument</pre></li>
   </ul>
 </section>
+

@@ -3,13 +3,14 @@ title = Script Exception
 description = Check that usage of the $script filter option in an exception is working as expected.
 
 <section class="testcase-panel">
-  {{ heading("Exception usage") }}
+  {% set case = "Exception usage" %}
+  {{ heading(case) }}
   <p>Test that the $script filter option in an exception works.</p>
   <div class="testcase-area">
-    <img src="/testfiles/script_exception/image.png" data-expectedresult="fail" data-dp="fail">
+    <img src="/testfiles/script_exception/image.png" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">
     <div class="testcase-expected-view">This should be a green element.</div>
-    <div id="script-target" data-expectedresult="fail" data-dp="fail">This should be a green element.</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div id="script-target" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-pass">This should be a green element.</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">

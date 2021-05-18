@@ -5,13 +5,14 @@ description = Check that usage of the $stylesheet filter option in an exception 
 <link rel="stylesheet" href="/testfiles/stylesheet_exception/stylesheet.css">
 
 <section class="testcase-panel">
-  {{ heading("Exception usage") }}
+  {% set case = "Exception usage" %}
+  {{ heading(case) }}
   <p>Test that the $stylesheet filter option in an exception works.</p>
   <div class="testcase-area">
-    <img src="/testfiles/stylesheet_exception/image.png" data-expectedresult="fail" data-dp="fail">
-    <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-expected-view">This should be a green element.</div>
-    <div id="exception-target" data-expectedresult="fail" data-dp="fail">This should be a green element.</div>
+    <img src="/testfiles/stylesheet_exception/image.png" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+    <div class="testcase-expected-view" aria-label="{{ get_id(case) }}-expected">This should be a green element.</div>
+    <div id="exception-target" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-pass"> This should be a green element.</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">

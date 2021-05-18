@@ -3,11 +3,12 @@ title = Subdocument
 description = Check that a filter using the $subdocument filter option is working as expected.
 
 <section class="testcase-panel">
-  {{ heading("Subdocument") }}
+  {% set case = "Subdocument" %}
+  {{ heading(case) }}
   <p>Test that a filter using the $subdocument filter option works on to block a subdocument.</p>
   <div class="testcase-area">
-    <iframe src="/testfiles/subdocument/subdocument.html" style="border: 0; width: 100px; height: 100px;" data-expectedresult="fail" data-dp="fail"></iframe>
-    <div class="testcase-examplecontent">Example Content</div>
+    <iframe src="/testfiles/subdocument/subdocument.html" style="border: 0; width: 100px; height: 100px;" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail"></iframe>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">

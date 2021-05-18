@@ -3,11 +3,12 @@ title = Blocking ABPKit Version
 description = Check that basic blocking functionality is working as expected.
 
 <section class="testcase-panel">
-  {{ heading("Full Path") }}
+  {% set case = "Full Path" %}
+  {{ heading(case) }}
   <p>Test that a blocking filter describing a full path blocks its target.</p>
   <div class="testcase-area">
-    <img src="/testfiles/blocking/full-path.png" data-expectedresult="fail">
-    <div class="testcase-examplecontent">Example Content</div>
+    <img src="/testfiles/blocking/full-path.png" data-expectedresult="fail" aria-label="{{ get_id(case) }}-fail">
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -22,12 +23,13 @@ description = Check that basic blocking functionality is working as expected.
 </section>
 
 <section class="testcase-panel">
-  {{ heading("Wildcard") }}
+  {% set case = "Wildcard" %}
+  {{ heading(case) }}
   <p>Test that a blocking filter describing a path with wildcards blocks its target.</p>
   <div class="testcase-area">
-    <img src="/testfiles/blocking/wildcard/1/wildcard.png" data-expectedresult="fail">
-    <img src="/testfiles/blocking/wildcard/2/wildcard.png" data-expectedresult="fail">
-    <div class="testcase-examplecontent">Example Content</div>
+    <img src="/testfiles/blocking/wildcard/1/wildcard.png" data-expectedresult="fail" aria-label="{{ get_id(case) }}-fail">
+    <img src="/testfiles/blocking/wildcard/2/wildcard.png" data-expectedresult="fail" aria-label="{{ get_id(case) }}2-fail">
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -42,10 +44,11 @@ description = Check that basic blocking functionality is working as expected.
 </section>
 
 <section class="testcase-panel">
-  {{ heading("Dynamic") }}
+   {% set case = "Dynamic" %}
+  {{ heading(case) }}
   <p>Test that a blocking filter describing a path of a resource that is later dynamically added to the page blocks its target.</p>
   <div id="blocking-dynamic" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example" >Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -65,6 +68,7 @@ description = Check that basic blocking functionality is working as expected.
   let image = document.createElement("img");
   image.src = "/testfiles/blocking/dynamic.png";
   image.setAttribute("data-expectedresult", "fail");
+  image.setAttribute("aria-label", "{{ get_id(case) }}-fail");
 
   let area = document.getElementById("blocking-dynamic");
   area.appendChild(image);

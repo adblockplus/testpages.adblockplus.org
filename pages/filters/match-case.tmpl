@@ -3,13 +3,14 @@ title = Match Case
 description = Check that a filter using the $match-case filter option is working as expected.
 
 <section class="testcase-panel">
-  {{ heading("Static") }}
+  {% set case = "Static" %}
+  {{ heading(case) }}
   <p>Test that a filter using the $match-case filter option works on a static target.</p>
   <div class="testcase-area">
-    <img src="/testfiles/match-case/static/1/abc.png" data-expectedresult="fail" data-dp="fail"/>
+    <img src="/testfiles/match-case/static/1/abc.png" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail"/>
     <img src="/testfiles/match-case/static/2/ABC.png" class="testcase-expected-view">
-    <img src="/testfiles/match-case/static/2/ABC.png" data-expectedresult="pass" data-dp="pass"/>
-    <div class="testcase-examplecontent">Example Content</div>
+    <img src="/testfiles/match-case/static/2/ABC.png" data-expectedresult="pass" data-dp="pass" aria-label="{{ get_id(case) }}-pass"/>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -25,10 +26,11 @@ description = Check that a filter using the $match-case filter option is working
 </section>
 
 <section class="testcase-panel">
-  {{ heading("Dynamic") }}
+  {% set case = "Dynamic" %}
+  {{ heading(case) }}
   <p>Test that a filter using the $match-case filter option works on a dynamic target.</p>
   <div id="match-case-dynamic" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -50,10 +52,12 @@ description = Check that a filter using the $match-case filter option is working
   image.src = "/testfiles/match-case/dynamic/1/abc.png";
   image.setAttribute("data-expectedresult", "fail");
   image.setAttribute("data-dp", "fail");
+  image.setAttribute("aria-label", "{{ get_id(case) }}-pass");
 
   let image2 = document.createElement("img");
   image2.src = "/testfiles/match-case/dynamic/2/ABC.png";
   image2.setAttribute("data-dp", "pass");
+  image2.setAttribute("aria-label", "{{ get_id(case) }}-pass");
 
   let area = document.getElementById("match-case-dynamic");
   area.appendChild(image);

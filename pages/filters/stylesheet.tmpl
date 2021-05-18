@@ -3,12 +3,13 @@ title = Stylesheet
 description = Check that a filter using the $stylesheet filter option is working as expected.
 
 <section class="testcase-panel">
-  {{ heading("Stylesheet") }}
+  {% set case = "Stylesheet" %}
+  {{ heading(case) }}
   <p>Test that a filter using the $stylesheet filter option works on an external stylesheet.</p>
   <div class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
     <div class="testcase-expected-view">Passed. Stylesheet was blocked.</div>
-    <div id="stylesheet-target" data-expectedresult="fail" data-dp="fail"></div>
+    <div id="stylesheet-target" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail"></div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
