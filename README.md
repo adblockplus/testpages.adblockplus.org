@@ -38,11 +38,11 @@ docker run -it testpages
 
 #### Revision
 
-`release-2020-1` is the revision of `adblockplusui/adblockpluschrome` used to
+`master` is the revision of `adblockplusui/adblockpluschrome` used to
 build the `testpages` test image. Other revisions can be built using the
 `REVISION` argument:
 ```
-docker build -t testpages --build-arg REVISION=master .
+docker build -t testpages --build-arg REVISION=other .
 ```
 
 #### Browser
