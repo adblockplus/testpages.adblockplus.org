@@ -2,10 +2,12 @@ template = testcase
 title = CSP All sites
 description = Check that a filter using the $csp filter option is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("All sites") }}
+{% set case = "All sites" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a filter using the $csp filter option works in all sites.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <div id="block-javascript" class="testcase-nostyle"></div>
   </div>
@@ -16,7 +18,7 @@ description = Check that a filter using the $csp filter option is working as exp
     <li>The red image should be blocked and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>*$csp=script-src 'none'</pre></li>
   </ul>
   <h3>Notes</h3>
@@ -28,6 +30,7 @@ description = Check that a filter using the $csp filter option is working as exp
 
   let image = document.createElement("img");
   image.src = "/testfiles/csp/image.png";
+  image.id = "all-sites-fail-1";
   image.setAttribute("data-expectedresult", "fail");
   document.getElementById("block-javascript").appendChild(image);
 </script>

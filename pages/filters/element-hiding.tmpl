@@ -2,13 +2,14 @@ template = testcase
 title = Element Hiding
 description = Check that basic element hiding functionality is working as expected.
 
-<section class="testcase-panel">
-  {% set case = "ID Selector" %}
+{% set case = "ID Selector" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that an element hiding filter using an ID selector hides its target.</p>
-  <div class="testcase-area">
-    <div id="eh-id" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="eh-id" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -17,18 +18,19 @@ description = Check that basic element hiding functionality is working as expect
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}###eh-id</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {% set case = "Class Selector" %}
+{% set case = "Class Selector" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that an element hiding filter using a class selector hides its target.</p>
-  <div class="testcase-area">
-    <div class="eh-class" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="eh-class" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -37,18 +39,19 @@ description = Check that basic element hiding functionality is working as expect
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}##.eh-class</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel"> 
-  {% set case = "Descendant Selector" %}
+{% set case = "Descendant Selector" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel"> 
   {{ heading(case) }}
   <p>Test that an element hiding filter using a descendant selector hides its target.</p>
-  <div class="testcase-area">
-    <div class="eh-descendant" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="eh-descendant" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -57,18 +60,19 @@ description = Check that basic element hiding functionality is working as expect
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}##.testcase-area > .eh-descendant</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {% set case = "Sibling Selector" %}
+{% set case = "Sibling Selector" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that an element hiding filter using a sibling selector hides its target.</p>
-  <div class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
-    <div class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div id="{{id}}-fail-1" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -77,18 +81,19 @@ description = Check that basic element hiding functionality is working as expect
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}##.testcase-examplecontent + .eh-sibling</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {% set case = "Attribute Selector 1" %}
+{% set case = "Attribute Selector 1" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that an element hiding filter using an attribute selector hides its target.</p>
-  <div class="testcase-area">
-    <div width="100" height="100" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" width="100" height="100" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -97,18 +102,19 @@ description = Check that basic element hiding functionality is working as expect
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}##div[height="100"][width="100"]</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {% set case = "Attribute Selector 2" %}
+{% set case = "Attribute Selector 2" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that an element hiding filter using an attribute selector hides its target.</p>
-  <div class="testcase-area">
-    <div href="http://testcase-attribute.com/" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" href="http://testcase-attribute.com/" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -117,18 +123,19 @@ description = Check that basic element hiding functionality is working as expect
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}##div[href="http://testcase-attribute.com/"]</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {% set case = "Attribute Selector 3" %}
+{% set case = "Attribute Selector 3" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that an element hiding filter using an attribute selector hides its target.</p>
-  <div class="testcase-area">
-    <div style="width: 200px;" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" style="width: 200px;" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -137,18 +144,19 @@ description = Check that basic element hiding functionality is working as expect
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}##div[style="width: 200px;"]</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {% set case = "Starts with Selector 1" %}
+{% set case = "Starts with Selector 1" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that an element hiding filter using a starts with selector hides its target.</p>
-  <div class="testcase-area">
-    <div href="http://testcase-startswith.com/test" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" href="http://testcase-startswith.com/test" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -157,18 +165,19 @@ description = Check that basic element hiding functionality is working as expect
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}##div[href^="http://testcase-startswith.com/"]</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {% set case = "Starts with Selector 2" %}
+{% set case = "Starts with Selector 2" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that an element hiding filter using a starts with selector hides its target.</p>
-  <div class="testcase-area">
-    <div style="width: 201px; color: white;" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" style="width: 201px; color: white;" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -177,18 +186,19 @@ description = Check that basic element hiding functionality is working as expect
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}##div[style^="width: 201px;"]</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {% set case = "Ends with Selector 1" %}
+{% set case = "Ends with Selector 1" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that an element hiding filter using a ends with selector hides its target.</p>
-  <div class="testcase-area">
-    <div style="color: white; width: 202px;" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" style="color: white; width: 202px;" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -197,18 +207,19 @@ description = Check that basic element hiding functionality is working as expect
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}##div[style$="width: 202px;"]</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {% set case = "Contains" %}
+{% set case = "Contains" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that an element hiding filter using a contains selector hides its target.</p>
-  <div class="testcase-area">
-    <div style="color: white; width: 203px;" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target</div>
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" style="color: white; width: 203px;" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -217,7 +228,7 @@ description = Check that basic element hiding functionality is working as expect
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}##div[style*="width: 203px;"]</pre></li>
   </ul>
 </section>

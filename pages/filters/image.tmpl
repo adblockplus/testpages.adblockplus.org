@@ -2,13 +2,14 @@ template = testcase
 title = Image
 description = Check that a filter using the $image filter option is working as expected.
 
-<section class="testcase-panel">
-  {% set case = "Static" %}
+{% set case = "Static" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that a filter using the $image filter option works on a static target.</p>
-  <div class="testcase-area" >
-    <img src="/testfiles/image/static/static.png" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+  <div id="{{id}}-area" class="testcase-area" >
+    <img id="{{id}}-fail-1" src="/testfiles/image/static/static.png" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -17,17 +18,18 @@ description = Check that a filter using the $image filter option is working as e
     <li>The red image should be blocked and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/image/static/$image</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {% set case = "Dynamic" %}
+{% set case = "Dynamic" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that a filter using the $image filter option works on a dynamic target.</p>
   <div id="image-dynamic" class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -36,7 +38,7 @@ description = Check that a filter using the $image filter option is working as e
     <li>The red image should be blocked and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/image/dynamic/$image</pre></li>
   </ul>
 </section>
@@ -48,7 +50,8 @@ description = Check that a filter using the $image filter option is working as e
   image.src = "/testfiles/image/dynamic/dynamic.png";
   image.setAttribute("data-expectedresult", "fail");
   image.setAttribute("data-dp", "fail");
-  image.setAttribute("aria-label", "{{ get_id(case) }}-fail");
+  image.setAttribute("aria-label", "{{id}}-fail");
+  image.id = "{{id}}-fail-1";
 
   let area = document.getElementById("image-dynamic");
   area.appendChild(image);

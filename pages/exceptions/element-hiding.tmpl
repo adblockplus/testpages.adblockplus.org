@@ -2,14 +2,15 @@ template = testcase
 title = Element Hiding Exception
 description = Check that usage of the element hiding filter in an exception is working as expected.
 
-<section class="testcase-panel">
-  {% set case = "Exception usage" %}
+{% set case = "Exception usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that the element hiding filter in an exception works.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-expected-view">Exception Target</div>
-    <div class="testcase-ehe" data-expectedresult="pass" data-dp="pass" aria-label="{{ get_id(case) }}-pass">Exception Target</div>
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+    <div id="{{id}}-pass-1" class="testcase-ehe" data-expectedresult="pass" data-dp="pass" aria-label="{{id}}-pass">Exception Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -20,7 +21,7 @@ description = Check that usage of the element hiding filter in an exception is w
     <li>The exception target element should become unblocked.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}##.testcase-ehe</pre></li>
     <li><pre>{{ site_url|domain }}#@#.testcase-ehe</pre></li>
   </ul>

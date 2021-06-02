@@ -2,10 +2,12 @@ template = testcase
 title = hide-if-contains-and-matches-style
 description = Check that the hide-if-contains-and-matches-style snippet is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Static usage") }}
+{% set case = "Static usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected against a static target.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <div id="isnfnv" data-expectedresult="fail"><div><span>Failed. Element is not hidden.</span><span class="label">hicamss</span></div></div>
     <div class="testcase-expected-view"><div><span>Should not be hidden.</span></div></div>
@@ -18,13 +20,15 @@ description = Check that the hide-if-contains-and-matches-style snippet is worki
     <li>The red element in the test case above should be hidden and the green one not hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains-and-matches-style hicamss div[id] span.label /./ 'display: inline;'</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Dynamic usage") }}
+{% set case = "Dynamic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected against a dynamic target.</p>
   <div id="dynamic-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -38,7 +42,7 @@ description = Check that the hide-if-contains-and-matches-style snippet is worki
     <li>The red element added to the test case above should be hidden and the green one not hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains-and-matches-style hicamsd div[id] span.label /./ 'display: inline;'</pre></li>
   </ul>
 </section>

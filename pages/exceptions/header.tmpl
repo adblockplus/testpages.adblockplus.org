@@ -2,11 +2,13 @@ template = testcase
 title = Header Exception
 description = Check that usage of the $header filter option in an exception is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Image header exception") }}
+{% set case = "Image header exception" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that the $header filter option in an exception works.</p>
-  <div class="testcase-area">
-    <img src="/testfiles/header_exception/image.png">
+  <div id="{{id}}-area" class="testcase-area">
+    <img id="{{id}}-pass-1" src="/testfiles/header_exception/image.png">
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -19,7 +21,7 @@ description = Check that usage of the $header filter option in an exception is w
     <li>The green image containing the white square should become unblocked.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/header_exception/$header=content-type=image/png</pre></li>
     <li><pre>@@{{ site_url|strip_proto }}/testfiles/header_exception/$header</pre></li>
   </ul>

@@ -2,8 +2,10 @@ template = testcase
 title = Popup Exception - ABP Kit Version
 description = Check that usage of the $popup filter option in an exception is working as expected.
 
+{% set case = "Script based popup exception (tab)" %}
+{% set id = get_id(case) %}
 <section class="testcase-panel">
-  {{ heading("Script based popup exception (tab)") }}
+  {{ heading(case) }}
   <p>Test that the script-based $popup filter option in an exception works.</p>
   <div class="testcase-area">
     <a href="#script-based-popup-exception-tab" class="testcase-trigger" onclick="scriptPopupTab();">Trigger script based popup</a>
@@ -22,8 +24,10 @@ description = Check that usage of the $popup filter option in an exception is wo
   </ul>
 </section>
 
+{% set case = "Script based popup exception (window)" %}
+{% set id = get_id(case) %}
 <section class="testcase-panel">
-  {{ heading("Script based popup exception (window)") }}
+  {{ heading(case) }}
   <p>Test that the script-based $popup filter option in an exception works.</p>
   <div class="testcase-area">
     <a href="#script-based-popup-exception-window" class="testcase-trigger" onclick="scriptPopupWindow();">Trigger script based popup</a>

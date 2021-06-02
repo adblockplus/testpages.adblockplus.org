@@ -2,14 +2,15 @@ template = testcase
 title = Domain
 description = Check that a filter using the $domain filter option is working as expected.
 
-<section class="testcase-panel">
-  {% set case = "Static" %}
+{% set case = "Static" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that a filter using the $domain filter option works on a static target.</p>
-  <div class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
-    <img src="/testfiles/domain/static/excluded/image.png" data-dp="pass"  aria-label="{{ get_id(case) }}-pass">
-    <img src="/testfiles/domain/static/target/image.png" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <img id="{{id}}-pass-1" src="/testfiles/domain/static/excluded/image.png" data-dp="pass" aria-label="{{id}}-pass">
+    <img id="{{id}}-fail-1" src="/testfiles/domain/static/target/image.png" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -18,17 +19,18 @@ description = Check that a filter using the $domain filter option is working as 
     <li>The green image containing the white square should not be blocked, and the red image should be blocked and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>/testfiles/domain/static/target/*$domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {% set case = "Dynamic" %}
+{% set case = "Dynamic" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that a filter using the $domain filter option works on a dynamic target.</p>
   <div id="dynamic-target" class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -37,7 +39,7 @@ description = Check that a filter using the $domain filter option is working as 
     <li>The red image should be blocked and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>/testfiles/domain/dynamic/*$domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>
@@ -49,7 +51,8 @@ description = Check that a filter using the $domain filter option is working as 
   image.src = "/testfiles/domain/dynamic/image.png";
   image.setAttribute("data-expectedresult", "fail");
   image.setAttribute("data-dp", "fail");
-  image.setAttribute("aria-label", "{{ get_id(case) }}-fail");
+  image.setAttribute("aria-label", "{{id}}-fail");
+  image.id = "{{id}}-fail-1";
 
   let area = document.getElementById("dynamic-target");
   area.appendChild(image);

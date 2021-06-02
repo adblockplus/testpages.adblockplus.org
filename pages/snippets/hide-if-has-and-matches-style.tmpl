@@ -2,8 +2,10 @@ template = testcase
 title = hide-if-has-and-matches-style
 description = Check that the hide-if-has-and-matches-style snippet is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Basic usage") }}
+{% set case = "Basic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -16,13 +18,15 @@ description = Check that the hide-if-has-and-matches-style snippet is working as
     <li>The script should not add a red element to the test case above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-has-and-matches-style a[href="#basic-target-ad"] div[id] span.label /./ 'display: inline;'</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Legit elements") }}
+{% set case = "Legit elements" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that usage of the snippet with legit elements works as expected.</p>
   <div id="comments-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -36,7 +40,7 @@ description = Check that the hide-if-has-and-matches-style snippet is working as
     <li>The script should add a green element to the test case above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-has-and-matches-style a[href="#comments-target-ad"] div[id] span.label ';' /\\bdisplay:\ inline\;/</pre></li>
   </ul>
 </section>

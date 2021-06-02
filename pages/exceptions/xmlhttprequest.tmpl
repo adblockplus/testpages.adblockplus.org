@@ -2,12 +2,13 @@ template = testcase
 title = XMLHTTPRequest Exception
 description = Check that usage of the $xmlhttprequest filter option in an exception is working as expected.
 
-<section class="testcase-panel">
-  {% set case = "Exception usage" %}
+{% set case = "Exception usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that the $xmlhttprequest filter option in an exception works.</p>
-  <div class="testcase-area">
-    <img src="/testfiles/xmlhttprequest_exception/image.png" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">
+  <div id="{{id}}-area" class="testcase-area">
+    <img id="{{id}}-fail-1" src="/testfiles/xmlhttprequest_exception/image.png" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
     <div id="testcase-status" class="testcase-trigger" aria-label="trigger">Triggering XMLHTTPRequest connection...</div>
     <div class="testcase-expected-view">Text loaded via XMLHTTPRequest Exception.</div>
   </div>
@@ -18,7 +19,7 @@ description = Check that usage of the $xmlhttprequest filter option in an except
     <li>The red image should be blocked and the xmlhttprequest should not be blocked, loading a text in the element above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/xmlhttprequest_exception/*</pre></li>
     <li><pre>@@{{ site_url|strip_proto }}/testfiles/xmlhttprequest_exception/$xmlhttprequest</pre></li>
   </ul>
@@ -35,7 +36,7 @@ description = Check that usage of the $xmlhttprequest filter option in an except
     result.innerHTML = "Failed. Connection was blocked.";
     result.setAttribute("data-expectedresult", "fail");
     result.setAttribute("data-dp", "fail");
-    result.setAttribute("aria-label", "{{ get_id(case) }}-fail");
+    result.setAttribute("aria-label", "{{id}}-fail");
   };
   req.onload = function(e)
   {
@@ -45,7 +46,7 @@ description = Check that usage of the $xmlhttprequest filter option in an except
       result.innerHTML = this.responseText;
       result.setAttribute("data-expectedresult", "pass");
       result.setAttribute("data-dp", "pass");
-      result.setAttribute("aria-label", "{{ get_id(case) }}-pass");
+      result.setAttribute("aria-label", "{{id}}-pass");
     }
   };
 

@@ -2,10 +2,12 @@ template = testcase
 title = hide-if-contains
 description = Check that the hide-if-contains snippet is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Static usage") }}
+{% set case = "Static usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected against a static target.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <p id="hic-static-id" data-expectedresult="fail">hic-basic-static<br>Failed. Element is not hidden.</p>
   </div>
@@ -16,13 +18,15 @@ description = Check that the hide-if-contains snippet is working as expected.
     <li>The red element in the test case above should be hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains 'hic-basic-static' p[id]</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Dynamic usage") }}
+{% set case = "Dynamic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected against a dynamic target.</p>
   <div id="basic-dynamic-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -35,13 +39,15 @@ description = Check that the hide-if-contains snippet is working as expected.
     <li>The red element added to the test case above should be hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains 'hic-basic-dynamic' p[id]</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Search usage") }}
+{% set case = "Search usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that usage of the snippet with the search parameter works as expected.</p>
   <div id="search1-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -59,7 +65,7 @@ description = Check that the hide-if-contains snippet is working as expected.
     <li>The red element in the test case above should be hidden and the green one not hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains 'hic-search' p[id] .target</pre></li>
   </ul>
 </section>
@@ -100,10 +106,12 @@ description = Check that the hide-if-contains snippet is working as expected.
   }, 500);
 </script>
 
-<section class="testcase-panel">
-  {{ heading("Regex usage") }}
+{% set case = "Regex usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that usage of the snippet with regex works as expected.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <p class="testcase-expected-view">hic-regex-1<br>Should not be hidden</p>
     <p id="hic-regex-1" data-expectedresult="pass">hic-regex-1<br>Should not be hidden</p>
@@ -117,15 +125,17 @@ description = Check that the hide-if-contains snippet is working as expected.
     <li>The red elements in the test case above should be hidden and the green one not hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains /hic-regex-[2-3]/ p[id]</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Frame usage") }}
+{% set case = "Frame usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that usage of the snippet in a frame works as expected.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <iframe src="/testfiles/hide-if-contains/subdocument_expected.html" style="border: 0; width: 200px; height: 100px;" class="testcase-expected-view"></iframe>
     <iframe src="/testfiles/hide-if-contains/subdocument.html" style="border: 0; width: 200px; height: 100px; flex-grow: 1;" data-expectedresult="pass"></iframe>
     <div class="testcase-examplecontent">Example Content</div>
@@ -137,7 +147,7 @@ description = Check that the hide-if-contains snippet is working as expected.
     <li>The red element in the test case above should be hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains hidden span#frame-target</pre></li>
   </ul>
 </section>

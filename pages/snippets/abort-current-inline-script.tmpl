@@ -2,8 +2,10 @@ template = testcase
 title = abort-current-inline-script
 description = Check that the abort-current-inline-script snippet is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Basic usage") }}
+{% set case = "Basic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -16,13 +18,15 @@ description = Check that the abort-current-inline-script snippet is working as e
     <li>The script should be aborted and not add a red element to the test case above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#abort-current-inline-script console.group</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Search usage") }}
+{% set case = "Search usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that usage of the snippet with the optional search parameter works as expected.</p>
   <div id="search-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -35,13 +39,15 @@ description = Check that the abort-current-inline-script snippet is working as e
     <li>The script should be aborted and not add a red element to the test case above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#abort-current-inline-script console.info acis-search</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Regex usage") }}
+{% set case = "Regex usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that usage of the snippet with the optional search parameter as a regex works as expected.</p>
   <div id="regex-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -54,7 +60,7 @@ description = Check that the abort-current-inline-script snippet is working as e
     <li>The script should be aborted and not add a red element to the test case above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#abort-current-inline-script console.warn '/acis-regex[1-2]/'</pre></li>
   </ul>
 </section>

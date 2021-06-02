@@ -2,8 +2,10 @@ title = Rewrite
 template = testcase
 description = Check that a filter using the $rewrite filter option is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Script") }}
+{% set case = "Script" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a filter using the $rewrite filter option works on a script.</p>
   <div id="rewrite-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -15,17 +17,19 @@ description = Check that a filter using the $rewrite filter option is working as
     <li>The script should be blocked and the red element should not be added to the page.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/*.js$rewrite=abp-resource:blank-js,domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>
 
 <script src="/testfiles/rewrite/script.js"></script>
 
-<section class="testcase-panel">
-  {{ heading("Stylesheet") }}
+{% set case = "Stylesheet" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test the blank-css $rewrite filter option.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <div class="testcase-expected-view">Passed. Stylesheet was blocked.</div>
     <div id="stylesheet-target" data-expectedresult="fail" data-dp="fail">Failed. Stylesheet was NOT blocked.</div>
@@ -37,7 +41,7 @@ description = Check that a filter using the $rewrite filter option is working as
     <li>The stylesheet should be blocked and the red element should be visible on the page.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/*.css$rewrite=abp-resource:blank-css,domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>
@@ -68,10 +72,12 @@ description = Check that a filter using the $rewrite filter option is working as
   }, 200);
 </script>
 
-<section class="testcase-panel">
-  {{ heading("Subdocument") }}
+{% set case = "Subdocument" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test the blank-html $rewrite filter option.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <iframe id="subdocument-target" src="/testfiles/rewrite/subdocument.html?" style="border: 0; width: 100px; height: 100px;" data-expectedresult="fail" data-dp="fail"></iframe>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
@@ -82,7 +88,7 @@ description = Check that a filter using the $rewrite filter option is working as
     <li>The subdocument should be blocked and the red element should not be added to the page.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/*.html$rewrite=abp-resource:blank-html,domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>
@@ -125,10 +131,12 @@ description = Check that a filter using the $rewrite filter option is working as
   }, 200);
 </script>
 
-<section class="testcase-panel">
-  {{ heading("Text") }}
+{% set case = "Text" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test the blank-text $rewrite filter option.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div id="text-status" class="testcase-trigger">Triggering request for text...</div>
     <div class="testcase-expected-view">Passed. Text is blank.</div>
   </div>
@@ -139,7 +147,7 @@ description = Check that a filter using the $rewrite filter option is working as
     <li>The requested text should be blank and not displayed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/*.txt$rewrite=abp-resource:blank-text,domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>
@@ -184,10 +192,12 @@ description = Check that a filter using the $rewrite filter option is working as
   }, 500);
 </script>
 
-<section class="testcase-panel">
-  {{ heading("1x1 GIF") }}
+{% set case = "1x1 GIF" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test the 1x1-transparent-gif $rewrite filter option.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent">
       <img id="1x1-target" src="/testfiles/rewrite/1x1.gif" data-expectedresult="fail" data-dp="fail">
     </div>
@@ -200,7 +210,7 @@ description = Check that a filter using the $rewrite filter option is working as
     <li>The red image should be blocked and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/1x1.gif$rewrite=abp-resource:1x1-transparent-gif,domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>
@@ -221,10 +231,12 @@ description = Check that a filter using the $rewrite filter option is working as
   }, 500);
 </script>
 
-<section class="testcase-panel">
-  {{ heading("2x2 PNG") }}
+{% set case = "2x2 PNG" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test the 2x2-transparent-png $rewrite filter option.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent">
       <img id="2x2-target" src="/testfiles/rewrite/2x2.png" data-expectedresult="fail" data-dp="fail">
     </div>
@@ -237,7 +249,7 @@ description = Check that a filter using the $rewrite filter option is working as
     <li>The red image should be blocked and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/2x2.png$rewrite=abp-resource:2x2-transparent-png,domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>
@@ -258,10 +270,12 @@ description = Check that a filter using the $rewrite filter option is working as
   }, 500);
 </script>
 
-<section class="testcase-panel">
-  {{ heading("3x2 PNG") }}
+{% set case = "3x2 PNG" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test the 3x2-transparent-png $rewrite filter option.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent">
       <img id="3x2-target" src="/testfiles/rewrite/3x2.png" data-expectedresult="fail" data-dp="fail">
     </div>
@@ -274,7 +288,7 @@ description = Check that a filter using the $rewrite filter option is working as
     <li>The red image should be blocked and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/3x2.png$rewrite=abp-resource:3x2-transparent-png,domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>
@@ -295,10 +309,12 @@ description = Check that a filter using the $rewrite filter option is working as
   }, 500);
 </script>
 
-<section class="testcase-panel">
-  {{ heading("32x32 PNG") }}
+{% set case = "32x32 PNG" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test the 32x32-transparent-png $rewrite filter option.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent">
       <img id="32x32-target" src="/testfiles/rewrite/32x32.png" data-expectedresult="fail" data-dp="fail">
     </div>
@@ -311,7 +327,7 @@ description = Check that a filter using the $rewrite filter option is working as
     <li>The red image should be blocked and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/32x32.png$rewrite=abp-resource:32x32-transparent-png,domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>
@@ -332,10 +348,12 @@ description = Check that a filter using the $rewrite filter option is working as
   }, 500);
 </script>
 
-<section class="testcase-panel">
-  {{ heading("Audio") }}
+{% set case = "Audio" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a filter using the $rewrite filter option works on an audio file.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <audio id="mp3-target" class="testcase-nostyle"></audio>
     <div class="testcase-examplecontent">Example Content</div>
     <div class="testcase-expected-view">Duration:<br>0.1</div>
@@ -348,7 +366,7 @@ description = Check that a filter using the $rewrite filter option is working as
     <li>Check that the duration element shows less than one second length.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/*.mp3$rewrite=abp-resource:blank-mp3,domain={{ site_url|domain }}</pre></li>
   </ul>
   <h3>Notes</h3>
@@ -356,10 +374,12 @@ description = Check that a filter using the $rewrite filter option is working as
   <p>audio/mpeg (mp3) files are not supported in Firefox 70 (requires 71+)</p>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Video") }}
+{% set case = "Video" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a filter using the $rewrite filter option works on a video file.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <video id="mp4-target" style="display: none;"></video>
     <div class="testcase-examplecontent">Example Content</div>
     <div class="testcase-expected-view">Duration:<br>0</div>
@@ -371,7 +391,7 @@ description = Check that a filter using the $rewrite filter option is working as
     <li>The embedded video should be blocked.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/*.mp4$rewrite=abp-resource:blank-mp4,domain={{ site_url|domain }}</pre></li>
   </ul>
   <h3>Notes</h3>

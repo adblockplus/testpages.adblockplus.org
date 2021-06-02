@@ -2,8 +2,10 @@ template = testcase
 title = hide-if-contains-image-hash
 description = Check that the hide-if-contains-image-hash snippet is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Basic usage") }}
+{% set case = "Basic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area">
     <img src="/testfiles/hide-if-contains-image-hash/hash-selector.png" data-expectedresult="fail"/>
@@ -18,15 +20,17 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
     <li>The red image in the test case above should be hidden and the green one not hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains-image-hash 0000007e7e000000 '#basic-target img'</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Search usage") }}
+{% set case = "Search usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that search usage of the snippet works as expected.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div id="search-target"><div><img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector.png" data-expectedresult="fail"/></div></div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
@@ -37,15 +41,17 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
     <li>The red image in the test case above should be hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains-image-hash 0101017f7f0100ff '#search-target > div'</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Search selection") }}
+{% set case = "Search selection" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that search selection usage of the snippet works as expected.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div id="search-selection-target"><div><img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector-selection.png" data-expectedresult="fail"/></div></div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
@@ -56,15 +62,17 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
     <li>The red image containing a blue square inside in the test case above should be hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains-image-hash ffffffffffffffff '#search-selection-target > div' 0 8 126x0x44x44</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Search selection negative") }}
+{% set case = "Search selection negative" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that search selection negative usage of the snippet works as expected.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div id="search-selection-negative-target"><div><img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector-selection.png" data-expectedresult="fail"/></div></div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
@@ -75,15 +83,17 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
     <li>The red image containing a blue square inside in the test case above should be hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains-image-hash ffffffffffffffff '#search-selection-negative-target > div' 0 8 -44x0x44x44</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Search selection maxDistance") }}
+{% set case = "Search selection maxDistance" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that search selection maxDistance usage of the snippet works as expected.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div id="search-selection-maxdistance-target"><div><img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector-selection-maxDistance.png" data-expectedresult="fail"/></div></div>
     <div id="search-selection-maxdistance-target-notblocked" style="height: 180px;"><div>
       <img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector-selection-maxDistance_notblocked.png" class="testcase-expected-view"/>
@@ -101,16 +111,18 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
     <li>The green image containing a blue square in the test case above should not be hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains-image-hash ffffffffffffffff '#search-selection-maxdistance-target > div' 1 8 126x0x44x44</pre></li>
     <li><pre>{{ site_url|domain }}#$#hide-if-contains-image-hash ffffffffffffffff '#search-selection-maxdistance-target-notblocked > div' 0 8 126x0x44x44</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Search selection maxDistance blockbits") }}
+{% set case = "Search selection maxDistance blockbits" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that search selection maxDistance blockbits usage of the snippet works as expected.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div id="search-selection-maxdistance-blockbits-target"><div><img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector-selection-maxDistance-blockbits.png" data-expectedresult="fail"/></div></div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
@@ -121,13 +133,15 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
     <li>The red image in the test case above should be hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains-image-hash 00000000000016f01ff813d01ff807e007e01ff00ff80ff00f3000000000ffff '#search-selection-maxdistance-blockbits-target > div' 0 16 0x0x159x160</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Dynamic usage") }}
+{% set case = "Dynamic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that dynamic usage of the snippet works as expected.</p>
   <div id="dynamic-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -140,7 +154,7 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
     <li>The red image in the test case above should be hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains-image-hash ff00007e7e140000 '* img'</pre></li>
   </ul>
 </section>

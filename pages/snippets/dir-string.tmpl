@@ -2,10 +2,12 @@ template = testcase
 title = dir-string
 description = Check that the dir-string snippet is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Basic usage") }}
+{% set case = "Basic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <div id="atsy2t" data-expectedresult="fail">Failed. Element is not hidden.</div>
   </div>
@@ -16,7 +18,7 @@ description = Check that the dir-string snippet is working as expected.
     <li>The red element in the test case above should be hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#dir-string</pre></li>
   </ul>
 </section>

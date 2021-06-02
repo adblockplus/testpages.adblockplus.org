@@ -2,14 +2,15 @@ template = testcase
 title = Inline Style !important
 description = Check that inline style !important functionality is working as expected.
 
-<section class="testcase-panel">
-  {% set case = "Inline style !important" %}
+{% set case = "Inline style !important" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that inline style !important functionality blocks its targets.</p>
-  <div class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
-    <div class="testcase-circ-is" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}-fail">Target without inline-style</div>
-    <div class="testcase-circ-is" data-expectedresult="fail" data-dp="fail" aria-label="{{ get_id(case) }}2-fail"><div style="display: block !important;">Target with inline-style</div></div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div id="{{id}}-fail-1" class="testcase-circ-is" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target without inline-style</div>
+    <div id="{{id}}-fail-2" class="testcase-circ-is" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}2-fail"><div style="display: block !important;">Target with inline-style</div></div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -18,7 +19,7 @@ description = Check that inline style !important functionality is working as exp
     <li>The red elements should be blocked and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}##.testcase-circ-is</pre></li>
   </ul>
 </section>

@@ -2,11 +2,12 @@ template = testcase
 title = XMLHTTPRequest
 description = Check that a filter using the $xmlhttprequest filter option is working as expected.
 
-<section class="testcase-panel">
-  {% set case = "XMLHTTPRequest" %}
+{% set case = "XMLHTTPRequest" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that a filter using the $xmlhttprequest filter option works to block a XMLHTTPRequest.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div id="testcase-status" class="testcase-trigger" aria-label="trigger">Triggering XMLHTTPRequest connection...</div>
     <div class="testcase-expected-view">Passed. Connection was blocked.</div>
   </div>
@@ -17,7 +18,7 @@ description = Check that a filter using the $xmlhttprequest filter option is wor
     <li>The connection should be blocked and its state indicated in the test case above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|strip_proto }}/testfiles/xmlhttprequest/$xmlhttprequest</pre></li>
   </ul>
 </section>
@@ -33,7 +34,7 @@ description = Check that a filter using the $xmlhttprequest filter option is wor
     result.innerHTML = "Passed. Connection was blocked.";
     result.setAttribute("data-expectedresult", "pass");
     result.setAttribute("data-dp", "pass");
-    result.setAttribute("aria-label", "{{ get_id(case) }}-pass");
+    result.setAttribute("aria-label", "{{id}}-pass");
   };
   req.onload = function(e)
   {
@@ -43,7 +44,7 @@ description = Check that a filter using the $xmlhttprequest filter option is wor
       result.innerHTML = "Failed. Connection was NOT blocked.";
       result.setAttribute("data-expectedresult", "fail");
       result.setAttribute("data-dp", "fail");
-      result.setAttribute("aria-label", "{{ get_id(case) }}-fail");
+      result.setAttribute("aria-label", "{{id}}-fail");
     }
   };
 

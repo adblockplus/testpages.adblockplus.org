@@ -2,8 +2,10 @@ template = testcase
 title = hide-if-shadow-contains
 description = Check that the hide-if-shadow-contains snippet is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Basic usage") }}
+{% set case = "Basic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -16,7 +18,7 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
     <li>The red element in the test case above should be hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-shadow-contains 'hisc-basic' p</pre></li>
   </ul>
   <h3>Notes</h3>
@@ -41,8 +43,10 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
   }, 500);
 </script>
 
-<section class="testcase-panel">
-  {{ heading("Regex usage") }}
+{% set case = "Regex usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that usage of the snippet with regex works as expected.</p>
   <div id="regex-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -56,7 +60,7 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
     <li>The red elements in the test case above should be hidden and the green one not hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-shadow-contains '/hisc-regex[1-2]/' div</pre></li>
   </ul>
   <h3>Notes</h3>

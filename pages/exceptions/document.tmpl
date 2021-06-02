@@ -2,14 +2,16 @@ template = testcase
 title = Document
 description = Check that a filter using the $document exception filter option is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Document") }}
+{% set case = "Document" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a filter using the $document filter option works whitelists everything on the page.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <img src="/images/expected.png" class="testcase-expected-view">
-    <img src="/testfiles/document/image.png" data-expectedresult="pass" data-dp="pass">
+    <img id="{{id}}-pass-1" src="/testfiles/document/image.png" data-expectedresult="pass" data-dp="pass">
     <div class="testcase-expected-view">Exception target</div>
-    <div class="ex-document" data-expectedresult="pass" data-dp="pass">Exception target</div>
+    <div id="{{id}}-pass-2" class="ex-document" data-expectedresult="pass" data-dp="pass">Exception target</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -22,7 +24,7 @@ description = Check that a filter using the $document exception filter option is
     <li>Both the exception target green element and the green image with white frame above should become unblocked.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}##.ex-document</pre></li>
     <li><pre>||{{ site_url|strip_proto }}/testfiles/document/*</pre></li>
     <li><pre>@@{{ site_url|strip_proto }}/en/exceptions/document$document</pre></li>

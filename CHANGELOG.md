@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2021-05-25
+
+- Add ID attributes to all test case elements.
+- No existing ID attributes were changed.
+
 ## 2021-05-13
 
 - Add missing rewrite examples.

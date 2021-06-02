@@ -2,10 +2,12 @@ title = Other
 template = testcase
 description = Check that a filter using the $other filter option is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Script") }}
+{% set case = "Script" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a filter using the $other filter option works on a script.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -15,7 +17,7 @@ description = Check that a filter using the $other filter option is working as e
     <li>A request of type "OTHER" should appear blocked on the "Adblock Plus" tab in developer tools.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>$other,domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>

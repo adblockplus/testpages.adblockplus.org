@@ -2,13 +2,15 @@ template = testcase
 title = Elem Hide
 description = Check that a filter using the $elemhide exception filter option is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Basic usage") }}
+{% set case = "Basic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a filter using the $elemhide filter option whitelists only hiding filters.</p>
-  <div class="testcase-area">
-    <img src="/testfiles/elemhide/image.png" data-expectedresult="fail" data-dp="fail">
+  <div id="{{id}}-area" class="testcase-area">
+    <img id="{{id}}-fail-1" src="/testfiles/elemhide/image.png" data-expectedresult="fail" data-dp="fail">
     <div class="testcase-expected-view">Exception target</div>
-    <div class="ex-elemhide" data-expectedresult="pass" data-dp="pass">Exception target</div>
+    <div id="{{id}}-pass-1" class="ex-elemhide" data-expectedresult="pass" data-dp="pass">Exception target</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -20,7 +22,7 @@ description = Check that a filter using the $elemhide exception filter option is
     <li>The red image should still be blocked but the green element containing the white square should become unblocked.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}##.ex-elemhide</pre></li>
     <li><pre>||{{ site_url|strip_proto }}/testfiles/elemhide/*</pre></li>
     <li><pre>@@{{ site_url|strip_proto }}/en/exceptions/elemhide$elemhide</pre></li>

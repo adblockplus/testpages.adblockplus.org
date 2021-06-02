@@ -2,10 +2,12 @@ template = testcase
 title = Popup Exception
 description = Check that usage of the $popup filter option in an exception is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Link based popup exception") }}
+{% set case = "Link based popup exception" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that the link-based $popup filter option in an exception works.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <a href="/testfiles/popup_exception/link.html" target="_blank" class="testcase-trigger" data-dp="popup-link">Trigger link based popup</a><br><br>
   </div>
   <h3>Steps</h3>
@@ -16,16 +18,18 @@ description = Check that usage of the $popup filter option in an exception is wo
     <li>The popup should not be blocked and open succesfully.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/popup_exception/link.html^$popup</pre></li>
     <li><pre>@@||{{ site_url|strip_proto }}/testfiles/popup_exception/link.html^$popup</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Script based popup exception (tab)") }}
+{% set case = "Script based popup exception (tab)" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that the script-based $popup filter option in an exception works.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <a href="#script-based-popup-exception-tab" class="testcase-trigger" onclick="scriptPopupTab();" data-dp="popup-script">Trigger script based popup</a>
   </div>
   <h3>Steps</h3>
@@ -36,16 +40,18 @@ description = Check that usage of the $popup filter option in an exception is wo
     <li>The popup/tab should not be blocked and open succesfully.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/popup_exception/script-tab.html^$popup</pre></li>
     <li><pre>@@||{{ site_url|strip_proto }}/testfiles/popup_exception/script-tab.html^$popup</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Script based popup exception (window)") }}
+{% set case = "Script based popup exception (window)" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that the script-based $popup filter option in an exception works.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <a href="#script-based-popup-exception-window" class="testcase-trigger" onclick="scriptPopupWindow();">Trigger script based popup</a>
   </div>
   <h3>Steps</h3>
@@ -56,7 +62,7 @@ description = Check that usage of the $popup filter option in an exception is wo
     <li>The popup/window should not be blocked and open succesfully.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/popup_exception/script-window.html^$popup</pre></li>
     <li><pre>@@||{{ site_url|strip_proto }}/testfiles/popup_exception/script-window.html^$popup</pre></li>
   </ul>

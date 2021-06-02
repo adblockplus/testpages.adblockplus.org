@@ -3,6 +3,7 @@
   "raw-ignore-regex": "(\\s*?<script>[\\s\\S]*?<\/script>|\\s*?<pre>.*?<\/pre>|\\s*?{{.*?}}|\\s*?{%[\\s\\S]*?%})",
   "head-req-title": false,
   "id-class-style": false,
+  "id-no-dup": false,
   "img-req-alt": false,
   "img-req-src": false,
   "link-req-noopener": false,

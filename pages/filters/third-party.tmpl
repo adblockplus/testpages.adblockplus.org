@@ -2,13 +2,15 @@ title = Third Party
 template = testcase
 description = Check that a filter using the $third-party filter option is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Block Third Party") }}
+{% set case = "Block Third Party" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a filter using the $third-party filter option works a third party resource.</p>
-  <div class="testcase-area">
-    <img style="padding: 0.5rem; background-color: #c70d2c; width: 166px; height: 166px;" src="https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/-/raw/master/static/testfiles/third-party/adblockplus-icon-colour-web.svg" data-expectedresult="fail" data-dp="fail"/>
+  <div id="{{id}}-area" class="testcase-area">
+    <img id="{{id}}-fail-1" style="padding: 0.5rem; background-color: #c70d2c; width: 166px; height: 166px;" src="https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/-/raw/master/static/testfiles/third-party/adblockplus-icon-colour-web.svg" data-expectedresult="fail" data-dp="fail"/>
     <img style="padding: 0.5rem; background-color: #0dc74b; width: 166px; height: 166px;" src="/testfiles/third-party/adblockplus-icon-colour-web.svg" class="testcase-expected-view"/>
-    <img style="padding: 0.5rem; background-color: #0dc74b; width: 166px; height: 166px;" src="/testfiles/third-party/adblockplus-icon-colour-web.svg" data-expectedresult="pass" data-dp="pass"/>
+    <img id="{{id}}-pass-1" style="padding: 0.5rem; background-color: #0dc74b; width: 166px; height: 166px;" src="/testfiles/third-party/adblockplus-icon-colour-web.svg" data-expectedresult="pass" data-dp="pass"/>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -19,18 +21,20 @@ description = Check that a filter using the $third-party filter option is workin
     <li>The green logo containing should not be blocked.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>adblockplus-icon-colour-web.svg$third-party</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Block First Party") }}
+{% set case = "Block First Party" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a filter using the inverse $third-party filter option works a first party resource.</p>
-  <div class="testcase-area">
-    <img style="padding: 0.5rem; color: #fff; background-color: #c70d2c;" src="/testfiles/third-party/abb-logo.png" data-expectedresult="fail" data-dp="fail"/>
+  <div id="{{id}}-area" class="testcase-area">
+    <img id="{{id}}-fail-1" style="padding: 0.5rem; color: #fff; background-color: #c70d2c;" src="/testfiles/third-party/abb-logo.png" data-expectedresult="fail" data-dp="fail"/>
     <img style="padding: 0.5rem; background-color: #0dc74b;" src="https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/-/raw/master/static/testfiles/third-party/abb-logo.png" class="testcase-expected-view"/>
-    <img style="padding: 0.5rem; background-color: #0dc74b;" src="https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/-/raw/master/static/testfiles/third-party/abb-logo.png" data-expectedresult="pass" data-dp="pass"/>
+    <img id="{{id}}-pass-1" style="padding: 0.5rem; background-color: #0dc74b;" src="https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/-/raw/master/static/testfiles/third-party/abb-logo.png" data-expectedresult="pass" data-dp="pass"/>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -41,7 +45,7 @@ description = Check that a filter using the $third-party filter option is workin
     <li>The green logo containing should not be blocked.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>abb-logo.png$~third-party</pre></li>
   </ul>
 </section>

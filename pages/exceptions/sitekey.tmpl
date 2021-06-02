@@ -2,17 +2,19 @@ template = testcase
 title = Sitekey
 description = Check that a filter using the $sitekey exception filter option is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Sitekey") }}
+{% set case = "Sitekey" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a filter using the $sitekey option whitelists in frame elements.</p>
   <h3>Out of frame elements</h3>
-  <div class="testcase-area">
-    <div class="testcase-sitekey-eh" data-expectedresult="fail" data-dp="fail">Target element</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="testcase-sitekey-eh" data-expectedresult="fail" data-dp="fail">Target element</div>
     <div class="testcase-examplecontent">Example Content</div>
-    <img src="/testfiles/sitekey/outofframe.png" data-expectedresult="fail" data-dp="fail">
+    <img id="{{id}}-fail-2" src="/testfiles/sitekey/outofframe.png" data-expectedresult="fail" data-dp="fail">
   </div>
   <h3>In frame elements</h3>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     {# /sitekey-frame is served by https://gitlab.com/eyeo/devops/legacy/sitescripts/-/tree/master/sitescripts/testpages/web which parses /templates/sitekey_frame.tmpl #}
     <iframe src="/sitekey-frame" style="width: 100%;"></iframe>
   </div>
@@ -26,7 +28,7 @@ description = Check that a filter using the $sitekey exception filter option is 
     <li>Out of frame elements should keep blocked, and in frame elements should become unblocked.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}##.testcase-sitekey-eh</pre></li>
     <li><pre>||{{ site_url|strip_proto }}/testfiles/sitekey/outofframe.png</pre></li>
     <li><pre>||{{ site_url|strip_proto }}/testfiles/sitekey/inframe.png</pre></li>

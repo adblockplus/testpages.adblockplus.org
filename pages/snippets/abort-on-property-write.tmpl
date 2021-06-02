@@ -2,8 +2,10 @@ title = abort-on-property-write
 description = Check that the abort-on-property-write snippet is working as expected.
 template = testcase
 
-<section class="testcase-panel">
-  {{ heading("Basic usage") }}
+{% set case = "Basic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -16,15 +18,17 @@ template = testcase
     <li>The script should be aborted and not add a red element to the test case above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#abort-on-property-write window.aopwb</pre></li>
   </ul>
 </section>
 
 <script src="/testfiles/abort-on-property-write/basic.js"></script>
 
-<section class="testcase-panel">
-  {{ heading("Sub property") }}
+{% set case = "Sub property" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that usage of the snippet with sub properties works as expected.</p>
   <div id="subproperty-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -37,15 +41,17 @@ template = testcase
     <li>The script should be aborted and not add a red element to the test case above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#abort-on-property-write window.aopwsp</pre></li>
   </ul>
 </section>
 
 <script src="/testfiles/abort-on-property-write/subproperty.js"></script>
 
-<section class="testcase-panel">
-  {{ heading("Function property") }}
+{% set case = "Function property" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that usage of the snippet with function properties works as expected.</p>
   <div id="functionproperty-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -58,7 +64,7 @@ template = testcase
     <li>The script should be aborted and not add a red element to the test case above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#abort-on-property-write aopwf.fp</pre></li>
   </ul>
 </section>

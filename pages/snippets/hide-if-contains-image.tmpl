@@ -2,8 +2,10 @@ template = testcase
 title = hide-if-contains-image
 description = Check that the hide-if-contains-image snippet is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Basic usage") }}
+{% set case = "Basic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="before-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -20,7 +22,7 @@ description = Check that the hide-if-contains-image snippet is working as expect
     <li>The red images in the test case above should be hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains-image /^89504e470d0a1a0a0000000d4948445200000064000000640802/ div[shouldhide] div</pre></li>
   </ul>
 </section>

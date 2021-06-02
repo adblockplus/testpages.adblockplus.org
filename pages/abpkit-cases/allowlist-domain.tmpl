@@ -2,44 +2,48 @@ template = testcase
 title = ABP Kit Allowlist Domains
 description = Check that a filters are not applied when domain is added to Allowlist Domains in ABP Kit.
 
+{% set case = "Dynamic" %}
+{% set id = get_id(case) %}
 <section class="testcase-panel">
-  {% set case = "Dynamic" %}
   {{ heading(case) }}
   <p>Image, dynamic target.</p>
   <div id="image-dynamic" class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
 </section>
 
+{% set case = "Static Domain" %}
+{% set id = get_id(case) %}
 <section class="testcase-panel">
-  {% set case = "Static Domain" %}
   {{ heading(case) }}
   <p>Static target with excluded.</p>
   <div class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <img src="/testfiles/domain/static/excluded/image.png">
-    <img src="/testfiles/domain/static/target/image.png" data-expectedresult="fail" aria-label="{{ get_id(case) }}-fail">
+    <img src="/testfiles/domain/static/target/image.png" data-expectedresult="fail" aria-label="{{id}}-fail">
   </div>
 </section>
 
+{% set case = "Image Static" %}
+{% set id = get_id(case) %}
 <section class="testcase-panel">
-  {% set case = "Image Static" %}
   {{ heading(case) }}
   <p>Image on a static target.</p>
   <div class="testcase-area" >
-    <img src="/testfiles/image/static/static.png" data-expectedresult="fail" aria-label="{{ get_id(case) }}-fail">
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+    <img src="/testfiles/image/static/static.png" data-expectedresult="fail" aria-label="{{id}}-fail">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
 </section>
 
+{% set case = "Stylesheet" %}
+{% set id = get_id(case) %}
 <section class="testcase-panel">
-  {% set case = "Stylesheet" %}
   {{ heading(case) }}
   <p>Stylesheet on an external stylesheet.</p>
   <div class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
-    <div class="testcase-expected-view" aria-label="{{ get_id(case) }}-example">Passed. Stylesheet was blocked.</div>
-    <div id="stylesheet-target" data-expectedresult="fail" aria-label="{{ get_id(case) }}-fail"></div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-expected-view" aria-label="{{id}}-example">Passed. Stylesheet was blocked.</div>
+    <div id="stylesheet-target" data-expectedresult="fail" aria-label="{{id}}-fail"></div>
   </div>
 </section>
 

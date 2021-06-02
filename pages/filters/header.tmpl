@@ -2,8 +2,10 @@ template = testcase
 title = Header
 description = Check that a filter using the $header filter option is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Script") }}
+{% set case = "Script" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a filter using the $header filter option works on an external script.</p>
   <div id="script-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -15,18 +17,20 @@ description = Check that a filter using the $header filter option is working as 
     <li>The script should be blocked and the red element should not be added to the page.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/header/$header=content-type=application/javascript</pre></li>
   </ul>
 </section>
 
 <script src="/testfiles/header/script.js"></script>
 
-<section class="testcase-panel">
-  {{ heading("Image") }}
+{% set case = "Image" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a filter using the $header filter option works on an image.</p>
-  <div class="testcase-area">
-    <img src="/testfiles/header/image.png" data-expectedresult="fail">
+  <div id="{{id}}-area" class="testcase-area">
+    <img id="{{id}}-fail-1" src="/testfiles/header/image.png" data-expectedresult="fail">
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -36,15 +40,17 @@ description = Check that a filter using the $header filter option is working as 
     <li>The red image should be blocked and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/header/$header=content-type=image/png</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Stylesheet") }}
+{% set case = "Stylesheet" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a filter using the $header filter option works on an external stylesheet.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <div class="testcase-expected-view">Passed. Stylesheet was blocked.</div>
     <div id="stylesheet-target" data-expectedresult="fail"></div>
@@ -56,7 +62,7 @@ description = Check that a filter using the $header filter option is working as 
     <li>The stylesheet should be blocked and the red element should not be added to the page.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/header/$header=content-type=text/css</pre></li>
   </ul>
 </section>

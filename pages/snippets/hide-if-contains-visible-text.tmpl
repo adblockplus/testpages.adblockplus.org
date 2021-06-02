@@ -44,8 +44,10 @@ description = Check that the hide-if-contains-visible-text snippet is working as
   }
 </style>
 
-<section class="testcase-panel">
-  {{ heading("Basic usage") }}
+{% set case = "Basic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -63,13 +65,15 @@ description = Check that the hide-if-contains-visible-text snippet is working as
     <li>The red element in the test case above should be hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains-visible-text Sponsored-hicvt-basic '#parent-basic > .article' '#parent-basic > .article .label'</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("::content usage") }}
+{% set case = "::content usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that usage of the snippet with elements using the ::content CSS property works as expected.</p>
   <div id="content-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -87,7 +91,7 @@ description = Check that the hide-if-contains-visible-text snippet is working as
     <li>The red element inside in the test case above should be hidden.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#hide-if-contains-visible-text Sponsored-hicvt-content '#parent-content > .article' '#parent-content > .article .label'</pre></li>
   </ul>
 </section>

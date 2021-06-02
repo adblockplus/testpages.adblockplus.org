@@ -2,12 +2,13 @@ title = Script
 template = testcase
 description = Check that a filter using the $script filter option is working as expected.
 
-<section class="testcase-panel">
-  {% set case = "Script" %}
+{% set case = "Script" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that a filter using the $script filter option works on an external script.</p>
   <div id="script-target" class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{ get_id(case) }}-example">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -16,7 +17,7 @@ description = Check that a filter using the $script filter option is working as 
     <li>The script should be blocked and the red element should not be added to the page.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|strip_proto }}/testfiles/script/$script</pre></li>
   </ul>
 </section>

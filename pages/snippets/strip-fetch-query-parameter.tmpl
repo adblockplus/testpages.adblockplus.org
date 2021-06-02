@@ -2,8 +2,10 @@ template = testcase
 title = strip-fetch-query-parameter
 description = Check that the strip-fetch-query-parameter snippet is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Basic usage") }}
+{% set case = "Basic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -17,13 +19,15 @@ description = Check that the strip-fetch-query-parameter snippet is working as e
     <li>The script should display a green element and not a red element to the test case above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#strip-fetch-query-parameter basicBlocked {{ site_url|domain }}</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Other usage") }}
+{% set case = "Other usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that other usage of the snippet works as expected.</p>
   <div id="other-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -38,7 +42,7 @@ description = Check that the strip-fetch-query-parameter snippet is working as e
     <li>The script should display two green elements to the test case above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#strip-fetch-query-parameter otherAllowed2 other-domain</pre></li>
   </ul>
 </section>

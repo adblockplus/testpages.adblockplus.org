@@ -3,10 +3,12 @@ title = CSP Specific site
 description = Check that a filter using the $csp filter option is working as expected.
 meta = http-equiv="Content-Security-Policy" content="frame-src 'none'"
 
-<section class="testcase-panel">
-  {{ heading("Specific site") }}
+{% set case = "Specific site" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a filter using the $csp filter option works on a specific site.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
     <div id="block-javascript" class="testcase-nostyle"></div>
   </div>
@@ -17,7 +19,7 @@ meta = http-equiv="Content-Security-Policy" content="frame-src 'none'"
     <li>The red image should be blocked and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}^$csp=script-src {{ site_url }}/lib/utils.js</pre></li>
   </ul>
 </section>
@@ -27,15 +29,18 @@ meta = http-equiv="Content-Security-Policy" content="frame-src 'none'"
 
   let image = document.createElement("img");
   image.src = "/testfiles/csp/image.png";
+  image.id = "specific-site-fail-1";
   image.setAttribute("data-expectedresult", "fail");
   document.getElementById("block-javascript").appendChild(image);
 </script>
 
-<section class="testcase-panel">
-  {{ heading("frame-src") }}
+{% set case = "frame-src" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a filter using the $csp filter option works on a specific site.</p>
-  <div class="testcase-area">
-    <iframe src="/testfiles/subdocument/subdocument.html" style="border: 0; width: 200px; height: 100px;" data-expectedresult="fail"></iframe>
+  <div id="{{id}}-area" class="testcase-area">
+    <iframe id="{{id}}-target" src="/testfiles/subdocument/subdocument.html" style="border: 0; width: 200px; height: 100px;" data-expectedresult="fail"></iframe>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -46,7 +51,7 @@ meta = http-equiv="Content-Security-Policy" content="frame-src 'none'"
     <li>The frame above should still be blocked.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}^$csp=frame-src 'self'</pre></li>
   </ul>
 </section>

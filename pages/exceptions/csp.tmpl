@@ -2,10 +2,12 @@ template = testcase
 title = CSP Exception
 description = Check that usage of the $csp filter option in an exception is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Exception usage") }}
+{% set case = "Exception usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that the $csp filter option in an exception works.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div id="unblock-javascript" data-expectedresult="pass"></div>
     <div class="testcase-expected-view"><img src="/images/expected.png"></div>
     <div class="testcase-examplecontent">Example Content</div>
@@ -19,7 +21,7 @@ description = Check that usage of the $csp filter option in an exception is work
     <li>The the green image containing the white square should become unblocked.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}^$csp=script-src {{ site_url }}/lib/utils.js</pre></li>
     <li><pre>@@||{{ site_url|strip_proto }}^$csp</pre></li>
   </ul>

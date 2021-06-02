@@ -2,11 +2,13 @@ template = testcase
 title = Blocking
 description = Check that basic blocking functionality is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("Full Path") }}
+{% set case = "Full Path" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a blocking filter describing a full path blocks its target.</p>
-  <div class="testcase-area">
-    <img src="/testfiles/blocking/full-path.png" data-expectedresult="fail" data-dp="fail">
+  <div id="{{id}}-area" class="testcase-area">
+    <img id="{{id}}-fail-1" src="/testfiles/blocking/full-path.png" data-expectedresult="fail" data-dp="fail">
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -16,16 +18,18 @@ description = Check that basic blocking functionality is working as expected.
     <li>The red image should be blocked and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>||{{ site_url|strip_proto }}/testfiles/blocking/full-path.png</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Partial Path") }}
+{% set case = "Partial Path" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a blocking filter describing a partial path blocks its target.</p>
-  <div class="testcase-area">
-    <img src="/testfiles/blocking/partial-path/partial-path.png" data-expectedresult="fail" data-dp="fail">
+  <div id="{{id}}-area" class="testcase-area">
+    <img id="{{id}}-fail-1" src="/testfiles/blocking/partial-path/partial-path.png" data-expectedresult="fail" data-dp="fail">
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -35,17 +39,19 @@ description = Check that basic blocking functionality is working as expected.
     <li>The red image should be blocked and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>/testfiles/blocking/partial-path/</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Wildcard") }}
+{% set case = "Wildcard" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a blocking filter describing a path with wildcards blocks its target.</p>
-  <div class="testcase-area">
-    <img src="/testfiles/blocking/wildcard/1/wildcard.png" data-expectedresult="fail" data-dp="fail">
-    <img src="/testfiles/blocking/wildcard/2/wildcard.png" data-expectedresult="fail" data-dp="fail">
+  <div id="{{id}}-area" class="testcase-area">
+    <img id="{{id}}-fail-1" src="/testfiles/blocking/wildcard/1/wildcard.png" data-expectedresult="fail" data-dp="fail">
+    <img id="{{id}}-fail-2" src="/testfiles/blocking/wildcard/2/wildcard.png" data-expectedresult="fail" data-dp="fail">
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -55,13 +61,15 @@ description = Check that basic blocking functionality is working as expected.
     <li>The red images should be blocked and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>/testfiles/blocking/wildcard/*/wildcard.png</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Dynamic") }}
+{% set case = "Dynamic" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a blocking filter describing a path of a resource that is later dynamically added to the page blocks its target.</p>
   <div id="blocking-dynamic" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -73,7 +81,7 @@ description = Check that basic blocking functionality is working as expected.
     <li>The red image should be blocked and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>/testfiles/blocking/dynamic.png</pre></li>
   </ul>
 </section>
@@ -85,6 +93,7 @@ description = Check that basic blocking functionality is working as expected.
   image.src = "/testfiles/blocking/dynamic.png";
   image.setAttribute("data-expectedresult", "fail");
   image.setAttribute("data-dp", "fail");
+  image.id = "dynamic-fail-1";
 
   let area = document.getElementById("blocking-dynamic");
   area.appendChild(image);

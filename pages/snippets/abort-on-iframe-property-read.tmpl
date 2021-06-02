@@ -4,8 +4,10 @@ template = testcase
 
 <script src="/testfiles/abort-on-iframe/utils.js"></script>
 
-<section class="testcase-panel">
-  {{ heading("Basic usage") }}
+{% set case = "Basic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -18,7 +20,7 @@ template = testcase
     <li>The script should be aborted and not add a red element to the test case above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#abort-on-iframe-property-read aoiprb</pre></li>
   </ul>
 </section>
@@ -30,8 +32,10 @@ template = testcase
                                 iframe => iframe.contentWindow.aoiprb = false);
 </script>
 
-<section class="testcase-panel">
-  {{ heading("Sub property") }}
+{% set case = "Sub property" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that usage of the snippet with sub properties works as expected.</p>
   <div id="subproperty-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -44,7 +48,7 @@ template = testcase
     <li>The script should be aborted and not add a red element to the test case above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#abort-on-iframe-property-read aoipr.sp</pre></li>
   </ul>
 </section>
@@ -56,8 +60,10 @@ template = testcase
                                 iframe => iframe.contentWindow.aoipr = {sp: false});
 </script>
 
-<section class="testcase-panel">
-  {{ heading("Multiple properties") }}
+{% set case = "Multiple properties" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that usage of the snippet with multiple properties works as expected.</p>
   <div id="multipleproperties-target" class="testcase-area">
     <div class="testcase-examplecontent">Example Content</div>
@@ -70,7 +76,7 @@ template = testcase
     <li>The script should be aborted and not add a red element to the test case above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#abort-on-iframe-property-read aoipr1 aoipr2</pre></li>
   </ul>
 </section>

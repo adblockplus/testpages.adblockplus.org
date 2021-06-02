@@ -32,11 +32,13 @@ description = Check that element hiding emulation functionality is working as ex
 }
 </style>
 
-<section class="testcase-panel">
-  {{ heading("Basic :-abp-properties() usage") }}
+{% set case = "Basic :-abp-properties() usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that an element hiding emulation filter using a :-abp-properties() selector hides its target.</p>
-  <div class="testcase-area">
-    <div class="ehe-properties" data-expectedresult="fail" data-dp="fail">Target</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="ehe-properties" data-expectedresult="fail" data-dp="fail">Target</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -46,16 +48,18 @@ description = Check that element hiding emulation functionality is working as ex
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#?#div:-abp-properties(width: 213px)</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Basic :-abp-has() usage") }}
+{% set case = "Basic :-abp-has() usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that an element hiding emulation filter using a :-abp-has() selector hides its target.</p>
-  <div class="testcase-area">
-    <div data-expectedresult="fail" data-dp="fail">
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail">
       <div>
         <span class="ehe-has">Target</span>
       </div>
@@ -69,16 +73,18 @@ description = Check that element hiding emulation functionality is working as ex
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#?#div:-abp-has(>div>span.ehe-has)</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Basic :-abp-contains() usage") }}
+{% set case = "Basic :-abp-contains() usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that an element hiding emulation filter using a :-abp-contains() selector hides its target.</p>
-  <div class="testcase-area">
-    <span data-expectedresult="fail" data-dp="fail">ehe-contains-target</span>
+  <div id="{{id}}-area" class="testcase-area">
+    <span id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail">ehe-contains-target</span>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -88,16 +94,18 @@ description = Check that element hiding emulation functionality is working as ex
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#?#span:-abp-contains(ehe-contains-target)</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Chained extended selectors") }}
+{% set case = "Chained extended selectors" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that element hiding emulation filter using several of the extended selectors hides its target.</p>
-  <div class="testcase-area">
-    <div data-expectedresult="fail" data-dp="fail">
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail">
       <div class="ehe-chained">Target</div>
     </div>
     <div class="testcase-examplecontent">Example Content</div>
@@ -109,16 +117,18 @@ description = Check that element hiding emulation functionality is working as ex
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#?#div:-abp-has(> div:-abp-properties(width: 214px))</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Case insensitive extended selectors") }}
+{% set case = "Case insensitive extended selectors" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that an element hiding emulation filter is case insensitive and still hides its target.</p>
-  <div class="testcase-area">
-    <div class="ehe-case" data-expectedresult="fail" data-dp="fail">Target</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="ehe-case" data-expectedresult="fail" data-dp="fail">Target</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -128,16 +138,18 @@ description = Check that element hiding emulation functionality is working as ex
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#?#div:-abp-properties(WiDtH: 215px)</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Wildcard in extended selector") }}
+{% set case = "Wildcard in extended selector" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that an element hiding emulation filter using wildcards still hides its target.</p>
-  <div class="testcase-area">
-    <div class="ehe-wildcard" data-expectedresult="fail" data-dp="fail">Target</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="ehe-wildcard" data-expectedresult="fail" data-dp="fail">Target</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -147,17 +159,19 @@ description = Check that element hiding emulation functionality is working as ex
     <li>The red element should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#?#div:-abp-properties(cursor:*)</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Regular expression in :-abp-properties()") }}
+{% set case = "Regular expression in :-abp-properties()" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that an element hiding emulation filter using regular expressions still hides its target.</p>
-  <div class="testcase-area">
-    <div class="ehe-regex1" data-expectedresult="fail" data-dp="fail">Target</div>
-    <div class="ehe-regex2" data-expectedresult="fail" data-dp="fail">Target</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="ehe-regex1" data-expectedresult="fail" data-dp="fail">Target</div>
+    <div id="{{id}}-fail-2" class="ehe-regex2" data-expectedresult="fail" data-dp="fail">Target</div>
     <div class="testcase-examplecontent ehe-regex3">Not a target</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
@@ -168,17 +182,19 @@ description = Check that element hiding emulation functionality is working as ex
     <li>Both red target elements should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#?#div:-abp-properties(/width: 12[1-5]px;/)</pre></li>
   </ul>
 </section>
 
-<section class="testcase-panel">
-  {{ heading("Regular expression in :-abp-contains()") }}
+{% set case = "Regular expression in :-abp-contains()" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that an element hiding emulation filter using regular expressions still hides its target.</p>
-  <div class="testcase-area">
-    <div data-expectedresult="fail" data-dp="fail">ehe-containsregex1</div>
-    <div data-expectedresult="fail" data-dp="fail">ehe-containsregex2</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail">ehe-containsregex1</div>
+    <div id="{{id}}-fail-2" data-expectedresult="fail" data-dp="fail">ehe-containsregex2</div>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -188,7 +204,7 @@ description = Check that element hiding emulation functionality is working as ex
     <li>Both red target elements should be hidden and the space collapsed.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#?#div > div:-abp-contains(/ehe-containsregex\d/)</pre></li>
   </ul>
 </section>

@@ -2,10 +2,12 @@ template = testcase
 title = WebRTC
 description = Check that a filter using the $webrtc filter option is working as expected.
 
-<section class="testcase-panel">
-  {{ heading("WebRTC") }}
+{% set case = "WebRTC" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
   <p>Test that a filter using the $webrtc filter option works on to block a webrtc connection.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div id="testcase-status" class="testcase-trigger">Triggering WebRTC connection...</div>
     <div class="testcase-expected-view">Passed. Connection was blocked.</div>
   </div>
@@ -16,7 +18,7 @@ description = Check that a filter using the $webrtc filter option is working as 
     <li>The connection should be blocked and its state indicated in the test case above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>$webrtc,domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>

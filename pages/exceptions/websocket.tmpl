@@ -2,11 +2,12 @@ template = testcase
 title = WebSocket Exception
 description = Check that usage of the $websocket filter option in an exception is working as expected.
 
-<section class="testcase-panel">
-  {% set case = "Exception usage" %}
+{% set case = "Exception usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that the $websocket filter option in an exception works.</p>
-  <div class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div id="testcase-status" class="testcase-trigger" aria-label="trigger">Triggering WebSocket connection...</div>
     <div class="testcase-expected-view">Passed. Connection was NOT blocked.</div>
   </div>
@@ -17,7 +18,7 @@ description = Check that usage of the $websocket filter option in an exception i
     <li>The connection should NOT be blocked and its state indicated in the test case above.</li>
   </ul>
   <h3>Filters</h3>
-  <ul class="testcase-filters">
+  <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>$websocket,domain={{ site_url|domain }}</pre></li>
     <li><pre>@@$websocket,domain={{ site_url|domain }}</pre></li>
   </ul>
@@ -38,7 +39,7 @@ description = Check that usage of the $websocket filter option in an exception i
     result.innerHTML = "Passed. Connection was NOT blocked.";
     result.setAttribute("data-expectedresult", "pass");
     result.setAttribute("data-dp", "pass");
-    result.setAttribute("aria-label", "{{ get_id(case) }}-pass");
+    result.setAttribute("aria-label", "{{id}}-pass");
   };
   websocket.onerror = function()
   {
@@ -46,6 +47,6 @@ description = Check that usage of the $websocket filter option in an exception i
     result.innerHTML = "Failed. Connection was blocked.";
     result.setAttribute("data-expectedresult", "fail");
     result.setAttribute("data-dp", "fail");
-    result.setAttribute("aria-label", "{{ get_id(case) }}-fail");
+    result.setAttribute("aria-label", "{{id}}-fail");
   };
 </script>
