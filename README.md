@@ -36,15 +36,6 @@ docker build -t testpages .
 docker run -it testpages
 ```
 
-#### Revision
-
-`master` is the revision of `adblockplusui/adblockpluschrome` used to
-build the `testpages` test image. Other revisions can be built using the
-`REVISION` argument:
-```
-docker build -t testpages --build-arg REVISION=other .
-```
-
 #### Browser
 
 `Firefox (latest)` is the default browser. Other browsers can be run using the
@@ -69,21 +60,19 @@ docker run -e TESTS_SUBSET=".*(Blocking|Popup)" -it testpages
 
 #### Packed extensions
 
-You may use custom extension packages by using the `EXTENSION_FILE` and `TARGET`
-arguments when building the image. Example:
+The default extension used to run the tests is the one matching the `master`
+revision of `adblockplusui/adblockpluschrome`. Other packed extensions may be
+used by providing the `EXTENSION_FILE` argument when building the image.
+Example:
 ```
-docker build -t testpages --build-arg EXTENSION_FILE="adblockpluschrome-*.zip" --build-arg TARGET="chrome" .
+docker build -t testpages --build-arg EXTENSION_FILE="adblockpluschrome-*.zip" .
 ```
 
-The available `TARGET` values are:
-* chrome
-* firefox
-
-For actually launching the tests with the custom extension package, you must
-provide the `SKIP_BUILD` argument set to `true`, otherwise it will still use the
-default extension. Example:
+To run the tests with the custom extension package, you must provide the
+`SKIP_EXTENSION_DOWNLOAD` argument set to `true`, otherwise the custom extension
+will be overridden by the default extension. Example:
 ```
-docker run -e SKIP_BUILD="true" -e BROWSER="Chromium \(latest\)" -it testpages
+docker run -e SKIP_EXTENSION_DOWNLOAD="true" -e BROWSER="Chromium \(latest\)" -it testpages
 ```
 
 #### Debugging failing tests
@@ -91,7 +80,7 @@ docker run -e SKIP_BUILD="true" -e BROWSER="Chromium \(latest\)" -it testpages
 In order to access the screenshots for failing tests run the following command,
 which copies the screenshots to `<destination>` folder:
 ```
-docker cp $(docker ps -aqf ancestor=testpages | head -n 1):/adblockplusui/adblockpluschrome/test/screenshots <destination>
+docker cp $(docker ps -aqf ancestor=testpages | head -n 1):/testpages.adblockplus.org/test/screenshots <destination>
 ```
 
 Another useful resource are the nginx (test pages server) logs. In order to

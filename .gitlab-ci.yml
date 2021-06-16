@@ -16,7 +16,6 @@
 ---
 
 stages:
-  - build_test
   - test
   - build_production
   - deploy_production
@@ -26,7 +25,6 @@ stages:
 .test_runner:
   image: docker:19.03.5
   stage: test
-  needs: []
   services:
     - docker:19.03.5-dind
   before_script:
@@ -45,37 +43,19 @@ test:lint:
 .test:
   extends: .test_runner
   script:
-    - docker build -t testpages --build-arg REVISION="$REVISION" .
+    - docker build -t testpages .
     - docker run -e BROWSER="$BROWSER" testpages
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
-    - docker cp $IMAGE_ID:/adblockplusui/adblockpluschrome/test/screenshots .
+    - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
       2> /dev/null
     - docker cp $IMAGE_ID:/var/log/nginx/ .
-  variables:
-    REVISION: master
   artifacts:
     paths:
       - screenshots/
       - nginx/
     when: on_failure
     expire_in: 1 mo
-
-build:chrome_extension:
-  stage: build_test
-  extends: .test
-  script:
-    - docker build -t testpages --build-arg REVISION="$REVISION" .
-    - docker run -e TARGET=chrome --entrypoint
-      ./testpages.adblockplus.org/test/build_extension.sh -t testpages
-  after_script:
-    - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
-    - mkdir -p ablockplusui/adblockpluschrome
-    - docker cp $IMAGE_ID:/adblockplusui/adblockpluschrome/devenv.chrome .
-  artifacts:
-    paths:
-      - devenv.chrome/
-    when: on_success
 
 test:chrome:latest:
   extends: .test
@@ -103,8 +83,6 @@ test:edge:
     - shared-windows
     - windows
     - windows-1809
-  needs:
-    - job: build:chrome_extension
   before_script:
     # Fix for refreshenv
     # https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/13#note_337853320
@@ -139,14 +117,8 @@ test:edge:
     # Build CMS
     - git clone https://gitlab.com/eyeo/websites/cms.git
     - pip install -r cms\requirements.txt
-    # Build adblockpluschrome
-    - git clone -b $Env:REVISION --depth 5
-      https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
-    - mkdir -p adblockplusui\adblockpluschrome\devenv.chrome
-    - Copy-Item -Path "devenv.chrome\*"
-      -Destination "adblockplusui\adblockpluschrome\devenv.chrome" -Recurse
-    - cd adblockplusui\adblockpluschrome;
-      git submodule update --init --recursive; npm install; cd ..\..
+    # Build tests
+    - git submodule update --init --recursive; npm install;
     # Generate test pages files
     - mkdir -p $Env:NGINX\html\$Env:DOMAIN
     - $Env:PYTHONPATH = "cms"
@@ -155,24 +127,22 @@ test:edge:
     # Run testpages server
     - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
       -PassThru
+    # Download extension
+    - node ./test/extension-tests/extension-download.js
     # Run tests
-    - cd adblockplusui\adblockpluschrome
-    - echo "INFO - Tests will execute based on the following revision:";
-      git status | Select -First 1; git log -5 --oneline
     # Sitekey test disabled - testpages#41
     # WebSocket tests disabled - testpages#74
-    - npm run test-only --
-      -g "^Edge.*Test pages((?!Sitekey|WebSocket|Final checks).)*$"
+    # strip-fetch-query-parameter test disabled - testpages#82
+    - npm run test --
+      -g "^Edge.*Test pages((?!Sitekey|WebSocket|strip-fetch).)*$"
   variables:
-    REVISION: master
     TEST_PAGES_URL: https://local.testpages.adblockplus.org:5000/en/
     SITE_URL: https://local.testpages.adblockplus.org:5000
     DOMAIN: local.testpages.adblockplus.org
     TEST_PAGES_INSECURE: "true"
-    SKIP_BUILD: "true"
   artifacts:
     paths:
-      - adblockplusui/adblockpluschrome/test/screenshots/
+      - testpages.adblockplus.org/test/screenshots
     when: on_failure
     expire_in: 1 mo
   interruptible: true

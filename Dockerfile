@@ -15,9 +15,11 @@
 
 FROM registry.gitlab.com/eyeo/docker/adblockplus-ci:node12
 
-RUN apt-get update
+# https://stackoverflow.com/questions/68802802/repository-http-security-debian-org-debian-security-buster-updates-inrelease
+RUN apt-get --allow-releaseinfo-change update
 # Running sitescripts requires spawn-fcgi, python-flup and python-m2crypto
 RUN apt-get install -y spawn-fcgi python-flup python-m2crypto nginx
+RUN apt-get install -y curl unzip dos2unix jq
 
 # nginx config
 ENV DOMAIN=local.testpages.adblockplus.org
@@ -39,12 +41,11 @@ RUN git clone https://gitlab.com/eyeo/devops/legacy/sitescripts.git
 RUN git clone https://github.com/adblockplus/cms.git
 RUN pip install -r cms/requirements.txt
 
-# Build adblockpluschrome test env
-ARG REVISION=master
-RUN git clone -b $REVISION --depth 5 https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
-RUN cd adblockplusui/adblockpluschrome \
-  && git submodule update --init --recursive \
-  && npm install --unsafe-perm
+# Build tests
+COPY .git testpages.adblockplus.org/.git
+COPY .gitmodules testpages.adblockplus.org/.gitmodules
+COPY package.json testpages.adblockplus.org/package.json
+RUN cd testpages.adblockplus.org && git submodule update --init && npm install
 
 COPY . testpages.adblockplus.org
 
@@ -55,11 +56,10 @@ RUN PYTHONPATH=cms python -m cms.bin.generate_static_pages testpages.adblockplus
 
 # Unpack custom extension
 ARG EXTENSION_FILE=""
-ARG TARGET=""
-RUN if [ "$EXTENSION_FILE" != "" ]; then unzip -q testpages.adblockplus.org/$EXTENSION_FILE -d adblockplusui/adblockpluschrome/devenv.$TARGET; fi
+RUN if [ "$EXTENSION_FILE" != "" ]; then unzip -q testpages.adblockplus.org/$EXTENSION_FILE -d testpages.adblockplus.org/testext; fi
 
 ENV BROWSER="Firefox \(latest\)"
 ENV TESTS_SUBSET=""
-ENV SKIP_BUILD=""
+ENV SKIP_EXTENSION_DOWNLOAD=""
 
 ENTRYPOINT ./testpages.adblockplus.org/test/entrypoint.sh

@@ -1,0 +1,20 @@
+{
+  "env": {
+    "node": true,
+    "mocha": true
+  },
+  "rules": {
+    "max-len": [
+      "error",
+      {
+        "code": 80,
+        "ignoreUrls": true,
+        "ignoreRegExpLiterals": true
+      }
+    ]
+  },
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2020
+  }
+}
