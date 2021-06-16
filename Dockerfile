@@ -18,6 +18,7 @@ FROM registry.gitlab.com/eyeo/docker/adblockplus-ci:node12
 RUN apt-get update
 # Running sitescripts requires spawn-fcgi, python-flup and python-m2crypto
 RUN apt-get install -y spawn-fcgi python-flup python-m2crypto nginx
+RUN apt-get install -y curl unzip
 
 # nginx config
 ENV DOMAIN=local.testpages.adblockplus.org
@@ -40,11 +41,11 @@ RUN git clone https://github.com/adblockplus/cms.git
 RUN pip install -r cms/requirements.txt
 
 # Build adblockpluschrome test env
-ARG REVISION=master
-RUN git clone -b $REVISION --depth 5 https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
-RUN cd adblockplusui/adblockpluschrome \
-  && git submodule update --init --recursive \
-  && npm install --unsafe-perm
+# ARG REVISION=master
+# RUN git clone -b $REVISION --depth 5 https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
+# RUN cd adblockplusui/adblockpluschrome \
+#   && git submodule update --init --recursive \
+#   && npm install --unsafe-perm
 
 COPY . testpages.adblockplus.org
 

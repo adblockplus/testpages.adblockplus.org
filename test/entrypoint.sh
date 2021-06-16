@@ -16,10 +16,14 @@ echo -e "\n127.0.0.1 $DOMAIN" >> /etc/hosts
 nginx
 
 # Run tests
-cd adblockplusui/adblockpluschrome
-export TEST_PAGES_URL="$SITE_URL/en/"
-export TEST_PAGES_INSECURE="true"
-echo "INFO: Tests will execute based on the following revision:"
-git status 2>&1 | head -n 1
-git log -5 --oneline
-$XVFB_CMD npm run test-only -- -g "$tests"
+#cd adblockplusui/adblockpluschrome
+
+cd testpages.adblockplus.org
+./test/runner_download.sh
+
+# export TEST_PAGES_URL="$SITE_URL/en/"
+# export TEST_PAGES_INSECURE="true"
+# echo "INFO: Tests will execute based on the following revision:"
+# git status 2>&1 | head -n 1
+# git log -5 --oneline
+# $XVFB_CMD npm run test-only -- -g "$tests"
