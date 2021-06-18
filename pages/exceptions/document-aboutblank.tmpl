@@ -1,0 +1,66 @@
+template = testcase
+title = Document
+description = Check that a filter using the $document exception filter option is working as expected.
+
+<section class="testcase-panel">
+  {{ heading("Document - about:blank") }}
+  <p>Test that a filter using the $document filter option works works on content that is loaded into an initial about:blank frame.</p>
+  <div id="document-aboutblank-testarea" class="testcase-area">
+    <img id="document-aboutblank-mainimg" src="/testfiles/document_aboutblank/block_bad.png?main" data-expectedresult="fail" data-dp="fail">
+    <iframe src="/testfiles/document_aboutblank/iframe.html?allow" style="border: 0; width: 100px; height: 100px;"></iframe>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>Both red images and the green image should be blocked.</li>
+    <li>Add filter #2.</li>
+    <li>Refresh page.</li>
+    <li>The green image should be displayed, but the red images should be blocked.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/document_aboutblank/block*.png</pre></li>
+    <li><pre>@@/testfiles/document_aboutblank/iframe.html?allow$document</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  let testcaseParent = document.getElementById("document-aboutblank-testarea");
+
+  let frame = document.createElement("iframe");
+  frame.src = "about:blank?allow";
+  frame.id = "document-aboutblank-frame";
+  frame.style.border = "0";
+  frame.style.padding = "0";
+  frame.style.width = "100px";
+  frame.style.height = "100px";
+  frame.dataset.expectedresult = "fail";
+  frame.dataset.dp = "fail";
+  testcaseParent.appendChild(frame);
+
+  frame.contentDocument.body.style.padding = "0";
+  frame.contentDocument.body.style.margin = "0";
+
+  let img = document.createElement("img");
+  img.id = "document-aboutblank-target-img";
+  img.src = "/testfiles/document_aboutblank/block_bad.png?blank";
+  frame.contentDocument.body.appendChild(img);
+
+  setTimeout(() =>
+  {
+    let target = document.getElementById("document-aboutblank-frame");
+
+    let targetImg = target.contentDocument.getElementById("document-aboutblank-target-img");
+
+    if (targetImg.clientWidth === 0)
+    {
+      target.style.width = 0;
+      target.style.height = 0;
+      target.style.flexGrow = "0";
+    }
+  }, 500);
+</script>

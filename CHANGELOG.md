@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2021-06-14
+
+- Add staging test case list at `/en/staging`.
+- Add document exception - about:blank test case.
+
 ## 2021-05-25
 
 - Add ID attributes to all test case elements.
