@@ -29,5 +29,9 @@
     "stylelint": "stylelint --config test/.stylelintrc.json **/*.{css,html,tmpl}",
     "test-only": "mocha --unhandled-rejections=strict --delay test/extension-tests/entrypoint.js",
     "test": "npm run test-only --"
+  },
+  "dependencies": {
+    "dmg": "^0.1.0",
+    "fs-extra": "^10.0.0"
   }
 }

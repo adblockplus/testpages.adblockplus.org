@@ -21,7 +21,7 @@ import command from "selenium-webdriver/lib/command.js";
 import got from "got";
 
 export {ensureFirefox as ensureBrowser}
-  from "../../../adblockpluscore/test/runners/firefox_download.mjs";
+  from "../misc/firefox_download.mjs";
 
 // We need to require the geckodriver,
 // otherwise on Windows the geckodriver path is not added to process.env.PATH.

@@ -23,7 +23,7 @@ import {exec, execFile} from "child_process";
 import {promisify} from "util";
 
 export {ensureChromium as ensureBrowser}
-  from "../../../adblockpluscore/test/runners/chromium_download.mjs";
+  from "../misc/chromium_download.mjs";
 
 // We need to require the chromedriver,
 // otherwise on Windows the chromedriver path is not added to process.env.PATH.
