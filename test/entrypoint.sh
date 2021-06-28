@@ -20,7 +20,6 @@ nginx
 
 cd testpages.adblockplus.org
 ./test/runner_download.sh
-npm install
 
 export TEST_PAGES_URL="$SITE_URL/en/"
 export TEST_PAGES_INSECURE="true"

@@ -20,8 +20,8 @@ import firefox from "selenium-webdriver/firefox.js";
 import command from "selenium-webdriver/lib/command.js";
 import got from "got";
 
-export {ensureFirefox as ensureBrowser}
-  from "../misc/firefox_download.mjs";
+export {downloadFirefox as ensureBrowser}
+  from "../misc/browser-download.js";
 
 // We need to require the geckodriver,
 // otherwise on Windows the geckodriver path is not added to process.env.PATH.

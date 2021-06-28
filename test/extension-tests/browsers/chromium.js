@@ -22,8 +22,8 @@ import path from "path";
 import {exec, execFile} from "child_process";
 import {promisify} from "util";
 
-export {ensureChromium as ensureBrowser}
-  from "../misc/chromium_download.mjs";
+export {downloadChromium as ensureBrowser}
+  from "../misc/browser-download.js";
 
 // We need to require the chromedriver,
 // otherwise on Windows the chromedriver path is not added to process.env.PATH.

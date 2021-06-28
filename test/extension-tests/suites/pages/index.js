@@ -21,7 +21,6 @@ import {checkLastError, runWithHandle,
         executeScriptCompliant} from "../../misc/utils.js";
 import specializedTests from "./specialized.js";
 import defineSubscribeTest from "./subscribe.js";
-import defineUninstallTest from "./uninstall.js";
 import {getExpectedScreenshot, runFirstTest,
         getPage, isExcluded, runGenericTests} from "./utils.js";
 
@@ -108,19 +107,5 @@ export default () =>
       defineSubscribeTest();
     });
 
-    describe("Final checks", () =>
-    {
-      it("does not block unfiltered content", async function()
-      {
-        await assert.rejects(
-          runFirstTest(this.driver, this.browserName, this.browserVersion,
-                       this.test.parent.parent.parent.pageTests,
-                       this.test.title, false),
-          /Screenshots don't match/
-        );
-      });
-
-      defineUninstallTest();
-    });
   });
 };

@@ -48,6 +48,7 @@ RUN pip install -r cms/requirements.txt
 #   && npm install --unsafe-perm
 
 COPY . testpages.adblockplus.org
+RUN cd testpages.adblockplus.org && npm install
 
 # Generate test pages files
 ENV SITE_URL=https://$DOMAIN:5000
