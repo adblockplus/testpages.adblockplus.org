@@ -40,15 +40,9 @@ RUN git clone https://gitlab.com/eyeo/devops/legacy/sitescripts.git
 RUN git clone https://github.com/adblockplus/cms.git
 RUN pip install -r cms/requirements.txt
 
-# Build adblockpluschrome test env
-# ARG REVISION=master
-# RUN git clone -b $REVISION --depth 5 https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
-# RUN cd adblockplusui/adblockpluschrome \
-#   && git submodule update --init --recursive \
-#   && npm install --unsafe-perm
-
+# Build tests
 COPY . testpages.adblockplus.org
-RUN cd testpages.adblockplus.org && npm install
+RUN cd testpages.adblockplus.org && git submodule update --init && npm install
 
 # Generate test pages files
 ENV SITE_URL=https://$DOMAIN:5000

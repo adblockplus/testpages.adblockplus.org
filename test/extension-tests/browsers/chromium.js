@@ -22,8 +22,7 @@ import path from "path";
 import {exec, execFile} from "child_process";
 import {promisify} from "util";
 
-export {downloadChromium as ensureBrowser}
-  from "../misc/browser-download.js";
+import {downloadChromium} from "../../../webext-sdk/test/browser-download.js";
 
 // We need to require the chromedriver,
 // otherwise on Windows the chromedriver path is not added to process.env.PATH.
@@ -39,10 +38,15 @@ export let target = "chrome";
 export let oldestCompatibleVersion = 508578;
 const OLDEST_DRIVER_VERSION = "2.36"; // Chromium 63
 
+export async function ensureBrowser(revision)
+{
+  return (await downloadChromium(revision)).binary;
+}
+
 export async function ensureDriver(browserBinary)
 {
   let chromedriverPath =
-    path.resolve("adblockpluscore", "chromium-snapshots", "chromedriver");
+    path.resolve("webext-sdk", "test", "chromium-snapshots", "chromedriver");
   let env = {...process.env, npm_config_chromedriver_skip_download: false,
              npm_config_tmp: chromedriverPath};
   if (browserBinary)
