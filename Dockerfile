@@ -52,7 +52,7 @@ RUN PYTHONPATH=cms python -m cms.bin.generate_static_pages testpages.adblockplus
 # Unpack custom extension
 ARG EXTENSION_FILE=""
 ARG TARGET=""
-RUN if [ "$EXTENSION_FILE" != "" ]; then unzip -q testpages.adblockplus.org/$EXTENSION_FILE -d adblockplusui/adblockpluschrome/devenv.$TARGET; fi
+RUN if [ "$EXTENSION_FILE" != "" ]; then unzip -q testpages.adblockplus.org/$EXTENSION_FILE -d testext; fi
 
 ENV BROWSER="Firefox \(latest\)"
 ENV TESTS_SUBSET=""

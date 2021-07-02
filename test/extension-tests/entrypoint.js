@@ -67,7 +67,7 @@ function getBrowserBinaries(module, browser)
 async function getDriver(binary, module)
 {
   let extensionPaths = [
-    path.resolve("./ext_unzipped"),
+    path.resolve("./testext"),
     path.resolve("test", "extension-tests", "helper-extension")
   ];
   let browserBin = await binary.getPath();
