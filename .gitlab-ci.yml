@@ -128,7 +128,7 @@ test:edge:
     # Copy-Item -Path "devenv.chrome\*"
     # Destination "adblockplusui\adblockpluschrome\devenv.chrome" -Recurse
     # cd adblockplusui\adblockpluschrome;
-      git submodule update --init --recursive; npm install;
+    - git submodule update --init --recursive; npm install;
     # Generate test pages files
     - mkdir -p $Env:NGINX\html\$Env:DOMAIN
     - $Env:PYTHONPATH = "cms"
