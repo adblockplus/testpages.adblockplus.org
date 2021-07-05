@@ -20,6 +20,8 @@ import Jimp from "jimp";
 
 const SCREENSHOT_DIR = path.join("test", "screenshots");
 
+const FULLDIR = path.resolve(SCREENSHOT_DIR);
+
 export async function takeScreenshot(driver)
 {
   // On macOS scrollbars appear and disappear overlapping

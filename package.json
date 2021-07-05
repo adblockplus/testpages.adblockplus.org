@@ -27,8 +27,7 @@
     "htmllint": "htmllint --rc test/.htmllintrc static/**/*.html \\*\\*/\\*.tmpl",
     "eslint": "eslint --config test/.eslintrc.json static/ pages/**/*.tmpl",
     "stylelint": "stylelint --config test/.stylelintrc.json **/*.{css,html,tmpl}",
-    "test-only": "mocha --unhandled-rejections=strict --delay test/extension-tests/entrypoint.js",
-    "test": "npm run test-only --"
+    "test": "mocha --unhandled-rejections=strict --delay test/extension-tests/entrypoint.js --"
   },
   "dependencies": {
     "dmg": "^0.1.0",
