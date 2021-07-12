@@ -142,8 +142,8 @@ test:edge:
     # WebSocket tests disabled - testpages#74
     - Invoke-WebRequest -Uri "https://gitlab.com/eyeo/adblockplus/downloads/-/raw/master/adblockpluschrome-3.11.zip?inline=false"
       -Headers @{'JOB-TOKEN' = $Env:CI_JOB_TOKEN}
-      -OutFile "testpages.adblockplus.org/adblockpluschrome-3.11.zip"
-    - Expand-Archive "testpages.adblockplus.org/adblockpluschrome-3.11.zip" "testpages.adblockplus.org/testext"
+      -OutFile "adblockpluschrome-3.11.zip"
+    - Expand-Archive "adblockpluschrome-3.11.zip" "testext"
     - npm run test --
       -g "^Edge.*Test pages((?!Sitekey|WebSocket|Final checks).)*$"
   variables:
