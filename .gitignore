@@ -2,4 +2,4 @@
 package-lock.json
 /webext-sdk/
 *.zip
-/ext_unzipped/
+/testext/

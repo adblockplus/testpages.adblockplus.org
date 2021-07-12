@@ -19,7 +19,10 @@ nginx
 #cd adblockplusui/adblockpluschrome
 
 cd testpages.adblockplus.org
-./test/runner_download.sh
+if [ "$SKIP_BUILD" != "true" ]; then
+  ./test/runner_download.sh
+fi
+
 
 export TEST_PAGES_URL="$SITE_URL/en/"
 export TEST_PAGES_INSECURE="true"

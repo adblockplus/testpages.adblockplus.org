@@ -41,8 +41,12 @@ RUN git clone https://github.com/adblockplus/cms.git
 RUN pip install -r cms/requirements.txt
 
 # Build tests
-COPY . testpages.adblockplus.org
+COPY .git testpages.adblockplus.org/.git
+COPY .gitmodules testpages.adblockplus.org/.gitmodules
+COPY package.json testpages.adblockplus.org/package.json
 RUN cd testpages.adblockplus.org && git submodule update --init && npm install
+
+COPY . testpages.adblockplus.org
 
 # Generate test pages files
 ENV SITE_URL=https://$DOMAIN:5000
@@ -51,8 +55,7 @@ RUN PYTHONPATH=cms python -m cms.bin.generate_static_pages testpages.adblockplus
 
 # Unpack custom extension
 ARG EXTENSION_FILE=""
-ARG TARGET=""
-RUN if [ "$EXTENSION_FILE" != "" ]; then unzip -q testpages.adblockplus.org/$EXTENSION_FILE -d testext; fi
+RUN if [ "$EXTENSION_FILE" != "" ]; then unzip -q testpages.adblockplus.org/$EXTENSION_FILE -d testpages.adblockplus.org/testext; fi
 
 ENV BROWSER="Firefox \(latest\)"
 ENV TESTS_SUBSET=""
