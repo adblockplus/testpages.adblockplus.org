@@ -21,7 +21,7 @@ import command from "selenium-webdriver/lib/command.js";
 import got from "got";
 
 export {downloadFirefox as ensureBrowser}
-  from "../../../webext-sdk/test/browser-download.js";
+  from "webext-sdk/test/browser-download.js";
 
 // We need to require the geckodriver,
 // otherwise on Windows the geckodriver path is not added to process.env.PATH.

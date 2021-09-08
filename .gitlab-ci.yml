@@ -118,7 +118,7 @@ test:edge:
     - git clone https://gitlab.com/eyeo/websites/cms.git
     - pip install -r cms\requirements.txt
     # Build tests
-    - git submodule update --init --recursive; npm install;
+    - npm install
     # Generate test pages files
     - mkdir -p $Env:NGINX\html\$Env:DOMAIN
     - $Env:PYTHONPATH = "cms"

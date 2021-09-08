@@ -22,7 +22,7 @@ import path from "path";
 import {exec, execFile} from "child_process";
 import {promisify} from "util";
 
-import {downloadChromium} from "../../../webext-sdk/test/browser-download.js";
+import {downloadChromium} from "webext-sdk/test/browser-download.js";
 
 // We need to require the chromedriver,
 // otherwise on Windows the chromedriver path is not added to process.env.PATH.

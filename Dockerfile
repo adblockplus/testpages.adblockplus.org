@@ -43,9 +43,8 @@ RUN pip install -r cms/requirements.txt
 
 # Build tests
 COPY .git testpages.adblockplus.org/.git
-COPY .gitmodules testpages.adblockplus.org/.gitmodules
 COPY package.json testpages.adblockplus.org/package.json
-RUN cd testpages.adblockplus.org && git submodule update --init && npm install
+RUN cd testpages.adblockplus.org --init && npm install
 
 COPY . testpages.adblockplus.org
 

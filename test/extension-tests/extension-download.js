@@ -20,7 +20,7 @@ import path from "path";
 import extractZip from "extract-zip";
 import semver from "semver";
 
-import {download} from "../../webext-sdk/test/browser-download.js";
+import {download} from "webext-sdk/test/browser-download.js";
 
 const URL = "https://gitlab.com/api/v4/projects/22711268/repository/tree";
 
