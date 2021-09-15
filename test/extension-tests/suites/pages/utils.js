@@ -38,6 +38,15 @@ export function isExcluded(page, browserName, browserVersion)
   // dom.webcomponents.shadowdom.enabled
   else if (page == "snippets/hide-if-shadow-contains")
     excluded = {firefox: "<63"};
+  // https://gitlab.com/eyeo/webext/testpages.adblockplus.org/-/issues/74
+  else if (page == "filters/websocket" || page == "exceptions/websocket")
+    excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
+  // https://gitlab.com/eyeo/webext/testpages.adblockplus.org/-/issues/41
+  else if (page == "exceptions/sitekey")
+    excluded = {MicrosoftEdge: "", msedge: ""};
+  // https://gitlab.com/eyeo/webext/testpages.adblockplus.org/-/issues/82
+  else if (page == "snippets/strip-fetch-query-parameter")
+    excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
 
   return !!excluded && browserName in excluded &&
          semver.satisfies(semver.coerce(browserVersion), excluded[browserName]);

@@ -130,11 +130,7 @@ test:edge:
     # Download extension
     - node ./test/extension-tests/extension-download.js
     # Run tests
-    # Sitekey test disabled - testpages#41
-    # WebSocket tests disabled - testpages#74
-    # strip-fetch-query-parameter test disabled - testpages#82
-    - npm run test --
-      -g "^Edge.*Test pages((?!Sitekey|WebSocket|strip-fetch).)*$"
+    - npm run test -- -g "Edge"
   variables:
     TEST_PAGES_URL: https://local.testpages.adblockplus.org:5000/en/
     SITE_URL: https://local.testpages.adblockplus.org:5000

@@ -5,9 +5,7 @@ if [[ "$BROWSER" == *"Chromium"* ]]; then
   XVFB_CMD="xvfb-run -a"
 fi
 
-# WebSocket tests disabled - testpages#74
-# strip-fetch-query-parameter test disabled - testpages#82
-tests="^$BROWSER.*Test pages$TESTS_SUBSET((?!WebSocket|strip-fetch).)*\$"
+tests="$BROWSER.*$TESTS_SUBSET"
 
 # Run sitescripts
 /etc/init.d/spawn-fcgi restart
