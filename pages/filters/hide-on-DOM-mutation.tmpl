@@ -1,0 +1,88 @@
+title = Block on DOM Mutation
+template = testcase
+description = Check that a filter using simple selectors work properly on DOM Mutation.
+
+{% set case = "div" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Check that a filter using #{{id}} selectors work properly on DOM Mutation.</p>
+   <{{id}} id="div-script-target" class="testcase-area">
+    <{{id}} id="p-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</{{id}}>
+    <{{id}} class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</{{id}}>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>{{id}} should be blocked and the red element should not be added to the page.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}###{{id}}-eh</pre></li>
+  </ul>
+</section>
+
+{% set case = "p" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Check that a filter using #{{id}} selectors work properly on DOM Mutation.</p>
+   <div id="{{id}}-script-target" class="testcase-area">
+    <{{id}} id="p-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</{{id}}>
+    <{{id}} class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</{{id}}>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>{{id}} should be blocked and the red element should not be added to the page.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}###{{id}}-eh</pre></li>
+  </ul>
+</section>
+
+{% set case = "input" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Check that a filter using #{{id}}selectors work properly on DOM Mutation.</p>
+   <div id="{{id}}-script-target" class="testcase-area">
+    <{{id}} id="{{id}}-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail"></{{id}}>
+    <{{id}} class="testcase-examplecontent" aria-label="{{id}}-example"></{{id}}>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>{{id}} should be blocked and the red element should not be added to the page.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}###{{id}}-eh</pre></li>
+  </ul>
+</section>
+
+{% set case = "img" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Check that a filter using #img selectors work properly on DOM Mutation.</p>
+   <div id="{{id}}-script-target" class="testcase-area">
+    <img id="{{id}}-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail"></img>
+    <img class="testcase-examplecontent" aria-label="{{id}}-example"></img>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>{{id}} should be blocked and the red element should not be added to the page.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}###{{id}}-eh</pre></li>
+  </ul>
+</section>
+<script src="/testfiles/script/eh-script.js"></script>
