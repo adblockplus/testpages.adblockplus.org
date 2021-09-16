@@ -23,27 +23,6 @@ description = Check that a filter using simple selectors work properly on DOM Mu
   </ul>
 </section>
 
-{% set case = "img" %}
-{% set id = get_id(case) %}
-<section id="{{id}}-section" class="testcase-panel">
-  {{ heading(case) }}
-  <p>Check that a filter using #img selectors work properly on DOM Mutation.</p>
-  <div id="{{id}}-script-target" class="testcase-area"/>
-      <img id="{{id}}-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail"></img>
-      <div class="testcase-examplecontent" aria-label="{{id}}-example">Example content</div>
-  </div>
-  <h3>Steps</h3>
-  <ul class="testcase-steps">
-    <li>Add filter #1.</li>
-    <li>Refresh page.</li>
-    <li>{{id}} should be blocked and the red element should not be added to the page.</li>
-  </ul>
-  <h3>Filters</h3>
-  <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#?#img</pre></li>
-  </ul>
-</section>
-
 {% set case = "aside" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
