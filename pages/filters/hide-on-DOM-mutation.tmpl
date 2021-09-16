@@ -7,9 +7,9 @@ description = Check that a filter using simple selectors work properly on DOM Mu
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Check that a filter using #{{id}} selectors work properly on DOM Mutation.</p>
-   <{{id}} id="div-script-target" class="testcase-area">
-    <{{id}} id="p-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</{{id}}>
-    <{{id}} class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</{{id}}>
+  <div id="div-script-target" class="testcase-area">
+      <div id="p-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail" > Target </div>
+      <div class="testcase-examplecontent" aria-label="{{id}}-example"> Example Content </div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -28,9 +28,9 @@ description = Check that a filter using simple selectors work properly on DOM Mu
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Check that a filter using #{{id}} selectors work properly on DOM Mutation.</p>
-   <div id="{{id}}-script-target" class="testcase-area">
-    <{{id}} id="p-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</{{id}}>
-    <{{id}} class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</{{id}}>
+  <div id="{{id}}-script-target" class="testcase-area">
+      <p id="p-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</p>
+      <p class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</p>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -49,9 +49,9 @@ description = Check that a filter using simple selectors work properly on DOM Mu
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Check that a filter using #{{id}}selectors work properly on DOM Mutation.</p>
-   <div id="{{id}}-script-target" class="testcase-area">
-    <{{id}} id="{{id}}-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail"></{{id}}>
-    <{{id}} class="testcase-examplecontent" aria-label="{{id}}-example"></{{id}}>
+  <div id="{{id}}-script-target" class="testcase-area">
+    <input id="{{id}}-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail"></input>
+    <input class="testcase-examplecontent" aria-label="{{id}}-example"></input>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -70,9 +70,9 @@ description = Check that a filter using simple selectors work properly on DOM Mu
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Check that a filter using #img selectors work properly on DOM Mutation.</p>
-   <div id="{{id}}-script-target" class="testcase-area">
-    <img id="{{id}}-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail"></img>
-    <img class="testcase-examplecontent" aria-label="{{id}}-example"></img>
+  <div id="{{id}}-script-target" class="testcase-area"/>
+      <img id="{{id}}-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail"></img>
+      <img class="testcase-examplecontent" aria-label="{{id}}-example"></img>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
