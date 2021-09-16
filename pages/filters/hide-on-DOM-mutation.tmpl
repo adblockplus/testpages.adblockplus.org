@@ -2,48 +2,6 @@ title = Block on DOM Mutation
 template = testcase
 description = Check that a filter using simple selectors work properly on DOM Mutation.
 
-{% set case = "div" %}
-{% set id = get_id(case) %}
-<section id="{{id}}-section" class="testcase-panel">
-  {{ heading(case) }}
-  <p>Check that a filter using #{{id}} selectors work properly on DOM Mutation.</p>
-  <div id="div-script-target" class="testcase-area">
-      <div id="p-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail" > Target </div>
-      <div class="testcase-examplecontent" aria-label="{{id}}-example"> Example Content </div>
-  </div>
-  <h3>Steps</h3>
-  <ul class="testcase-steps">
-    <li>Add filter #1.</li>
-    <li>Refresh page.</li>
-    <li>{{id}} should be blocked and the red element should not be added to the page.</li>
-  </ul>
-  <h3>Filters</h3>
-  <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}###{{id}}-eh</pre></li>
-  </ul>
-</section>
-
-{% set case = "p" %}
-{% set id = get_id(case) %}
-<section id="{{id}}-section" class="testcase-panel">
-  {{ heading(case) }}
-  <p>Check that a filter using #{{id}} selectors work properly on DOM Mutation.</p>
-  <div id="{{id}}-script-target" class="testcase-area">
-      <p id="p-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</p>
-      <p class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</p>
-  </div>
-  <h3>Steps</h3>
-  <ul class="testcase-steps">
-    <li>Add filter #1.</li>
-    <li>Refresh page.</li>
-    <li>{{id}} should be blocked and the red element should not be added to the page.</li>
-  </ul>
-  <h3>Filters</h3>
-  <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}###{{id}}-eh</pre></li>
-  </ul>
-</section>
-
 {% set case = "input" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
@@ -51,7 +9,7 @@ description = Check that a filter using simple selectors work properly on DOM Mu
   <p>Check that a filter using #{{id}}selectors work properly on DOM Mutation.</p>
   <div id="{{id}}-script-target" class="testcase-area">
     <input id="{{id}}-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail"></input>
-    <input class="testcase-examplecontent" aria-label="{{id}}-example"></input>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example"></div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -61,7 +19,7 @@ description = Check that a filter using simple selectors work properly on DOM Mu
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}###{{id}}-eh</pre></li>
+    <li><pre>{{ site_url|domain }}#?#input</pre></li>
   </ul>
 </section>
 
@@ -72,7 +30,7 @@ description = Check that a filter using simple selectors work properly on DOM Mu
   <p>Check that a filter using #img selectors work properly on DOM Mutation.</p>
   <div id="{{id}}-script-target" class="testcase-area"/>
       <img id="{{id}}-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail"></img>
-      <img class="testcase-examplecontent" aria-label="{{id}}-example"></img>
+      <div class="testcase-examplecontent" aria-label="{{id}}-example">Example content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -82,7 +40,29 @@ description = Check that a filter using simple selectors work properly on DOM Mu
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}###{{id}}-eh</pre></li>
+    <li><pre>{{ site_url|domain }}#?##img</pre></li>
   </ul>
 </section>
+
+{% set case = "aside" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Check that a filter using #{{id}} selectors work properly on DOM Mutation.</p>
+  <div id="aside-script-target" class="testcase-area">
+      <aside id="p-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail" > Target </aside>
+      <div class="testcase-examplecontent" aria-label="{{id}}-example"> Example Content </div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>{{id}} should be blocked and the red element should not be added to the page.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#aside</pre></li>
+  </ul>
+</section>
+
 <script src="/testfiles/script/eh-script.js"></script>
