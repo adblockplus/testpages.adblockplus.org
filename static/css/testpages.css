@@ -226,3 +226,7 @@ img[data-expectedresult="fail"] {
 .expected-view .testcase-expected-view {
   display: block;
 }
+
+img#img-eh {
+  flex-grow: 1;
+}
