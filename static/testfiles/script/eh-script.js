@@ -1,6 +1,10 @@
 "use strict";
+var delayInMilliseconds = 5000; //1 second
 
-const testCases = ["div", "p", "input", "img"];
+setTimeout(function() {
+ 
+
+const testCases = ["aside", "input", "img"];
 
 testCases.forEach(elementType =>
 {
@@ -11,4 +15,6 @@ testCases.forEach(elementType =>
   newElement.setAttribute("aria-label", "script-fail");
   newElement.id = `${elementType}-eh`;
   target.appendChild(newElement);
+  console.log("appended")
 });
+}, delayInMilliseconds);
