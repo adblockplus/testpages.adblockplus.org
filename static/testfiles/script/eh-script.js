@@ -4,7 +4,7 @@ const delayInMilliseconds = 1000;
 
 setTimeout(() =>
 {
-  const testCases = ["aside", "input", "img"];
+  const testCases = ["aside", "input"];
   testCases.forEach(elementType =>
   {
     let target = document.getElementById(`${elementType}-script-target`);
