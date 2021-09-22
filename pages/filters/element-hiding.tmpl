@@ -23,6 +23,29 @@ description = Check that basic element hiding functionality is working as expect
   </ul>
 </section>
 
+{% set case = "ID Selector with double curly braces" %}
+{% set id = get_id(case) %}
+{% set selector = "{{eh-id}}"%}
+
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an element hiding filter using an ID selector with two curly braces hides its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{selector}}" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[id='{{selector}}']</pre></li>
+  </ul>
+</section>
+
 {% set case = "Class Selector" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
