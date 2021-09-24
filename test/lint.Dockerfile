@@ -1,8 +1,10 @@
-FROM node:10
+FROM node:12
 
 # Install flake8
 RUN apt-get update
-RUN apt-get install -y python python-pip
+RUN apt-get install -y python
+RUN wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
+RUN python get-pip.py
 RUN pip install flake8
 
 # Install flake8-eyeo
