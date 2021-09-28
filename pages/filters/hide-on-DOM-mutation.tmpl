@@ -6,10 +6,11 @@ description = Check that a filter using simple selectors work properly on DOM Mu
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Check that a filter using #{{id}}selectors work properly on DOM Mutation.</p>
+  <p>Check that a filter using #{{id}} selectors work properly on DOM Mutation.</p>
   <div id="{{id}}-script-target" class="testcase-area">
-    <input id="{{id}}-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail"></input>
+    <input id="input-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail" ></inside>
     <div class="testcase-examplecontent" aria-label="{{id}}-example"></div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -29,8 +30,9 @@ description = Check that a filter using simple selectors work properly on DOM Mu
   {{ heading(case) }}
   <p>Check that a filter using #{{id}} selectors work properly on DOM Mutation.</p>
   <div id="aside-script-target" class="testcase-area">
-      <aside id="p-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail" > Target </aside>
+      <aside id="aside-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail" > Static Target </aside>
       <div class="testcase-examplecontent" aria-label="{{id}}-example"> Example Content </div>
+      <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -43,5 +45,22 @@ description = Check that a filter using simple selectors work properly on DOM Mu
     <li><pre>{{ site_url|domain }}#?#aside</pre></li>
   </ul>
 </section>
+<script>
+  "use strict";
 
-<script src="/testfiles/script/eh-script.js"></script>
+  setTimeout(() =>
+  {
+    removeWaitingContent(); // eslint-disable-line no-undef
+    const testCases = ["aside", "input"];
+    testCases.forEach(elementType =>
+    {
+      let target = document.getElementById(`${elementType}-script-target`);
+      let newElement = document.createElement(elementType);
+      newElement.innerHTML = "Failed.";
+      newElement.setAttribute("data-expectedresult", "fail");
+      newElement.setAttribute("aria-label", "script-fail");
+      newElement.id = `${elementType}-eh`;
+      target.appendChild(newElement);
+    });
+  }, 500);
+</script>
