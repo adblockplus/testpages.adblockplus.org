@@ -47,7 +47,10 @@ export function isExcluded(page, browserName, browserVersion)
   // https://gitlab.com/eyeo/webext/testpages.adblockplus.org/-/issues/82
   else if (page == "snippets/strip-fetch-query-parameter")
     excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
-
+  else if (page == "snippets/json-prune")
+    excluded = {chrome: "<74"};
+  else if (page == "snippets/override-property-read")
+    excluded = {chrome: "<74"};
   return !!excluded && browserName in excluded &&
          semver.satisfies(semver.coerce(browserVersion), excluded[browserName]);
 }
