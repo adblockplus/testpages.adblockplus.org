@@ -51,7 +51,6 @@ export function isExcluded(page, browserName, browserVersion)
     excluded = {chrome: "<74"};
   else if (page == "snippets/override-property-read")
     excluded = {chrome: "<74"};
-
   return !!excluded && browserName in excluded &&
          semver.satisfies(semver.coerce(browserVersion), excluded[browserName]);
 }
