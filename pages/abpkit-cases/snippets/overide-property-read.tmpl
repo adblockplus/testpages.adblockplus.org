@@ -1,0 +1,13 @@
+template = testcase
+title = ABP Kit Snippets
+description = Check if snippets feature works properly in ABPKit.
+
+{% set case = "override-property-read" %}
+{% set id = get_id(case) %}
+<section class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of the snippet works as expected..</p>
+  <div class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+  </div>
+</section>
