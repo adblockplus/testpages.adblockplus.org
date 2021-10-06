@@ -28,12 +28,12 @@ description = Check if override-property-read feature works properly.
 
 <script>
   "use strict";
+  var  overridePropertyRead = {fp: true}; // eslint-disable-line no-var
   
-  let overridePropertyRead = true; // eslint-disable-line no-undef
   setTimeout(() =>
   {
     removeWaitingContent(); // eslint-disable-line no-undef
-    if (!overridePropertyRead) // eslint-disable-line no-undef
+    if (!overridePropertyRead.fp) // eslint-disable-line no-undef
       document.getElementById("to-be-overriden").hidden = true;
   }, 500);
 </script>
