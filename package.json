@@ -28,7 +28,7 @@
   },
   "scripts": {
     "htmllint": "htmllint --rc test/.htmllintrc static/**/*.html \\*\\*/\\*.tmpl",
-    "eslint": "eslint --config test/.eslintrc.json test/extension-tests static/ pages/**/*.tmpl",
+    "eslint": "eslint test/extension-tests/ static/ pages/**/*.tmpl",
     "stylelint": "stylelint --config test/.stylelintrc.json **/*.{css,html,tmpl}",
     "test": "mocha --unhandled-rejections=strict --delay test/extension-tests/entrypoint.js --"
   }

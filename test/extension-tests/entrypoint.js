@@ -137,8 +137,10 @@ if (typeof run == "undefined")
 (async() =>
 {
   let pageTests = await getPageTests();
-  let browsers = await loadModules(path.join("test", "extension-tests", "browsers"));
-  let suites = await loadModules(path.join("test", "extension-tests", "suites"));
+  let browsers =
+    await loadModules(path.join("test", "extension-tests", "browsers"));
+  let suites =
+    await loadModules(path.join("test", "extension-tests", "suites"));
 
   for (let [module, browser] of browsers)
   {
