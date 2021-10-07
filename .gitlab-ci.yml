@@ -130,7 +130,7 @@ test:edge:
     # Download extension
     - node ./test/extension-tests/extension-download.js
     # Run tests
-    - npm run test -- -g "Edge"
+    - npm test -- -g "Edge"
   variables:
     TEST_PAGES_URL: https://local.testpages.adblockplus.org:5000/en/
     SITE_URL: https://local.testpages.adblockplus.org:5000

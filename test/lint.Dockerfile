@@ -1,7 +1,9 @@
-FROM node:12
+FROM node:12-buster-slim
+
+RUN apt-get update
+RUN apt-get install -y wget git
 
 # Install flake8
-RUN apt-get update
 RUN apt-get install -y python
 RUN wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
 RUN python get-pip.py

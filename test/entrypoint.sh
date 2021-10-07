@@ -24,4 +24,4 @@ fi
 # Run tests
 export TEST_PAGES_URL="$SITE_URL/en/"
 export TEST_PAGES_INSECURE="true"
-$XVFB_CMD npm run test -- -g "$tests"
+$XVFB_CMD npm test -- -g "$tests"

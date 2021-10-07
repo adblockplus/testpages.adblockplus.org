@@ -13,13 +13,23 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-FROM registry.gitlab.com/eyeo/docker/adblockplus-ci:node12
+FROM node:12-buster-slim
 
-# https://stackoverflow.com/questions/68802802/repository-http-security-debian-org-debian-security-buster-updates-inrelease
-RUN apt-get --allow-releaseinfo-change update
-# Running sitescripts requires spawn-fcgi, python-flup and python-m2crypto
+RUN apt-get update
+RUN apt-get install -y wget git unzip
+
+# Non-headless Chromium requires xvfb-run
+RUN apt-get install -y libgtk-3-0 libxt6 xvfb libnss3 libxss1 libgconf-2-4 libasound2 libgbm1
+
+# CMS and Jinja2 require Python 2.7
+RUN apt-get install -y python
+RUN wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
+RUN python get-pip.py
+
+RUN pip install Jinja2
+
+# Sitescripts require spawn-fcgi, python-flup and python-m2crypto
 RUN apt-get install -y spawn-fcgi python-flup python-m2crypto nginx
-RUN apt-get install -y curl unzip dos2unix jq
 
 # nginx config
 ENV DOMAIN=local.testpages.adblockplus.org
@@ -42,7 +52,6 @@ RUN git clone https://github.com/adblockplus/cms.git
 RUN pip install -r cms/requirements.txt
 
 # Build tests
-COPY .git testpages.adblockplus.org/.git
 COPY package.json testpages.adblockplus.org/package.json
 RUN cd testpages.adblockplus.org --init && npm install
 
