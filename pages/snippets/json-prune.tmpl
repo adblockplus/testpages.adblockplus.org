@@ -28,7 +28,7 @@ description = Check if json-prune feature works properly.
 <script>
   "use strict";
   
-  let propertiesObject = {jsonprune: "true", "data-expectedresult": "fail"};
+  let propertiesObject = {"jsonprune": "true", "data-expectedresult": "fail"};
 
   setTimeout(() =>
   {
@@ -39,7 +39,7 @@ description = Check if json-prune feature works properly.
     targetTestCase.appendChild(divToManipulate);
     divToManipulate.innerHTML = "Target";
 
-    if (propertiesToUse)
+    if (propertiesObject)
     {
       for (let property in propertiesObject)
       {
