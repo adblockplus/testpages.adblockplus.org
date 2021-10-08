@@ -12,11 +12,11 @@ description = Check if override-property-read feature works properly.
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
     <div id="to-be-overriden" data-expectedresult="fail" data-dp="fail">Target</div>
   </div>
-<h3>Steps</h3>
+  <h3>Steps</h3>
   <ul class="testcase-steps">
     <li>Add filter #1.</li>
     <li>Refresh page.</li>
-    <li>The red elements in the test case above should be hidden and the green one not hidden.</li>
+    <li>The red element in the test case above should be hidden.</li>
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
@@ -29,7 +29,7 @@ description = Check if override-property-read feature works properly.
 <script>
   "use strict";
 
-  var overridePropertyRead = {fp: true}; // eslint-disable-line no-var
+  let overridePropertyRead = {fp: true}; // eslint-disable-line no-var
   
   setTimeout(() =>
   {

@@ -10,13 +10,12 @@ description = Check if json-prune feature works properly.
   <div class="testcase-area" id="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
-
   </div>
-<h3>Steps</h3>
+  <h3>Steps</h3>
   <ul class="testcase-steps">
     <li>Add filter #1.</li>
     <li>Refresh page.</li>
-    <li>The red elements in the test case above should be hidden and the green one not hidden.</li>
+    <li>The red element in the test case above should be hidden.</li>
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
@@ -29,8 +28,7 @@ description = Check if json-prune feature works properly.
 <script>
   "use strict";
   
-  const propertiesToUse = '{"jsonprune": "true", "data-expectedresult": "fail"}';
-  const propertiesObject = JSON.parse(propertiesToUse);
+  let propertiesObject = {jsonprune: "true", "data-expectedresult": "fail"};
 
   setTimeout(() =>
   {
@@ -39,6 +37,7 @@ description = Check if json-prune feature works properly.
     let divToManipulate = document.createElement("div");
     divToManipulate.id = "fail";
     targetTestCase.appendChild(divToManipulate);
+    divToManipulate.innerHTML = "Target";
 
     if (propertiesToUse)
     {
