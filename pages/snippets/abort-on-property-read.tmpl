@@ -8,7 +8,7 @@ template = testcase
   {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
@@ -31,7 +31,7 @@ template = testcase
   {{ heading(case) }}
   <p>Test that usage of the snippet with sub properties works as expected.</p>
   <div id="subproperty-target" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
@@ -54,7 +54,7 @@ template = testcase
   {{ heading(case) }}
   <p>Test that usage of the snippet with function properties works as expected.</p>
   <div id="functionproperty-target" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>

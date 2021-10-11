@@ -8,7 +8,7 @@ description = Check that the hide-if-matches-xpath snippet is working as expecte
   {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected against a static target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div id="isnfnv" data-expectedresult="fail"><div><span>Failed. Element is not hidden.</span></div></div>
     <div class="testcase-expected-view"><div><span>Should not be hidden.</span></div></div>
     <div id="nothidden" data-expectedresult="pass"><div><span>Should not be hidden.</span></div></div>
@@ -31,7 +31,7 @@ description = Check that the hide-if-matches-xpath snippet is working as expecte
   {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected against target that is containing specific class.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div data-expectedresult="fail" class="to-be-hidden">Failed. Element is not hidden</div>
     <div class="testcase-expected-view"><div><span>Should not be hidden.</span></div></div>
     <div data-expectedresult="pass"><div><span>Should not be hidden.</span></div></div>
@@ -54,7 +54,7 @@ description = Check that the hide-if-matches-xpath snippet is working as expecte
   {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected against target that is starting with ID.</p>
   <div id="{{id}}-area"  class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div id="fail isnfnv" data-expectedresult="fail"><div><span>Failed. Element is not hidden.</span></div></div>
     <div class="testcase-expected-view" id="urllink fail"><div><span>Should not be hidden.</span></div></div>
     <div data-expectedresult="pass"><div><span>Should not be hidden.</span></div></div>

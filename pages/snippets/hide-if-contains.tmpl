@@ -8,7 +8,7 @@ description = Check that the hide-if-contains snippet is working as expected.
   {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected against a static target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <p id="hic-static-id" data-expectedresult="fail">hic-basic-static<br>Failed. Element is not hidden.</p>
   </div>
   <h3>Steps</h3>
@@ -29,7 +29,7 @@ description = Check that the hide-if-contains snippet is working as expected.
   {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected against a dynamic target.</p>
   <div id="basic-dynamic-target" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
