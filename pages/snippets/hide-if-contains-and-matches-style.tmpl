@@ -57,6 +57,7 @@ description = Check that the hide-if-contains-and-matches-style snippet is worki
     let ad = document.createElement("div");
     ad.id = Math.random().toString(36).substring(2);
     ad.setAttribute("data-expectedresult", "fail");
+    ad.setAttribute("aria-label", "{{id}}-fail");
     ad.innerHTML = `<div><span>Failed. Script ran and was applied to the page.</span>
       <span class='label'>hicamsd</span></div>`;
 

@@ -56,6 +56,7 @@ description = Check that the strip-fetch-query-parameter snippet is working as e
     {
       let element = document.createElement("div");
       element.setAttribute("data-expectedresult", "fail");
+      element.setAttribute("aria-label", "{{id}}-fail");
       element.innerHTML = "Failed. basicBlocked was called.";
       document.getElementById("basic-target").appendChild(element);
     }

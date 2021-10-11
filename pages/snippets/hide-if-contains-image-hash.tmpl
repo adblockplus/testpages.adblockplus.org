@@ -169,7 +169,8 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
     let root = document.getElementById("dynamic-target");
     let target = document.createElement("div");
     target.innerHTML = "<img src='/testfiles/hide-if-contains-image-hash/hash-selector-dynamic.png'" +
-                       "data-expectedresult='fail'/>";
+                       "data-expectedresult='fail' + aria-label="{{id}}-fail"/>";
+
     root.appendChild(target);
   }, 500);
 </script>

@@ -78,6 +78,7 @@ description = Check that the abort-current-inline-script snippet is working as e
         let failElement = document.createElement("div");
         failElement.textContent = "Failed. Script ran and was applied to the page.";
         failElement.setAttribute("data-expectedresult", "fail");
+        failElement.setAttribute("aria-label", "{{id}}-fail");
         document.getElementById("${id}-target").appendChild(failElement);
         console.log('Failed. Script "${id}" ran completely and was applied to the page.');
       })();`;
