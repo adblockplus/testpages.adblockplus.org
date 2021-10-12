@@ -84,22 +84,22 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
       let rootChild = document.createElement("div");
       rootChild.setAttribute("data-expectedresult", expectedResult);
       if (expectedResult == "fail")
-         failElement.setAttribute("aria-label", "{{id}}-fail");
+        rootChild.setAttribute("aria-label", "{{id}}-fail");
       root.appendChild(rootChild);
     }
 
     let target = document.createElement("div");
     target.id = "hisc-regex-id1";
     target.setAttribute("data-expectedresult", "fail");
-    failElement.setAttribute("aria-label", "{{id}}-fail");
+    target.setAttribute("aria-label", "{{id}}-fail");
     target.innerHTML = "<div><span>hisc-regex1<br>Failed. Element is not hidden.</span></div>";
     let shadowRoot = root.lastElementChild.attachShadow({mode: "closed"});
     shadowRoot.appendChild(target);
 
     let target2 = document.createElement("div");
     target2.id = "hisc-regex-id2";
-    target2.setAttribute("data-expectedresult", "fail");\
-    failElement.setAttribute("aria-label", "{{id}}-fail");
+    target2.setAttribute("data-expectedresult", "fail");
+    target2.setAttribute("aria-label", "{{id}}-fail");
     target2.innerHTML = "<div><span>hisc-regex2<br>Failed. Element is not hidden.</span></div>";
     let shadowRoot2 = root.lastElementChild.previousElementSibling.attachShadow({mode: "closed"});
     shadowRoot2.appendChild(target2);
