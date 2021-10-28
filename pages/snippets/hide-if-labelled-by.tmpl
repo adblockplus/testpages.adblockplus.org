@@ -10,7 +10,7 @@ description = Check that the hide-if-labelled-by snippet is working as expected.
   <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-expected-view">Label</div>
-    <div id="hilb-label" data-expectedresult="pass">Label</div>
+    <div id="hilb-label" data-expectedresult="pass" aria-label="{{id}}-pass">Label</div>
     <div id="hilb-target" data-expectedresult="fail" aria-label="{{id}}-fail">
       <div aria-labelledby="hilb-label">Label content</div>
     </div>

@@ -107,6 +107,7 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
     let target3 = document.createElement("div");
     target3.id = "hisc-basic-id3";
     target3.setAttribute("data-expectedresult", "pass");
+    target3.setAttribute("aria-label", "{{id}}-pass");
     target3.innerHTML = "<div><span>hisc-regex3<br>This element should not be hidden.</span></div>";
     let shadowRoot3 = root.lastElementChild.previousElementSibling.previousElementSibling.attachShadow({mode: "closed"});
     shadowRoot3.appendChild(target3);

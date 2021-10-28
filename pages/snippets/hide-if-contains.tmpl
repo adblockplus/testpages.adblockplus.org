@@ -50,12 +50,12 @@ description = Check that the hide-if-contains snippet is working as expected.
   {{ heading(case) }}
   <p>Test that usage of the snippet with the search parameter works as expected.</p>
   <div id="search1-target" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
     <div class="testcase-expected-view">hic-search<br>Should not be hidden</div>
   </div>
   <div id="search2-target" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
