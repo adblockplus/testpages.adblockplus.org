@@ -16,8 +16,9 @@ template = abpkit
   <p>Blocking is only blocking content. </p>
   <p> Blocking with Exceptions is also testing "exceptions" scenarios </p>
   <p> !!! You can also convert ABP Testpages filters from <a href= "/en/abp-testcase-subscription.txt"> ABP Testpages filter list</a>, but please be aware that conversion tool has <a href="https://jira.eyeo.com/browse/ABC-114">   bug for now</a></p>
+  <h2>Snippets</h2>
+    <p><a class="site-button" href="/abpkit/testpages-snippets.txt" target="_blank">Snippets Filters txt file</a>, to be downloaded by ABPKit QA browser (please see <a href="https://gitlab.com/eyeo/adblockplus/apple/ABPKit/-/blob/develop/QA.xcconfig">QA.xconfig</a>).</p>
 </section>
-
 <section class="site-panel">
   <h2>Filter test cases</h2>
   <h3>Allowlist Domain</h3>
@@ -28,6 +29,8 @@ template = abpkit
   <ul class="site-pagelist">
     <li><a class="test-link" href="abpkit-cases/blocking-abpkit">Blocking</a></li>
     <li><a class="test-link" href="filters/element-hiding">Element Hiding</a></li>
+    <li><a class="test-link" href="filters/element-hiding-emulation">Element Hiding Emulation / Extended Selectors</a></li>
+  </ul>
   </ul>
   <h3>Filter Options - Resource Types</h3>
   <ul class="site-pagelist">
@@ -61,8 +64,24 @@ template = abpkit
   </ul>
   <h3>Snippets</h3>
   <ul class="site-pagelist">
-    <li><a class="test-link" href="snippets/override-property-read">override-property-read</a></li>
+    <li><a class="test-link" href="snippets/abort-current-inline-script">abort-current-inline-script</a></li>
+    <li><a class="test-link" href="snippets/abort-on-property-read">abort-on-property-read</a></li>
+    <li><a class="test-link" href="snippets/abort-on-property-write">abort-on-property-write</a></li>
+    <li><a class="test-link" href="snippets/abort-on-iframe-property-read">abort-on-iframe-property-read</a></li>
+    <li><a class="test-link" href="snippets/abort-on-iframe-property-write">abort-on-iframe-property-write</a></li>
+    <li><a class="test-link" href="snippets/dir-string">dir-string</a></li>
+    <li><a class="test-link" href="snippets/hide-if-contains">hide-if-contains</a></li>
+    <li><a class="test-link" href="snippets/hide-if-contains-and-matches-style">hide-if-contains-and-matches-style</a></li>
+    <li><a class="test-link" href="snippets/hide-if-contains-image">hide-if-contains-image</a></li>
+    <li><a class="test-link" href="snippets/hide-if-contains-image-hash">hide-if-contains-image-hash</a></li>
+    <li><a class="test-link" href="snippets/hide-if-contains-visible-text">hide-if-contains-visible-text</a></li>
+    <li><a class="test-link" href="snippets/hide-if-has-and-matches-style">hide-if-has-and-matches-style</a></li>
+    <li><a class="test-link" href="snippets/hide-if-labelled-by">hide-if-labelled-by</a></li>
+    <li><a class="test-link" href="snippets/hide-if-matches-xpath">hide-if-matches-xpath</a></li>
+    <li><a class="test-link" href="snippets/hide-if-shadow-contains">hide-if-shadow-contains</a></li>
     <li><a class="test-link" href="snippets/json-prune">JSON prune</a></li>
+    <li><a class="test-link" href="snippets/override-property-read">override-property-read</a></li>
+    <li><a class="test-link" href="snippets/strip-fetch-query-parameter">strip-fetch-query-parameter</a></li>
   </ul>
   <h3>Circumvention</h3>
   <ul class="site-pagelist">

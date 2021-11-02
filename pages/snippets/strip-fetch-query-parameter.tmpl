@@ -8,8 +8,8 @@ description = Check that the strip-fetch-query-parameter snippet is working as e
   {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
     <div class="testcase-expected-view">basicAllowed was called.</div>
   </div>
   <h3>Steps</h3>
@@ -30,7 +30,7 @@ description = Check that the strip-fetch-query-parameter snippet is working as e
   {{ heading(case) }}
   <p>Test that other usage of the snippet works as expected.</p>
   <div id="other-target" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
     <div class="testcase-expected-view">otherAllowed1 was called.</div>
     <div class="testcase-expected-view">otherAllowed2 was called.</div>
@@ -56,6 +56,7 @@ description = Check that the strip-fetch-query-parameter snippet is working as e
     {
       let element = document.createElement("div");
       element.setAttribute("data-expectedresult", "fail");
+      element.setAttribute("aria-label", "{{id}}-fail");
       element.innerHTML = "Failed. basicBlocked was called.";
       document.getElementById("basic-target").appendChild(element);
     }

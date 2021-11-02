@@ -11,7 +11,7 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
     <img src="/testfiles/hide-if-contains-image-hash/hash-selector.png" data-expectedresult="fail"/>
     <img src="/testfiles/hide-if-contains-image-hash/hash-selector_notblocked.png" class="testcase-expected-view" />
     <img src="/testfiles/hide-if-contains-image-hash/hash-selector_notblocked.png" data-expectedresult="pass" />
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -32,7 +32,7 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
   <p>Test that search usage of the snippet works as expected.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="search-target"><div><img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector.png" data-expectedresult="fail"/></div></div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -53,7 +53,7 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
   <p>Test that search selection usage of the snippet works as expected.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="search-selection-target"><div><img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector-selection.png" data-expectedresult="fail"/></div></div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -74,7 +74,7 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
   <p>Test that search selection negative usage of the snippet works as expected.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="search-selection-negative-target"><div><img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector-selection.png" data-expectedresult="fail"/></div></div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -99,7 +99,7 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
       <img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector-selection-maxDistance_notblocked.png" class="testcase-expected-view"/>
       <img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector-selection-maxDistance_notblocked.png" data-expectedresult="pass"/>
     </div></div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -124,7 +124,7 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
   <p>Test that search selection maxDistance blockbits usage of the snippet works as expected.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="search-selection-maxdistance-blockbits-target"><div><img src="/testfiles/hide-if-contains-image-hash/hash-selector-searchSelector-selection-maxDistance-blockbits.png" data-expectedresult="fail"/></div></div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -144,8 +144,8 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
   {{ heading(case) }}
   <p>Test that dynamic usage of the snippet works as expected.</p>
   <div id="dynamic-target" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -169,7 +169,8 @@ description = Check that the hide-if-contains-image-hash snippet is working as e
     let root = document.getElementById("dynamic-target");
     let target = document.createElement("div");
     target.innerHTML = "<img src='/testfiles/hide-if-contains-image-hash/hash-selector-dynamic.png'" +
-                       "data-expectedresult='fail'/>";
+                       "data-expectedresult='fail' aria-label='fail'/>";
+
     root.appendChild(target);
   }, 500);
 </script>

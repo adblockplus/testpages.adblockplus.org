@@ -38,8 +38,8 @@ description = Check that element hiding emulation functionality is working as ex
   {{ heading(case) }}
   <p>Test that an element hiding emulation filter using a :-abp-properties() selector hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" class="ehe-properties" data-expectedresult="fail" data-dp="fail">Target</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div id="{{id}}-fail-1" class="ehe-properties" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -59,12 +59,12 @@ description = Check that element hiding emulation functionality is working as ex
   {{ heading(case) }}
   <p>Test that an element hiding emulation filter using a :-abp-has() selector hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail">
+    <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
       <div>
         <span class="ehe-has">Target</span>
       </div>
     </div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -84,8 +84,8 @@ description = Check that element hiding emulation functionality is working as ex
   {{ heading(case) }}
   <p>Test that an element hiding emulation filter using a :-abp-contains() selector hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <span id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail">ehe-contains-target</span>
-    <div class="testcase-examplecontent">Example Content</div>
+    <span id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">ehe-contains-target</span>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -105,10 +105,10 @@ description = Check that element hiding emulation functionality is working as ex
   {{ heading(case) }}
   <p>Test that element hiding emulation filter using several of the extended selectors hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail">
+    <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
       <div class="ehe-chained">Target</div>
     </div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -128,8 +128,8 @@ description = Check that element hiding emulation functionality is working as ex
   {{ heading(case) }}
   <p>Test that an element hiding emulation filter is case insensitive and still hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" class="ehe-case" data-expectedresult="fail" data-dp="fail">Target</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div id="{{id}}-fail-1" class="ehe-case" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -149,8 +149,8 @@ description = Check that element hiding emulation functionality is working as ex
   {{ heading(case) }}
   <p>Test that an element hiding emulation filter using wildcards still hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" class="ehe-wildcard" data-expectedresult="fail" data-dp="fail">Target</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div id="{{id}}-fail-1" class="ehe-wildcard" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -170,10 +170,10 @@ description = Check that element hiding emulation functionality is working as ex
   {{ heading(case) }}
   <p>Test that an element hiding emulation filter using regular expressions still hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" class="ehe-regex1" data-expectedresult="fail" data-dp="fail">Target</div>
-    <div id="{{id}}-fail-2" class="ehe-regex2" data-expectedresult="fail" data-dp="fail">Target</div>
+    <div id="{{id}}-fail-1" class="ehe-regex1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail-2" class="ehe-regex2" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-examplecontent ehe-regex3">Not a target</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -193,9 +193,9 @@ description = Check that element hiding emulation functionality is working as ex
   {{ heading(case) }}
   <p>Test that an element hiding emulation filter using regular expressions still hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail">ehe-containsregex1</div>
-    <div id="{{id}}-fail-2" data-expectedresult="fail" data-dp="fail">ehe-containsregex2</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">ehe-containsregex1</div>
+    <div id="{{id}}-fail-2" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">ehe-containsregex2</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">

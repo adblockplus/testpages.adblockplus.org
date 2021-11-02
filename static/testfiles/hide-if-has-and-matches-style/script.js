@@ -5,6 +5,7 @@ function addTarget(id, expectedResult, innerHTML)
   let target = document.createElement("div");
   target.id = Math.random().toString(36).substring(2);
   target.setAttribute("data-expectedresult", expectedResult);
+  target.setAttribute("aria-label", expectedResult);
   target.innerHTML = innerHTML;
   document.getElementById(`${id}-target`).appendChild(target);
 }

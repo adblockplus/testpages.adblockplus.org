@@ -8,8 +8,8 @@ description = Check that the hide-if-has-and-matches-style snippet is working as
   {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -29,8 +29,8 @@ description = Check that the hide-if-has-and-matches-style snippet is working as
   {{ heading(case) }}
   <p>Test that usage of the snippet with legit elements works as expected.</p>
   <div id="comments-target" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
-    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
     <div class="testcase-expected-view"><span>Should not be hidden</span></div>
   </div>
   <h3>Steps</h3>

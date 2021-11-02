@@ -50,9 +50,9 @@ description = Check that the hide-if-contains-visible-text snippet is working as
   {{ heading(case) }}
   <p>Test that basic usage of the snippet works as expected.</p>
   <div id="basic-target" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div id="parent-basic" class="testcase-nostyle">
-      <div class="article" data-expectedresult="fail">
+      <div class="article" data-expectedresult="fail" aria-label="{{id}}-fail">
         <div class="label"><div class="a transparent">Sp</div><div class="a">Sp</div><div class="a zerosize">S</div><div class="a transparent">on</div><div class="a">on</div><div class="a zerosize">S</div>sored-hicvt-basic</div>
           This is the ad.
       </div>
@@ -76,9 +76,9 @@ description = Check that the hide-if-contains-visible-text snippet is working as
   {{ heading(case) }}
   <p>Test that usage of the snippet with elements using the ::content CSS property works as expected.</p>
   <div id="content-target" class="testcase-area">
-    <div class="testcase-examplecontent">Example Content</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div id="parent-content" class="testcase-nostyle">
-      <div class="article" data-expectedresult="fail">
+      <div class="article" data-expectedresult="fail" aria-label="{{id}}-fail">
         <div class="label"><div class="a transparent">Sp</div><div class="a">Sp</div><div class="a zerosize">S</div><div class="a transparent">on</div><div class="a">on</div><div class="a zerosize">S</div>sored-hicvt<div class="content-test"></div></div>
         This is the ad.
       </div>
