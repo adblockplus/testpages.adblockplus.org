@@ -55,6 +55,16 @@
   },
   {
     "trigger": {
+      "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org[^\\.][/:]?",
+      "url-filter-is-case-sensitive": true
+    },
+    "action": {
+      "type": "css-display-none",
+      "selector": "div[id='\\7B {eh-id\\7D }']"
+    }
+  },
+  {
+    "trigger": {
       "url-filter": "^[^:]+:(//)?([^/]+\\.)?testpages\\.adblockplus\\.org/testfiles/sitekey/inframe\\.png",
       "resource-type": [
         "image",
