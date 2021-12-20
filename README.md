@@ -40,7 +40,7 @@ docker run -it testpages
 
 It might happen that tests are crashing due to insufficent memory on docker (tests will fail on `abort-on-property-write`  with error related to session id). To fix this you need to increase memory: 
 ``` 
- xdocker run --shm-size=256m -t testpages .
+docker run --shm-size=256m -t testpages .
 ```
 #### Browser
 
