@@ -37,9 +37,6 @@ testpages.adblockplus.org#$#hide-if-matches-xpath //*[@id="isnfnv"]
 testpages.adblockplus.org#$#hide-if-matches-xpath //*[@class="to-be-hidden"]
 testpages.adblockplus.org#$#hide-if-matches-xpath //div[starts-with(@id,"fail")]
 
-! snippets/dir-string
-testpages.adblockplus.org#$#dir-string
-
 ! snippets/abort-on-property-write
 testpages.adblockplus.org#$#abort-on-property-write window.aopwb
 testpages.adblockplus.org#$#abort-on-property-write window.aopwsp

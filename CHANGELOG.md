@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2021-12-16
+
+- Remove `dir-string` snippet testpage.
+
 ## 2021-06-14
 
 - Add staging test case list at `/en/staging`.
