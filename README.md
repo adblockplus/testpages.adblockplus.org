@@ -35,9 +35,12 @@ Tests can be executed with:
 docker build -t testpages .
 docker run -it testpages
 ```
-It might happen that tests are crashing due to insufficent memory on docker (tests will fail on ```abort-on-property-write```  with error related to session id). To fix this you need to increase memory: 
+
+#### Note
+
+It might happen that tests are crashing due to insufficent memory on docker (tests will fail on `abort-on-property-write`  with error related to session id). To fix this you need to increase memory: 
 ``` 
- - docker run --shm-size=256m -t testpages .
+ xdocker run --shm-size=256m -t testpages .
 ```
 #### Browser
 
