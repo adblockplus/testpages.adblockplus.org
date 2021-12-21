@@ -2,7 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2021-12-16
+## 2021-12-21
+
+- Add elemhide- child exception test case.
+
+## 2021-12-20
 
 - Remove `dir-string` snippet testpage.
 
