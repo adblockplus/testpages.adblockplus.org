@@ -53,7 +53,7 @@ RUN pip install -r cms/requirements.txt
 
 # Build tests
 COPY package.json testpages.adblockplus.org/package.json
-RUN cd testpages.adblockplus.org --init && npm install
+RUN cd testpages.adblockplus.org && npm install
 
 COPY . testpages.adblockplus.org
 
