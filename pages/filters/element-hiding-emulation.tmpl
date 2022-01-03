@@ -53,6 +53,27 @@ description = Check that element hiding emulation functionality is working as ex
   </ul>
 </section>
 
+{% set case = "Dynamic :-abp-properties() usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an element hiding emulation filter using a :-abp-properties() selector hides its target when stylesheet is loaded dynamically.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="ehe-dynamic-properties" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div:-abp-properties(background-color: rgb(0, 0, 0)</pre></li>
+  </ul>
+</section>
+
 {% set case = "Basic :-abp-has() usage" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
@@ -208,3 +229,5 @@ description = Check that element hiding emulation functionality is working as ex
     <li><pre>{{ site_url|domain }}#?#div > div:-abp-contains(/ehe-containsregex\d/)</pre></li>
   </ul>
 </section>
+
+<script src="/testfiles/element-hiding-emulation/script.js"></script>
