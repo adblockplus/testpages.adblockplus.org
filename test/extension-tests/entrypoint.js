@@ -119,11 +119,19 @@ async function getPageTests()
     return [];
   }
 
-  let regexp = /"test-link" href="(.*?)"[\S\s]*?>(?:<h3>)?(.*?)</gm;
+  let regexpSection = /<h3>(.*?)<\/h3>([\s\S]*?)<\/ul>/gm;
+  let matchSection;
   let tests = [];
-  let match;
-  while (match = regexp.exec(response.body))
-    tests.push([url.resolve(TEST_PAGES_URL, match[1]), match[2]]);
+  while (matchSection = regexpSection.exec(response.body))
+  {
+    let regexpTests = /"test-link" href="(.*?)"[\S\s]*?>(.*?)</gm;
+    let testCases = [];
+    let match;
+    while (match = regexpTests.exec(matchSection[2]))
+      testCases.push([url.resolve(TEST_PAGES_URL, match[1]), match[2]]);
+
+    tests.push([matchSection[1], testCases]);
+  }
 
   return tests;
 }

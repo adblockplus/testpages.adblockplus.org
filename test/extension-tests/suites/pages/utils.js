@@ -129,10 +129,10 @@ export function getPage(url)
 }
 
 export async function runFirstTest(driver, browserName, browserVersion,
-                                   pageTests, testTitle,
+                                   testCases, testTitle,
                                    writeScreenshots = true)
 {
-  for (let [url] of pageTests)
+  for (let [url] of testCases)
   {
     let page = getPage(url);
     if (!(isExcluded(page, browserName, browserVersion) ||

@@ -63,44 +63,47 @@ async function updateFilters(driver, extensionHandle, url)
 
 export default () =>
 {
-  describe("Test pages", () =>
+  describe("Test pages", function()
   {
-    it("discovered filter test cases", function()
+    it("discovered test cases", function()
     {
       assert.ok(this.test.parent.parent.pageTests.length > 0);
     });
 
-    describe("Filters", function()
+    for (let [section, testCases] of this.parent.pageTests)
     {
-      for (let [url, pageTitle] of this.parent.parent.pageTests)
+      describe(section, () =>
       {
-        it(pageTitle, async function()
+        for (let [url, pageTitle] of testCases)
         {
-          let page = getPage(url);
-          if (isExcluded(page, this.browserName, this.browserVersion))
-            this.skip();
-
-          if (page in specializedTests)
+          it(pageTitle, async function()
           {
-            await updateFilters(this.driver, this.extensionHandle, url);
-            let locator = By.className("testcase-area");
-            for (let element of await this.driver.findElements(locator))
-              await specializedTests[page].run(element, this.extensionHandle);
-          }
-          else
-          {
-            let expectedScreenshot = await getExpectedScreenshot(this.driver,
-                                                                 url);
-            await updateFilters(this.driver, this.extensionHandle, url);
-            await runGenericTests(this.driver, expectedScreenshot,
-                                  this.browserName, this.browserVersion,
-                                  pageTitle, url);
-          }
+            let page = getPage(url);
+            if (isExcluded(page, this.browserName, this.browserVersion))
+              this.skip();
 
-          await checkLastError(this.driver, this.extensionHandle);
-        });
-      }
-    });
+            if (page in specializedTests)
+            {
+              await updateFilters(this.driver, this.extensionHandle, url);
+              let locator = By.className("testcase-area");
+              for (let element of await this.driver.findElements(locator))
+                await specializedTests[page].run(element, this.extensionHandle);
+            }
+            else
+            {
+              let expectedScreenshot = await getExpectedScreenshot(this.driver,
+                                                                   url);
+              await updateFilters(this.driver, this.extensionHandle, url);
+              await runGenericTests(this.driver, expectedScreenshot,
+                                    this.browserName, this.browserVersion,
+                                    pageTitle, url);
+            }
+
+            await checkLastError(this.driver, this.extensionHandle);
+          });
+        }
+      });
+    }
 
     describe("Subscriptions", () =>
     {

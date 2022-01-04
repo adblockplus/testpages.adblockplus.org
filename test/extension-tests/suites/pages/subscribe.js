@@ -67,6 +67,7 @@ export default () =>
   it("subscribes to a link", async function()
   {
     let {testPagesURL, pageTests} = this.test.parent.parent.parent;
+    let testCases = pageTests[0][1];
     let subscription = `${testPagesURL}abp-testcase-subscription.txt`;
     let currentHandle = await this.driver.getWindowHandle();
     try
@@ -81,7 +82,7 @@ export default () =>
     }
     await this.driver.switchTo().window(currentHandle);
     await runFirstTest(this.driver, this.browserName, this.browserVersion,
-                       pageTests, this.test.title);
+                       testCases, this.test.title);
     await removeSubscription(this.driver, this.extensionHandle, subscription);
     await checkLastError(this.driver, this.extensionHandle);
   });
