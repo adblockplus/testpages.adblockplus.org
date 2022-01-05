@@ -62,6 +62,16 @@ ENV SITE_URL=https://$DOMAIN:5000
 RUN mkdir -p /var/www/$DOMAIN
 RUN PYTHONPATH=cms python -m cms.bin.generate_static_pages testpages.adblockplus.org /var/www/$DOMAIN
 
+#Build extension with current branch
+# Clone abpui repo
+ENV BRANCH = "master"
+RUN if ["$BRANCH" != ""]; then git clone https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git \
+&& cd adblockplusui && npm install && git submodule update --init --recursive \
+cd adblockplusui/adblockpluschrome && npm install \
+cd adblockplusui/adblockpluschrome/adblockpluscore && git checkout ${BRANCH}  && npm install \
+cd adblockplusui/adblockpluschrome && npm install \
+cd adblockplusui/adblockpluschrome && npx gulp build -t chrome -c development; fi
+
 # Unpack custom extension
 ARG EXTENSION_FILE=""
 RUN if [ "$EXTENSION_FILE" != "" ]; then unzip -q testpages.adblockplus.org/$EXTENSION_FILE -d testpages.adblockplus.org/testext; fi
