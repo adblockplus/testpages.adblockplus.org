@@ -57,10 +57,18 @@ The available browsers are:
 #### Tests subset
 
 In order to run a subset of the tests, use the `TESTS_SUBSET` argument,
-which uses regular expressions. Example:
+which supports regular expressions syntax. Example:
 ```
 docker run -e TESTS_SUBSET="(Blocking|Popup)" -it testpages
 ```
+
+To exclude a subset of the tests, use the `TESTS_EXCLUDE` argument.
+Example:
+```
+docker run -e TESTS_EXCLUDE="Snippets" -it testpages
+```
+
+Note: When `TESTS_EXCLUDE` is set, then `TESTS_SUBSET` has no effect.
 
 #### Packed extensions
 

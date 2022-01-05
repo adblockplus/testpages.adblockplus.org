@@ -68,6 +68,7 @@ RUN if [ "$EXTENSION_FILE" != "" ]; then unzip -q testpages.adblockplus.org/$EXT
 
 ENV BROWSER="Firefox \(latest\)"
 ENV TESTS_SUBSET=""
+ENV TESTS_EXCLUDE=""
 ENV SKIP_EXTENSION_DOWNLOAD=""
 
 ENTRYPOINT ./testpages.adblockplus.org/test/entrypoint.sh
