@@ -52,7 +52,7 @@ RUN git clone https://github.com/adblockplus/cms.git
 RUN pip install -r cms/requirements.txt
 
 # Build tests
-COPY package.json testpages.adblockplus.org/package.json
+COPY package*.json testpages.adblockplus.org/
 RUN cd testpages.adblockplus.org && npm install
 
 COPY . testpages.adblockplus.org
