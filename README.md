@@ -6,6 +6,8 @@ automatically from the files in this repository.
 ## Getting started
 
 The following tools are needed:
+* Node >= 16.10.0
+* npm >= 7
 * Python 2.7
 * Docker
 

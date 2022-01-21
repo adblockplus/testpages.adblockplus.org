@@ -16,6 +16,8 @@
  */
 
 import semver from "semver";
+import Jimp from "jimp";
+
 import specializedTests from "./specialized.js";
 import {takeScreenshot, writeScreenshotFile} from "../../misc/screenshots.js";
 
@@ -24,20 +26,6 @@ export function isExcluded(page, browserName, browserVersion)
   let excluded;
   if (page in specializedTests)
     excluded = specializedTests[page].excludedBrowsers;
-  // Chromium 63 doesn't have user stylesheets (required to
-  // overrule inline styles).
-  else if (page == "circumvention/inline-style-important")
-    excluded = {chrome: "<64"};
-  // Older versions of Chromium don't run content
-  // scripts in dynamically written documents.
-  // Firefox <67 had a bug that resets the document:
-  // https://bugzilla.mozilla.org/show_bug.cgi?id=1528146
-  else if (page == "circumvention/anoniframe-documentwrite")
-    excluded = {chrome: "<64", firefox: "<67"};
-  // shadowing requires Firefox 63+ or 59+ with flag
-  // dom.webcomponents.shadowdom.enabled
-  else if (page == "snippets/hide-if-shadow-contains")
-    excluded = {firefox: "<63"};
   // https://gitlab.com/eyeo/webext/testpages.adblockplus.org/-/issues/74
   else if (page == "filters/websocket" || page == "exceptions/websocket")
     excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
@@ -47,10 +35,6 @@ export function isExcluded(page, browserName, browserVersion)
   // https://gitlab.com/eyeo/webext/testpages.adblockplus.org/-/issues/82
   else if (page == "snippets/strip-fetch-query-parameter")
     excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
-  else if (page == "snippets/json-prune")
-    excluded = {chrome: "<74"};
-  else if (page == "snippets/override-property-read")
-    excluded = {chrome: "<74"};
 
   return !!excluded && browserName in excluded &&
          semver.satisfies(semver.coerce(browserVersion), excluded[browserName]);
@@ -73,11 +57,7 @@ export async function runGenericTests(driver, expectedScreenshot,
     await driver.wait(async() =>
     {
       actualScreenshot = await takeScreenshot(driver);
-      let actualBitmap = actualScreenshot.bitmap;
-      let expectedBitmap = expectedScreenshot.bitmap;
-      return (actualBitmap.width == expectedBitmap.width &&
-              actualBitmap.height == expectedBitmap.height &&
-              actualBitmap.data.compare(expectedBitmap.data) == 0);
+      return Jimp.diff(actualScreenshot, expectedScreenshot).percent == 0;
     }, 5000, "Screenshots don't match", 500);
   }
 

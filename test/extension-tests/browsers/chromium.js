@@ -31,12 +31,8 @@ import "chromedriver";
 export let target = "chrome";
 
 // The Chromium version is a build number, quite obscure.
-// Chromium 63.0.3239.x is 508578
-// Chromium 65.0.3325.0 is 530368
-// We currently want Chromiun 63, as we still support it and that's the
-// loweset version that supports WebDriver.
-export let oldestCompatibleVersion = 508578;
-const OLDEST_DRIVER_VERSION = "2.36"; // Chromium 63
+// Chromium 77.0.3865.0 is 681094
+export let oldestCompatibleVersion = 681094;
 
 export async function ensureBrowser(revision)
 {
@@ -65,9 +61,7 @@ export async function ensureDriver(browserBinary)
       browserVersion = stdout.trim().replace(/.*\s/, "");
     }
 
-    let majorBrowserVersion = parseInt(browserVersion.split(".")[0], 10);
-    env.CHROMEDRIVER_VERSION = majorBrowserVersion >= 70 ?
-      `LATEST_${browserVersion}` : OLDEST_DRIVER_VERSION;
+    env.CHROMEDRIVER_VERSION = `LATEST_${browserVersion}`;
   }
   else
   {

@@ -100,7 +100,7 @@ test:edge:
     - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
     - choco install -y openssl.light
     - choco install -y python2
-    - choco upgrade -y nodejs --version 12.17.0
+    - choco upgrade -y nodejs --version 16.10.0
     - refreshenv
     # nginx config
     - xcopy test\etc\nginx\* $Env:NGINX\conf\ /E /V /F /H

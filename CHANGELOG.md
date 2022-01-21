@@ -2,9 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-01-21
+
+- Require Node 16.
+
 ## 2021-12-21
 
-- Add elemhide- child exception test case.
+- Add elemhide-child exception test case.
 
 ## 2021-12-20
 

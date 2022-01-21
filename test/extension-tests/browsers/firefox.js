@@ -28,7 +28,7 @@ export {downloadFirefox as ensureBrowser}
 import "geckodriver";
 
 export let target = "firefox";
-export let oldestCompatibleVersion = "59.0.3";
+export let oldestCompatibleVersion = "68.0";
 
 export async function getDriver(browserBinary, extensionPaths, insecure)
 {
