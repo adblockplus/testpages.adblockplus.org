@@ -43,7 +43,7 @@ test:lint:
 .test:
   extends: .test_runner
   variables: 
-    - $CORE== '$CI_COMMIT_REF_NAME | sed `s/.*core-//`  | sed `s/./&./1;s/./&./3`' 
+    - $CORE== '$CI_COMMIT_REF_NAME | sed "s/.*core-//"  | sed `"/./&./1;s/./&./3"' 
   script:
     - echo $CORE
     - docker build --build-arg CORE_TAG='$CORE'  -t testpages -f branchTest.Dockerfile .
