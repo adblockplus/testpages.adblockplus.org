@@ -47,6 +47,7 @@ test:lint:
   script:
     - echo $CI_COMMIT_BRANCH
     - echo $CORE
+    - echo '$CI_COMMIT_BRANCH | sed "s/.*core-//"  | sed `"/./&./1;s/./&./3"' 
     - docker build --build-arg CORE_TAG='$CORE'  -t testpages -f branchTest.Dockerfile .
     - docker run --shm-size=256m -e BROWSER="$BROWSER" testpages
   after_script:
