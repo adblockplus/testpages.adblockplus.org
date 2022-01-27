@@ -43,9 +43,10 @@ test:lint:
 .test:
   extends: .test_runner
   variables: 
-    - $CORE_TAG == '$CI_COMMIT_REF_NAME | sed `s/.*core-//`  | sed `s/./&./1;s/./&./3`' 
+    - $CORE== '$CI_COMMIT_REF_NAME | sed `s/.*core-//`  | sed `s/./&./1;s/./&./3`' 
   script:
-    - docker build --build-arg CORE_TAG=$CORE_TAG  -t testpages -f branchTest.Dockerfile .
+    - echo $CORE
+    - docker build --build-arg CORE_TAG='$CORE'  -t testpages -f branchTest.Dockerfile .
     - docker run --shm-size=256m -e BROWSER="$BROWSER" testpages
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
