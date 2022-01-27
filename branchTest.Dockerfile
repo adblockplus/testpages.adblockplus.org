@@ -70,7 +70,7 @@ RUN cd adblockplusui/adblockpluschrome && npm install
 
 # Clone Core files for specific branch:
 ARG CORE_TAG=""
-RUN echo CORE_TAG
+RUN echo $CORE_TAG
 RUN cd adblockplusui/adblockpluschrome/ && rm -rf adblockpluscore && git clone -b $CORE_TAG https://gitlab.com/eyeo/adblockplus/abc/adblockpluscore.git
 RUN cd adblockplusui/adblockpluschrome/adblockpluscore && npm install
 RUN cd adblockplusui/adblockpluschrome && npm install \
