@@ -43,7 +43,7 @@ test:lint:
 .test:
   extends: .test_runner
   variables: 
-    CORE_TAG: CI_COMMIT_REF_NAME | sed 's/\core.*//'
+    CORE_TAG: echo {$CI_COMMIT_REF_NAME | sed 's/\core.*//'}
 
   script:
     - echo ${CORE_TAG}
