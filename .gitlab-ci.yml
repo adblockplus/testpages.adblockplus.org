@@ -32,7 +32,7 @@ stages:
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
-    CORE: '$CI_COMMIT_BRANCH | sed "s/.*core-//"  | sed "/./&./1;s/./&./3"' 
+    CORE: $CI_COMMIT_BRANCH | sed "s/.*core-//"  | sed "/./&./1;s/./&./3" 
   interruptible: true
 
 test:lint:
