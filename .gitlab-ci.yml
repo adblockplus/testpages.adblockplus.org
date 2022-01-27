@@ -40,7 +40,7 @@ test:lint:
     - docker build -t lintimage -f test/lint.Dockerfile .
     - docker run lintimage
 
-.test:
+.testA:
   extends: .test_runner
   script:
     - docker build -t testpages .
@@ -56,6 +56,30 @@ test:lint:
       - nginx/
     when: on_failure
     expire_in: 1 mo
+
+  .test:
+  extends: .test_runner
+  variables: 
+    CORE_TAG: CI_COMMIT_REF_NAME | sed 's/\core.*//'
+
+  script:
+    - echo ${CORE_TAG}
+    - docker build --build-arg CORE_TAG=$CORE_TAG -t testpages -f branchTest.Dockerfile .
+    - docker run --shm-size=256m -e BROWSER="$BROWSER" testpages
+  after_script:
+    - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
+    - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
+      2> /dev/null
+    - docker cp $IMAGE_ID:/var/log/nginx/ .
+  artifacts:
+    paths:
+      - screenshots/
+      - nginx/
+    when: on_failure
+    expire_in: 1 mo
+  # Execute only when branch is core-x
+  #rules:
+  #  - if: $CI_COMMIT_REF_NAME =~ /^core-*/
 
 test:chrome:latest:
   extends: .test
