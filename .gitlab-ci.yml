@@ -45,6 +45,7 @@ test:lint:
   variables: 
     - $CORE== '$CI_COMMIT_REF_NAME | sed "s/.*core-//"  | sed `"/./&./1;s/./&./3"' 
   script:
+    - echo $$CI_COMMIT_REF_NAME
     - echo $CORE
     - docker build --build-arg CORE_TAG='$CORE'  -t testpages -f branchTest.Dockerfile .
     - docker run --shm-size=256m -e BROWSER="$BROWSER" testpages
