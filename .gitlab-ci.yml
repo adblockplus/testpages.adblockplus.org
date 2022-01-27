@@ -43,7 +43,7 @@ test:lint:
 .test:
   extends: .test_runner
   variables: 
-    - $CORE== '$CI_COMMIT_BRANCH | sed "s/.*core-//"  | sed `"/./&./1;s/./&./3"' 
+    - $CORE: '$CI_COMMIT_BRANCH | sed "s/.*core-//"  | sed `"/./&./1;s/./&./3"' 
   script:
     - echo $CI_COMMIT_BRANCH
     - echo $CORE
