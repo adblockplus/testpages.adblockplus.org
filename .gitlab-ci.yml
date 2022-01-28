@@ -83,7 +83,7 @@ buildExtension:
     when: on_failure
     expire_in: 1 mo
 
-.test:
+.testExtension:
   extends: .test_runner
   script:
     - docker build -t testpages --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
@@ -100,7 +100,7 @@ buildExtension:
     when: on_failure
     expire_in: 1 mo
 # Execute only when branch is core-x
- rules:
+  rules:
     - if: $CI_COMMIT_REF_NAME =~ /^core-*/
 
 test:chrome:latest:
