@@ -55,6 +55,8 @@ buildExtension:
   script:
         # - docker build --build-arg CORE_TAG=$CORE  -t testpages -f branchTest.Dockerfile .
         #- docker run --shm-size=256m -e BROWSER="$BROWSER" -e TESTS_EXCLUDE="Snippets" testpages
+        - echo $CI_COMMIT_BRANCH
+        - echo $CORE
         - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f test/generateExtension.Dockerfile .
         - docker container create --name extensiongenerator extensionimage
         - docker cp extensiongenerator:/adblockplusui/adblockpluschrome/adblockpluschrome.zip .
