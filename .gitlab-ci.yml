@@ -49,7 +49,7 @@ test:lint:
     - echo $CI_COMMIT_BRANCH
     - echo $CORE
     - docker build --build-arg CORE_TAG=$CORE  -t testpages -f branchTest.Dockerfile .
-    - docker run --shm-size=256m -e BROWSER="$BROWSER" testpages
+    - docker run --shm-size=256m -e BROWSER="$BROWSER" -e TESTS_EXCLUDE="Snippets" testpages
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
     - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
