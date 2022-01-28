@@ -49,6 +49,7 @@ test:lint:
 buildExtension:
     before_script:
         - export CORE=$(echo $CI_COMMIT_BRANCH | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
+        - docker info
     extends: .coreRelatedBranch
     script:
         # - docker build --build-arg CORE_TAG=$CORE  -t testpages -f branchTest.Dockerfile .
