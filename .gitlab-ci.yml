@@ -41,10 +41,10 @@ test:lint:
     - docker run lintimage
 
 .test:
-  extends: .test_runner  
+ extends: .test_runner   
   before_script:
-    - export CORE=$(echo $CI_COMMIT_BRANCH | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
-    - docker info
+  - export CORE=$(echo $CI_COMMIT_BRANCH | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
+  - docker info
   script:
     - echo $CI_COMMIT_BRANCH
     - echo $CORE
