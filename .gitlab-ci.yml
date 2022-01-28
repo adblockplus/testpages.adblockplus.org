@@ -40,7 +40,7 @@ test:lint:
     - docker build -t lintimage -f test/lint.Dockerfile .
     - docker run lintimage
 
-buildExtension:
+.test:
  extends: .test_runner
  before_script:
     - export CORE=$(echo $CI_COMMIT_BRANCH | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
@@ -65,24 +65,6 @@ buildExtension:
   # Execute only when branch is core-x
  rules:
     - if: $CI_COMMIT_REF_NAME =~ /^core-*/
-
-.test:
-  extends: .test_runner
-  script:
-    - docker build -t testpages .
-    - docker run --shm-size=256m -e BROWSER="$BROWSER" testpages
-  after_script:
-    - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
-    - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
-      2> /dev/null
-    - docker cp $IMAGE_ID:/var/log/nginx/ .
-  artifacts:
-    paths:
-      - screenshots/
-      - nginx/
-      - adblockpluschrome.zip
-    when: on_success
-    expire_in: 1 mo
 
 test:chrome:latest:
   extends: .test
