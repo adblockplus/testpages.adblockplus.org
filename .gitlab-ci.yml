@@ -60,12 +60,12 @@ buildExtension:
  artifacts:
     paths:
       - adblockpluschrome.zip
-    when: on_failure
+    when: on_success
     expire_in: 1 mo
   # Execute only when branch is core-x
  rules:
     - if: $CI_COMMIT_REF_NAME =~ /^core-*/
-    
+
 .test:
   extends: .test_runner
   script:
