@@ -41,10 +41,10 @@ test:lint:
     - docker run lintimage
 
 .test:
-  extends: .test_runner   
+  extends: .test_runner  
   before_script:
-  - export CORE=$(echo $CI_COMMIT_BRANCH | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
-  - docker info
+    - export CORE=$(echo $CI_COMMIT_BRANCH | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
+    - docker info
   script:
     - echo $CI_COMMIT_BRANCH
     - echo $CORE
@@ -62,8 +62,8 @@ test:lint:
     when: on_failure
     expire_in: 1 mo
   # Execute only when branch is core-x
-  #rules:
-  #  - if: $CI_COMMIT_REF_NAME =~ /^core-*/
+  rules:
+    - if: $CI_COMMIT_REF_NAME =~ /^core-*/
 
 test:chrome:latest:
   extends: .test
@@ -202,3 +202,4 @@ deploy:abptestpages:
     - build:abptestpages
   variables:
     DOMAIN: abptestpages.org
+    
