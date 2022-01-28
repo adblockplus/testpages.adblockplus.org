@@ -32,7 +32,6 @@ stages:
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
-    CORE: $(echo $CI_COMMIT_BRANCH | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
   interruptible: true
 
 test:lint:
@@ -43,6 +42,9 @@ test:lint:
 
 .test:
   extends: .test_runner   
+  before_script:
+  - export CORE=$(echo $CI_COMMIT_BRANCH | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
+  - docker info
   script:
     - echo $CI_COMMIT_BRANCH
     - echo $CORE
