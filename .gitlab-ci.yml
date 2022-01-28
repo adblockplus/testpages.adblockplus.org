@@ -41,25 +41,25 @@ test:lint:
     - docker run lintimage
 
 .coreRelatedBranch: 
-extends: .test_runner
-  before_script:
-    - export CORE=$(echo $CI_COMMIT_BRANCH | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
+    extends: .test_runner
+    before_script:
+        - export CORE=$(echo $CI_COMMIT_BRANCH | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
   #execute only if branch is core-* 
     rules:
     - if: $CI_COMMIT_REF_NAME =~ /^core-*/
   
 buildExtension:
-extends: .coreRelatedBranch
-  script:
-   # - docker build --build-arg CORE_TAG=$CORE  -t testpages -f branchTest.Dockerfile .
-    #- docker run --shm-size=256m -e BROWSER="$BROWSER" -e TESTS_EXCLUDE="Snippets" testpages
-    - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f test/generateExtension.Dockerfile .
-    - docker container create --name extensiongenerator extensionimage
-    - docker cp extensiongenerator:/adblockplusui/adblockpluschrome/adblockpluschrome.zip .
-    - docker rm -f extensiongenerator
+    extends: .coreRelatedBranch
+    script:
+        # - docker build --build-arg CORE_TAG=$CORE  -t testpages -f branchTest.Dockerfile .
+        #- docker run --shm-size=256m -e BROWSER="$BROWSER" -e TESTS_EXCLUDE="Snippets" testpages
+        - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f test/generateExtension.Dockerfile .
+        - docker container create --name extensiongenerator extensionimage
+        - docker cp extensiongenerator:/adblockplusui/adblockpluschrome/adblockpluschrome.zip .
+        - docker rm -f extensiongenerator
     artifacts:
-    paths:
-        - adblockpluschrome.zip
+        paths:
+            - adblockpluschrome.zip
         
 .test:
   extends: .test_runner
