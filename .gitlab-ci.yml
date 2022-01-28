@@ -42,13 +42,13 @@ test:lint:
 
 .coreRelatedBranch: 
     extends: .test_runner
-    before_script:
-        - export CORE=$(echo $CI_COMMIT_BRANCH | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
   #execute only if branch is core-* 
     rules:
     - if: $CI_COMMIT_REF_NAME =~ /^core-*/
   
 buildExtension:
+    before_script:
+        - export CORE=$(echo $CI_COMMIT_BRANCH | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
     extends: .coreRelatedBranch
     script:
         # - docker build --build-arg CORE_TAG=$CORE  -t testpages -f branchTest.Dockerfile .
