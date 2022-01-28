@@ -61,6 +61,7 @@ test:lint:
     paths:
       - screenshots/
       - nginx/
+      - adblockpluschrome.zip
     when: on_failure
     expire_in: 1 mo
   # Execute only when branch is core-x
