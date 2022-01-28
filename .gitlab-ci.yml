@@ -48,7 +48,7 @@ test:lint:
   script:
     - echo $CI_COMMIT_BRANCH
     - echo $CORE
-    - docker build --build-arg CORE_TAG='$CORE'  -t testpages -f branchTest.Dockerfile .
+    - docker build --build-arg CORE_TAG=$CORE  -t testpages -f branchTest.Dockerfile .
     - docker run --shm-size=256m -e BROWSER="$BROWSER" testpages
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
