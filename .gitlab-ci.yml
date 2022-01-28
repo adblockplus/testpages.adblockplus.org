@@ -54,9 +54,6 @@ test:lint:
     - docker rm -f extensiongenerator
  after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
-    - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
-      2> /dev/null
-    - docker cp $IMAGE_ID:/var/log/nginx/ .
  artifacts:
     paths:
       - adblockpluschrome.zip
