@@ -27,15 +27,8 @@ RUN cd adblockplusui/adblockpluschrome && npm install
 
 # Clone Core files for specific branch:
 ARG CORE_TAG=""
-RUN echo CORE_TAG
 RUN cd adblockplusui/adblockpluschrome/ && rm -rf adblockpluscore && git clone -b $CORE_TAG https://gitlab.com/eyeo/adblockplus/abc/adblockpluscore.git
 RUN cd adblockplusui/adblockpluschrome/adblockpluscore && npm install
 RUN cd adblockplusui/adblockpluschrome && npm install \
  && npx gulp build -t chrome -c development
 RUN mv adblockplusui/adblockpluschrome/adblockpluschrome-*.zip adblockplusui/adblockpluschrome/adblockpluschrome.zip 
-# Unpack custom extension
-#RUN  unzip -q adblockplusui/adblockpluschrome/adblockpluschrome*.zip -d testpages.adblockplus.org/testext;
-#ENV BROWSER="Firefox \(latest\)"
-#ENV TESTS_SUBSET=""
-#ENV SKIP_EXTENSION_DOWNLOAD="true"
-ENTRYPOINT /testpages.adblockplus.org/test/generateExtensionEntrypoint.sh
