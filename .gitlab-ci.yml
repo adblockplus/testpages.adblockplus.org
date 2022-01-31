@@ -41,26 +41,26 @@ test:lint:
     - docker run lintimage
 
 .test:
- extends: .test_runner
- before_script:
+  extends: .test_runner
+  before_script:
     - export CORE=$(echo $CI_COMMIT_BRANCH | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
     - docker info
- script:
+  script:
     - echo $CI_COMMIT_BRANCH
     - echo $CORE
     - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f test/generateExtension.Dockerfile .
     - docker container create --name extensiongenerator extensionimage
     - docker cp extensiongenerator:/adblockplusui/adblockpluschrome/adblockpluschrome.zip .
     - docker rm -f extensiongenerator
- after_script:
+  after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
- artifacts:
+  artifacts:
     paths:
       - adblockpluschrome.zip
     when: on_success
     expire_in: 1 mo
   # Execute only when branch is core-x
- rules:
+  rules:
     - if: $CI_COMMIT_REF_NAME =~ /^core-*/
 
 test:chrome:latest:
