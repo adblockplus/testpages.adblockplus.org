@@ -59,16 +59,19 @@ test:lint:
             docker build -t testpages .
         fi
     - docker run --shm-size=256m -e TESTS_EXCLUDE="Snippets" -e BROWSER="$BROWSER" testpages
-  after_script:
+    after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
-  artifacts:
-    paths:
-      - adblockpluschrome.zip
-    when: on_success
-    expire_in: 1 mo
-  # Execute only when branch is core-x
-  rules:
-    - if: $CI_COMMIT_REF_NAME =~ /^core-*/
+    - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
+      2> /dev/null
+    - docker cp $IMAGE_ID:/var/log/nginx/ .
+    artifacts:
+      paths:
+        - screenshots/
+        - nginx/
+      when: on_success
+      expire_in: 1 mo
+
+  
 
 test:chrome:latest:
   extends: .test
