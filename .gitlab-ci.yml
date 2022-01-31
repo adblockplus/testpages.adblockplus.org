@@ -56,7 +56,7 @@ test:lint:
             ## Build and run testpages
             docker build -t testpages  --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
         else 
-            ocker build -t testpages .
+            docker build -t testpages .
         fi
     - docker run --shm-size=256m -e TESTS_EXCLUDE="Snippets" -e BROWSER="$BROWSER" testpages
   after_script:
