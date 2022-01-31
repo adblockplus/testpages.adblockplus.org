@@ -46,12 +46,17 @@ test:lint:
     - export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
     - docker info
   script:
+  ## Build custom extension
     - echo $CI_COMMIT_REF_NAME
     - echo $CORE
     - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f test/generateExtension.Dockerfile .
     - docker container create --name extensiongenerator extensionimage
     - docker cp extensiongenerator:/adblockplusui/adblockpluschrome/adblockpluschrome.zip .
     - docker rm -f extensiongenerator
+    ## Build and run testpages
+    - docker build -t testpages  --build-arg EXTENSION_FILE="adblockpluschrome.zip .
+    - docker run --shm-size=256m -e TESTS_EXCLUDE="Snippets" -e BROWSER="$BROWSER" testpages
+
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
   artifacts:
