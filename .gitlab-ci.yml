@@ -46,7 +46,7 @@ test:lint:
     - export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
     - docker info
   script:
-  ## Build custom extension
+    ## Build custom extension if on core-x branch 
     - >
         if [[ $CI_COMMIT_REF_NAME == *"core"* ]]; then
             docker build --build-arg CORE_TAG=$CORE -t extensionimage -f test/generateExtension.Dockerfile .
@@ -55,7 +55,7 @@ test:lint:
             docker rm -f extensiongenerator
             ## Build and run testpages
             docker build -t testpages  --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
-        else 
+        else
             docker build -t testpages .
         fi
     - docker run --shm-size=256m -e TESTS_EXCLUDE="Snippets" -e BROWSER="$BROWSER" testpages
@@ -65,13 +65,11 @@ test:lint:
       2> /dev/null
     - docker cp $IMAGE_ID:/var/log/nginx/ .
   artifacts:
-      paths:
-        - screenshots/
-        - nginx/
-      when: on_success
-      expire_in: 1 mo
-
-  
+    paths:
+      - screenshots/
+      - nginx/
+    when: on_success
+    expire_in: 1 mo
 
 test:chrome:latest:
   extends: .test
