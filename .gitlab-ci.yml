@@ -47,7 +47,8 @@ test:lint:
     - export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
     - docker info
   script:
-    ## Build custom extension if on core-x branch\
+    ## Build custom extension if on core-x branch
+    # yamllint disable-line rule:line-length
     - >
         if [[ $CI_COMMIT_REF_NAME == *"core"* ]]; then
             docker build --build-arg CORE_TAG=$CORE -t extensionimage -f \
@@ -62,8 +63,7 @@ test:lint:
         else
             docker build -t testpages .
         fi
-    # yamllint disable-line rule:line-length
-    - > 
+    - >
       docker run --shm-size=256m -e TESTS_EXCLUDE="Snippets" \
       -e BROWSER="$BROWSER" testpages
   after_script:
