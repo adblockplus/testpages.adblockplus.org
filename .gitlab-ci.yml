@@ -48,7 +48,7 @@ test:lint:
   script:
   ## Build custom extension
     - >
-        if [ $CI_COMMIT_REF_NAME =~ /^core-*/ ]; then
+        if [[] $CI_COMMIT_REF_NAME == *"core"* ]]; then
             docker build --build-arg CORE_TAG=$CORE -t extensionimage -f test/generateExtension.Dockerfile .
             docker container create --name extensiongenerator extensionimage
             docker cp extensiongenerator:/adblockplusui/adblockpluschrome/adblockpluschrome.zip .
