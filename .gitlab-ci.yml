@@ -43,10 +43,10 @@ test:lint:
 .test:
   extends: .test_runner
   before_script:
-    - export CORE=$(echo $CI_COMMIT_BRANCH | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
+    - export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//" | sed "s/./&./1;s/./&./3")
     - docker info
   script:
-    - echo $CI_COMMIT_BRANCH
+    - echo $CI_COMMIT_REF_NAME
     - echo $CORE
     - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f test/generateExtension.Dockerfile .
     - docker container create --name extensiongenerator extensionimage
