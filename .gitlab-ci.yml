@@ -63,7 +63,9 @@ test:lint:
             docker build -t testpages .
         fi
     # yamllint disable-line rule:line-length
-    - docker run --shm-size=256m -e TESTS_EXCLUDE="Snippets" -e BROWSER="$BROWSER" testpages
+    - > 
+      docker run --shm-size=256m -e TESTS_EXCLUDE="Snippets" \
+      -e BROWSER="$BROWSER" testpages
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
     - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
