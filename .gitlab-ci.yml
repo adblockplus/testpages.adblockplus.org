@@ -52,11 +52,11 @@ test:lint:
         if [[ $CI_COMMIT_REF_NAME == *"core"* ]]; then
             docker build --build-arg CORE_TAG=$CORE -t extensionimage -f \
             test/generateExtension.Dockerfile .
-            docker container create --name extensiongenerator \
+            docker container create --name extgenerator \
             extensionimage
             docker cp \
-            extensiongenerator:/adblockplusui/adblockpluschrome/adblockpluschrome.zip .
-            docker rm -f extensiongenerator
+            extgenerator:/adblockplusui/adblockpluschrome/adblockpluschrome.zip .
+            docker rm -f extgenerator
             ## Build and run testpages
             docker build -t testpages \
             --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
