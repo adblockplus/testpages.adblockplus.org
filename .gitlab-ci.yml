@@ -147,7 +147,7 @@ test:edge:
     # Generate extension
     ## Clone abpui repo & clone core specific files
     - > 
-      if($CI_COMMIT_REF_NAME == *"core"*)
+      if($CI_COMMIT_REF_NAME -like 'core*')
         {
         export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
         echo CORE
@@ -174,7 +174,7 @@ test:edge:
       -PassThru
      # Download extension
     - > 
-      if($CI_COMMIT_REF_NAME !== *"core"*)
+      if($CI_COMMIT_REF_NAME -notlike 'core*')
       {
         node ./test/extension-tests/extension-download.js
       }
