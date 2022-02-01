@@ -18,7 +18,6 @@ FROM node:12-buster-slim
 RUN apt-get update
 RUN apt-get install -y wget git unzip
 
-
 ## Build extension with current branch ##
 # Clone abpui repo
 RUN git clone -b 3.12 --recurse-submodules https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
