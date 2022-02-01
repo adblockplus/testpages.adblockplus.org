@@ -152,16 +152,16 @@ test:edge:
         git clone -b 3.12 --recurse-submodules https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
         cd adblockplusui
         npm install
-        cd adblockplusui/adblockpluschrome
+        cd adblockpluschrome
         npm install
-        cd adblockplusui/adblockpluschrome/ 
+        cd ..
         rm -rf adblockpluscore
         git clone -b $CORE https://gitlab.com/eyeo/adblockplus/abc/adblockpluscore.git
-        cd adblockplusui/adblockpluschrome/adblockpluscore
-        npm install
-        cd adblockplusui/adblockpluschrome
+        cd adblockpluscore
         npm install
         npx gulp build -t chrome -c development
+        cd ..
+        cd ..
         mv adblockplusui/adblockpluschrome/adblockpluschrome-*.zip /testext/adblockpluschrome.zip
         }
       fi
