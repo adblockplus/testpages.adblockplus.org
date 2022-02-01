@@ -147,7 +147,7 @@ test:edge:
     # Generate extension
     ## Clone abpui repo & clone core specific files
     - > 
-      if ( $CI_COMMIT_REF_NAME == *"core"* ); then
+      if($CI_COMMIT_REF_NAME == *"core"*)
         export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
         echo CORE
         git clone -b 3.12 --recurse-submodules https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
@@ -166,7 +166,7 @@ test:edge:
       -PassThru
      # Download extension
     - > 
-      if ( $CI_COMMIT_REF_NAME !== *"core"* ); then
+      if($CI_COMMIT_REF_NAME !== *"core"*)
         node ./test/extension-tests/extension-download.js
       fi
     # Run tests
