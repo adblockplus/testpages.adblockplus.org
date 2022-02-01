@@ -60,12 +60,12 @@ test:lint:
             ## Build and run testpages
             docker build -t testpages \
             --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
-            docker run --shm-size=256m -e TESTS_EXCLUDE="Snippets" -e BROWSER="$BROWSER" testpages
+            docker run --shm-size=256m -e TESTS_EXCLUDE="Snippets" \
+            -e BROWSER="$BROWSER" testpages
         else
             docker build -t testpages .
             docker run --shm-size=256m -e BROWSER="$BROWSER" testpages
         fi
-    # yamllint disable-line rule:line-length
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
     - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
