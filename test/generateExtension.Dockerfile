@@ -28,6 +28,6 @@ RUN cd adblockplusui/adblockpluschrome && npm install
 ARG CORE_TAG=""
 RUN cd adblockplusui/adblockpluschrome/ && rm -rf adblockpluscore && git clone -b $CORE_TAG https://gitlab.com/eyeo/adblockplus/abc/adblockpluscore.git
 RUN cd adblockplusui/adblockpluschrome/adblockpluscore && npm install
-RUN cd adblockplusui/adblockpluschrome && npm install \
+RUN cd adblockplusui/adblockpluschrome \
  && npx gulp build -t chrome -c development
 RUN mv adblockplusui/adblockpluschrome/adblockpluschrome-*.zip adblockplusui/adblockpluschrome/adblockpluschrome.zip 
