@@ -21,8 +21,7 @@ import Jimp from "jimp";
 import specializedTests from "./specialized.js";
 import {takeScreenshot, writeScreenshotFile} from "../../misc/screenshots.js";
 
-export function isExcluded(page, browserName, browserVersion)
-{
+export function isExcluded(page, browserName, browserVersion) {
   let excluded;
   if (page in specializedTests)
     excluded = specializedTests[page].excludedBrowsers;
@@ -40,45 +39,36 @@ export function isExcluded(page, browserName, browserVersion)
          semver.satisfies(semver.coerce(browserVersion), excluded[browserName]);
 }
 
-export async function getExpectedScreenshot(driver, url)
-{
+export async function getExpectedScreenshot(driver, url) {
   await driver.navigate().to(`${url}?expected=1`);
   return await takeScreenshot(driver);
 }
 
 export async function runGenericTests(driver, expectedScreenshot,
                                       browserName, browserVersion, testTitle,
-                                      url, writeScreenshots = true)
-{
+                                      url, writeScreenshots = true) {
   let actualScreenshot;
 
-  async function compareScreenshots()
-  {
-    await driver.wait(async() =>
-    {
+  async function compareScreenshots() {
+    await driver.wait(async() => {
       actualScreenshot = await takeScreenshot(driver);
       return Jimp.diff(actualScreenshot, expectedScreenshot).percent == 0;
     }, 5000, "Screenshots don't match", 500);
   }
 
-  try
-  {
-    try
-    {
+  try {
+    try {
       await compareScreenshots();
     }
-    catch (e2)
-    {
+    catch (e2) {
       // In newer Firefox versions (79+) CSS might be cached:
       // https://bugzil.la/1657575.
       // We execute the test in a new tab to ensure the cache isn't used.
-      try
-      {
+      try {
         await driver.switchTo().newWindow("tab");
         await driver.navigate().to(url);
       }
-      catch (e3)
-      {
+      catch (e3) {
         // Older browsers don't support `newWindow`, fall-back to just refresh.
         await driver.navigate().refresh();
       }
@@ -86,15 +76,13 @@ export async function runGenericTests(driver, expectedScreenshot,
       await compareScreenshots();
     }
   }
-  catch (e)
-  {
+  catch (e) {
     if (!writeScreenshots)
       throw e;
 
     let paths = [];
     for (let [suffix, image] of [["actual", actualScreenshot],
-                                 ["expected", expectedScreenshot]])
-    {
+                                 ["expected", expectedScreenshot]]) {
       paths.push(await writeScreenshotFile(image, browserName, browserVersion,
                                            testTitle, suffix));
     }
@@ -103,21 +91,17 @@ export async function runGenericTests(driver, expectedScreenshot,
   }
 }
 
-export function getPage(url)
-{
+export function getPage(url) {
   return url.substr(url.lastIndexOf("/", url.lastIndexOf("/") - 1) + 1);
 }
 
 export async function runFirstTest(driver, browserName, browserVersion,
                                    testCases, testTitle,
-                                   writeScreenshots = true)
-{
-  for (let [url] of testCases)
-  {
+                                   writeScreenshots = true) {
+  for (let [url] of testCases) {
     let page = getPage(url);
     if (!(isExcluded(page, browserName, browserVersion) ||
-          page in specializedTests))
-    {
+          page in specializedTests)) {
       let expectedScreenshot = await getExpectedScreenshot(driver, url);
       await driver.navigate().to(url);
       await runGenericTests(driver, expectedScreenshot,

@@ -2,8 +2,7 @@
 
 var aopwf = {fp() {}}; // eslint-disable-line no-var
 
-setTimeout(() =>
-{
+setTimeout(() => {
   removeWaitingContent(); // eslint-disable-line no-undef
 
   aopwf.fp = function() {};

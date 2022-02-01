@@ -51,16 +51,13 @@ description = Check that a filter using the $rewrite filter option is working as
 <script>
   "use strict";
 
-  setTimeout(() =>
-  {
+  setTimeout(() => {
     let target = document.getElementById("stylesheet-target");
     let targetStyle = getComputedStyle(target);
-    if (targetStyle.width === "150px")
-    {
+    if (targetStyle.width === "150px") {
       target.innerHTML = "Failed. Stylesheet was NOT blocked.";
     }
-    else
-    {
+    else {
       target.innerHTML = "Passed. Stylesheet was blocked.";
       target.style.display = "none";
       // Style must be equal to .testcase-expected-view,
@@ -96,25 +93,21 @@ description = Check that a filter using the $rewrite filter option is working as
 <script>
   "use strict";
 
-  setTimeout(() =>
-  {
+  setTimeout(() => {
     let target = document.getElementById("subdocument-target");
     let contentDoc = null;
 
     // Older versions of Chrome will throw an exception here when the
     // iframe contentDocument is accessed, because the rewritten
     // subdocument is technically cross-origin.
-    try
-    {
+    try {
       contentDoc = target.contentDocument;
     }
-    catch (ex)
-    {
+    catch (ex) {
       contentDoc = null;
     }
 
-    if (contentDoc === null)
-    {
+    if (contentDoc === null) {
       target.style.display = "none";
       target.setAttribute("data-expectedresult", "pass");
       target.setAttribute("data-dp", "pass");
@@ -122,8 +115,7 @@ description = Check that a filter using the $rewrite filter option is working as
       target.style.flexGrow = 0;
       target.style.padding = 0;
     }
-    else
-    {
+    else {
       target.setAttribute("data-expectedresult", "fail");
       target.setAttribute("data-dp", "fail");
       target.style.width = 0;
@@ -157,27 +149,22 @@ description = Check that a filter using the $rewrite filter option is working as
 
   let req = new XMLHttpRequest();
 
-  req.onerror = function(e)
-  {
+  req.onerror = function(e) {
     let result = document.getElementById("text-status");
     result.innerHTML = "Passed. Text is blank.";
     result.setAttribute("data-expectedresult", "pass");
     result.setAttribute("data-dp", "pass");
   };
-  req.onload = function(e)
-  {
+  req.onload = function(e) {
     let result = document.getElementById("text-status");
 
-    if (this.status == 200)
-    {
-      if (this.responseText == "")
-      {
+    if (this.status == 200) {
+      if (this.responseText == "") {
         result.innerHTML = "Passed. Text is blank.";
         result.setAttribute("data-expectedresult", "pass");
         result.setAttribute("data-dp", "pass");
       }
-      else
-      {
+      else {
         result.innerHTML = this.responseText;
         result.setAttribute("data-expectedresult", "fail");
         result.setAttribute("data-dp", "fail");
@@ -185,8 +172,7 @@ description = Check that a filter using the $rewrite filter option is working as
     }
   };
 
-  setTimeout(() =>
-  {
+  setTimeout(() => {
     req.open("GET", "{{ site_url }}/testfiles/rewrite/text.txt", true);
     req.send();
   }, 500);
@@ -218,12 +204,10 @@ description = Check that a filter using the $rewrite filter option is working as
 <script>
   "use strict";
 
-  setTimeout(() =>
-  {
+  setTimeout(() => {
     let target = document.getElementById("1x1-target");
   
-    if (target.width === 1)
-    {
+    if (target.width === 1) {
       target.setAttribute("data-expectedresult", "pass");
       target.setAttribute("data-dp", "pass");
       target.width = 0;
@@ -257,12 +241,10 @@ description = Check that a filter using the $rewrite filter option is working as
 <script>
   "use strict";
 
-  setTimeout(() =>
-  {
+  setTimeout(() => {
     let target = document.getElementById("2x2-target");
 
-    if (target.width === 2)
-    {
+    if (target.width === 2) {
       target.setAttribute("data-expectedresult", "pass");
       target.setAttribute("data-dp", "pass");
       target.width = 0;
@@ -296,12 +278,10 @@ description = Check that a filter using the $rewrite filter option is working as
 <script>
   "use strict";
 
-  setTimeout(() =>
-  {
+  setTimeout(() => {
     let target = document.getElementById("3x2-target");
 
-    if (target.width === 3)
-    {
+    if (target.width === 3) {
       target.setAttribute("data-expectedresult", "pass");
       target.setAttribute("data-dp", "pass");
       target.width = 0;
@@ -335,12 +315,10 @@ description = Check that a filter using the $rewrite filter option is working as
 <script>
   "use strict";
 
-  setTimeout(() =>
-  {
+  setTimeout(() => {
     let target = document.getElementById("32x32-target");
 
-    if (target.width === 32)
-    {
+    if (target.width === 32) {
       target.setAttribute("data-expectedresult", "pass");
       target.setAttribute("data-dp", "pass");
       target.width = 0;
@@ -401,8 +379,7 @@ description = Check that a filter using the $rewrite filter option is working as
 <script>
   "use strict";
 
-  function printDuration(mediaElement)
-  {
+  function printDuration(mediaElement) {
     let duration = document.createElement("div");
     // Truncate duration to one demical to avoid cross-browser differences
     let durationValue = Math.floor(mediaElement.duration * 10) / 10;
@@ -415,8 +392,7 @@ description = Check that a filter using the $rewrite filter option is working as
     mediaElement.parentNode.appendChild(duration);
   }
 
-  function printUnsupported(mediaElement, mediaKind)
-  {
+  function printUnsupported(mediaElement, mediaKind) {
     let durationElement = expectedParameter() ? // eslint-disable-line no-undef
       mediaElement.parentNode.getElementsByClassName("testcase-expected-view")[0] :
       document.createElement("div");
@@ -429,16 +405,13 @@ description = Check that a filter using the $rewrite filter option is working as
       mediaElement.parentNode.appendChild(durationElement);
   }
 
-  function manageMedia(id, kind, file)
-  {
+  function manageMedia(id, kind, file) {
     let element = document.getElementById(id);
 
-    if (element.canPlayType(kind) == "")
-    {
+    if (element.canPlayType(kind) == "") {
       printUnsupported(element, kind);
     }
-    else
-    {
+    else {
       element.innerHTML = `<source src="/testfiles/rewrite/${file}?${Date.now()}" type="${kind}">`;
       if (element.readyState >= 1)
         printDuration(element);

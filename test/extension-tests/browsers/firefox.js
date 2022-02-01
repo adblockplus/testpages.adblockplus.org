@@ -30,8 +30,7 @@ import "geckodriver";
 export let target = "firefox";
 export let oldestCompatibleVersion = "68.0";
 
-export async function getDriver(browserBinary, extensionPaths, insecure)
-{
+export async function getDriver(browserBinary, extensionPaths, insecure) {
   let options = new firefox.Options().headless();
   if (browserBinary != null)
     options.setBinary(browserBinary);
@@ -43,8 +42,7 @@ export async function getDriver(browserBinary, extensionPaths, insecure)
     .setFirefoxOptions(options)
     .build();
 
-  for (let extensionPath of extensionPaths)
-  {
+  for (let extensionPath of extensionPaths) {
     await driver.execute(
       new command.Command("install addon")
         .setParameter("path", extensionPath)
@@ -55,8 +53,7 @@ export async function getDriver(browserBinary, extensionPaths, insecure)
   return driver;
 }
 
-export async function getLatestVersion()
-{
+export async function getLatestVersion() {
   let data = await got("https://product-details.mozilla.org/1.0/firefox_versions.json").json();
   return data.LATEST_FIREFOX_VERSION;
 }

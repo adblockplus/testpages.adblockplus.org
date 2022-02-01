@@ -25,8 +25,7 @@ import url from "url";
  * working around limitations of ChromeDriver <77,
  * enabling scripts to return a promise.
  */
-export async function executeScriptCompliant(driver, script, ...args)
-{
+export async function executeScriptCompliant(driver, script, ...args) {
   let [isError, value] = await driver.executeAsyncScript(`
     let promise = (async function() { ${script} }).apply(null, arguments[0]);
     let callback = arguments[arguments.length - 1];
@@ -40,8 +39,7 @@ export async function executeScriptCompliant(driver, script, ...args)
   return value;
 }
 
-export async function checkLastError(driver, handle)
-{
+export async function checkLastError(driver, handle) {
   await driver.switchTo().window(handle);
 
   let error = await executeScriptCompliant(
@@ -52,28 +50,23 @@ export async function checkLastError(driver, handle)
     assert.fail("Unhandled error in background page: " + error);
 }
 
-export async function runWithHandle(driver, handle, callback)
-{
+export async function runWithHandle(driver, handle, callback) {
   let currentHandle = await driver.getWindowHandle();
   await driver.switchTo().window(handle);
-  try
-  {
+  try {
     return await callback();
   }
-  finally
-  {
+  finally {
     await driver.switchTo().window(currentHandle);
   }
 }
 
-export async function loadModules(dirname)
-{
+export async function loadModules(dirname) {
   let modules = [];
-  for (let dirent of await fs.promises.readdir(dirname, {withFileTypes: true}))
-  {
-    let filename = path.resolve(dirname, dirent.name);
-    let basename = path.parse(dirent.name).name;
-    if (dirent.isDirectory())
+  for (let dir of await fs.promises.readdir(dirname, {withFileTypes: true})) {
+    let filename = path.resolve(dirname, dir.name);
+    let basename = path.parse(dir.name).name;
+    if (dir.isDirectory())
       filename = path.join(filename, "index.js");
     modules.push([await import(url.pathToFileURL(filename)), basename]);
   }

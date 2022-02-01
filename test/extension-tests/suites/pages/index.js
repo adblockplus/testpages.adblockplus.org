@@ -26,19 +26,16 @@ import {getExpectedScreenshot, getPage, isExcluded, runGenericTests}
 
 const {By} = webdriver;
 
-async function getFilters(driver)
-{
+async function getFilters(driver) {
   let filters = new Set();
-  for (let element of await driver.findElements(By.css("pre")))
-  {
+  for (let element of await driver.findElements(By.css("pre"))) {
     for (let line of (await element.getText()).split("\n"))
       filters.add(line);
   }
   return Array.from(filters).join("\n");
 }
 
-async function updateFilters(driver, extensionHandle, url)
-{
+async function updateFilters(driver, extensionHandle, url) {
   await driver.navigate().to(url);
   let filters = await getFilters(driver);
   let error = await runWithHandle(driver, extensionHandle,
@@ -61,36 +58,27 @@ async function updateFilters(driver, extensionHandle, url)
   await driver.navigate().refresh();
 }
 
-export default () =>
-{
-  describe("Test pages", function()
-  {
-    it("discovered test cases", function()
-    {
+export default () => {
+  describe("Test pages", function() {
+    it("discovered test cases", function() {
       assert.ok(this.test.parent.parent.pageTests.length > 0);
     });
 
-    for (let [section, testCases] of this.parent.pageTests)
-    {
-      describe(section, () =>
-      {
-        for (let [url, pageTitle] of testCases)
-        {
-          it(pageTitle, async function()
-          {
+    for (let [section, testCases] of this.parent.pageTests) {
+      describe(section, () => {
+        for (let [url, pageTitle] of testCases) {
+          it(pageTitle, async function() {
             let page = getPage(url);
             if (isExcluded(page, this.browserName, this.browserVersion))
               this.skip();
 
-            if (page in specializedTests)
-            {
+            if (page in specializedTests) {
               await updateFilters(this.driver, this.extensionHandle, url);
               let locator = By.className("testcase-area");
               for (let element of await this.driver.findElements(locator))
                 await specializedTests[page].run(element, this.extensionHandle);
             }
-            else
-            {
+            else {
               let expectedScreenshot = await getExpectedScreenshot(this.driver,
                                                                    url);
               await updateFilters(this.driver, this.extensionHandle, url);
@@ -105,8 +93,7 @@ export default () =>
       });
     }
 
-    describe("Subscriptions", () =>
-    {
+    describe("Subscriptions", () => {
       defineSubscribeTest();
     });
   });

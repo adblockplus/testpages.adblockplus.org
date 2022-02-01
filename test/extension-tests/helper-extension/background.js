@@ -16,17 +16,13 @@
  */
 
 // The timeout allows the APB extension being ready on Firefox
-setTimeout(() =>
-{
-  chrome.management.getAll(extensions =>
-  {
-    for (let extension of extensions)
-    {
+setTimeout(() => {
+  chrome.management.getAll(extensions => {
+    for (let extension of extensions) {
       if (extension.type == "extension" &&
           extension.installType == "development" &&
           extension.id != chrome.runtime.id &&
-          extension.name != "Chrome Automation Extension")
-      {
+          extension.name != "Chrome Automation Extension") {
         chrome.tabs.create({url: extension.optionsUrl});
         return;
       }

@@ -31,8 +31,7 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
 <script>
   "use strict";
 
-  setTimeout(() =>
-  {
+  setTimeout(() => {
     let root = document.getElementById("basic-target");
     let failElement = document.createElement("div");
     failElement.id = "hisc-basic-id";
@@ -74,13 +73,11 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
 <script>
   "use strict";
 
-  setTimeout(() =>
-  {
+  setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
 
     let root = document.getElementById("regex-target");
-    for (let expectedResult of ["pass", "fail", "fail"])
-    {
+    for (let expectedResult of ["pass", "fail", "fail"]) {
       let rootChild = document.createElement("div");
       rootChild.setAttribute("data-expectedresult", expectedResult);
       if (expectedResult == "fail")

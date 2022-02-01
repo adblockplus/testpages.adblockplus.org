@@ -23,15 +23,13 @@ import {runFirstTest} from "./utils.js";
 
 const {By} = webdriver;
 
-async function addSubscription(driver, extensionHandle, currentHandle)
-{
+async function addSubscription(driver, extensionHandle, currentHandle) {
   await driver.switchTo().window(currentHandle);
   await driver.findElement(By.id("subscribe-button")).click();
   await driver.switchTo().window(extensionHandle);
 
   let dialog;
-  await driver.wait(async() =>
-  {
+  await driver.wait(async() => {
     await driver.switchTo().defaultContent();
     await driver.switchTo().frame(0);
     dialog = driver.findElement(By.id("dialog-content-predefined"));
@@ -44,8 +42,7 @@ async function addSubscription(driver, extensionHandle, currentHandle)
   await dialog.findElement(By.css(".default-focus")).click();
 }
 
-async function checkSubscriptionAdded(driver, url)
-{
+async function checkSubscriptionAdded(driver, url) {
   let added = await executeScriptCompliant(driver, `
     let subs = await browser.runtime.sendMessage({type: "subscriptions.get",
                                                   ignoreDisabled: true,
@@ -54,30 +51,25 @@ async function checkSubscriptionAdded(driver, url)
   assert.ok(added, "subscription added");
 }
 
-async function removeSubscription(driver, extensionHandle, url)
-{
+async function removeSubscription(driver, extensionHandle, url) {
   await driver.switchTo().window(extensionHandle);
   await executeScriptCompliant(driver, `
     await browser.runtime.sendMessage({type: "subscriptions.remove",
                                        url: arguments[0]});`, url);
 }
 
-export default () =>
-{
-  it("subscribes to a link", async function()
-  {
+export default () => {
+  it("subscribes to a link", async function() {
     let {testPagesURL, pageTests} = this.test.parent.parent.parent;
     let testCases = pageTests[0][1];
     let subscription = `${testPagesURL}abp-testcase-subscription.txt`;
     let currentHandle = await this.driver.getWindowHandle();
-    try
-    {
+    try {
       await this.driver.navigate().to(testPagesURL);
       await addSubscription(this.driver, this.extensionHandle, currentHandle);
       await checkSubscriptionAdded(this.driver, subscription);
     }
-    catch (e)
-    {
+    catch (e) {
       await writeScreenshotAndThrow(this, e);
     }
     await this.driver.switchTo().window(currentHandle);

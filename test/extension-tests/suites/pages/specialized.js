@@ -23,17 +23,14 @@ const {By} = webdriver;
 
 let specialized = {};
 
-function clickButtonOrLink(element)
-{
+function clickButtonOrLink(element) {
   return element.findElement(By.css("a[href],button")).click();
 }
 
-async function checkRequestBlocked(driver, resource)
-{
+async function checkRequestBlocked(driver, resource) {
   let removeTimestamp = s => s.replace(/\?.\d*/, "");
 
-  await driver.wait(async() =>
-  {
+  await driver.wait(async() => {
     let logs = await driver.manage().logs().get("browser");
     let expected =
       `${resource} - Failed to load resource: net::ERR_BLOCKED_BY_CLIENT`;
@@ -41,8 +38,7 @@ async function checkRequestBlocked(driver, resource)
   }, 2000, "request wasn't blocked");
 }
 
-async function checkPing(element)
-{
+async function checkPing(element) {
   let driver = element.getDriver();
   await clickButtonOrLink(element);
   await checkRequestBlocked(driver, "ping");
@@ -59,19 +55,16 @@ specialized["filters/ping"] = {
 specialized["exceptions/ping"] = {
   excludedBrowsers: {firefox: ""},
 
-  async run(element)
-  {
+  async run(element) {
     await assert.rejects(async() => checkPing(element), /request wasn't blocked/);
   }
 };
 
-async function getNumberOfHandles(driver)
-{
+async function getNumberOfHandles(driver) {
   return (await driver.getAllWindowHandles()).length;
 }
 
-async function checkPopup(element, extensionHandle)
-{
+async function checkPopup(element, extensionHandle) {
   let driver = element.getDriver();
   let nHandles = await getNumberOfHandles(driver);
   let token = Math.floor(Math.random() * 1e8);
@@ -97,16 +90,14 @@ specialized["filters/popup"] = {
   // testpages#83
   excludedBrowsers: {firefox: ">90"},
 
-  async run(element, extensionHandle)
-  {
+  async run(element, extensionHandle) {
     let hasPopup = await checkPopup(element, extensionHandle);
     assert.ok(!hasPopup, "popup was closed");
   }
 };
 
 specialized["exceptions/popup"] = {
-  async run(element, extensionHandle)
-  {
+  async run(element, extensionHandle) {
     let hasPopup = await checkPopup(element, extensionHandle);
     assert.ok(hasPopup, "popup remained open");
   }
@@ -117,8 +108,7 @@ specialized["filters/other"] = {
   // https://github.com/mozilla/geckodriver/issues/284
   excludedBrowsers: {firefox: ""},
 
-  async run(element)
-  {
+  async run(element) {
     let driver = element.getDriver();
     await checkRequestBlocked(driver, "other/image.png");
   }

@@ -51,22 +51,18 @@ description = Check that a filters are not applied when domain is added to Allow
 <script>
   "use strict";
   
-  function setAttributes(el, attrs)
-  {
+  function setAttributes(el, attrs) {
     for (let key in attrs)
       el.setAttribute(key, attrs[key]);
   }
 
-  setTimeout(() =>
-  {
+  setTimeout(() => {
     let target = document.getElementById("stylesheet-target");
     let targetStyle = getComputedStyle(target);
-    if (targetStyle.width === "150px")
-    {
+    if (targetStyle.width === "150px") {
       target.innerHTML = "Failed. Stylesheet was NOT blocked.";
     }
-    else
-    {
+    else {
       target.innerHTML = "Passed. Stylesheet was blocked.";
       // Style must be equal to .testcase-expected-view,
       target.style = `flex-grow: 1;

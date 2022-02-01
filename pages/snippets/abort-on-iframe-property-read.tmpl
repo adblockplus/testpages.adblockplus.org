@@ -85,8 +85,7 @@ template = testcase
   "use strict";
 
   testAbortOnIframePropertyRead("multipleproperties", ["aoipr1", "aoipr2"],  // eslint-disable-line no-undef
-                                iframe =>
-                                {
+                                iframe => {
                                   iframe.contentWindow.aoipr1 = false;
                                   iframe.contentWindow.aoipr2 = false;
                                 });

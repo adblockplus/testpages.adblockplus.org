@@ -1,7 +1,6 @@
 "use strict";
 
-function addTarget(id, expectedResult, innerHTML)
-{
+function addTarget(id, expectedResult, innerHTML) {
   let target = document.createElement("div");
   target.id = Math.random().toString(36).substring(2);
   target.setAttribute("data-expectedresult", expectedResult);
@@ -10,8 +9,7 @@ function addTarget(id, expectedResult, innerHTML)
   document.getElementById(`${id}-target`).appendChild(target);
 }
 
-setTimeout(() =>
-{
+setTimeout(() => {
   removeWaitingContent(); // eslint-disable-line no-undef
 
   addTarget(

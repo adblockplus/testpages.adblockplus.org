@@ -1,11 +1,9 @@
 "use strict";
 
-setTimeout(() =>
-{
+setTimeout(() => {
   removeWaitingContent(); // eslint-disable-line no-undef
 
-  if (!window.aopwsp || !window.aopwsp.showing)
-  {
+  if (!window.aopwsp || !window.aopwsp.showing) {
     if (!window.aopwsp || typeof window.aopwsp != "object")
       window.aopwsp = {};
     window.aopwsp.showing = true;

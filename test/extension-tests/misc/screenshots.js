@@ -20,8 +20,7 @@ import Jimp from "jimp";
 
 const SCREENSHOT_DIR = path.join("test", "screenshots");
 
-export async function takeScreenshot(driver)
-{
+export async function takeScreenshot(driver) {
   // On macOS scrollbars appear and disappear overlapping
   // the content as scrolling occurs. So we have to hide
   // the scrollbars to get reproducible screenshots.
@@ -35,8 +34,7 @@ export async function takeScreenshot(driver)
       document.head.removeChild(style);`);
 
   let fullScreenshot = new Jimp(0, 0);
-  while (true)
-  {
+  while (true) {
     let [width, height, offset] = await driver.executeScript(`
       window.scrollTo(0, arguments[0]);
       return [document.documentElement.clientWidth,
@@ -57,8 +55,7 @@ export async function takeScreenshot(driver)
 }
 
 export async function writeScreenshotFile(image, browserName, browserVersion,
-                                          testTitle, suffix)
-{
+                                          testTitle, suffix) {
   let title = testTitle.toLowerCase().replace(/[^a-z0-9]+/g, "_");
   suffix = suffix ? `_${suffix}` : "";
   let filename = `${browserName}_${browserVersion}_${title}${suffix}.png`;
@@ -67,8 +64,7 @@ export async function writeScreenshotFile(image, browserName, browserVersion,
   return screenshotPath;
 }
 
-export async function writeScreenshotAndThrow(context, error)
-{
+export async function writeScreenshotAndThrow(context, error) {
   let {driver, browserName, browserVersion, test} = context;
   let screenshot = await takeScreenshot(driver);
   let scrPath = await writeScreenshotFile(screenshot, browserName,

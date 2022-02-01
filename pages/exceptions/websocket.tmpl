@@ -29,20 +29,17 @@ description = Check that usage of the $websocket filter option in an exception i
 
   let url = "wss://echo.websocket.org";
   let websocket = new WebSocket(url);
-  websocket.onopen = function()
-  {
+  websocket.onopen = function() {
     websocket.send("Test message was echoed back");
   };
-  websocket.onmessage = function()
-  {
+  websocket.onmessage = function() {
     let result = document.getElementById("testcase-status");
     result.innerHTML = "Passed. Connection was NOT blocked.";
     result.setAttribute("data-expectedresult", "pass");
     result.setAttribute("data-dp", "pass");
     result.setAttribute("aria-label", "{{id}}-pass");
   };
-  websocket.onerror = function()
-  {
+  websocket.onerror = function() {
     let result = document.getElementById("testcase-status");
     result.innerHTML = "Failed. Connection was blocked.";
     result.setAttribute("data-expectedresult", "fail");

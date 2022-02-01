@@ -25,25 +25,21 @@ const TEST_PAGES_URL = process.env.TEST_PAGES_URL ||
                        "https://testpages.adblockplus.org/en/";
 const TEST_PAGES_INSECURE = process.env.TEST_PAGES_INSECURE == "true";
 
-function getBrowserBinaries(module, browser)
-{
+function getBrowserBinaries(module, browser) {
   let spec = process.env[`${browser.toUpperCase()}_BINARY`];
-  if (spec)
-  {
+  if (spec) {
     if (spec == "installed")
       return [{getPath: () => Promise.resolve(null)}];
     if (spec.startsWith("path:"))
       return [{getPath: () => Promise.resolve(spec.substr(5))}];
-    if (spec.startsWith("download:"))
-    {
+    if (spec.startsWith("download:")) {
       if (module.ensureBrowser)
         return [{getPath: () => module.ensureBrowser(spec.substr(9))}];
       console.warn(`WARNING: Downloading ${browser} is not supported`);
     }
   }
 
-  if (!module.ensureBrowser)
-  {
+  if (!module.ensureBrowser) {
     if (module.isBrowserInstalled())
       return [{getPath: () => Promise.resolve(null)}];
     return [];
@@ -61,8 +57,7 @@ function getBrowserBinaries(module, browser)
   ];
 }
 
-async function getDriver(binary, module)
-{
+async function getDriver(binary, module) {
   let extensionPaths = [
     path.resolve("./testext"),
     path.resolve("test", "extension-tests", "helper-extension")
@@ -71,11 +66,9 @@ async function getDriver(binary, module)
   return module.getDriver(browserBin, extensionPaths, TEST_PAGES_INSECURE);
 }
 
-async function waitForExtension(driver)
-{
+async function waitForExtension(driver) {
   let handles = [];
-  await driver.wait(async() =>
-  {
+  await driver.wait(async() => {
     let seenHandles = handles;
     handles = await driver.getAllWindowHandles();
     return handles.every(handle => seenHandles.includes(handle));
@@ -83,8 +76,7 @@ async function waitForExtension(driver)
 
   let origin;
   let handle;
-  for (handle of handles)
-  {
+  for (handle of handles) {
     await driver.switchTo().window(handle);
     origin = await executeScriptCompliant(driver, `
       if (typeof browser != "undefined")
@@ -104,17 +96,14 @@ async function waitForExtension(driver)
   return [handle, origin];
 }
 
-async function getPageTests()
-{
+async function getPageTests() {
   let options = TEST_PAGES_INSECURE ? {rejectUnauthorized: false} : {};
   let response;
 
-  try
-  {
+  try {
     response = await got(TEST_PAGES_URL, options);
   }
-  catch (e)
-  {
+  catch (e) {
     console.warn(`Warning: Test pages not parsed at "${TEST_PAGES_URL}"\n${e}`);
     return [];
   }
@@ -122,8 +111,7 @@ async function getPageTests()
   let regexpSection = /<h3>(.*?)<\/h3>([\s\S]*?)<\/ul>/gm;
   let matchSection;
   let tests = [];
-  while (matchSection = regexpSection.exec(response.body))
-  {
+  while (matchSection = regexpSection.exec(response.body)) {
     let regexpTests = /"test-link" href="(.*?)"[\S\s]*?>(.*?)</gm;
     let testCases = [];
     let match;
@@ -136,36 +124,30 @@ async function getPageTests()
   return tests;
 }
 
-if (typeof run == "undefined")
-{
+if (typeof run == "undefined") {
   console.error("--delay option required");
   process.exit(1);
 }
 
-(async() =>
-{
+(async() => {
   let pageTests = await getPageTests();
   let browsers =
     await loadModules(path.join("test", "extension-tests", "browsers"));
   let suites =
     await loadModules(path.join("test", "extension-tests", "suites"));
 
-  for (let [module, browser] of browsers)
-  {
-    for (let binary of getBrowserBinaries(module, browser))
-    {
+  for (let [module, browser] of browsers) {
+    for (let binary of getBrowserBinaries(module, browser)) {
       let description = browser.replace(/./, c => c.toUpperCase());
       if (binary.version)
         description += ` (${binary.version})`;
 
-      describe(description, function()
-      {
+      describe(description, function() {
         this.timeout(0);
         this.pageTests = pageTests;
         this.testPagesURL = TEST_PAGES_URL;
 
-        before(async function()
-        {
+        before(async function() {
           this.driver = await getDriver(binary, module);
 
           let caps = await this.driver.getCapabilities();
@@ -174,29 +156,23 @@ if (typeof run == "undefined")
           // eslint-disable-next-line no-console
           console.log(`Browser: ${this.browserName} ${this.browserVersion}`);
 
-          try
-          {
+          try {
             [this.extensionHandle, this.extensionOrigin] =
               await waitForExtension(this.driver);
           }
-          catch (e)
-          {
+          catch (e) {
             await writeScreenshotAndThrow(this, e);
           }
         });
 
-        beforeEach(async function()
-        {
+        beforeEach(async function() {
           let handles = await this.driver.getAllWindowHandles();
           let defaultHandle =
             handles.find(handle => handle != this.extensionHandle);
 
-          for (let handle of handles)
-          {
-            if (handle != this.extensionHandle && handle != defaultHandle)
-            {
-              try
-              {
+          for (let handle of handles) {
+            if (handle != this.extensionHandle && handle != defaultHandle) {
+              try {
                 await this.driver.switchTo().window(handle);
                 await this.driver.close();
               }
@@ -210,8 +186,7 @@ if (typeof run == "undefined")
         for (let [{default: defineSuite}] of suites)
           defineSuite();
 
-        after(async function()
-        {
+        after(async function() {
           if (this.driver)
             await this.driver.quit();
 

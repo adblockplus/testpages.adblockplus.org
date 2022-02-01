@@ -32,18 +32,15 @@ description = Check if json-prune feature works properly.
   let propertiesObject = JSON.parse(propertiesToUse);
 
 
-  setTimeout(() =>
-  {
+  setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
     let targetTestCase = document.getElementById("testcase-area");
     let divToManipulate = document.createElement("div");
     divToManipulate.id = "fail";
     targetTestCase.appendChild(divToManipulate);
 
-    if (propertiesObject)
-    {
-      for (let property in propertiesObject)
-      {
+    if (propertiesObject) {
+      for (let property in propertiesObject) {
         let attr = document.createAttribute(property);
         attr.value = propertiesObject[property];
         document.getElementById("fail").setAttributeNode(attr);

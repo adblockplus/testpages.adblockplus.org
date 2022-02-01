@@ -26,29 +26,23 @@ description = Check that a filter using the $webrtc filter option is working as 
 <script>
   "use strict";
 
-  function check(connection)
-  {
+  function check(connection) {
     let result = document.getElementById("testcase-status");
     // If blocked by ABP, the signalingState is quickly set to "closed".
     // When not blocked by ABP, the signalingState stays as "stable" for a while.
-    if (connection.signalingState === "closed")
-    {
+    if (connection.signalingState === "closed") {
       result.innerHTML = "Passed. Connection was blocked.";
       result.setAttribute("data-expectedresult", "pass");
     }
-    else
-    {
+    else {
       result.innerHTML = "Failed. Connection was NOT blocked.";
       result.setAttribute("data-expectedresult", "fail");
     }
   }
 
-  function doTest()
-  {
-    if (typeof RTCPeerConnection == "undefined")
-    {
-      if (typeof webkitRTCPeerConnection == "undefined")
-      {
+  function doTest() {
+    if (typeof RTCPeerConnection == "undefined") {
+      if (typeof webkitRTCPeerConnection == "undefined") {
         let output = document.getElementById("testcase-status");
         output.innerHTML = "This test case is not supported in this browser.";
         return;

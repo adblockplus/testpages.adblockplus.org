@@ -50,18 +50,15 @@ description = Check that the strip-fetch-query-parameter snippet is working as e
 <script>
   "use strict";
 
-  function handleResponseBasic(response)
-  {
-    if (response.url.includes("basicBlocked"))
-    {
+  function handleResponseBasic(response) {
+    if (response.url.includes("basicBlocked")) {
       let element = document.createElement("div");
       element.setAttribute("data-expectedresult", "fail");
       element.setAttribute("aria-label", "{{id}}-fail");
       element.innerHTML = "Failed. basicBlocked was called.";
       document.getElementById("basic-target").appendChild(element);
     }
-    if (response.url.includes("basicAllowed"))
-    {
+    if (response.url.includes("basicAllowed")) {
       let element = document.createElement("div");
       element.setAttribute("data-expectedresult", "pass");
       element.innerHTML = "basicAllowed was called.";
@@ -69,12 +66,9 @@ description = Check that the strip-fetch-query-parameter snippet is working as e
     }
   }
 
-  function handleResponseOther(response)
-  {
-    for (let param of ["otherAllowed1", "otherAllowed2"])
-    {
-      if (response.url.includes(param))
-      {
+  function handleResponseOther(response) {
+    for (let param of ["otherAllowed1", "otherAllowed2"]) {
+      if (response.url.includes(param)) {
         let element = document.createElement("div");
         element.setAttribute("data-expectedresult", "pass");
         element.innerHTML = `${param} was called.`;
@@ -83,8 +77,7 @@ description = Check that the strip-fetch-query-parameter snippet is working as e
     }
   }
 
-  setTimeout(() =>
-  {
+  setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
 
     let url = "{{ site_url }}/testfiles/strip-fetch-query-parameter/foo.txt";

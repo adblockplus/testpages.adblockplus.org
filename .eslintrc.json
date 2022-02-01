@@ -15,6 +15,7 @@
     "ecmaVersion": 11
   },
   "rules": {
+    "brace-style": ["error", "stroustrup"],
     "curly": ["error", "multi-or-nest", "consistent"],
     "nonblock-statement-body-position": ["error", "below"],
     "max-len": ["error", { "code": 120 }]

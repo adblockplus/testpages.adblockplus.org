@@ -27,8 +27,7 @@ export let target = "chrome";
 const MACOS_BINARY_PATH = "/Applications/Microsoft Edge.app" +
                           "/Contents/MacOS/Microsoft Edge";
 
-export function isBrowserInstalled()
-{
+export function isBrowserInstalled() {
   if (process.platform == "win32")
     return true;
   if (process.platform == "darwin")
@@ -36,11 +35,9 @@ export function isBrowserInstalled()
   return false;
 }
 
-async function ensureDriver(browserBinary)
-{
+async function ensureDriver(browserBinary) {
   let version;
-  if (process.platform == "win32")
-  {
+  if (process.platform == "win32") {
     let arg = browserBinary ?
       `'${browserBinary.split("'").join("''")}'` :
       "${Env:ProgramFiles(x86)}\\Microsoft\\Edge\\Application\\msedge.exe";
@@ -48,8 +45,7 @@ async function ensureDriver(browserBinary)
     let {stdout} = await promisify(exec)(command, {shell: "powershell.exe"});
     version = stdout.trim();
   }
-  else
-  {
+  else {
     let binary = browserBinary || MACOS_BINARY_PATH;
     let {stdout} = await promisify(execFile)(binary, ["--version"]);
     version = stdout.trim().replace(/.*\s/, "");
@@ -63,8 +59,7 @@ async function ensureDriver(browserBinary)
   );
 }
 
-export async function getDriver(browserBinary, extensionPaths, insecure)
-{
+export async function getDriver(browserBinary, extensionPaths, insecure) {
   await ensureDriver(browserBinary);
   await msedgedriver.start(["--silent"], true); // Starts on localhost:9515
 
@@ -87,7 +82,6 @@ export async function getDriver(browserBinary, extensionPaths, insecure)
     .build();
 }
 
-export function shutdown()
-{
+export function shutdown() {
   msedgedriver.stop();
 }

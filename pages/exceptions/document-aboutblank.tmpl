@@ -50,14 +50,12 @@ description = Check that a filter using the $document exception filter option is
   img.src = "/testfiles/document_aboutblank/block_bad.png?blank";
   frame.contentDocument.body.appendChild(img);
 
-  setTimeout(() =>
-  {
+  setTimeout(() => {
     let target = document.getElementById("document-aboutblank-frame");
 
     let targetImg = target.contentDocument.getElementById("document-aboutblank-target-img");
 
-    if (targetImg.clientWidth === 0)
-    {
+    if (targetImg.clientWidth === 0) {
       target.style.width = 0;
       target.style.height = 0;
       target.style.flexGrow = "0";

@@ -68,8 +68,7 @@ description = Check that the abort-current-inline-script snippet is working as e
 <script>
   "use strict";
 
-  function injectScript(id, code)
-  {
+  function injectScript(id, code) {
     let script = document.createElement("script");
     script.textContent = `
       (function()
@@ -85,8 +84,7 @@ description = Check that the abort-current-inline-script snippet is working as e
     document.body.appendChild(script);
   }
 
-  setTimeout(() =>
-  {
+  setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
 
     injectScript("basic", 'console.group("abort-current-inline-script");');

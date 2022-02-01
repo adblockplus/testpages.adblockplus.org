@@ -1,11 +1,9 @@
 "use strict";
 
-setTimeout(() =>
-{
+setTimeout(() => {
   removeWaitingContent(); // eslint-disable-line no-undef
 
-  if (!window.aopwb)
-  {
+  if (!window.aopwb) {
     window.aopwb = true;
     let failElement = document.createElement("div");
     failElement.innerHTML = "Failed. Script ran and was applied to the page.";

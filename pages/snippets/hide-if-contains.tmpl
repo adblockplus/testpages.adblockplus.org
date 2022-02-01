@@ -73,14 +73,12 @@ description = Check that the hide-if-contains snippet is working as expected.
 <script>
   "use strict";
 
-  function injectElement(id, element)
-  {
+  function injectElement(id, element) {
     let target = document.getElementById(`${id}-target`);
     target.appendChild(element);
   }
 
-  setTimeout(() =>
-  {
+  setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
 
     let dynamic = document.createElement("p");

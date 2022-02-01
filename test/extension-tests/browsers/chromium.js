@@ -34,37 +34,31 @@ export let target = "chrome";
 // Chromium 77.0.3865.0 is 681094
 export let oldestCompatibleVersion = 681094;
 
-export async function ensureBrowser(revision)
-{
+export async function ensureBrowser(revision) {
   return (await downloadChromium(revision)).binary;
 }
 
-export async function ensureDriver(browserBinary)
-{
+export async function ensureDriver(browserBinary) {
   let chromedriverPath =
     path.resolve("webext-sdk", "test", "chromium-snapshots", "chromedriver");
   let env = {...process.env, npm_config_chromedriver_skip_download: false,
              npm_config_tmp: chromedriverPath};
-  if (browserBinary)
-  {
+  if (browserBinary) {
     let browserVersion;
-    if (process.platform == "win32")
-    {
+    if (process.platform == "win32") {
       let arg = `'${browserBinary.split("'").join("''")}'`;
       let command = `(Get-ItemProperty ${arg}).VersionInfo.ProductVersion`;
       let {stdout} = await promisify(exec)(command, {shell: "powershell.exe"});
       browserVersion = stdout.trim();
     }
-    else
-    {
+    else {
       let {stdout} = await promisify(execFile)(browserBinary, ["--version"]);
       browserVersion = stdout.trim().replace(/.*\s/, "");
     }
 
     env.CHROMEDRIVER_VERSION = `LATEST_${browserVersion}`;
   }
-  else
-  {
+  else {
     env.DETECT_CHROMEDRIVER_VERSION = true;
   }
 
@@ -75,8 +69,7 @@ export async function ensureDriver(browserBinary)
   );
 }
 
-export async function getDriver(browserBinary, extensionPaths, insecure)
-{
+export async function getDriver(browserBinary, extensionPaths, insecure) {
   await ensureDriver(browserBinary);
 
   let options = new chrome.Options()
@@ -94,8 +87,7 @@ export async function getDriver(browserBinary, extensionPaths, insecure)
     .build();
 }
 
-export async function getLatestVersion()
-{
+export async function getLatestVersion() {
   let os = process.platform;
   if (os == "win32")
     os = process.arch == "x64" ? "win64" : "win";
@@ -106,8 +98,7 @@ export async function getLatestVersion()
   let version = data[0].versions.find(ver => ver.channel == "stable");
   let base = version.branch_base_position;
 
-  if (version.true_branch && version.true_branch.includes("_"))
-  {
+  if (version.true_branch && version.true_branch.includes("_")) {
     // A wrong base may be caused by a mini-branch (patched) release
     // In that case, the base is taken from the unpatched version
     let cv = version.current_version.split(".");

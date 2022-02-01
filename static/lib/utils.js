@@ -1,33 +1,26 @@
 "use strict";
 
-function removeWaitingContent()
-{
+function removeWaitingContent() {
   let className = "testcase-waiting-content";
   let elements = document.getElementsByClassName(className);
-  while (elements.length > 0)
-  {
+  while (elements.length > 0) {
     elements[0].remove();
     elements = document.getElementsByClassName(className);
   }
 }
 
-function expectedParameter()
-{
+function expectedParameter() {
   let url = new URL(window.location.href);
   return url.searchParams.get("expected") == "1";
 }
 
-function expectedPageView()
-{
+function expectedPageView() {
   let documents = [document];
-  while (documents.length > 0)
-  {
+  while (documents.length > 0) {
     let doc = documents.shift();
     doc.body.classList.add("expected-view");
-    for (let i = 0; i < doc.defaultView.frames.length; i++)
-    {
-      try
-      {
+    for (let i = 0; i < doc.defaultView.frames.length; i++) {
+      try {
         documents.push(doc.defaultView.frames[i].document);
       }
       catch (e) {}
@@ -38,8 +31,7 @@ function expectedPageView()
     frame.contentDocument.defaultView.addEventListener("DOMContentLoaded", expectedPageView);
 }
 
-window.addEventListener("DOMContentLoaded", () =>
-{
+window.addEventListener("DOMContentLoaded", () => {
   if (expectedParameter())
     expectedPageView();
 });

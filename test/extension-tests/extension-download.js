@@ -24,8 +24,7 @@ import {download} from "webext-sdk/test/browser-download.js";
 
 const URL = "https://gitlab.com/api/v4/projects/22711268/repository/tree";
 
-async function run()
-{
+async function run() {
   let {headers} = await got(`${URL}?page=1&per_page=100`);
   let totalPages = parseInt(headers["x-total-pages"], 10);
   let info = [];

@@ -30,18 +30,15 @@ description = Check that usage of the $xmlhttprequest filter option in an except
 
   let req = new XMLHttpRequest();
 
-  req.onerror = function(e)
-  {
+  req.onerror = function(e) {
     let result = document.getElementById("testcase-status");
     result.innerHTML = "Failed. Connection was blocked.";
     result.setAttribute("data-expectedresult", "fail");
     result.setAttribute("data-dp", "fail");
     result.setAttribute("aria-label", "{{id}}-fail");
   };
-  req.onload = function(e)
-  {
-    if (this.status == 200)
-    {
+  req.onload = function(e) {
+    if (this.status == 200) {
       let result = document.getElementById("testcase-status");
       result.innerHTML = this.responseText;
       result.setAttribute("data-expectedresult", "pass");
@@ -50,8 +47,7 @@ description = Check that usage of the $xmlhttprequest filter option in an except
     }
   };
 
-  setTimeout(() =>
-  {
+  setTimeout(() => {
     req.open("GET", "{{ site_url }}/testfiles/xmlhttprequest_exception/text.txt", true);
     req.send();
   }, 500);
