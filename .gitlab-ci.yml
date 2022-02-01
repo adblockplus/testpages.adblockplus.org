@@ -146,7 +146,7 @@ test:edge:
     - python -m cms.bin.generate_static_pages . $Env:NGINX\html\$Env:DOMAIN
     # Generate extension
     ## Clone abpui repo & clone core specific files
-    - > 
+    - >
       if($CI_COMMIT_REF_NAME -like 'core*')
         {
         git clone -b 3.12 --recurse-submodules https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
@@ -171,7 +171,7 @@ test:edge:
     - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
       -PassThru
      # Download extension
-    - > 
+    - >
       if($CI_COMMIT_REF_NAME -notlike 'core*')
       {
         node ./test/extension-tests/extension-download.js
