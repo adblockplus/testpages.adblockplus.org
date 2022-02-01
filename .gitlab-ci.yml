@@ -144,12 +144,31 @@ test:edge:
     - mkdir -p $Env:NGINX\html\$Env:DOMAIN
     - $Env:PYTHONPATH = "cms"
     - python -m cms.bin.generate_static_pages . $Env:NGINX\html\$Env:DOMAIN
+    # Generate extension
+    ## Clone abpui repo & clone core specific files
+    - > 
+      if [[ $CI_COMMIT_REF_NAME == *"core"* ]]; then
+        - export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
+        - echo CORE
+        - git clone -b 3.12 --recurse-submodules https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
+        - cd adblockplusui && npm install
+        - cd adblockplusui/adblockpluschrome && npm install
+        - cd adblockplusui/adblockpluschrome/ 
+        - rm -rf adblockpluscore && git clone -b $CORE https://gitlab.com/eyeo/adblockplus/abc/adblockpluscore.git
+        - cd adblockplusui/adblockpluschrome/adblockpluscore && npm install
+        - cd adblockplusui/adblockpluschrome && npm install && npx gulp build -t chrome -c development
+        - mv adblockplusui/adblockpluschrome/adblockpluschrome-*.zip /testext/adblockpluschrome.zip 
+      fi
+
   script:
     # Run testpages server
     - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
       -PassThru
-    # Download extension
-    - node ./test/extension-tests/extension-download.js
+     # Download extension
+    - > 
+      if [[ $CI_COMMIT_REF_NAME !== *"core"* ]]; then
+        node ./test/extension-tests/extension-download.js
+      fi
     # Run tests
     - npm test -- -g "Edge"
   variables:
