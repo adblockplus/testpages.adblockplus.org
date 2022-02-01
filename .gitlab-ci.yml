@@ -149,8 +149,6 @@ test:edge:
     - > 
       if($CI_COMMIT_REF_NAME -like 'core*')
         {
-        export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
-        echo CORE
         git clone -b 3.12 --recurse-submodules https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
         cd adblockplusui
         npm install
