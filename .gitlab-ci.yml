@@ -161,7 +161,7 @@ test:edge:
         npm install
         npm install gulp
         npx gulp build -t chrome -c development
-        unzip -q adblockpluschrome-*.zip  -d ./testext;
+        Expand-Archive -LiteralPath 'adblockpluschrome-*.zip' -DestinationPath ./testext
         }
 
   script:
