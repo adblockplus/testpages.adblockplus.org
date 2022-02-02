@@ -154,13 +154,13 @@ test:edge:
         npm install
         cd adblockpluschrome
         npm install
-        Remove-Item -path 'adblockpluscore' -recurse
+        Remove-Item -path "adblockpluscore" -recurse
         git clone -b 0.4.0 https://gitlab.com/eyeo/adblockplus/abc/adblockpluscore.git
         cd adblockpluscore
         npm install
         npm install gulp
         npx gulp build -t chrome -c development
-        Expand-Archive -LiteralPath 'adblockpluschrome-*.zip' -DestinationPath './testext'
+        Expand-Archive -LiteralPath "adblockpluschrome-*.zip" -DestinationPath ""./testext"
         }
 
   script:
