@@ -104,7 +104,6 @@ test:edge:
     - shared-windows
     - windows
     - windows-1809
-    - docker
   before_script:
     # Fix for refreshenv
     # https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/13#note_337853320
