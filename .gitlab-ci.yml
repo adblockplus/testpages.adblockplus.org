@@ -167,8 +167,7 @@ test:edge:
     - >
       if($CI_COMMIT_REF_NAME -like 'core*')
       {
-        Get-ChildItem -Path  ./
-        Get-ChildItem -Path  ./testext/
+        Get-ChildItem -Path  ./git/gitlab/shared/artifacts
         Expand-Archive adblockpluschrome.zip -DestinationPath /testext 
       }
       else
