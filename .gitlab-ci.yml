@@ -70,7 +70,7 @@ test:lint:
         expire_in: 1 mo
 
 .test:
-  extends: .generateExtension
+  extends: .test_runner
   before_script:
     # yamllint disable-line rule:line-length
     - export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
