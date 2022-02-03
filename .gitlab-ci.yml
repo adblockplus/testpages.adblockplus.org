@@ -173,7 +173,7 @@ test:edge:
       else
       {
       Expand-Archive adblockpluschrome.zip -DestinationPath ./testext
-      npm run test -- -g "^Edge.*((?!Snippets).)*$"
+      # npm run test -- -g "^Edge.*((?!Snippets).)*$"
       }
 
   variables:
