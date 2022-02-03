@@ -104,6 +104,7 @@ test:edge:
     - shared-windows
     - windows
     - windows-1809
+    - docker
   before_script:
     # Fix for refreshenv
     # https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/13#note_337853320
@@ -149,18 +150,14 @@ test:edge:
     - >
       if($CI_COMMIT_REF_NAME -like 'core*')
         {
-        git clone -b 3.12 --recurse-submodules https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
-        cd adblockplusui
-        npm install
-        cd adblockpluschrome
-        npm install
-        Remove-Item -path "adblockpluscore" -recurse
-        git clone -b 0.4.0 https://gitlab.com/eyeo/adblockplus/abc/adblockpluscore.git
-        cd adblockpluscore
-        npm install
-        npm install gulp
-        npx gulp build -t chrome -c development
-        Expand-Archive -LiteralPath "adblockpluschrome-*.zip" -DestinationPath ""./testext"
+          docker build --build-arg CORE_TAG=$CORE -t extensionimage -f \
+          test/generateExtension.Dockerfile .
+          docker container create --name extgen \
+          extensionimage
+          docker cp \
+          extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip .
+          docker rm -f extgen
+          Expand-Archive -LiteralPath "adblockpluschrome-*.zip" -DestinationPath ""./testext"
         }
 
   script:
@@ -172,9 +169,14 @@ test:edge:
       if($CI_COMMIT_REF_NAME -notlike 'core*')
       {
         node ./test/extension-tests/extension-download.js
+        # Run tests
+        npm test -- -g "Edge"
       }
-    # Run tests
-    - npm test -- -g "Edge"
+      else
+      {
+      npm run test -- -g "^Edge.*((?!Snippets).)*$"
+      }
+
   variables:
     TEST_PAGES_URL: https://local.testpages.adblockplus.org:5000/en/
     SITE_URL: https://local.testpages.adblockplus.org:5000
