@@ -55,7 +55,23 @@ test:lint:
             docker cp \
             extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip .
             docker rm -f extgen
-            ## Build and run testpages
+        fi
+    artifacts:
+      paths:
+        - adblockpluschrome.zip
+      when: on_success
+      expire_in: 1 mo
+
+.test:
+  extends: .test_runner
+  before_script:
+    # yamllint disable-line rule:line-length
+    - export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
+    - docker info
+    script:
+    - >
+        if [[ $CI_COMMIT_REF_NAME == *"core"* ]]; then
+                    ## Build and run testpages
             docker build -t testpages \
             --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
             docker run --shm-size=256m -e TESTS_EXCLUDE="Snippets" \
@@ -64,17 +80,6 @@ test:lint:
             docker build -t testpages .
             docker run --shm-size=256m -e BROWSER="$BROWSER" testpages
         fi
-        paths:
-            - adblockpluschrome.zip
-        when: on_success
-        expire_in: 1 mo
-
-.test:
-  extends: .test_runner
-  before_script:
-    # yamllint disable-line rule:line-length
-    - export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
-    - docker info
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
     - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
