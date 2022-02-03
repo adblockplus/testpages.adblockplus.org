@@ -16,6 +16,7 @@
 ---
 
 stages:
+  - build_extension
   - test
   - build_production
   - deploy_production
@@ -40,12 +41,9 @@ test:lint:
     - docker build -t lintimage -f test/lint.Dockerfile .
     - docker run lintimage
 
-.test:
+.generateExtension: 
   extends: .test_runner
-  before_script:
-    # yamllint disable-line rule:line-length
-    - export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
-    - docker info
+  stage: build_extension
   script:
     ## Build custom extension if on core-x branch
     - >
@@ -66,6 +64,17 @@ test:lint:
             docker build -t testpages .
             docker run --shm-size=256m -e BROWSER="$BROWSER" testpages
         fi
+        paths:
+            - adblockpluschrome.zip
+        when: on_success
+        expire_in: 1 mo
+
+.test:
+  extends: .generateExtension
+  before_script:
+    # yamllint disable-line rule:line-length
+    - export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
+    - docker info
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
     - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
@@ -144,8 +153,6 @@ test:edge:
     - mkdir -p $Env:NGINX\html\$Env:DOMAIN
     - $Env:PYTHONPATH = "cms"
     - python -m cms.bin.generate_static_pages . $Env:NGINX\html\$Env:DOMAIN
-    # Generate extension
-    ## Clone abpui repo & clone core specific files
     - >
       if($CI_COMMIT_REF_NAME -like 'core*')
         {
