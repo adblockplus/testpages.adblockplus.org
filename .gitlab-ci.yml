@@ -156,7 +156,7 @@ test:edge:
           docker cp \
           extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip .
           docker rm -f extgen
-          Expand-Archive -LiteralPath "adblockpluschrome-*.zip" -DestinationPath ""./testext"
+          Expand-Archive -Path adblockpluschrome.zip -DestinationPath ./testext
         }
 
   script:
