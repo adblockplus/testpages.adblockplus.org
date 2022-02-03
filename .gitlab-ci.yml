@@ -41,7 +41,7 @@ test:lint:
     - docker build -t lintimage -f test/lint.Dockerfile .
     - docker run lintimage
 
-.generateExtension: 
+generateExtension: 
   extends: .test_runner
   stage: build_extension
   script:
