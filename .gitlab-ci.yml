@@ -158,16 +158,6 @@ test:edge:
     - mkdir -p $Env:NGINX\html\$Env:DOMAIN
     - $Env:PYTHONPATH = "cms"
     - python -m cms.bin.generate_static_pages . $Env:NGINX\html\$Env:DOMAIN
-    - >
-      if($CI_COMMIT_REF_NAME -like 'core*')
-        {
-          docker build --build-arg CORE_TAG="$CORE" -t extensionimage -f test/generateExtension.Dockerfile .
-          docker container create --name extgen extensionimage
-          docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip .
-          docker rm -f extgen
-          Expand-Archive adblockpluschrome.zip -DestinationPath ./testext
-        }
-
   script:
     # Run testpages server
     - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
@@ -182,6 +172,7 @@ test:edge:
       }
       else
       {
+      Expand-Archive adblockpluschrome.zip -DestinationPath ./testext
       npm run test -- -g "^Edge.*((?!Snippets).)*$"
       }
 
