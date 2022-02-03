@@ -149,12 +149,9 @@ test:edge:
     - >
       if($CI_COMMIT_REF_NAME -like 'core*')
         {
-          docker build --build-arg CORE_TAG=$CORE -t extensionimage -f \
-          test/generateExtension.Dockerfile .
-          docker container create --name extgen \
-          extensionimage
-          docker cp \
-          extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip .
+          docker build --build-arg CORE_TAG=$CORE -t extensionimage -f test/generateExtension.Dockerfile .
+          docker container create --name extgen extensionimage
+          docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip .
           docker rm -f extgen
           Expand-Archive -Path adblockpluschrome.zip -DestinationPath ./testext
         }
