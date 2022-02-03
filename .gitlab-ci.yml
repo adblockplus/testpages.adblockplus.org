@@ -163,17 +163,17 @@ test:edge:
     - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
       -PassThru
      # Download extension
+     # npm run test -- -g "^Edge.*((?!Snippets).)*$"  
     - >
-      if($CI_COMMIT_REF_NAME -notlike 'core*')
+      if($CI_COMMIT_REF_NAME -like 'core*')
+      {
+        Expand-Archive adblockpluschrome.zip -DestinationPath /testext 
+      }
+      else
       {
         node ./test/extension-tests/extension-download.js
         # Run tests
         npm test -- -g "Edge"
-      }
-      else
-      {
-      Expand-Archive adblockpluschrome.zip -DestinationPath ./testext
-      # npm run test -- -g "^Edge.*((?!Snippets).)*$"
       }
 
   variables:
