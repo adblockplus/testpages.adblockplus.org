@@ -119,13 +119,12 @@ test:edge:
     #  -PassThru
      # Download extension
           ##   Expand-Archive adblockpluschrome.zip -DestinationPath /testext 
-     # npm run test -- -g "^Edge.*((?!Snippets).)*$"  
+     # 
     - >
       if($CI_COMMIT_REF_NAME -like 'core*')
       {
-        Get-ChildItem -Path ./
         Expand-Archive adblockpluschrome.zip -DestinationPath ./testext
-        Get-ChildItem -Path ./testext
+        npm run test -- -g "^Edge.*((?!Snippets).)*$"  
       }
       else
       {
