@@ -127,7 +127,7 @@ test:edge:
     - >
       if($CI_COMMIT_REF_NAME -like 'core*')
       {
-        Get-ChildItem -Path  C:\GitLab-Runner\builds\eyeo\adblockplus\abc\testpages.adblockplus.org/git/
+        Get-ChildItem -Path  /
         Expand-Archive adblockpluschrome.zip -DestinationPath /testext 
       }
       else
