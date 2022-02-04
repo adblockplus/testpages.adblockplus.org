@@ -66,8 +66,9 @@ generate_extension:
     - echo $CI_COMMIT_REF_NAME
   script:
     - >
-        if [[ $CI_COMMIT_REF_NAME == *"core"* ]]; then
+        if [[ "$CI_COMMIT_REF_NAME" == *"core"* ]]; then
                     ## Build and run testpages
+            echo "Running test with custom extension."
             docker build -t testpages \
             --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
             docker run --shm-size=256m -e TESTS_EXCLUDE="Snippets" \
