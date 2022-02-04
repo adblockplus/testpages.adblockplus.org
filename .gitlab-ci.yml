@@ -138,6 +138,8 @@ test:edge:
         # Run tests
         npm test -- -g "Edge"
       }
+  dependencies:
+    - generate_extension
 
   variables:
     TEST_PAGES_URL: https://local.testpages.adblockplus.org:5000/en/
