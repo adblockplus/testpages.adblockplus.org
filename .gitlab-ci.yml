@@ -63,6 +63,7 @@ generate_extension:
   before_script:
     # yamllint disable-line rule:line-length
     - docker info
+    - echo $CI_COMMIT_REF_NAME
   script:
     - >
         if [[ $CI_COMMIT_REF_NAME == *"core"* ]]; then
