@@ -52,6 +52,8 @@ generate_extension:
         - docker container create --name extgen extensionimage
         - docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip ./
      # fi
+  rules:
+    - if: '$CORE'
   artifacts:
       paths:
         - adblockpluschrome.zip
