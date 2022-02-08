@@ -31,7 +31,7 @@ stages:
   before_script:
     # yamllint disable-line rule:line-length
     - export BRANCHPATTERN="core-"
-    - export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*$BRANCHPATTERN-//"| sed "s/./&./1;s/./&./3")
+    - export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*"$BRANCHPATTERN"-//"| sed "s/./&./1;s/./&./3")
     - docker info
     - echo $CORE
   variables:
