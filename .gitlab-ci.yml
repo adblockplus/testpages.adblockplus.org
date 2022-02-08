@@ -42,32 +42,30 @@ test:lint:
     - docker build -t lintimage -f test/lint.Dockerfile .
     - docker run lintimage
 
-generate_extension: 
+generate_extension:
   extends: .test_runner
   stage: build_extension
   only:
     variables:
       - $CI_COMMIT_REF_NAME =~  /^core(.?)*/
   script:
-  #  - >
-  #    if  echo "$CI_COMMIT_REF_NAME" | grep -q "core"; then
-        - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f test/generateExtension.Dockerfile .
-        - docker container create --name extgen extensionimage
-        - docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip ./
-     # fi
+      - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f 
+          test/generateExtension.Dockerfile .
+      - docker container create --name extgen extensionimage
+      - docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip ./
   artifacts:
-      paths:
-        - adblockpluschrome.zip
-      when: on_success
-      expire_in: 1 dy
+    paths:
+      - adblockpluschrome.zip
+    when: on_success
+    expire_in: 1 dy
 
 .test:
   extends: .test_runner
   before_script:
-    # yamllint disable-line rule:line-length
     - docker info
     - echo $CI_COMMIT_REF_NAME
   script:
+  # yamllint disable-line rule:line-length
     - >
       if  echo "$CI_COMMIT_REF_NAME" | grep -q "core"; then
         echo "Running test with custom extension."
@@ -240,3 +238,4 @@ deploy:abptestpages:
     - build:abptestpages
   variables:
     DOMAIN: abptestpages.org
+    
