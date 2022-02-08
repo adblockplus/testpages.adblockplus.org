@@ -74,6 +74,7 @@ generate_extension:
             docker run --shm-size=256m -e TESTS_EXCLUDE="Snippets" \
             -e BROWSER="$BROWSER" testpages
         else
+            echo "Running test with downloaded extension."
             docker build -t testpages .
             docker run --shm-size=256m -e BROWSER="$BROWSER" testpages
         fi
