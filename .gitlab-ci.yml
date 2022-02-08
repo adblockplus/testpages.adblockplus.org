@@ -31,13 +31,14 @@ stages:
   before_script:
     # yamllint disable-line rule:line-length
     - >
-      if  echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
-        export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
-      else
-        echo "Not Core-related branch" 
-      fi
-      - docker info
-      - echo $CORE
+    if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
+      export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
+    else
+      EXPORT CORE=""
+    fi
+  script:
+    - docker info
+    - echo $CORE
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
@@ -73,7 +74,7 @@ generate_extension:
   script:
     # yamllint disable-line rule:line-length
     - >
-      if  echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
+      if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
         echo "Running test with custom extension."
         docker build -t testpages \
         --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
