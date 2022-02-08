@@ -45,6 +45,9 @@ test:lint:
 generate_extension: 
   extends: .test_runner
   stage: build_extension
+  only:
+    variables:
+      - $CI_COMMIT_REF_NAME =~ /^core*$/
   script:
   #  - >
   #    if  echo "$CI_COMMIT_REF_NAME" | grep -q "core"; then
@@ -52,8 +55,6 @@ generate_extension:
         - docker container create --name extgen extensionimage
         - docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip ./
      # fi
-  rules:
-    - if: '$CI_COMMIT_REF_NAME =~ /\[core-]/'
   artifacts:
       paths:
         - adblockpluschrome.zip
