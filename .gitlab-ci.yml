@@ -31,11 +31,11 @@ stages:
   before_script:
     # yamllint disable-line rule:line-length
     - >
-    if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
-      export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
-    else
-      EXPORT CORE=""
-    fi
+        if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
+            export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
+        else
+            export CORE=""
+        fi
   script:
     - docker info
     - echo $CORE
