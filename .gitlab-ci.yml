@@ -46,17 +46,17 @@ generate_extension:
   extends: .test_runner
   stage: build_extension
   script:
-    ## Build custom extension if on core-x branch
-    #   if [[ "$CI_COMMIT_REF_NAME" ~= "core" ]]; then
-    - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f test/generateExtension.Dockerfile .
-    - docker container create --name extgen extensionimage
-    - docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip ./
-    - ls -la ./
+    - >
+      if  echo "$CI_COMMIT_REF_NAME" | grep -q "core"; then
+        - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f test/generateExtension.Dockerfile .
+        - docker container create --name extgen extensionimage
+        - docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip ./
+      fi
   artifacts:
       paths:
         - adblockpluschrome.zip
       when: on_success
-      expire_in: 1 mo
+      expire_in: 1 dy
 
 .test:
   extends: .test_runner
