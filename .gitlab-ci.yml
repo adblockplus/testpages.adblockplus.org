@@ -55,7 +55,7 @@ generate_extension:
   stage: build_extension
   only:
     variables:
-      - $CI_COMMIT_REF_NAME =~  /^core-(.?)*/
+      - $CORE !=""
   script:
     - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f
         test/generateExtension.Dockerfile .
