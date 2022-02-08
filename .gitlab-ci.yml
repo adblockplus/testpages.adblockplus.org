@@ -29,6 +29,7 @@ stages:
   services:
     - docker:19.03.5-dind
   before_script:
+  # yamllint disable-line rule:line-length
     - export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
     - docker info
   variables:
@@ -49,10 +50,10 @@ generate_extension:
     variables:
       - $CI_COMMIT_REF_NAME =~  /^core(.?)*/
   script:
-      - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f 
-          test/generateExtension.Dockerfile .
-      - docker container create --name extgen extensionimage
-      - docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip ./
+    - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f
+        test/generateExtension.Dockerfile .
+    - docker container create --name extgen extensionimage
+    - docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip ./
   artifacts:
     paths:
       - adblockpluschrome.zip
@@ -65,7 +66,7 @@ generate_extension:
     - docker info
     - echo $CI_COMMIT_REF_NAME
   script:
-  # yamllint disable-line rule:line-length
+    # yamllint disable-line rule:line-length
     - >
       if  echo "$CI_COMMIT_REF_NAME" | grep -q "core"; then
         echo "Running test with custom extension."
@@ -238,4 +239,4 @@ deploy:abptestpages:
     - build:abptestpages
   variables:
     DOMAIN: abptestpages.org
-    
+
