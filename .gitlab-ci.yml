@@ -168,7 +168,7 @@ test:edge:
     - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
       -PassThru
     - >
-      if($CORE != "")
+      if($CORE –ne $null)
       {
         Expand-Archive adblockpluschrome.zip -DestinationPath ./testext
         npm run test -- -g "^Edge.*Test pages((?!Snippets).)*$"
