@@ -74,7 +74,7 @@ generate_extension:
   script:
     # yamllint disable-line rule:line-length
     - >
-      if  $CORE !=""; then
+      if [ -z "${CORE}" ]; then
         echo "Running test with custom extension."
         docker build -t testpages \
         --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
