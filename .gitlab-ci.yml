@@ -30,10 +30,14 @@ stages:
     - docker:19.03.5-dind
   before_script:
     # yamllint disable-line rule:line-length
-    - export BRANCHPATTERN="core-"
-    - export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*"$BRANCHPATTERN"-//"| sed "s/./&./1;s/./&./3")
-    - docker info
-    - echo $CORE
+    - >
+      if  echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
+        - export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
+      else
+        - echo "Not Core-related branch" 
+      fi
+      - docker info
+      - echo $CORE
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
