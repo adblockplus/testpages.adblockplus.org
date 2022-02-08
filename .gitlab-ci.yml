@@ -31,6 +31,7 @@ stages:
   before_script:
     # yamllint disable-line rule:line-length
     - export CORE=$(echo $CI_COMMIT_REF_NAME | sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
+    - export BRANCHPATTERN = "core-"
     - docker info
   variables:
     DOCKER_HOST: tcp://docker:2375/
@@ -48,7 +49,7 @@ generate_extension:
   stage: build_extension
   only:
     variables:
-      - $CI_COMMIT_REF_NAME =~  /^core(.?)*/
+      - $CI_COMMIT_REF_NAME =~  /^$BRANCHPATTERN(.?)*/
   script:
     - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f
         test/generateExtension.Dockerfile .
@@ -64,11 +65,10 @@ generate_extension:
   extends: .test_runner
   before_script:
     - docker info
-    - echo $CI_COMMIT_REF_NAME
   script:
     # yamllint disable-line rule:line-length
     - >
-      if  echo "$CI_COMMIT_REF_NAME" | grep -q "core"; then
+      if  echo "$CI_COMMIT_REF_NAME" | grep -q "$BRANCHPATTERN"; then
         echo "Running test with custom extension."
         docker build -t testpages \
         --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
@@ -162,7 +162,7 @@ test:edge:
     - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
       -PassThru
     - >
-      if($CI_COMMIT_REF_NAME -like 'core*')
+      if($CI_COMMIT_REF_NAME -like '$BRANCHPATTERN')
       {
         Expand-Archive adblockpluschrome.zip -DestinationPath ./testext
         npm run test -- -g "^Edge.*Test pages((?!Snippets).)*$"
