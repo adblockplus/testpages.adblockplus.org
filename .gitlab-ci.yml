@@ -50,7 +50,7 @@ generate_extension:
     ## Build custom extension if on core-x branch
     # yamllint disable-line rule:line-length
     - >
-      if  echo "$CI_COMMIT_REF_NAME" | grep -q "core"; then
+      if  echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
         - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f test/generateExtension.Dockerfile .
         - docker container create --name extgen extensionimage
         - docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip ./
@@ -64,7 +64,6 @@ generate_extension:
 .test:
   extends: .test_runner
   before_script:
-
     - docker info
     - echo $CI_COMMIT_REF_NAME
   script:
@@ -72,10 +71,8 @@ generate_extension:
     - >
       if  echo "$CI_COMMIT_REF_NAME" | grep -q "core"; then
         echo "Running test with custom extension."
-        docker build -t testpages \
-        --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
-        docker run --shm-size=256m -e TESTS_EXCLUDE="Snippets" \
-        -e BROWSER="$BROWSER" testpages
+        docker build -t testpages --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
+        docker run --shm-size=256m -e TESTS_EXCLUDE="Snippets" -e BROWSER="$BROWSER" testpages
       else
         echo "Running test with downloaded extension."
         docker build -t testpages .
