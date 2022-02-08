@@ -47,7 +47,7 @@ generate_extension:
   stage: build_extension
   only:
     variables:
-      - $CI_COMMIT_REF_NAME =~ /^core*$/
+      - $CI_COMMIT_REF_NAME =~  /^core(.?)*/
   script:
   #  - >
   #    if  echo "$CI_COMMIT_REF_NAME" | grep -q "core"; then
