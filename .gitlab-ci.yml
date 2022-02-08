@@ -74,7 +74,7 @@ generate_extension:
   script:
     # yamllint disable-line rule:line-length
     - >
-      if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
+      if  $CORE !=""; then
         echo "Running test with custom extension."
         docker build -t testpages \
         --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
@@ -168,7 +168,7 @@ test:edge:
     - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
       -PassThru
     - >
-      if($CI_COMMIT_REF_NAME -like 'core*')
+      if($CORE != "")
       {
         Expand-Archive adblockpluschrome.zip -DestinationPath ./testext
         npm run test -- -g "^Edge.*Test pages((?!Snippets).)*$"
