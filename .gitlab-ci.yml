@@ -53,7 +53,7 @@ generate_extension:
         - docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip ./
      # fi
   rules:
-    - if: '$CORE'
+    - if: '$CORE =~ /\[core-]/'
   artifacts:
       paths:
         - adblockpluschrome.zip
