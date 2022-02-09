@@ -38,7 +38,6 @@ stages:
         fi
   script:
     - docker info
-    - echo $CORE
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
@@ -168,7 +167,7 @@ test:edge:
     - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
       -PassThru
     - >
-      if($CORE –ne $null)
+      if($CORE -ne $null)
       {
         Expand-Archive adblockpluschrome.zip -DestinationPath ./testext
         npm run test -- -g "^Edge.*Test pages((?!Snippets).)*$"
