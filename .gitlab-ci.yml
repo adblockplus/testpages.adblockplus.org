@@ -75,7 +75,7 @@ generate_extension:
     - >
       if [ -z "${CORE}" ]; then
         echo "Running test with custom extension."
-        $TESTSEXCLUDED = "Snippets";
+        $TESTSEXCLUDED="Snippets";
         docker build -t testpages \
         --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
       else
