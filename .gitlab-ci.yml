@@ -74,7 +74,7 @@ generate_extension:
     - TESTSEXCLUDED=""
     - echo $CORE
     - >
-      if [[ ! "${CORE}" ]]; then
+      echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; ; then
         echo "Running test with custom extension."
         TESTSEXCLUDED="Snippets";
         docker build -t testpages --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
