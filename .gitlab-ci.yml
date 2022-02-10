@@ -71,10 +71,9 @@ generate_extension:
   before_script:
     - docker info
   script:
-    # yamllint disable-line rule:line-length
     - TESTSEXCLUDED=""
     - >
-      if [ -z "${CORE}" ]; then
+      if [ ! "${CORE}" ]; then
         echo "Running test with custom extension."
         TESTSEXCLUDED="Snippets";
         docker build -t testpages \
