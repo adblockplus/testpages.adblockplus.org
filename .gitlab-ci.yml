@@ -33,7 +33,6 @@ stages:
         if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
             export CORE=$(echo $CI_COMMIT_REF_NAME | \
             sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
-            export IS_CORE_RELATED=true
         else
             export CORE=""
         fi
@@ -41,7 +40,6 @@ stages:
   script:
     - docker info
   variables:
- #  IS_CORE_RELATED: echo "$CI_COMMIT_REF_NAME" | grep -q "core-"
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
   interruptible: true
@@ -56,7 +54,7 @@ generate_extension:
   extends: .test_runner
   stage: build_extension
   rules:
-    - if: $IS_CORE_RELATED
+    - if: $CI_COMMIT_REF_NAME" =~ "core-"
   script:
     - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f
         test/generateExtension.Dockerfile .
@@ -77,7 +75,7 @@ generate_extension:
     - SKIP_EXTENSION_DOWNLOAD="false"
     - echo "$IS_CORE_RELATED"
     - >
-      if [[ "${IS_CORE_RELATED}" ]]; then
+     if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
         echo "INFO: Running test with custom extension."
         TESTSEXCLUDED="Snippets";
         SKIPEXTENSIONDOWNLOAD="true";
