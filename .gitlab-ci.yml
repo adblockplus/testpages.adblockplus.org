@@ -54,7 +54,7 @@ generate_extension:
   extends: .test_runner
   stage: build_extension
   rules:
-    - if: '$CI_COMMIT_REF_NAME =~ "core-"*'
+    - if: '$CI_COMMIT_REF_NAME =~ "core-*"'
   script:
     - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f
         test/generateExtension.Dockerfile .
