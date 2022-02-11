@@ -28,6 +28,7 @@ stages:
   stage: test
   services:
     - docker:19.03.5-dind
+    - export IS_CORE_RELATED=(echo "$CI_COMMIT_REF_NAME" | grep -q "core-")
   before_script:
     - >
         if [[ !"${IS_CORE_RELATED}" ]]; then
@@ -36,9 +37,8 @@ stages:
         fi
   script:
     - docker info
-    - echo "$IS_CORE_RELATED"
   variables:
-    IS_CORE_RELATED: $(echo "$CI_COMMIT_REF_NAME" | grep -q "core-")
+   # IS_CORE_RELATED: $(echo "$CI_COMMIT_REF_NAME" | grep -q "core-")
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
   interruptible: true
