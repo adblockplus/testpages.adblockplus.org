@@ -29,8 +29,9 @@ stages:
   services:
     - docker:19.03.5-dind
   before_script:
+    - export ISCORERELATED = echo "$CI_COMMIT_REF_NAME" | grep -q "core-"
     - >
-        if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
+        if [[ !"${ISCORERELATED}" ]]; then
             export CORE=$(echo $CI_COMMIT_REF_NAME | \
             sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
         else 
@@ -53,7 +54,7 @@ generate_extension:
   extends: .test_runner
   stage: build_extension
   rules: 
-    - if: $CI_COMMIT_REF_NAME =~ /\[core-]/
+    - if: $ISCORERELATED
   script:
     - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f
         test/generateExtension.Dockerfile .
@@ -74,7 +75,7 @@ generate_extension:
     - SKIPEXTENSIONDOWNLOAD="false"
     - echo $CORE
     - >
-      if [[ ! "${CORE}" ]]; then
+      if [[ !"${ISCORERELATED}" ]]; then
         echo "Running test with custom extension."
         TESTSEXCLUDED="Snippets";
         SKIPEXTENSIONDOWNLOAD="true";
