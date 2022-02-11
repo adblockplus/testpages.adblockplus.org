@@ -33,8 +33,6 @@ stages:
         if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
             export CORE=$(echo $CI_COMMIT_REF_NAME | \
             sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
-        else
-            export CORE=""
         fi
 
   script:
@@ -54,7 +52,7 @@ generate_extension:
   extends: .test_runner
   stage: build_extension
   rules:
-    - if: $CI_COMMIT_REF_NAME =~ "core-*"
+    - if: $CORE
   script:
     - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f
         test/generateExtension.Dockerfile .
