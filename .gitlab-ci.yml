@@ -29,12 +29,11 @@ stages:
   services:
     - docker:19.03.5-dind
   before_script:
+    - export IS_CORE_RELATED=$(echo "$CI_COMMIT_REF_NAME" | grep -q "core-")
     - >
-        if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
+        if [[ !"${IS_CORE_RELATED}" ]]; then
             export CORE=$(echo $CI_COMMIT_REF_NAME | \
             sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
-        else
-            export CORE=""
         fi
   script:
     - docker info
@@ -52,9 +51,8 @@ test:lint:
 generate_extension:
   extends: .test_runner
   stage: build_extension
-  only:
-    variables:
-      - $CORE !=""
+  rules:
+    - if: $IS_CORE_RELATED
   script:
     - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f
         test/generateExtension.Dockerfile .
@@ -71,23 +69,23 @@ generate_extension:
   before_script:
     - docker info
   script:
-    - TESTSEXCLUDED=""
-    - SKIPEXTENSIONDOWNLOAD="false"
+    - TESTS_EXCLUDE=""
+    - SKIP_EXTENSION_DOWNLOAD="false"
     - echo $CORE
     - >
-      if [[ ! "${CORE}" ]]; then
-        echo "Running test with custom extension."
+      if [[ "${IS_CORE_RELATED}" ]]; then
+        echo "INFO: Running test with custom extension."
         TESTSEXCLUDED="Snippets";
         SKIPEXTENSIONDOWNLOAD="true";
         docker build -t testpages \
         --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
       else
-        echo "Running test with downloaded extension."
+        echo "INFO: Running test with downloaded extension."
         docker build -t testpages .
       fi
     - docker run --shm-size=256m
-      -e SKIP_EXTENSION_DOWNLOAD="$SKIPEXTENSIONDOWNLOAD"
-      -e TESTS_EXCLUDE="$TESTSEXCLUDED" -e BROWSER="$BROWSER" testpages
+      -e SKIP_EXTENSION_DOWNLOAD="$SKIP_EXTENSION_DOWNLOAD"
+      -e TESTS_EXCLUDE="$TESTS_EXCLUDE" -e BROWSER="$BROWSER" testpages
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
     - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
