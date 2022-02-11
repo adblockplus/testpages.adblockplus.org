@@ -70,7 +70,6 @@ generate_extension:
   script:
     - TESTS_EXCLUDE=""
     - SKIP_EXTENSION_DOWNLOAD="false"
-    - echo "$IS_CORE_RELATED"
     - >
      if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
         echo "INFO: Running test with custom extension."
