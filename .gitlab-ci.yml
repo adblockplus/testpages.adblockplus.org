@@ -29,7 +29,7 @@ stages:
   services:
     - docker:19.03.5-dind
   before_script:
-    - IS_CORE_RELATED=$(echo "$CI_COMMIT_REF_NAME" | grep -q "core-")
+    - export IS_CORE_RELATED=$(echo "$CI_COMMIT_REF_NAME" | grep -q "core-")
     - >
         if [[ !"${IS_CORE_RELATED}" ]]; then
             export CORE=$(echo $CI_COMMIT_REF_NAME | \
