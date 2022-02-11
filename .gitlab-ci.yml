@@ -34,7 +34,6 @@ stages:
             export CORE=$(echo $CI_COMMIT_REF_NAME | \
             sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
         fi
-
   script:
     - docker info
   variables:
@@ -52,7 +51,7 @@ generate_extension:
   extends: .test_runner
   stage: build_extension
   rules:
-    - if: $CORE
+    - if: '$CORE != null'
   script:
     - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f
         test/generateExtension.Dockerfile .
