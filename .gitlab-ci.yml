@@ -50,9 +50,8 @@ test:lint:
 generate_extension:
   extends: .test_runner
   stage: build_extension
-  only:
-    variables:
-      - $CORE !=""
+  rules:
+      - - if: '$CORE !=""'
   script:
     - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f
         test/generateExtension.Dockerfile .
