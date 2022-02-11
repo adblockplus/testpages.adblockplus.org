@@ -37,7 +37,7 @@ stages:
         fi
   script:
     - docker info
-    - echo "${IS_CORE_RELATED}"
+    - echo "$IS_CORE_RELATED"
   variables:
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
@@ -69,7 +69,7 @@ generate_extension:
   extends: .test_runner
   before_script:
     - docker info
-    - echo "${IS_CORE_RELATED}"
+    - echo "$IS_CORE_RELATED"
   script:
     - TESTS_EXCLUDE=""
     - SKIP_EXTENSION_DOWNLOAD="false"
