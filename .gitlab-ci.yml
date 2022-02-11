@@ -69,6 +69,7 @@ generate_extension:
   extends: .test_runner
   before_script:
     - docker info
+    - echo "${IS_CORE_RELATED}"
   script:
     - TESTS_EXCLUDE=""
     - SKIP_EXTENSION_DOWNLOAD="false"
