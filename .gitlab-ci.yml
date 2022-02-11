@@ -29,7 +29,6 @@ stages:
   services:
     - docker:19.03.5-dind
   before_script:
-    - export IS_CORE_RELATED=$(echo "$CI_COMMIT_REF_NAME" | grep -q "core-")
     - >
         if [[ !"${IS_CORE_RELATED}" ]]; then
             export CORE=$(echo $CI_COMMIT_REF_NAME | \
@@ -39,6 +38,7 @@ stages:
     - docker info
     - echo "$IS_CORE_RELATED"
   variables:
+    IS_CORE_RELATED: $(echo "$CI_COMMIT_REF_NAME" | grep -q "core-")
     DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
   interruptible: true
@@ -69,10 +69,10 @@ generate_extension:
   extends: .test_runner
   before_script:
     - docker info
-    - echo $IS_CORE_RELATED
   script:
     - TESTS_EXCLUDE=""
     - SKIP_EXTENSION_DOWNLOAD="false"
+    - echo "$IS_CORE_RELATED"
     - >
       if [[ "${IS_CORE_RELATED}" ]]; then
         echo "INFO: Running test with custom extension."
