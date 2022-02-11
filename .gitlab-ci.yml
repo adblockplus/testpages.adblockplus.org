@@ -34,8 +34,6 @@ stages:
         if [[ !"${ISCORERELATED}" ]]; then
             export CORE=$(echo $CI_COMMIT_REF_NAME | \
             sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
-        else 
-          export CORE=""
         fi
   script:
     - docker info
@@ -75,7 +73,7 @@ generate_extension:
     - SKIPEXTENSIONDOWNLOAD="false"
     - echo $CORE
     - >
-      if [[ !"${ISCORERELATED}" ]]; then
+      if [[ "${ISCORERELATED}" ]]; then
         echo "Running test with custom extension."
         TESTSEXCLUDED="Snippets";
         SKIPEXTENSIONDOWNLOAD="true";
