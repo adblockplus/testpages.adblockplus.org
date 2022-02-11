@@ -51,7 +51,7 @@ test:lint:
 generate_extension:
   extends: .test_runner
   stage: build_extension
-  rules: 
+  rules:
     - if: $ISCORERELATED
   script:
     - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f
