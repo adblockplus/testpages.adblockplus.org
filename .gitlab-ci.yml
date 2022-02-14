@@ -81,7 +81,7 @@ generate_extension:
         echo "INFO: Running test with downloaded extension."
         docker build -t testpages .
       fi
-    - echo $SKIP_EXTENSTION_DOWNLOAD
+    - echo "$SKIP_EXTENSTION_DOWNLOAD"
     - docker run --shm-size=256m
       -e SKIP_EXTENSION_DOWNLOAD="$SKIP_EXTENSION_DOWNLOAD"
       -e TESTS_EXCLUDE="$TESTS_EXCLUDE" -e BROWSER="$BROWSER" testpages
