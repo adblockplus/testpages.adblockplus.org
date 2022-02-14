@@ -27,7 +27,6 @@ else
   echo "INFO: A custom extension will be used to run the tests"
 fi
 
-
 # Run tests
 export TEST_PAGES_URL="$SITE_URL/en/"
 export TEST_PAGES_INSECURE="true"

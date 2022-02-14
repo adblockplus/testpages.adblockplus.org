@@ -30,10 +30,11 @@ stages:
     - docker:19.03.5-dind
   before_script:
     - >
-        if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
-            export CORE=$(echo $CI_COMMIT_REF_NAME | \
-            sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
-        fi
+      if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
+          export CORE=$(echo $CI_COMMIT_REF_NAME | \
+          sed "s/.*core-//"| sed "s/./&./1;s/./&./3")
+          echo "INFO: The CI pipeline will run based on the following adblockpluscore tag: ${CORE}"
+      fi
   script:
     - docker info
   variables:
@@ -53,7 +54,7 @@ generate_extension:
   rules:
     - if: $CI_COMMIT_REF_NAME =~ /core-/
   script:
-    - docker build --build-arg CORE_TAG=$CORE -t extensionimage -f
+    - docker build --build-arg ABPCORE_TAG=$CORE -t extensionimage -f
         test/generateExtension.Dockerfile .
     - docker container create --name extgen extensionimage
     - docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip ./
