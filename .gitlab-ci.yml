@@ -74,15 +74,18 @@ generate_extension:
     - >
      if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
         echo "INFO: Running test with custom extension."
-        TESTSEXCLUDED="Snippets";
-        SKIPEXTENSIONDOWNLOAD="true";
+        TESTS_EXCLUDE="Snippets";
+        SKIP_EXTENSION_DOWNLOAD="true";
         docker build -t testpages \
         --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
       else
         echo "INFO: Running test with downloaded extension."
         docker build -t testpages .
       fi
-    - docker run --shm-size=256m -e SKIP_EXTENSION_DOWNLOAD="$SKIP_EXTENSION_DOWNLOAD" -e TESTS_EXCLUDE="$TESTS_EXCLUDE" -e BROWSER="$BROWSER" testpages
+    - docker run --shm-size=256m
+     -e SKIP_EXTENSION_DOWNLOAD="$SKIP_EXTENSION_DOWNLOAD"
+     -e TESTS_EXCLUDE="$TESTS_EXCLUDE"
+     -e BROWSER="$BROWSER" testpages
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
     - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
