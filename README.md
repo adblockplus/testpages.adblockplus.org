@@ -91,9 +91,9 @@ docker run -e SKIP_EXTENSION_DOWNLOAD="true" -e BROWSER="Chromium \(latest\)" -i
 
 You can use Docker to build custom extension by providing following command:
 ``` 
- docker build --build-arg CORE_TAG=0.5.0 -t extensionimage -f test/generateExtension.Dockerfile . 
+ docker build --build-arg ABPCORE_TAG=0.5.0 -t extensionimage -f test/generateExtension.Dockerfile . 
 ```
-Core Tags (CORE_TAG argument) can be found [here](https://gitlab.com/eyeo/adblockplus/abc/adblockpluscore/-/tags). 
+Core Tags (ABPCORE_TAG argument) can be found [here](https://gitlab.com/eyeo/adblockplus/abc/adblockpluscore/-/tags). 
 Custom extension will be copied to your testpages folder as adblockpluschrome.zip. 
 
 Please note: Docker image uses recent released ABPUI [tag](https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui/-/tags)
