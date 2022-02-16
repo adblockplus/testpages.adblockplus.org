@@ -53,6 +53,7 @@ generate_extension:
   extends: .test_runner
   stage: build_extension
   rules:
+    # yamllint disable-line rule:line-length
     - if: $CI_COMMIT_REF_NAME =~ /core-/ && $CI_PIPELINE_SOURCE != "merge_request_event"
   script:
     - docker build --build-arg ABPCORE_TAG=$CORE -t extensionimage -f
