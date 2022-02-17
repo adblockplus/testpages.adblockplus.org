@@ -89,6 +89,17 @@ will be overridden by the default extension. Example:
 docker run -e SKIP_EXTENSION_DOWNLOAD="true" -e BROWSER="Chromium \(latest\)" -it testpages
 ```
 
+You can use Docker to build custom extension by providing following command:
+``` 
+ docker build --build-arg ABPCORE_TAG=0.5.0 -t extensionimage -f test/generateExtension.Dockerfile . 
+```
+Core Tags (ABPCORE_TAG argument) can be found [here](https://gitlab.com/eyeo/adblockplus/abc/adblockpluscore/-/tags). 
+Custom extension will be copied to your testpages folder as adblockpluschrome.zip. 
+
+Please note: Docker image uses recent released ABPUI [tag](https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui/-/tags)
+and allows you to customize Core codebase. 
+If core code has breaking changes it might not be possible to build extension with it (or it won't be working properly). 
+
 #### Debugging failing tests
 
 In order to access the screenshots for failing tests run the following command,
