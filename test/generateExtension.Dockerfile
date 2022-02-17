@@ -20,7 +20,7 @@ RUN apt-get install -y wget git unzip
 
 ## Build extension with current branch ##
 # Clone abpui repo
-RUN git clone -b master --recurse-submodules https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
+RUN git clone --recurse-submodules https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
 RUN cd adblockplusui && npm install
 RUN cd adblockplusui/adblockpluschrome && npm install
 
