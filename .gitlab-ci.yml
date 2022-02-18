@@ -29,6 +29,7 @@ stages:
   services:
     - docker:19.03.5-dind
   before_script:
+  ## Extract core tag for custom extension if branch has "core-"
     - >
       if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
         export CORE=$(echo $CI_COMMIT_REF_NAME | \
