@@ -33,7 +33,7 @@ stages:
     - >
       if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
         export CORE=$(echo $CI_COMMIT_REF_NAME | \
-         sed "s/.*core-//"| sed "s/./&./1;s/./&./3"| \
+         sed "s/.*core-//" | sed "s/./&./1;s/./&./3" | \
          sed "s/-.*//" )
         echo "INFO: The CI pipeline will \
         run based on the following adblockpluscore tag: ${CORE}"
