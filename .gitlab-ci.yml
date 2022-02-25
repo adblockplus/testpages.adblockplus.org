@@ -177,7 +177,7 @@ test:edge:
     - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
       -PassThru
     - $Env:TESTARG=""
-    - echo "$CORE"
+    - echo "${CORE}"
     - >
       if($CI_COMMIT_REF_NAME -like "core-*")
       {
@@ -186,6 +186,7 @@ test:edge:
       }
       else
       {
+        echo "${CORE}"
         node ./test/extension-tests/extension-download.js
         # Run tests
         $Env:TESTARG="Edge";
