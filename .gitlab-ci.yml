@@ -22,8 +22,11 @@ stages:
   - deploy_production
 
 # TEST #########################################################################
-.core_tag_check:
+.test_runner:
+  image: docker:19.03.5
   stage: test
+  services:
+    - docker:19.03.5-dind
   before_script:
     ## Extract core tag for custom extension if branch has "core-"
     - >
@@ -34,12 +37,6 @@ stages:
         echo "INFO: The CI pipeline will \
         run based on the following adblockpluscore tag: ${CORE}"
       fi
-.test_runner:
-  extends: .core_tag_check
-  image: docker:19.03.5
-  stage: test
-  services:
-    - docker:19.03.5-dind
   script:
     - docker info
   variables:
@@ -127,7 +124,6 @@ test:firefox:oldest:
     BROWSER: Firefox \(oldest\)
 
 test:edge:
-  extends: .core_tag_check
   tags:
     - shared-windows
     - windows
