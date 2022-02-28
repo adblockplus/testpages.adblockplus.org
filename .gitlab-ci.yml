@@ -177,7 +177,7 @@ test:edge:
     - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
       -PassThru
     - $Env:TESTARG=""
-    - echo $CORE
+    - echo "`Tag $CORE"
     - >
       if($CORE -ne $null)
       {
