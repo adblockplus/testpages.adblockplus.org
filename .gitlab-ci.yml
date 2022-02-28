@@ -177,7 +177,6 @@ test:edge:
     - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
       -PassThru
     - $Env:TESTARG=""
-    - echo "`Tag $CORE"
     - >
       if($CI_COMMIT_REF_NAME -like "core-*")
       {
