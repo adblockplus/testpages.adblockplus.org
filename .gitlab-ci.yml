@@ -1,256 +1,187 @@
-# This file is part of Adblock Plus <https://adblockplus.org/>,
-# Copyright (C) 2006-present eyeo GmbH
-#
-# Adblock Plus is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License version 3 as
-# published by the Free Software Foundation.
-#
-# Adblock Plus is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
-
----
-
-stages:
-  - build_extension
-  - test
-  - build_production
-  - deploy_production
-
-# TEST #########################################################################
-
-.test_runner:
-  image: docker:19.03.5
-  stage: test
-  services:
-    - docker:19.03.5-dind
-  before_script:
-    ## Extract core tag for custom extension if branch has "core-"
-    - >
-      if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
-        export CORE=$(echo $CI_COMMIT_REF_NAME | \
-         sed "s/.*core-//" | sed "s/./&./1;s/./&./3" | \
-         sed "s/-.*//" )
-        echo "INFO: The CI pipeline will \
-        run based on the following adblockpluscore tag: ${CORE}"
-      fi
-  script:
-    - docker info
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
+default:
+  image: registry.gitlab.com/eyeo/docker/adblockplus-ci:node16-no-python
   interruptible: true
 
-test:lint:
-  extends: .test_runner
-  script:
-    - docker build -t lintimage -f test/lint.Dockerfile .
-    - docker run lintimage
+stages:
+  - build
+  - test
 
-generate_extension:
-  extends: .test_runner
-  stage: build_extension
-  rules:
-    # yamllint disable-line rule:line-length
-    - if: $CI_COMMIT_REF_NAME =~ /core-/ && $CI_PIPELINE_SOURCE != "merge_request_event"
+variables:
+  npm_config_audit: "false"
+  npm_config_fund: "false"
+  npm_config_prefer_offline: "true"
+
+cache:
+  - key:
+      prefix: $CI_JOB_IMAGE
+      files:
+      - package-lock.json
+    paths:
+    - node_modules/
+    - test/*-snapshots/download-cache/
+
+build:
+  stage: build
+  before_script:
+    # make and g++ required by node-gyp (abp2dnr dependency)
+    - apt-get update && apt-get install -y make g++
+    - npm install
   script:
-    - docker build --build-arg ABPCORE_TAG=$CORE -t extensionimage -f
-        test/generateExtension.Dockerfile .
-    - docker container create --name extgen extensionimage
-    - docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip ./
+    - npm run lint
+    - npm run build -- --env release
+    - DOCS_ERROR=$(npm run docs 2>&1 >/dev/null) && if [ ! -z "$DOCS_ERROR" ]; then echo $DOCS_ERROR && false; fi
+    - npm run test-bundle
   artifacts:
     paths:
-      - adblockpluschrome.zip
-    when: on_success
-    expire_in: 1 dy
+      - dist/
+      - docs/
+    exclude:
+      - dist/package.json
+    expire_in: 1 month
+
+build:ABPUIExtension:
+  stage: build
+  image: node:12
+  before_script:
+    # enable unsafe-perm to avoid problems with running npm as root
+    # see https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui/-/issues/193
+    - export npm_config_unsafe_perm=true
+  script:
+    # Update git version to fix problems with ls-files command
+    # https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui/-/issues/1040
+    - echo "deb http://deb.debian.org/debian stretch-backports main" > /etc/apt/sources.list.d/stretch-backports.list
+    - apt-get update
+    - apt-get -t stretch-backports install -y git
+    # Clone ABPUI
+    - cd ..
+    - git clone -b dep-ewe-2021-1 https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui.git
+    # Update dependencies
+    - cd adblockplusui && npm run submodules:update
+    - git submodule status
+    # Checkout current commit  
+    - cd vendor/webext-sdk/
+    #Currently commit is hardcoded as gulpfile fails to build on current commit
+    # git checkout $CI_COMMIT_SHA
+    - git checkout e1f4204e786fcc0f59e9a201ae7b5c192b761c61
+    - cd ..
+    - cd ..
+    - npm install
+    # Create extension builds
+    - cd adblockpluschrome
+    - npx gulp build -t chrome --unhandled-rejections=strict
+    - mv adblockpluschrome-*.zip adblockpluschrome.zip 
+  artifacts:
+    paths:
+      - adblockplusui/adblockpluschrome/adblockplus-chrome.zip
 
 .test:
-  extends: .test_runner
-  before_script:
-    - docker info
-  script:
-    - TESTS_EXCLUDE=""
-    - SKIP_EXTENSION_DOWNLOAD="false"
-    - >
-      if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
-        echo "INFO: Running test with custom extension."
-        TESTS_EXCLUDE="Snippets"
-        SKIP_EXTENSION_DOWNLOAD="true"
-        docker build -t testpages \
-          --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
-      else
-        echo "INFO: Running test with downloaded extension."
-        docker build -t testpages .
-      fi
-    - docker run --shm-size=256m
-      -e SKIP_EXTENSION_DOWNLOAD="$SKIP_EXTENSION_DOWNLOAD"
-      -e TESTS_EXCLUDE="$TESTS_EXCLUDE"
-      -e BROWSER="$BROWSER" testpages
-  dependencies:
-    - generate_extension
-  after_script:
-    - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
-    - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
-      2> /dev/null
-    - docker cp $IMAGE_ID:/var/log/nginx/ .
-  artifacts:
-    paths:
-      - screenshots/
-      - nginx/
-    when: on_failure
-    expire_in: 1 mo
-
-test:chrome:latest:
-  extends: .test
-  variables:
-    BROWSER: Chromium \(latest\)
-
-test:chrome:oldest:
-  extends: .test
-  variables:
-    BROWSER: Chromium \(oldest\)
-
-test:firefox:latest:
-  extends: .test
-  variables:
-    BROWSER: Firefox \(latest\)
-
-test:firefox:oldest:
-  extends: .test
-  variables:
-    BROWSER: Firefox \(oldest\)
-
-test:edge:
   stage: test
+  before_script:
+    - apt-get update && apt-get install -y make g++
+    - npm install
+    - npm run test-server &
+  needs:
+    - job: build
+      artifacts: true
+
+test:v2:chromium:stable:
+  extends: .test
+  script:
+    - xvfb-run -a npm test -- v2 chromium
+
+test:v2:chromium:oldest:
+  extends: .test
+  script:
+    - xvfb-run -a npm test -- v2 chromium 77.0.3865.0
+
+test:v2:chromium:beta:
+  extends: .test
+  script:
+    - xvfb-run -a npm test -- v2 chromium beta
+
+test:v2:chromium:dev:
+  extends: .test
+  script:
+    - xvfb-run -a npm test -- v2 chromium dev
+
+test:v2:firefox:latest:
+  extends: .test
+  script:
+    - npm test -- v2 firefox
+
+test:v2:firefox:oldest:
+  extends: .test
+  script:
+    - npm test -- v2 firefox 68.0
+  # https://gitlab.com/eyeo/adblockplus/webext-sdk/-/issues/50
+  retry: 2
+
+test:v2:firefox:beta:
+  extends: .test
+  script:
+    - npm test -- v2 firefox beta
+
+test:v2:edge:windows:
+  extends: .test
+  variables:
+    CI_PROJECT_ID_MAINSTREAM: 22365241
+  before_script:
+    - Invoke-WebRequest
+        -Uri "${Env:CI_API_V4_URL}/projects/${Env:CI_PROJECT_ID_MAINSTREAM}/packages/generic/microsoft-edge/79.0.309/MicrosoftEdgeEnterpriseX64.msi"
+        -Headers @{'JOB-TOKEN' = $Env:CI_JOB_TOKEN}
+        -OutFile 'MicrosoftEdgeEnterpriseX64.msi'
+    - Start-Process msiexec
+        -ArgumentList "/i MicrosoftEdgeEnterpriseX64.msi /norestart /qn" -Wait
+    # python2 is required by node-gyp (abp2dnr dependency)
+    - choco install -y python2
+    - choco upgrade -y nodejs --version 16.10.0
+    - npm install
+    - Start-Process "node" -ArgumentList "test/start-server.js" -PassThru
+  script:
+    - npm test -- v2 edge --timeout=15000
   tags:
     - shared-windows
     - windows
     - windows-1809
+  cache: {}
+
+test:v3:chromium:stable:
+  extends: .test
+  script:
+    - xvfb-run -a npm test -- v3 chromium
+
+test:v3:edge:linux:
+  extends: .test
   before_script:
-    # Fix for refreshenv
-    # https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/13#note_337853320
-    - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-    # Install Microsoft Edge
-    # yamllint disable-line rule:line-length
-    - Invoke-WebRequest -Uri "${Env:CI_API_V4_URL}/projects/${Env:CI_PROJECT_ID}/packages/generic/microsoft-edge/79.0.309/MicrosoftEdgeEnterpriseX64.msi"
-      -Headers @{'JOB-TOKEN' = $Env:CI_JOB_TOKEN}
-      -OutFile 'MicrosoftEdgeEnterpriseX64.msi'
-    - Start-Process msiexec
-      -ArgumentList "/i MicrosoftEdgeEnterpriseX64.msi /norestart /qn" -Wait
-    # Install other packages
-    - choco install -y nginx --version=1.19.0
-    - $Env:NGINX = "C:\tools\nginx-1.19.0"
-    - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
-    - choco install -y openssl.light
-    - choco install -y python2
-    - choco upgrade -y nodejs --version 16.10.0
-    - refreshenv
-    # nginx config
-    - xcopy test\etc\nginx\* $Env:NGINX\conf\ /E /V /F /H
-    - (Get-Content $Env:NGINX\conf\nginx.conf).replace("octet-stream;",
-        "octet-stream;`n
-        include $Env:NGINX_LINUX/conf/sites-enabled-windows/*.conf;"
-      ) | Set-Content $Env:NGINX\conf\nginx.conf
-    - openssl req -x509 -newkey rsa:4096
-      -keyout $Env:NGINX\conf\${Env:DOMAIN}_key.pem
-      -out $Env:NGINX\conf\${Env:DOMAIN}_cert.pem
-      -days 365 -nodes -subj "/CN=$Env:DOMAIN"
-    - echo "`n127.0.0.1 $Env:DOMAIN" |
-      Add-Content c:\windows\system32\drivers\etc\hosts
-    # Build CMS
-    - git clone https://gitlab.com/eyeo/websites/cms.git
-    - pip install -r cms\requirements.txt
-    # Build tests
+    - apt-get update && apt-get install -y make g++
+    # https://www.how2shout.com/linux/install-microsoft-edge-on-linux/
+    - wget https://packages.microsoft.com/keys/microsoft.asc
+    - cat microsoft.asc | gpg --dearmor > microsoft.gpg
+    - install -o root -g root -m 644 microsoft.gpg /etc/apt/trusted.gpg.d/
+    - echo "deb [arch=amd64] https://packages.microsoft.com/repos/edge stable main" > /etc/apt/sources.list.d/microsoft-edge-dev.list
+    - rm microsoft.*
+    - apt-get update && apt-get install -y microsoft-edge-stable
     - npm install
-    # Generate test pages files
-    - mkdir -p $Env:NGINX\html\$Env:DOMAIN
-    - $Env:PYTHONPATH = "cms"
-    - python -m cms.bin.generate_static_pages . $Env:NGINX\html\$Env:DOMAIN
+    - npm run test-server &
   script:
-    # Run testpages server
-    - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
-      -PassThru
-    - $Env:TESTARG=""
-    - >
-      if($CORE -ne $null)
-      {
-        Expand-Archive adblockpluschrome.zip -DestinationPath ./testext
-        $Env:TESTARG="^Edge.*Test pages((?!Snippets).)*$";
-      }
-      else
-      {
-        node ./test/extension-tests/extension-download.js
-        # Run tests
-        $Env:TESTARG="Edge";
-      }
-    - npm run test -- -g "$Env:TESTARG"
+    - xvfb-run -a npm test -- v3 edge
+
+test:testpages-integration:
+  stage: test
+  image: docker:19.03.5
+  services:
+    - docker:19.03.5-dind
+  before_script:
+    - docker info
+    # enable unsafe-perm to avoid problems with running npm as root
+    # see https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui/-/issues/193
+    - export npm_config_unsafe_perm=true
   dependencies:
-    - generate_extension
+    - build:ABPUIExtension
 
   variables:
-    TEST_PAGES_URL: https://local.testpages.adblockplus.org:5000/en/
-    SITE_URL: https://local.testpages.adblockplus.org:5000
-    DOMAIN: local.testpages.adblockplus.org
-    TEST_PAGES_INSECURE: "true"
-  artifacts:
-    paths:
-      - testpages.adblockplus.org/test/screenshots
-    when: on_failure
-    expire_in: 1 mo
+    DOCKER_DRIVER: overlay2
   interruptible: true
-
-# BUILD, DEPLOY ################################################################
-
-.production:
-  tags:
-    - eyeo_cms_web_server_testpages-1.uplink.eyeo.it
-  only:
-    - master
-
-.build_production:
-  stage: build_production
-  extends: .production
   script:
-    - env PYTHONPATH=/opt/cms:/opt/sitescripts
-      python -m cms.bin.generate_static_pages $PWD build
-  artifacts:
-    name: $CI_COMMIT_REF_SLUG
-    paths:
-      - build
-
-build:testpages:
-  extends: .build_production
-  variables:
-    SITE_URL: https://testpages.adblockplus.org
-
-build:abptestpages:
-  extends: .build_production
-  variables:
-    SITE_URL: https://abptestpages.org
-
-.deploy_production:
-  stage: deploy_production
-  extends: .production
-  script:
-    - sudo /usr/local/sbin/deploy_eyeo_cms_web_$DOMAIN $CI_PROJECT_DIR/build/
-  environment:
-    name: $DOMAIN
-    url: https://$DOMAIN
-
-deploy:testpages:
-  extends: .deploy_production
-  dependencies:
-    - build:testpages
-  variables:
-    DOMAIN: testpages.adblockplus.org
-
-deploy:abptestpages:
-  extends: .deploy_production
-  dependencies:
-    - build:abptestpages
-  variables:
-    DOMAIN: abptestpages.org
+    - docker build -t testpages --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
+    - docker run -shm-size=256m -e SKIP_EXTENSION_DOWNLOAD="true" -e BROWSER="Chromium \(latest\)" -e TESTS_EXCLUDE="Snippets" -it testpages 
