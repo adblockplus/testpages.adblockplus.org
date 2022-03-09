@@ -25,7 +25,9 @@ const {By} = webdriver;
 
 async function addSubscription(driver, extensionHandle, currentHandle) {
   await driver.switchTo().window(currentHandle);
-  await driver.findElement(By.id("subscribe-button")).click();
+  setTimeout(async() => {
+    await driver.findElement(By.id("subscribe-button")).click();
+  }, (1000));
   await driver.switchTo().window(extensionHandle);
 
   let dialog;
