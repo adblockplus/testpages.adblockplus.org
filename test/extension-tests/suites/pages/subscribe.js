@@ -16,7 +16,7 @@
  */
 
 import assert from "assert";
-import webdriver, { Condition } from "selenium-webdriver";
+import webdriver from "selenium-webdriver";
 import {checkLastError, executeScriptCompliant} from "../../misc/utils.js";
 import {writeScreenshotAndThrow} from "../../misc/screenshots.js";
 import {runFirstTest} from "./utils.js";
@@ -25,12 +25,7 @@ const {By} = webdriver;
 
 async function addSubscription(driver, extensionHandle, currentHandle) {
   await driver.switchTo().window(currentHandle);
-  driver.sleep(2000);
-  let element = await driver.findElement(By.id("subscribe-button"));
-  browser.actions().mouseMove(element).click().perform();
- // (ExpectedConditions.elementToBeClickable(ele));
- // await driver.findElement(By.id("subscribe-button")).click();
-
+  await driver.findElement(By.id("subscribe-button")).click();
   await driver.switchTo().window(extensionHandle);
 
   let dialog;
