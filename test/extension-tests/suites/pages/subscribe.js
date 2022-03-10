@@ -66,8 +66,11 @@ export default () => {
     let currentHandle = await this.driver.getWindowHandle();
     try {
       await this.driver.navigate().to(testPagesURL);
+      console.log("Navigated to testpage");
       await addSubscription(this.driver, this.extensionHandle, currentHandle);
+      console.log("Added subscription");
       await checkSubscriptionAdded(this.driver, subscription);
+      console.log("Checked subscription");
     }
     catch (e) {
       await writeScreenshotAndThrow(this, e);
