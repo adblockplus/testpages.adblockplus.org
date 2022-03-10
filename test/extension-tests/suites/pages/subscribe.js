@@ -25,9 +25,10 @@ const {By} = webdriver;
 
 async function addSubscription(driver, extensionHandle, currentHandle) {
   await driver.switchTo().window(currentHandle);
+  console.log("Pressing subscribe button");
   await driver.findElement(By.id("subscribe-button")).click();
   await driver.switchTo().window(extensionHandle);
-
+ console.log("Pressed subscribe button");
   let dialog;
   await driver.wait(async() => {
     await driver.switchTo().defaultContent();
@@ -37,6 +38,7 @@ async function addSubscription(driver, extensionHandle, currentHandle) {
       dialog.isDisplayed(),
       dialog.findElement(By.css(".title span")).getText()
     ]);
+    console.log("Displayed", displayed);
     return displayed && title == "ABP Testcase Subscription";
   }, 4000, "subscribe dialog not shown");
   await dialog.findElement(By.css(".default-focus")).click();
