@@ -34,7 +34,9 @@ export function isExcluded(page, browserName, browserVersion) {
   // https://gitlab.com/eyeo/webext/testpages.adblockplus.org/-/issues/82
   else if (page == "snippets/strip-fetch-query-parameter")
     excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
-
+  // https://gitlab.com/eyeo/adblockplus/adblockpluschrome/-/issues/306#note_484130304
+  else if (page == "filters/WebRTC" || page == "exceptions/WebRTC")
+    excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
   return !!excluded && browserName in excluded &&
          semver.satisfies(semver.coerce(browserVersion), excluded[browserName]);
 }
