@@ -20,7 +20,6 @@ import Jimp from "jimp";
 
 import specializedTests from "./specialized.js";
 import {takeScreenshot, writeScreenshotFile} from "../../misc/screenshots.js";
-import { setNonEnumerableProperties } from "got/dist/source";
 
 export function isExcluded(page, browserName, browserVersion) {
   let excluded;
@@ -44,7 +43,6 @@ export function isExcluded(page, browserName, browserVersion) {
 
 export async function getExpectedScreenshot(driver, url) {
   await driver.navigate().to(`${url}?expected=1`);
-  await driver.sleep(1000);
   return await takeScreenshot(driver);
 }
 
