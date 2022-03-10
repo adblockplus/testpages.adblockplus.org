@@ -43,6 +43,7 @@ export function isExcluded(page, browserName, browserVersion) {
 
 export async function getExpectedScreenshot(driver, url) {
   await driver.navigate().to(`${url}?expected=1`);
+  await driver.wait(100);
   return await takeScreenshot(driver);
 }
 
