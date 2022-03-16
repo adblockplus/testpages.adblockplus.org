@@ -27,6 +27,7 @@ async function addSubscription(driver, extensionHandle, currentHandle) {
   await driver.switchTo().window(currentHandle);
   await driver.findElement(By.id("subscribe-button")).click();
   await driver.switchTo().window(extensionHandle);
+
   let dialog;
   await driver.wait(async() => {
     await driver.switchTo().defaultContent();
