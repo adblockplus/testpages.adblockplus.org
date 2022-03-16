@@ -43,10 +43,6 @@ export function isExcluded(page, browserName, browserVersion) {
   // https://gitlab.com/eyeo/adblockplus/adblockpluschrome/-/issues/306#note_484130304
   else if (page == "filters/webrtc" || page == "exceptions/webrtc")
     excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
-  // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/103
-  else if (page == "filters/csp_all" || page == "filters/csp_specific" ||
-   page == "exceptions/csp" || page == "exceptions/csp_genericblock")
-    excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
   return !!excluded && browserName in excluded &&
          semver.satisfies(semver.coerce(browserVersion), excluded[browserName]);
 }
