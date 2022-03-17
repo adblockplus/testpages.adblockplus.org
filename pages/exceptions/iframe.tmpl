@@ -1,0 +1,38 @@
+template = testcase
+title = iFrame Exception
+description = Check that usage loading frames works with exceptions
+
+{% set case = "iFrame exception" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that loading frames across different subdomains with an exception works.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="script-target" data-expectedresult="pass" data-dp="pass" aria-label="{{id}}-pass"></div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The green image containing the white square should be blocked.</li>
+
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+  <li><pre>https://blocked.abptestpages.org/testfiles/iframe_exception/fail.png</pre></li>
+  <li><pre>##[alt="Test image placeholder"]</pre></li>
+  <li><pre>@@||blocked.abptestpages.org^$document,domain=allowed.abptestpages.org</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  let parentFrame = document.getElementById("script-target");
+  let iframe = document.createElement("iframe");
+  iframe.src = "https://allowed.abptestpages.org/testfiles/iframe_exception/parent.html";
+  iframe.width = "300";
+  iframe.height = "300";
+  parentFrame.appendChild(iframe);
+</script>
