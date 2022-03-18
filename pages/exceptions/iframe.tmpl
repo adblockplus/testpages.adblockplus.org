@@ -7,20 +7,23 @@ description = Check that usage loading frames works with exceptions
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that loading frames across different subdomains with an exception works.</p>
+  <p>Note: This page won't work on CI as requires two different subdomains</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="script-target" data-expectedresult="pass" data-dp="pass" aria-label="{{id}}-pass"></div>
+    <div id="script-target"></div>
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
-    <li>Add filter #1.</li>
+    <li>Add filter #1 and #2.</li>
     <li>Refresh page.</li>
-    <li>The green image containing the white square should be blocked.</li>
-
+    <li>iFrame containing the green square should be blocked.</li>
+    <li>Add filter #3.</li>
+    <li>Refresh page.</li>
+    <li>iFrame containing the green square should be unblocked.</li>
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-  <li><pre>https://blocked.abptestpages.org/testfiles/iframe_exception/fail.png</pre></li>
+  <li><pre>https://blocked.abptestpages.org/images/expected.png</pre></li>
   <li><pre>##[alt="Test image placeholder"]</pre></li>
   <li><pre>@@||blocked.abptestpages.org^$document,domain=allowed.abptestpages.org</pre></li>
   </ul>
