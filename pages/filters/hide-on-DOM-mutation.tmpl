@@ -1,0 +1,64 @@
+title = Block on DOM Mutation
+template = testcase
+description = Check that a filter using simple selectors work properly on DOM Mutation.
+
+{% set case = "input" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Check that a filter using #{{id}} selectors work properly on DOM Mutation.</p>
+  <div id="{{id}}-script-target" class="testcase-area">
+    <input id="input-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail" ></inside>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example"></div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>{{id}} should be blocked and the red element should not be added to the page.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#input</pre></li>
+  </ul>
+</section>
+
+{% set case = "aside" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Check that a filter using #{{id}} selectors work properly on DOM Mutation.</p>
+  <div id="aside-script-target" class="testcase-area">
+    <aside id="aside-eh" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail" > Static Target </aside>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example"> Example Content </div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>{{id}} should be blocked and the red element should not be added to the page.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#aside</pre></li>
+  </ul>
+</section>
+<script>
+  "use strict";
+
+  setTimeout(() => {
+    removeWaitingContent(); // eslint-disable-line no-undef
+    const testCases = ["aside", "input"];
+    testCases.forEach(elementType => {
+      let target = document.getElementById(`${elementType}-script-target`);
+      let newElement = document.createElement(elementType);
+      newElement.innerHTML = "Failed.";
+      newElement.setAttribute("data-expectedresult", "fail");
+      newElement.setAttribute("aria-label", "script-fail");
+      newElement.id = `${elementType}-eh`;
+      target.appendChild(newElement);
+    });
+  }, 500);
+</script>
