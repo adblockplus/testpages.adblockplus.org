@@ -61,6 +61,31 @@ description = Check that element hiding emulation functionality is working as ex
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
       <div>
+        <span class="ehe-abp-has">Target</span>
+      </div>
+    </div>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div:-abp-has(>div>span.ehe-abp-has)</pre></li>
+  </ul>
+</section>
+
+{% set case = "Basic :has() usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an element hiding emulation filter using a :has() selector hides its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail">
+      <div>
         <span class="ehe-has">Target</span>
       </div>
     </div>
@@ -74,7 +99,32 @@ description = Check that element hiding emulation functionality is working as ex
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#?#div:-abp-has(>div>span.ehe-has)</pre></li>
+    <li><pre>{{ site_url|domain }}#?#div:has(>div>span.ehe-has)</pre></li>
+  </ul>
+</section>
+
+{% set case = "Basic :has() usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an element hiding emulation filter using a :has() selector hides its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail">
+      <div>
+        <span class="ehe-has">Target</span>
+      </div>
+    </div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div:has(>div>span.ehe-has)</pre></li>
   </ul>
 </section>
 
@@ -117,6 +167,27 @@ description = Check that element hiding emulation functionality is working as ex
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#?#span:xpath(//*[@id="basic-xpath-usage-fail"])</pre></li>
+  </ul>
+</section>
+
+{% set case = "Basic :has-text() usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an element hiding emulation filter using a :-has-text() selector hides its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <span id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail">ehe-has-text</span>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#span:has-text(ehe-has-text)</pre></li>
   </ul>
 </section>
 
