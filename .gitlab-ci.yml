@@ -44,28 +44,6 @@ stages:
     DOCKER_DRIVER: overlay2
   interruptible: true
 
-.test_runner:
-  image: docker:19.03.5
-  stage: test
-  services:
-    - docker:19.03.5-dind
-  before_script:
-    ## Extract core tag for custom extension if branch has "core-"
-    - >
-      if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
-        export CORE=$(echo $CI_COMMIT_REF_NAME | \
-         sed "s/.*core-//" | sed "s/./&./1;s/./&./3" | \
-         sed "s/-.*//" )
-        echo "INFO: The CI pipeline will \
-        run based on the following adblockpluscore tag: ${CORE}"
-      fi
-  script:
-    - docker info
-  variables:
-    DOCKER_HOST: tcp://docker:2375/
-    DOCKER_DRIVER: overlay2
-  interruptible: true
-
 test:lint:
   extends: .test_runner
   script:
