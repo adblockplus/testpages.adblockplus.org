@@ -3,40 +3,27 @@ title = Element Hiding Emulation Inversion
 description = Check that element hiding emulation inversion functionality is working as expected.
 
 <style>
+
+.ehei-properties {
+  height: 50px;
+}
+
 .ehei-properties-not-hide {
-  width: 213px;
+  width: 238px;
 }
 
-
-.ehei-properties {}
-
-.ehei-has {}
-
-.ehei-contains {}
-
-.ehei-chained-not-hide {
-  width: 214px;
+.ehei-has {
+  width: 253px;
 }
 
-.ehei-case {
-  width: 215px;
+.ehei-has-not-hide {
+  height: 52px;
 }
 
-.ehei-wildcard {
-  cursor: pointer;
+.ehei-contains {
+  height: 70px;
 }
 
-.ehei-regex1 {
-  width: 121px;
-}
-
-.ehei-regex2 {
-  width: 125px;
-}
-
-.ehei-regex3 {
-  width: 126px;
-}
 </style>
 
 {% set case = "Basic :not(:-abp-properties()) usage" %}
@@ -56,7 +43,7 @@ description = Check that element hiding emulation inversion functionality is wor
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#?#div[class|="ehei-properties"]:not(:-abp-properties(width: 213px))</pre></li>
+    <li><pre>{{ site_url|domain }}#?#.ehei-properties:not(:-abp-properties(width: 238px))</pre></li>
   </ul>
 </section>
 
@@ -70,9 +57,7 @@ description = Check that element hiding emulation inversion functionality is wor
       Target
     </div>
     <div class="testcase-examplecontent ehei-has" aria-label="{{id}}-example">
-    <div>
-        <span class="ehei-has">Example Content</span>
-      </div>
+        <span class="ehei-has-not-hide">Example Content</span>
     </div>
   </div>
   <h3>Steps</h3>
@@ -83,18 +68,18 @@ description = Check that element hiding emulation inversion functionality is wor
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#?#div.ehei-has:not(:-abp-has(>div>span.ehei-has))</pre></li>
+    <li><pre>{{ site_url|domain }}#?#.ehei-has:not(:-abp-has(span.ehei-has-not-hide))</pre></li>
   </ul>
 </section>
 
-{% set case = "Basic :not(:-abp-contains()) usage" %}
+% set case = "Basic :not(:-abp-contains()) usage" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that an element hiding emulation filter using a not(:-abp-contains()) selector hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
     <span id="{{id}}-fail-1" class="ehei-contains" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</span>
-    <span class="testcase-examplecontent ehei-contains" aria-label="{{id}}-example">Example Content</span>
+    <span class="testcase-examplecontent ehei-contains" aria-label="{{id}}-example">example-content</span>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -104,6 +89,6 @@ description = Check that element hiding emulation inversion functionality is wor
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#?#.ehei-contains:not(span:-abp-contains(Example Content))</pre></li>
+    <li><pre>{{ site_url|domain }}#?#.ehei-contains:not(span:-abp-contains(example-content))</pre></li>
   </ul>
 </section>
