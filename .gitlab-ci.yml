@@ -176,7 +176,7 @@ test:edge:
       -PassThru
     - $Env:TESTARG=""
     - >
-      if($CORE -ne $null)
+      if($CI_COMMIT_REF_NAME -like "core-*")
       {
         Expand-Archive adblockpluschrome.zip -DestinationPath ./testext
         $Env:TESTARG="^Edge.*Test pages((?!Snippets).)*$";
