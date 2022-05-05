@@ -37,6 +37,9 @@ export function isExcluded(page, browserName, browserVersion) {
   // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/102
   else if (page == "exceptions/iframe")
     excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
+  // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/105
+  else if (page == "filters/rewrite")
+    excluded = {firefox: "100.0"};
   return !!excluded && browserName in excluded &&
          semver.satisfies(semver.coerce(browserVersion), excluded[browserName]);
 }
