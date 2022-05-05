@@ -55,5 +55,7 @@ export async function getDriver(browserBinary, extensionPaths, insecure) {
 
 export async function getLatestVersion() {
   let data = await got("https://product-details.mozilla.org/1.0/firefox_versions.json").json();
-  return data.LATEST_FIREFOX_VERSION;
+  // Using version 99.0 for now as 100.0 has bug in rewrite
+  //#return(data.LATEST_FIREFOX_VERSION)
+  return "99.0";
 }
