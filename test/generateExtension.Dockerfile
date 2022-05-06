@@ -28,7 +28,7 @@ RUN cd adblockplusui && npm run submodules:update && git submodule status && npm
 
 # Clone Core files for specific branch:
 ARG ABPCORE_TAG=""
-RUN if [ "$ABPCORE_TAG" != "" ]; then cd adblockplusui/vendor/webext-sdk/node_modules && rm -rf adblockpluscore \
+RUN if -z "$ABPCORE_TAG"; then cd adblockplusui/vendor/webext-sdk/node_modules && rm -rf adblockpluscore \
  && git clone -b $ABPCORE_TAG https://gitlab.com/eyeo/adblockplus/abc/adblockpluscore.git ; fi
 RUN cd adblockplusui/vendor/webext-sdk/node_modules/adblockpluscore && npm install
 RUN cd adblockplusui/adblockpluschrome \
