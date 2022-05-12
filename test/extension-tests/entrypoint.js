@@ -53,6 +53,11 @@ function getBrowserBinaries(module, browser) {
     {
       version: "latest",
       getPath: async() => module.ensureBrowser(await module.getLatestVersion())
+    },
+    {
+      version: "beta",
+      getPath: async() =>
+        module.ensureBrowser(await module.getLatestVersion(true))
     }
   ];
 }

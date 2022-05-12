@@ -87,15 +87,17 @@ export async function getDriver(browserBinary, extensionPaths, insecure) {
     .build();
 }
 
-export async function getLatestVersion() {
+export async function getLatestVersion(beta = false) {
   let os = process.platform;
   if (os == "win32")
     os = process.arch == "x64" ? "win64" : "win";
   else if (os == "darwin")
     os = "mac";
-
   let data = await got(`https://omahaproxy.appspot.com/all.json?os=${os}`).json();
-  let version = data[0].versions.find(ver => ver.channel == "stable");
+  let version;
+  if (beta)
+    version = data[0].versions.find(ver => ver.channel == "beta");
+  version = data[0].versions.find(ver => ver.channel == "stable");
   let base = version.branch_base_position;
 
   if (version.true_branch && version.true_branch.includes("_")) {
