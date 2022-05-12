@@ -94,10 +94,8 @@ export async function getLatestVersion(beta = false) {
   else if (os == "darwin")
     os = "mac";
   let data = await got(`https://omahaproxy.appspot.com/all.json?os=${os}`).json();
-  let version;
-  if (beta)
-    version = data[0].versions.find(ver => ver.channel == "beta");
-  version = data[0].versions.find(ver => ver.channel == "stable");
+  let channel = beta ? "beta" : "stable";
+  let version = data[0].versions.find(ver => ver.channel == channel);
   let base = version.branch_base_position;
 
   if (version.true_branch && version.true_branch.includes("_")) {
