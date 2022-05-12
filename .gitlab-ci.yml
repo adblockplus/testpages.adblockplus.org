@@ -130,7 +130,6 @@ test:firefox:beta:
   variables:
     BROWSER: Firefox \(beta\)
 
-
 test:firefox:oldest:
   extends: .test
   variables:
