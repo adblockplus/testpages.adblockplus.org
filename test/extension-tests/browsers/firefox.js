@@ -53,7 +53,7 @@ export async function getDriver(browserBinary, extensionPaths, insecure) {
   return driver;
 }
 
-export async function getLatestVersion() {
+export async function getLatestVersion(beta = false) {
   let data = await got("https://product-details.mozilla.org/1.0/firefox_versions.json").json();
   return data.LATEST_FIREFOX_VERSION;
 }
