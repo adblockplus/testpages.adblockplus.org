@@ -110,6 +110,7 @@ test:chrome:latest:
 
 test:chrome:beta:
   extends: .test
+  allow_failure: true
   variables:
     BROWSER: Chromium \(beta\)
 
@@ -125,6 +126,7 @@ test:firefox:latest:
 
 test:firefox:beta:
   extends: .test
+  allow_failure: true
   variables:
     BROWSER: Firefox \(beta\)
 
