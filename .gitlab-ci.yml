@@ -108,7 +108,7 @@ test:chrome:latest:
   variables:
     BROWSER: Chromium \(latest\)
 
-test:chrome:oldest:
+test:chrome:beta:
   extends: .test
   variables:
     BROWSER: Chromium \(beta\)
@@ -122,6 +122,12 @@ test:firefox:latest:
   extends: .test
   variables:
     BROWSER: Firefox \(latest\)
+
+test:firefox:beta:
+  extends: .test
+  variables:
+    BROWSER: Firefox \(beta\)
+
 
 test:firefox:oldest:
   extends: .test
