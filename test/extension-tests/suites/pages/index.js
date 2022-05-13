@@ -42,10 +42,16 @@ async function updateFilters(driver, extensionHandle, url) {
                                   () => executeScriptCompliant(driver, `
     let filters = arguments[0];
     let subs = await browser.runtime.sendMessage(
-      {type: "subscriptions.get", downloadable: true, special: true}
+      {type: "subscriptions.get"}
     );
     await Promise.all(subs.map(subscription => browser.runtime.sendMessage(
       {type: "subscriptions.remove", url: subscription.url}
+    )));
+    let filtersToRemove = await browser.runtime.sendMessage(
+      {type: "filters.get"}
+    );
+    await Promise.all(filtersToRemove.map(filter => browser.runtime.sendMessage(
+      {type: "filters.remove", text: filter.text}
     )));
     let errors = await browser.runtime.sendMessage(
       {type: "filters.importRaw", text: filters}
