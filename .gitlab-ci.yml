@@ -22,7 +22,6 @@ stages:
   - deploy_production
 
 # TEST #########################################################################
-
 .test_runner:
   image: docker:19.03.5
   stage: test
