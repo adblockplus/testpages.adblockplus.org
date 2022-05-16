@@ -124,6 +124,7 @@ test:firefox:oldest:
     BROWSER: Firefox \(oldest\)
 
 test:edge:
+  stage: test
   tags:
     - shared-windows
     - windows
