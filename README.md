@@ -52,8 +52,10 @@ docker run -e BROWSER="Chromium \(latest\)" -it testpages
 
 The available browsers are:
 * Chromium \(latest\)
+* Chromium \(beta\)
 * Chromium \(oldest\)
 * Firefox \(latest\)
+* Firefox \(beta\)
 * Firefox \(oldest\)
 
 #### Tests subset
