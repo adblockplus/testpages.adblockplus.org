@@ -87,14 +87,13 @@ export async function getDriver(browserBinary, extensionPaths, insecure) {
     .build();
 }
 
-export async function getLatestVersion(beta = false) {
+export async function getLatestVersion(channel = "stable") {
   let os = process.platform;
   if (os == "win32")
     os = process.arch == "x64" ? "win64" : "win";
   else if (os == "darwin")
     os = "mac";
   let data = await got(`https://omahaproxy.appspot.com/all.json?os=${os}`).json();
-  let channel = beta ? "beta" : "stable";
   let version = data[0].versions.find(ver => ver.channel == channel);
   let base = version.branch_base_position;
 
