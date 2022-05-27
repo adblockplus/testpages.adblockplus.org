@@ -61,7 +61,6 @@ export async function getVersion(channel = "stable") {
     case "dev":
       return data.FIREFOX_NIGHTLY;
     case "stable":
-      return data.LATEST_FIREFOX_VERSION;
     default:
       return data.LATEST_FIREFOX_VERSION;
   }

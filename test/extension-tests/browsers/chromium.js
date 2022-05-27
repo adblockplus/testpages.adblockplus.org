@@ -87,7 +87,7 @@ export async function getDriver(browserBinary, extensionPaths, insecure) {
     .build();
 }
 
-export async function getLatestVersion(channel = "stable") {
+export async function getVersion(channel = "stable") {
   let os = process.platform;
   if (os == "win32")
     os = process.arch == "x64" ? "win64" : "win";
