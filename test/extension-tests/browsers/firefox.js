@@ -53,9 +53,16 @@ export async function getDriver(browserBinary, extensionPaths, insecure) {
   return driver;
 }
 
-export async function getLatestVersion(beta = false) {
+export async function getVersion(channel = "stable") {
   let data = await got("https://product-details.mozilla.org/1.0/firefox_versions.json").json();
-  if (beta)
-    return data.FIREFOX_DEVEDITION;
-  return data.LATEST_FIREFOX_VERSION;
+  switch (channel){
+    case "beta":
+      return data.FIREFOX_DEVEDITION;
+    case "dev":
+      return data.FIREFOX_NIGHTLY;
+    case "stable":
+      return data.LATEST_FIREFOX_VERSION;
+    default:
+      return data.LATEST_FIREFOX_VERSION;
+  }
 }
