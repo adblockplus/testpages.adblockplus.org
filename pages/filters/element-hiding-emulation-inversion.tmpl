@@ -80,7 +80,7 @@ description = Check that element hiding emulation inversion functionality is wor
   {{ heading(case) }}
   <p>Test that an element hiding emulation filter using a :not(:-abp-properties()) selector hides its target.</p>
   <div id="{{id}}-area" class="testcase-area" >
-    <div id="{{id}}-fail-1" class="ehei-properties" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail" class="ehei-properties" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div  class="testcase-examplecontent ehei-properties ehei-properties-not-hide" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -101,7 +101,7 @@ description = Check that element hiding emulation inversion functionality is wor
   {{ heading(case) }}
   <p>Test that an element hiding emulation filter using a :not(:-abp-has()) selector hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" class="ehei-has" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
+    <div id="{{id}}-fail" class="ehei-has" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
       Target
     </div>
     <div class="testcase-examplecontent ehei-has" aria-label="{{id}}-example">
@@ -126,7 +126,7 @@ description = Check that element hiding emulation inversion functionality is wor
   {{ heading(case) }}
   <p>Test that an element hiding emulation filter using a not(:-abp-contains()) selector hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <span id="{{id}}-fail-1" class="ehei-contains" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</span>
+    <span id="{{id}}-fail" class="ehei-contains" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</span>
     <span class="testcase-examplecontent ehei-contains" aria-label="{{id}}-example">example-content</span>
   </div>
   <h3>Steps</h3>
@@ -172,7 +172,7 @@ description = Check that element hiding emulation inversion functionality is wor
   {{ heading(case) }}
   <p>Test that an element hiding emulation filter is case insensitive and still hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" class="ehei-case" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail" class="ehei-case" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-examplecontent ehei-case ehei-case-not-hide" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -193,7 +193,7 @@ description = Check that element hiding emulation inversion functionality is wor
   {{ heading(case) }}
   <p>Test that an element hiding emulation filter using wildcards still not hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" class="ehei-wildcard" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail" class="ehei-wildcard" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-examplecontent ehei-wildcard ehei-wildcard-not-hide" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
