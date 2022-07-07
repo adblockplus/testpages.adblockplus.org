@@ -38,8 +38,8 @@ docker build -t testpages .
 docker run -it testpages
 ```
 
-Note: it might happen that tests are crashing due to insufficent memory on docker (tests will fail on `abort-on-property-write`  with error related to session id). To fix this you need to increase memory: 
-``` 
+Note: it might happen that tests are crashing due to insufficent memory on docker (tests will fail on `abort-on-property-write`  with error related to session id). To fix this you need to increase memory:
+```
 docker run --shm-size=256m -t testpages .
 ```
 #### Browser
@@ -47,16 +47,16 @@ docker run --shm-size=256m -t testpages .
 `Firefox (latest)` is the default browser. Other browsers can be run using the
 `BROWSER` argument:
 ```
-docker run -e BROWSER="Chromium \(latest\)" -it testpages
+docker run -e BROWSER="chromium latest" -it testpages
 ```
 
 The available browsers are:
-* Chromium \(latest\)
-* Chromium \(beta\)
-* Chromium \(oldest\)
-* Firefox \(latest\)
-* Firefox \(beta\)
-* Firefox \(oldest\)
+* chromium latest
+* chromium beta
+* chromium 77.0.3865.0
+* firefox latest
+* firefox beta
+* firefox 68.0
 
 #### Tests subset
 
@@ -88,19 +88,19 @@ To run the tests with the custom extension package, you must provide the
 `SKIP_EXTENSION_DOWNLOAD` argument set to `true`, otherwise the custom extension
 will be overridden by the default extension. Example:
 ```
-docker run -e SKIP_EXTENSION_DOWNLOAD="true" -e BROWSER="Chromium \(latest\)" -it testpages
+docker run -e SKIP_EXTENSION_DOWNLOAD="true" -e BROWSER="chromium" -it testpages
 ```
 
 You can use Docker to build custom extension by providing following command:
-``` 
- docker build --build-arg ABPCORE_TAG=0.5.0 -t extensionimage -f test/generateExtension.Dockerfile . 
 ```
-Core Tags (ABPCORE_TAG argument) can be found [here](https://gitlab.com/eyeo/adblockplus/abc/adblockpluscore/-/tags). 
-Custom extension will be copied to your testpages folder as adblockpluschrome.zip. 
+docker build --build-arg ABPCORE_TAG=0.5.0 -t extensionimage -f test/generateExtension.Dockerfile .
+```
+Core Tags (ABPCORE_TAG argument) can be found [here](https://gitlab.com/eyeo/adblockplus/abc/adblockpluscore/-/tags).
+Custom extension will be copied to your testpages folder as adblockpluschrome.zip.
 
 Please note: Docker image uses recent released ABPUI [tag](https://gitlab.com/eyeo/adblockplus/abpui/adblockplusui/-/tags)
-and allows you to customize Core codebase. 
-If core code has breaking changes it might not be possible to build extension with it (or it won't be working properly). 
+and allows you to customize Core codebase.
+If core code has breaking changes it might not be possible to build extension with it (or it won't be working properly).
 
 #### Debugging failing tests
 

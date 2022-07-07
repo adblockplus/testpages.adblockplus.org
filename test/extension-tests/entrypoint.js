@@ -18,58 +18,25 @@
 import path from "path";
 import url from "url";
 import got from "got";
+
+import {BROWSERS} from "@eyeo/get-browser-binary";
+
 import {loadModules, executeScriptCompliant} from "./misc/utils.js";
 import {writeScreenshotAndThrow} from "./misc/screenshots.js";
 
 const TEST_PAGES_URL = process.env.TEST_PAGES_URL ||
                        "https://testpages.adblockplus.org/en/";
 const TEST_PAGES_INSECURE = process.env.TEST_PAGES_INSECURE == "true";
+const BROWSER_VERSIONS = {
+  chromium: [void 0, "beta", "dev", "77.0.3865.0"],
+  firefox: [void 0, "beta", "68.0"],
+  edge: [void 0]
+};
 
-function getBrowserBinaries(module, browser) {
-  let spec = process.env[`${browser.toUpperCase()}_BINARY`];
-  if (spec) {
-    if (spec == "installed")
-      return [{getPath: () => Promise.resolve(null)}];
-    if (spec.startsWith("path:"))
-      return [{getPath: () => Promise.resolve(spec.substr(5))}];
-    if (spec.startsWith("download:")) {
-      if (module.ensureBrowser)
-        return [{getPath: () => module.ensureBrowser(spec.substr(9))}];
-      console.warn(`WARNING: Downloading ${browser} is not supported`);
-    }
-  }
-
-  if (!module.ensureBrowser) {
-    if (module.isBrowserInstalled())
-      return [{getPath: () => Promise.resolve(null)}];
-    return [];
-  }
-
-  return [
-    {
-      version: "oldest",
-      getPath: () => module.ensureBrowser(module.oldestCompatibleVersion)
-    },
-    {
-      version: "latest",
-      getPath: async() => module.ensureBrowser(await module.getLatestVersion())
-    },
-    {
-      version: "beta",
-      getPath: async() =>
-        module.ensureBrowser(await module.getLatestVersion(true))
-    }
-  ];
-}
-
-async function getDriver(binary, module) {
-  let extensionPaths = [
-    path.resolve("./testext"),
-    path.resolve("test", "extension-tests", "helper-extension")
-  ];
-  let browserBin = await binary.getPath();
-  return module.getDriver(browserBin, extensionPaths, TEST_PAGES_INSECURE);
-}
+let extensionPaths = [
+  path.resolve("./testext"),
+  path.resolve("test", "extension-tests", "helper-extension")
+];
 
 async function waitForExtension(driver) {
   let handles = [];
@@ -136,28 +103,27 @@ if (typeof run == "undefined") {
 
 (async() => {
   let pageTests = await getPageTests();
-  let browsers =
-    await loadModules(path.join("test", "extension-tests", "browsers"));
   let suites =
     await loadModules(path.join("test", "extension-tests", "suites"));
 
-  for (let [module, browser] of browsers) {
-    for (let binary of getBrowserBinaries(module, browser)) {
-      let description = browser.replace(/./, c => c.toUpperCase());
-      if (binary.version)
-        description += ` (${binary.version})`;
-
-      describe(description, function() {
+  for (let browser of Object.keys(BROWSERS)) {
+    for (let version of BROWSER_VERSIONS[browser]) {
+      describe(`Browser: ${browser} ${version || "latest"}`, function() {
         this.timeout(0);
         this.pageTests = pageTests;
         this.testPagesURL = TEST_PAGES_URL;
 
         before(async function() {
-          this.driver = await getDriver(binary, module);
-
-          let caps = await this.driver.getCapabilities();
-          this.browserName = caps.getBrowserName();
-          this.browserVersion = caps.getBrowserVersion() || caps.get("version");
+          let headless = browser == "firefox";
+          // eslint-disable-next-line no-console
+          console.log(`Getting ready to run ${browser}...`);
+          this.driver = await BROWSERS[browser].getDriver(
+            version,
+            {headless, extensionPaths, incognito: false, insecure: true}
+          );
+          let cap = await this.driver.getCapabilities();
+          this.browserName = cap.getBrowserName();
+          this.browserVersion = cap.getBrowserVersion();
           // eslint-disable-next-line no-console
           console.log(`Browser: ${this.browserName} ${this.browserVersion}`);
 
@@ -194,9 +160,6 @@ if (typeof run == "undefined") {
         after(async function() {
           if (this.driver)
             await this.driver.quit();
-
-          if (module.shutdown)
-            module.shutdown();
         });
       });
     }

@@ -1,12 +1,12 @@
 #! /bin/bash
 
 # Browser config
-if [[ "$BROWSER" == *"Chromium"* ]]; then
+if [[ "$BROWSER" == *"chromium"* ]]; then
   XVFB_CMD="xvfb-run -a"
 fi
 
 if [[ "$TESTS_EXCLUDE" != "" ]]; then
-  tests="^$BROWSER((?!$TESTS_EXCLUDE).)*\$"
+  tests="^Browser: $BROWSER((?!$TESTS_EXCLUDE).)*\$"
 else
   tests="$BROWSER.*$TESTS_SUBSET"
 fi

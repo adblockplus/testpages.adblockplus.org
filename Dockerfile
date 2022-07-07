@@ -66,7 +66,7 @@ RUN PYTHONPATH=cms python -m cms.bin.generate_static_pages testpages.adblockplus
 ARG EXTENSION_FILE=""
 RUN if [ "$EXTENSION_FILE" != "" ]; then unzip -q testpages.adblockplus.org/$EXTENSION_FILE -d testpages.adblockplus.org/testext; fi
 
-ENV BROWSER="Firefox \(latest\)"
+ENV BROWSER="firefox latest"
 ENV TESTS_SUBSET=""
 ENV TESTS_EXCLUDE=""
 ENV SKIP_EXTENSION_DOWNLOAD=""
