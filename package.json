@@ -14,7 +14,7 @@
     "eslint-config-eyeo": "^3.0.0",
     "eslint-plugin-html": "^6.0.1",
     "geckodriver": "^2.0.4",
-    "got": "^11.8.2",
+    "got": "^11.8.5",
     "htmllint": "^0.7.2",
     "htmllint-cli": "^0.0.7",
     "jimp": "^0.16.1",
