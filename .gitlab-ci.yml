@@ -124,6 +124,11 @@ test:firefox:latest:
   variables:
     BROWSER: firefox latest
 
+test:firefox:latest:incognito:
+  extends: .test
+  variables:
+    BROWSER: firefox latest --incognito
+
 test:firefox:beta:
   extends: .test
   allow_failure: true
