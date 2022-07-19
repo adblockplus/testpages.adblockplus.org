@@ -108,6 +108,11 @@ test:chrome:latest:
   variables:
     BROWSER: chromium latest
 
+test:chrome:latest:
+  extends: .test
+  variables:
+    BROWSER: chromium latest --incognito
+
 test:chrome:beta:
   extends: .test
   allow_failure: true
