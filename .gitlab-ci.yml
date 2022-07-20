@@ -108,7 +108,7 @@ test:chrome:latest:
   variables:
     BROWSER: chromium latest
 
-test:chrome:latest:
+test:chrome:latest:incognito:
   extends: .test
   variables:
     BROWSER: chromium latest --incognito
