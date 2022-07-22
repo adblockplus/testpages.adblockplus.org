@@ -9,7 +9,7 @@ description = Check if override-property-read feature works properly.
   <p>Test that basic usage of the snippet works as expected..</p>
   <div id="basic-target" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
-    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting to trigger snippet...</div>
     <div id="to-be-overriden" data-expectedresult="fail" data-dp="fail"  aria-label="{{id}}-fail">Target</div>
   </div>
   <h3>Steps</h3>
@@ -35,7 +35,7 @@ description = Check if override-property-read feature works properly.
     removeWaitingContent(); // eslint-disable-line no-undef
     if (!overridePropertyRead.fp) // eslint-disable-line no-undef
       document.getElementById("to-be-overriden").hidden = true;
-  }, 500);
+  }, scriptDelayMs()); // eslint-disable-line no-undef
 </script>
 
 

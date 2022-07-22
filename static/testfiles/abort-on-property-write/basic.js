@@ -11,4 +11,4 @@ setTimeout(() => {
     failElement.setAttribute("aria-label", "fail");
     document.getElementById("basic-target").appendChild(failElement);
   }
-}, 500);
+}, scriptDelayMs()); // eslint-disable-line no-undef

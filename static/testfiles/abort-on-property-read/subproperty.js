@@ -13,4 +13,4 @@ setTimeout(() => {
     document.getElementById("subproperty-target").appendChild(failElement);
     aopr.sp = true;
   }
-}, 500);
+}, scriptDelayMs()); // eslint-disable-line no-undef

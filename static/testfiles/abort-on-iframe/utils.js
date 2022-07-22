@@ -80,7 +80,7 @@ var [testAbortOnIframePropertyRead, testAbortOnIframePropertyWrite] = (function(
         catch (e) {
           insertFailElement(target);
         }
-      }, 500);
+      }, scriptDelayMs()); // eslint-disable-line no-undef
     }
     catch (e) {
       insertFailElement(target);

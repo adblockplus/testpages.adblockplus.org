@@ -13,4 +13,4 @@ setTimeout(() => {
     document.getElementById("basic-target").appendChild(failElement);
     aoprb = true; // eslint-disable-line no-undef
   }
-}, 500);
+}, scriptDelayMs()); // eslint-disable-line no-undef
