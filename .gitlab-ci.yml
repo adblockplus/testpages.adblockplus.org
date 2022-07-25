@@ -190,13 +190,12 @@ test:edge:
       if($CI_COMMIT_REF_NAME -like "core-*")
       {
         Expand-Archive adblockpluschrome.zip -DestinationPath ./testext
-        $Env:TESTARG="^Edge.*Test pages((?!Snippets).)*$";
+        $Env:TESTARG="^Browser: edge((?!Snippets).)*$";
       }
       else
       {
         node ./test/extension-tests/extension-download.js
-        # Run tests
-        $Env:TESTARG="Edge";
+        $Env:TESTARG="Browser: edge";
       }
     - npm run test -- -g "$Env:TESTARG"
   dependencies:

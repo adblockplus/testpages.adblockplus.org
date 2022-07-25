@@ -25,13 +25,13 @@ export function isExcluded(page, browserName, browserVersion) {
   let excluded;
   if (page in specializedTests)
     excluded = specializedTests[page].excludedBrowsers;
-  // https://gitlab.com/eyeo/webext/testpages.adblockplus.org/-/issues/74
+  // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/74
   else if (page == "filters/websocket" || page == "exceptions/websocket")
     excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
-  // https://gitlab.com/eyeo/webext/testpages.adblockplus.org/-/issues/41
+  // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/41
   else if (page == "exceptions/sitekey")
     excluded = {MicrosoftEdge: "", msedge: ""};
-  // https://gitlab.com/eyeo/webext/testpages.adblockplus.org/-/issues/82
+  // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/82
   else if (page == "snippets/strip-fetch-query-parameter")
     excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
   // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/102
