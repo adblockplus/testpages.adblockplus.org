@@ -31,9 +31,6 @@ export function isExcluded(page, browserName, browserVersion) {
   // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/41
   else if (page == "exceptions/sitekey")
     excluded = {MicrosoftEdge: "", msedge: ""};
-  // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/82
-  else if (page == "snippets/strip-fetch-query-parameter")
-    excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
   // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/102
   else if (page == "exceptions/iframe")
     excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
