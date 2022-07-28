@@ -2,6 +2,8 @@ template = testcase
 title =  Override Property Read
 description = Check if override-property-read feature works properly.
 
+<script src="/testfiles/maybe-delayed/test.js"></script>
+
 {% set case = "override-property-read" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
@@ -29,8 +31,12 @@ description = Check if override-property-read feature works properly.
 <script>
   "use strict";
 
-  var overridePropertyRead = {fp: true}; // eslint-disable-line no-var
-  
+  var overridePropertyRead; // eslint-disable-line no-var
+
+  maybeDelayedTest(() => { // eslint-disable-line no-undef
+    overridePropertyRead = {fp: true};
+  });
+
   setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
     if (!overridePropertyRead.fp) // eslint-disable-line no-undef

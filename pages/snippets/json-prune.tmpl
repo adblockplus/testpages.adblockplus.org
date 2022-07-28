@@ -2,6 +2,8 @@ template = testcase
 title =  JSON prune
 description = Check if json-prune feature works properly.
 
+<script src="/testfiles/maybe-delayed/test.js"></script>
+
 {% set case = "json-prune" %}
 {% set id = get_id(case) %}
 <section class="testcase-panel">
@@ -27,10 +29,13 @@ description = Check if json-prune feature works properly.
 
 <script>
   "use strict";
-  
-  let propertiesToUse = '{"jsonprune": "true", "data-expectedresult": "fail", "aria-label":"json-prune-fail"}';
-  let propertiesObject = JSON.parse(propertiesToUse);
 
+  let propertiesToUse = '{"jsonprune": "true", "data-expectedresult": "fail", "aria-label":"json-prune-fail"}';
+  let propertiesObject;
+
+  maybeDelayedTest(() => { // eslint-disable-line no-undef
+    propertiesObject = JSON.parse(propertiesToUse);
+  });
 
   setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
