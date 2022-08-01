@@ -124,9 +124,7 @@ if (typeof run == "undefined") {
             version,
             {headless, extensionPaths, incognito: false, insecure: true}
           );
-          console.log(`Driver is ready`);
           let cap = await this.driver.getCapabilities();
-          console.log(`Waiting to get capabilities`);
           this.browserName = cap.getBrowserName();
           this.browserVersion = cap.getBrowserVersion();
           // eslint-disable-next-line no-console
