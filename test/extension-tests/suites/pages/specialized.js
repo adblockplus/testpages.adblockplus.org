@@ -79,10 +79,12 @@ async function checkPopup(element, extensionHandle) {
       });
     });`));
   await clickButtonOrLink(element);
-  await runWithHandle(driver, extensionHandle, () =>
-    executeScriptCompliant(driver, `await self.tabCreated${token};`)
-  );
+
   await driver.sleep(1000);
+  await runWithHandle(driver, extensionHandle, () => {
+    executeScriptCompliant(driver, `await self.tabCreated${token};`);
+  });
+
   return await getNumberOfHandles(driver) > nHandles;
 }
 
