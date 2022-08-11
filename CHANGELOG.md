@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-08-11
+
+- Add iframe exception testpage to index page.
+
 ## 2022-01-21
 
 - Require Node 16.
