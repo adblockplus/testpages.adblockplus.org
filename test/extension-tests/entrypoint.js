@@ -53,7 +53,7 @@ async function waitForExtension(driver) {
   let handle;
   for (handle of handles) {
     await driver.switchTo().window(handle);
-    await driver.sleep(1000);
+    await driver.sleep(2000);
     origin = await executeScriptCompliant(driver, `
       if (typeof browser != "undefined")
       {
@@ -132,7 +132,7 @@ if (typeof run == "undefined") {
           console.log(`Browser: ${this.browserName} ${this.browserVersion}`);
 
           try {
-            await this.driver.sleep(1000);
+            await this.driver.sleep(2000);
             [this.extensionHandle, this.extensionOrigin] =
               await waitForExtension(this.driver);
           }
