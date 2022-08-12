@@ -131,6 +131,7 @@ if (typeof run == "undefined") {
           console.log(`Browser: ${this.browserName} ${this.browserVersion}`);
 
           try {
+            await this.driver.sleep(2000);
             [this.extensionHandle, this.extensionOrigin] =
               await waitForExtension(this.driver);
           }
