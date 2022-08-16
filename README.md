@@ -131,9 +131,32 @@ pip install -r <CMS_PATH>/requirements.txt
 Finally, to start the CMS server run the following command from the testpages
 project root folder:
 ```
-python <CMS_PATH>/runserver.py
+python <CMS_PATH>/runserver.py --port 5001
 ```
 
-Test pages should now be accessible at http://localhost:5000.
+Test pages should now be accessible at http://localhost:5001.
 
 For more information and usage instructions see [CMS documentation](https://gitlab.com/eyeo/websites/cms/-/blob/master/README.md).
+
+### Local page tests run
+
+It may be useful to run page tests outside docker, for debugging purposes.
+
+Besides running the local testpages server, the test runner expects an unpacked
+ABP extension to be located in the `./testext` folder. That can be achieved by
+downloading the latest ABP release:
+```
+node ./test/extension-tests/extension-download.js
+```
+
+Note: It is also possible to manually extract a different ABP version into the
+`./testext` folder.
+
+After that, tests are ready to run. Please notice the `TEST_PAGES_URL`
+environment variable needs to point to the local testpages server:
+```
+TEST_PAGES_URL=http://localhost:5001 npm test -- -g "chromium latest"
+```
+
+Note: The `subscribes to a link` test case is expected to fail on the local run,
+because it requires an `https` server which `runserver.py` does not provide.

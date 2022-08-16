@@ -58,7 +58,7 @@ RUN cd testpages.adblockplus.org && npm install
 COPY . testpages.adblockplus.org
 
 # Generate test pages files
-ENV SITE_URL=https://$DOMAIN:5000
+ENV SITE_URL=https://$DOMAIN:5001
 RUN mkdir -p /var/www/$DOMAIN
 RUN PYTHONPATH=cms python -m cms.bin.generate_static_pages testpages.adblockplus.org /var/www/$DOMAIN
 
