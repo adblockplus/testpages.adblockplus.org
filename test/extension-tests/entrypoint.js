@@ -132,7 +132,6 @@ if (typeof run == "undefined") {
 
           try {
             // Wait for extension to finish installation
-            // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/117
             await this.driver.sleep(2000);
             [this.extensionHandle, this.extensionOrigin] =
               await waitForExtension(this.driver);
