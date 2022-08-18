@@ -49,6 +49,7 @@ RUN git clone https://gitlab.com/eyeo/devops/legacy/sitescripts.git
 
 # Build CMS
 RUN git clone https://github.com/adblockplus/cms.git
+RUN git -C cms checkout 8bd1d07605d220be45f907260bbbf108c3fe41ca
 RUN pip install -r cms/requirements.txt
 
 # Build tests

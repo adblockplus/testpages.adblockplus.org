@@ -174,6 +174,8 @@ test:edge:
       Add-Content c:\windows\system32\drivers\etc\hosts
     # Build CMS
     - git clone https://gitlab.com/eyeo/websites/cms.git
+    # https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/61
+    - git -C cms checkout 8bd1d07605d220be45f907260bbbf108c3fe41ca
     - pip install -r cms\requirements.txt
     # Build tests
     - npm install

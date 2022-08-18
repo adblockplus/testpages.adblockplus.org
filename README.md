@@ -141,6 +141,7 @@ Test pages run through the CMS test server. That project needs to be cloned:
 
 ```shell
 git clone https://gitlab.com/eyeo/websites/cms.git
+git -C cms checkout 8bd1d07605d220be45f907260bbbf108c3fe41ca
 ```
 
 After that, CMS dependencies need to be installed:
