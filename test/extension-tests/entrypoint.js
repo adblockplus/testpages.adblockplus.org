@@ -21,8 +21,8 @@ import got from "got";
 
 import {BROWSERS} from "@eyeo/get-browser-binary";
 
-import {loadModules, executeScriptCompliant} from "./misc/utils.js";
 import {writeScreenshotAndThrow} from "./misc/screenshots.js";
+import definePageTests from "./pages/index.js";
 
 // Required to set the driver path on Windows
 import "msedgedriver";
@@ -53,14 +53,16 @@ async function waitForExtension(driver) {
   let handle;
   for (handle of handles) {
     await driver.switchTo().window(handle);
-    origin = await executeScriptCompliant(driver, `
-      if (typeof browser != "undefined")
-      {
+    origin = await driver.executeAsyncScript(async(...args) => {
+      let callback = args[args.length - 1];
+      if (typeof browser != "undefined") {
         let info = await browser.management.getSelf();
         if (info.optionsUrl == location.href)
-          return location.origin;
+          callback(location.origin);
       }
-      return null;`);
+      callback();
+    });
+
     if (origin)
       break;
   }
@@ -106,8 +108,6 @@ if (typeof run == "undefined") {
 
 (async() => {
   let pageTests = await getPageTests();
-  let suites =
-    await loadModules(path.join("test", "extension-tests", "suites"));
 
   for (let browser of Object.keys(BROWSERS)) {
     for (let version of BROWSER_VERSIONS[browser]) {
@@ -159,8 +159,7 @@ if (typeof run == "undefined") {
           await this.driver.switchTo().window(defaultHandle);
         });
 
-        for (let [{default: defineSuite}] of suites)
-          defineSuite();
+        definePageTests();
 
         after(async function() {
           if (this.driver)

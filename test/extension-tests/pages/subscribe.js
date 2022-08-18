@@ -17,8 +17,8 @@
 
 import assert from "assert";
 import webdriver from "selenium-webdriver";
-import {checkLastError, executeScriptCompliant} from "../../misc/utils.js";
-import {writeScreenshotAndThrow} from "../../misc/screenshots.js";
+import {checkLastError} from "../misc/utils.js";
+import {writeScreenshotAndThrow} from "../misc/screenshots.js";
 import {runFirstTest} from "./utils.js";
 
 const {By} = webdriver;
@@ -43,19 +43,24 @@ async function addSubscription(driver, extensionHandle, currentHandle) {
 }
 
 async function checkSubscriptionAdded(driver, url) {
-  let added = await executeScriptCompliant(driver, `
-    let subs = await browser.runtime.sendMessage({type: "subscriptions.get",
-                                                  ignoreDisabled: true,
-                                                  downloadable: true});
-    return subs.some(s => s.url == arguments[0]);`, url);
+  let added = await driver.executeAsyncScript(async(...args) => {
+    let callback = args[args.length - 1];
+    let subs = await browser.runtime.sendMessage(
+      {type: "subscriptions.get", ignoreDisabled: true, downloadable: true}
+    );
+    callback(subs.some(s => s.url == args[0]));
+  }, url);
   assert.ok(added, "subscription added");
 }
 
 async function removeSubscription(driver, extensionHandle, url) {
   await driver.switchTo().window(extensionHandle);
-  await executeScriptCompliant(driver, `
+  await driver.executeAsyncScript(async(...args) => {
+    let callback = args[args.length - 1];
     await browser.runtime.sendMessage({type: "subscriptions.remove",
-                                       url: arguments[0]});`, url);
+                                       url: args[0]});
+    callback();
+  }, url);
 }
 
 export default () => {

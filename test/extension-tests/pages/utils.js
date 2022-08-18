@@ -19,7 +19,7 @@ import semver from "semver";
 import Jimp from "jimp";
 
 import specializedTests from "./specialized.js";
-import {takeScreenshot, writeScreenshotFile} from "../../misc/screenshots.js";
+import {takeScreenshot, writeScreenshotFile} from "../misc/screenshots.js";
 
 export function isExcluded(page, browserName, browserVersion) {
   let excluded;

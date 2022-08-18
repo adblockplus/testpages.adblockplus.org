@@ -48,5 +48,4 @@ async function run() {
 
 
 run();
-// eslint-disable-next-line no-console
-console.log("Downloading ABP extension...");
+console.log("Downloading ABP extension..."); // eslint-disable-line no-console

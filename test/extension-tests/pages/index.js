@@ -17,8 +17,7 @@
 
 import assert from "assert";
 import webdriver from "selenium-webdriver";
-import {checkLastError, runWithHandle,
-        executeScriptCompliant} from "../../misc/utils.js";
+import {checkLastError, runWithHandle} from "../misc/utils.js";
 import specializedTests from "./specialized.js";
 import defineSubscribeTest from "./subscribe.js";
 import {getExpectedScreenshot, getPage, isExcluded, runGenericTests}
@@ -38,25 +37,27 @@ async function getFilters(driver) {
 async function updateFilters(driver, extensionHandle, url) {
   await driver.navigate().to(url);
   let filters = await getFilters(driver);
-  let error = await runWithHandle(driver, extensionHandle,
-                                  () => executeScriptCompliant(driver, `
-    let filters = arguments[0];
-    let subs = await browser.runtime.sendMessage(
-      {type: "subscriptions.get"}
-    );
-    await Promise.all(subs.map(subscription => browser.runtime.sendMessage(
-      {type: "subscriptions.remove", url: subscription.url}
-    )));
-    let filtersToRemove = await browser.runtime.sendMessage(
-      {type: "filters.get"}
-    );
-    await Promise.all(filtersToRemove.map(filter => browser.runtime.sendMessage(
-      {type: "filters.remove", text: filter.text}
-    )));
-    let errors = await browser.runtime.sendMessage(
-      {type: "filters.importRaw", text: filters}
-    );
-    return errors[0];`, filters)
+  let error = await runWithHandle(
+    driver, extensionHandle, () => driver.executeAsyncScript(async(...args) => {
+      let callback = args[args.length - 1];
+      let filToAdd = args[0];
+      let subs = await browser.runtime.sendMessage(
+        {type: "subscriptions.get"}
+      );
+      await Promise.all(subs.map(subscription => browser.runtime.sendMessage(
+        {type: "subscriptions.remove", url: subscription.url}
+      )));
+      let filToRemove = await browser.runtime.sendMessage(
+        {type: "filters.get"}
+      );
+      await Promise.all(filToRemove.map(filter => browser.runtime.sendMessage(
+        {type: "filters.remove", text: filter.text}
+      )));
+      let errors = await browser.runtime.sendMessage(
+        {type: "filters.importRaw", text: filToAdd}
+      );
+      callback(errors[0]);
+    }, filters)
   );
   if (error)
     throw error;
@@ -99,8 +100,6 @@ export default () => {
       });
     }
 
-    describe("Subscriptions", () => {
-      defineSubscribeTest();
-    });
+    describe("Subscriptions", defineSubscribeTest);
   });
 };
