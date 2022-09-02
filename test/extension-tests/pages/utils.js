@@ -32,7 +32,7 @@ export function isExcluded(page, browserName, browserVersion) {
   else if (page == "exceptions/sitekey")
     excluded = {MicrosoftEdge: "", msedge: ""};
   // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/102
-  else if (page == "exceptions/iframe")
+  else if (page == "exceptions/iframe_subdomains")
     excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
   // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/105
   else if (page == "filters/rewrite")
