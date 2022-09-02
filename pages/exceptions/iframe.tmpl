@@ -29,6 +29,45 @@ description = Check that usage loading frames works with exceptions
   </ul>
 </section>
 
+{% set case = "iFrame content rewritten by script" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that allowlisting insinde an iframe rewritten by a script works.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <iframe id="rewrite-frame-id" src="https://abptestpages.org/testfiles/iframe_exception/empty.html"></iframe>
+    <script>
+      function writeIframe() {
+        document.getElementById('rewrite-frame-id').contentWindow.document.open('text/html');
+        document.getElementById('rewrite-frame-id').contentWindow.document.write(`
+          <html>
+            <head><\/head>
+            <body>
+              <img src="https://abptestpages.org/testfiles/iframe_exception/expected.png" alt="Test image placeholder"\/>
+            <\/body>
+          <\/html>`);
+      }
+      document.getElementById('rewrite-frame-id').addEventListener("load", writeIframe);
+    </script>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1 and #2.</li>
+    <li>Refresh page.</li>
+    <li>iFrame content containing the green square should be blocked.</li>
+    <li>Add filter #2.</li>
+    <li>Refresh page.</li>
+    <li>iFrame content containing the green square should be unblocked.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+  <li><pre>https://abptestpages.org/testfiles/iframe_exception/expected.png</pre></li>
+  <li><pre>##[alt="Test image placeholder"]</pre></li>
+  <li><pre>@@||abptestpages.org/testfiles/iframe_exception/empty.html^$document</pre></li>
+  </ul>
+</section>
+
 <script>
   "use strict";
 
