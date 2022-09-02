@@ -37,17 +37,19 @@ description = Check that usage loading frames works with exceptions
   <div id="{{id}}-area" class="testcase-area">
     <iframe id="rewrite-frame-id" src="https://abptestpages.org/testfiles/iframe_exception/empty.html"></iframe>
     <script>
+      "use strict";
+
       function writeIframe() {
-        document.getElementById('rewrite-frame-id').contentWindow.document.open('text/html');
-        document.getElementById('rewrite-frame-id').contentWindow.document.write(`
+        document.getElementById("rewrite-frame-id").contentWindow.document.open("text/html");
+        document.getElementById("rewrite-frame-id").contentWindow.document.write(`
           <html>
-            <head><\/head>
+            <head></head>
             <body>
-              <img src="https://abptestpages.org/testfiles/iframe_exception/expected.png" alt="Test image placeholder"\/>
-            <\/body>
-          <\/html>`);
+              <img src="https://abptestpages.org/testfiles/iframe_exception/expected.png" alt="Test image placeholder"/>
+            </body>
+          </html>`);
       }
-      document.getElementById('rewrite-frame-id').addEventListener("load", writeIframe);
+      document.getElementById("rewrite-frame-id").addEventListener("load", writeIframe);
     </script>
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
