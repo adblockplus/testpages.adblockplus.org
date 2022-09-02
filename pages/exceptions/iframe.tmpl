@@ -6,7 +6,7 @@ description = Check that usage loading frames works with exceptions
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that allowlisting insinde an iframe rewritten by a script works.</p>
+  <p>Test that allowlisting inside an iframe rewritten by a script works.</p>
   <div id="{{id}}-area" class="testcase-area">
     <iframe id="rewrite-frame-id" src="/testfiles/iframe_exception/empty.html"></iframe>
     <script>
@@ -31,7 +31,7 @@ description = Check that usage loading frames works with exceptions
     <li>Add filter #1 and #2.</li>
     <li>Refresh page.</li>
     <li>iFrame content containing the green square should be blocked.</li>
-    <li>Add filter #2.</li>
+    <li>Add filter #3.</li>
     <li>Refresh page.</li>
     <li>iFrame content containing the green square should be unblocked.</li>
   </ul>
