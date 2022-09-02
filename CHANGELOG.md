@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-09-02
+
+- Moved iframe exception testpage from iframe to iframe_subdomains path.
+- Added new iframe exception testpage which does not load iframes across subdomains.
+
 ## 2022-08-18
 
 - Refactor extension tests.
