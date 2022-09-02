@@ -2,10 +2,6 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2022-09-02
-
-- Add test for a filter with both $document and $subdocument options.
-
 ## 2022-08-18
 
 - Refactor extension tests.
