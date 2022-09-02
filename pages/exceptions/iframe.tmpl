@@ -21,6 +21,7 @@ description = Check that usage loading frames works with exceptions
               <img src="/testfiles/iframe_exception/expected.png" alt="Test image placeholder"/>
             </body>
           </html>`);
+        document.getElementById("rewrite-frame-id").contentWindow.document.close();
       }
       document.getElementById("rewrite-frame-id").addEventListener("load", writeIframe);
     </script>
