@@ -37,7 +37,7 @@ export function isExcluded(page, browserName, browserVersion) {
   // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/105
   else if (page == "exceptions/iframe")
     excluded = {firefox: ""};
-  // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/121
+  // https://jira.eyeo.com/browse/WEBEXT-1
   else if (page == "filters/rewrite")
     excluded = {firefox: ">=100.0"};
   // https://gitlab.com/eyeo/adblockplus/adblockpluschrome/-/issues/306#note_484130304
