@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-09-06
+
+- Add tests for blocking and allowing resources with 4-component domains via filters with 3-component domains.
+
 ## 2022-08-18
 
 - Refactor extension tests.

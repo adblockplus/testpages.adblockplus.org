@@ -98,3 +98,24 @@ description = Check that basic blocking functionality is working as expected.
   let area = document.getElementById("blocking-dynamic");
   area.appendChild(image);
 </script>
+
+{% set case = "Deep subdomains" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a blocking filter for a 3-component domain blocks a 4-component subdomain path.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <img id="{{id}}-fail-1" src="https://blocked.subdomain.abptestpages.org/testfiles/blocking/subdomain.png" data-expectedresult="fail" data-dp="fail">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red images should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>||subdomain.abptestpages.org/testfiles/blocking/subdomain.png</pre></li>
+  </ul>
+</section>

@@ -12,7 +12,7 @@ description = Check that usage of the $image filter option in an exception is wo
   <div id="{{id}}-area" class="testcase-area">
     <img id="{{id}}-pass-1" src="/testfiles/image_exception/image.png" data-dp="pass" aria-label="{{id}}-pass">
     <div class="testcase-expected-view"  aria-label="{{id}}-expected">This should be a green element.</div>
-    <div id="exception-target" data-expectedresult="pass" data-dp="pass" aria-label="{{id}}-pass">This should be a green element.</div>
+    <div id="{{id}}-exception-target" data-expectedresult="pass" data-dp="pass" aria-label="{{id}}-pass">This should be a green element.</div>
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -25,7 +25,33 @@ description = Check that usage of the $image filter option in an exception is wo
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>||{{ site_url|strip_proto }}/testfiles/image_exception/*</pre></li>
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/image_exception/image.png</pre></li>
     <li><pre>@@{{ site_url|strip_proto }}/testfiles/image_exception/$image</pre></li>
+  </ul>
+</section>
+
+{% set case = "Deep subdomain exception" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an exception defined for a 3-component domain allows a 4-component domain resource.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <img id="{{id}}-pass-1" src="https://allowed.subdomain.abptestpages.org/testfiles/image_exception/subdomain.png" data-dp="pass" aria-label="{{id}}-pass">
+    <div class="testcase-expected-view"  aria-label="{{id}}-expected">This should be a green element.</div>
+    <div id="{{id}}-exception-target" data-expectedresult="pass" data-dp="pass" aria-label="{{id}}-pass">This should be a green element.</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The element should not look red, and the green image containing the white square should be blocked.</li>
+    <li>Add filter #2.</li>
+    <li>The element should still not look red, but the green image containing the white square should become unblocked.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>||allowed.subdomain.abptestpages.org/testfiles/image_exception/subdomain.png</pre></li>
+    <li><pre>@@||subdomain.abptestpages.org/testfiles/image_exception/$image</pre></li>
   </ul>
 </section>
