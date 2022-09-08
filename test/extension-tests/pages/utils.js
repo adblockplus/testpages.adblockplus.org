@@ -32,9 +32,12 @@ export function isExcluded(page, browserName, browserVersion) {
   else if (page == "exceptions/sitekey")
     excluded = {MicrosoftEdge: "", msedge: ""};
   // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/102
-  else if (page == "exceptions/iframe")
+  else if (page == "exceptions/iframe_subdomains")
     excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
   // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/105
+  // https://gitlab.com/eyeo/adblockplus/abc/webext-sdk/-/issues/356
+  else if (page == "exceptions/iframe")
+    excluded = {firefox: ""};
   else if (page == "filters/rewrite")
     excluded = {firefox: ">=100.0"};
   // https://gitlab.com/eyeo/adblockplus/adblockpluschrome/-/issues/306#note_484130304

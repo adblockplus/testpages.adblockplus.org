@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-09-08
+
+- Moved iframe exception testpage from iframe to iframe_subdomains path.
+- Added new iframe exception testpage which does not load iframes across subdomains.
+
 ## 2022-09-06
 
 - Add tests for blocking and allowing resources with 4-component domains via filters with 3-component domains.
