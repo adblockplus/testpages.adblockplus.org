@@ -41,10 +41,10 @@ let extensionPaths = [
   path.resolve("test", "extension-tests", "helper-extension")
 ];
 
-async function isExtensionStarted(driver, handles){
-  let extensionName;
-  let isStarted = false;
+async function getExtensionName(driver,handles){
   let handle;
+  let extensionName;
+
   for (handle of handles) {
     await driver.switchTo().window(handle);
     extensionName = await driver.executeAsyncScript(async(...args) => {
@@ -59,6 +59,12 @@ async function isExtensionStarted(driver, handles){
     if (extensionName)
       break;
   }
+  return extensionName;
+}
+async function isExtensionStarted(driver, handles){
+  let isStarted = false;
+  let handle;
+  let extensionName = await getExtensionName(driver, handles);
 
   // Temporary, until: https://gitlab.com/adblockinc/ext/adblockplus/adblockplusui/-/issues/1222
   if (extensionName.includes("Adblock Plus ")){
