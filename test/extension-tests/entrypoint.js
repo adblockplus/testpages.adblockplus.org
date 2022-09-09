@@ -48,9 +48,46 @@ async function waitForExtension(driver) {
     handles = await driver.getAllWindowHandles();
     return handles.every(handle => seenHandles.includes(handle));
   }, 10000, "Handles kept changing after timeout", 3000);
-
   let origin;
   let handle;
+  let extensionName;
+  let isExtensionStarted = false;
+
+  for (handle of handles) {
+    await driver.switchTo().window(handle);
+    extensionName = await driver.executeAsyncScript(async(...args) => {
+      let callback = args[args.length - 1];
+      if (typeof browser != "undefined") {
+        let info = await browser.management.getSelf();
+        if (info.optionsUrl == location.href)
+          callback(info.name);
+      }
+      callback();
+    });
+    if (extensionName)
+      break;
+  }
+
+  // Temporary, until: https://gitlab.com/adblockinc/ext/adblockplus/adblockplusui/-/issues/1222
+  if (extensionName.includes("Adblock Plus ")){
+    await driver.wait(async() => {
+      for (handle of handles) {
+        // Wait fo extension to start
+        await driver.switchTo().window(handle);
+        let currentUrl = await driver.getCurrentUrl();
+        if (currentUrl.indexOf("first-run.html") > -1 ||
+        currentUrl.indexOf("welcome.adblockplus.org") > -1) {
+          isExtensionStarted = true;
+          break;
+        }
+      }
+      return isExtensionStarted;
+    }, 10000, "Extension didn't open welcome or first run page", 3000);
+  }
+  else {
+    isExtensionStarted = true;
+  }
+
   for (handle of handles) {
     await driver.switchTo().window(handle);
     origin = await driver.executeAsyncScript(async(...args) => {
@@ -63,12 +100,12 @@ async function waitForExtension(driver) {
       callback();
     });
 
-    if (origin)
+    if (origin && isExtensionStarted)
       break;
   }
 
   if (!origin)
-    throw new Error("options page not found");
+    throw new Error("Extension didn't start correctly, options is not shown");
 
   return [handle, origin];
 }
