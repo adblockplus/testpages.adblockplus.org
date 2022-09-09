@@ -41,18 +41,10 @@ let extensionPaths = [
   path.resolve("test", "extension-tests", "helper-extension")
 ];
 
-async function waitForExtension(driver) {
-  let handles = [];
-  await driver.wait(async() => {
-    let seenHandles = handles;
-    handles = await driver.getAllWindowHandles();
-    return handles.every(handle => seenHandles.includes(handle));
-  }, 10000, "Handles kept changing after timeout", 3000);
-  let origin;
-  let handle;
+async function isExtensionStarted(driver, handles){
   let extensionName;
-  let isExtensionStarted = false;
-
+  let isStarted = false;
+  let handle;
   for (handle of handles) {
     await driver.switchTo().window(handle);
     extensionName = await driver.executeAsyncScript(async(...args) => {
@@ -77,17 +69,30 @@ async function waitForExtension(driver) {
         let currentUrl = await driver.getCurrentUrl();
         if (currentUrl.indexOf("first-run.html") > -1 ||
         currentUrl.indexOf("welcome.adblockplus.org") > -1) {
-          isExtensionStarted = true;
+          isStarted = true;
           break;
         }
       }
-      return isExtensionStarted;
+      return isStarted;
     }, 10000, "Extension didn't open welcome or first run page", 3000);
   }
   else {
-    isExtensionStarted = true;
+    isStarted = true;
   }
+  return isStarted;
+}
 
+async function waitForExtension(driver) {
+  let handles = [];
+  await driver.wait(async() => {
+    let seenHandles = handles;
+    handles = await driver.getAllWindowHandles();
+    return handles.every(handle => seenHandles.includes(handle));
+  }, 10000, "Handles kept changing after timeout", 3000);
+  let origin;
+  let handle;
+
+  let isStarted = await isExtensionStarted(driver, handles);
   for (handle of handles) {
     await driver.switchTo().window(handle);
     origin = await driver.executeAsyncScript(async(...args) => {
@@ -100,7 +105,7 @@ async function waitForExtension(driver) {
       callback();
     });
 
-    if (origin && isExtensionStarted)
+    if (origin && isStarted)
       break;
   }
 
