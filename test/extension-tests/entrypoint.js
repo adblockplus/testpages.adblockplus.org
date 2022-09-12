@@ -91,13 +91,11 @@ async function waitForExtension(driver) {
   }, 10000, "Handles kept changing after timeout", 3000);
   let origin;
   let handle;
-  let started;
+  let started = true;
 
   let extensionName = await getExtensionName(driver, handles);
   if (extensionName.includes("Adblock Plus"))
     started = await hasABPStarted(driver, handles);
-  else
-    started = true;
 
   for (handle of handles) {
     await driver.switchTo().window(handle);
