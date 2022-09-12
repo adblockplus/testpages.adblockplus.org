@@ -64,7 +64,7 @@ async function getExtensionName(driver, handles) {
 
 async function hasABPStarted(driver, handles) {
   // Temporary, until: https://gitlab.com/adblockinc/ext/adblockplus/adblockplusui/-/issues/1222
-  await driver.wait(async() => {
+  let abpStarted = await driver.wait(async() => {
     for (let handle of handles) {
       await driver.switchTo().window(handle);
       let currentUrl = await driver.getCurrentUrl();
@@ -75,6 +75,7 @@ async function hasABPStarted(driver, handles) {
     return false;
   }
   );
+  return abpStarted;
 }
 
 async function waitForExtension(driver) {
