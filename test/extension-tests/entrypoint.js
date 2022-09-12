@@ -91,7 +91,6 @@ async function waitForExtension(driver) {
   if (extensionName.includes("Adblock Plus"))
     started = await hasABPStarted(driver, handles);
 
-
   for (handle of handles) {
     await driver.switchTo().window(handle);
     origin = await driver.executeAsyncScript(async(...args) => {
