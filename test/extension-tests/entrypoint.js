@@ -41,7 +41,7 @@ let extensionPaths = [
   path.resolve("test", "extension-tests", "helper-extension")
 ];
 
-async function getExtensionName(driver, handles){
+async function getExtensionName(driver, handles) {
   let handle;
   let extensionName;
 
