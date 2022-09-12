@@ -62,7 +62,7 @@ async function getExtensionName(driver, handles){
   return extensionName ? extensionName : "";
 }
 
-async function isExtensionStarted(driver, handles){
+async function hasExtensionStarted(driver, handles){
   let isStarted = false;
   let handle;
   let extensionName = await getExtensionName(driver, handles);
@@ -99,7 +99,7 @@ async function waitForExtension(driver) {
   let origin;
   let handle;
 
-  let isStarted = await isExtensionStarted(driver, handles);
+  let started = await hasExtensionStarted(driver, handles);
   for (handle of handles) {
     await driver.switchTo().window(handle);
     origin = await driver.executeAsyncScript(async(...args) => {
@@ -112,7 +112,7 @@ async function waitForExtension(driver) {
       callback();
     });
 
-    if (origin && isStarted)
+    if (origin && started)
       break;
   }
 
