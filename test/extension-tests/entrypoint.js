@@ -61,6 +61,7 @@ async function getExtensionName(driver, handles){
   }
   return extensionName ? extensionName : "";
 }
+
 async function isExtensionStarted(driver, handles){
   let isStarted = false;
   let handle;
