@@ -112,9 +112,7 @@ docker container create --name extgen extensionimage
 docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip ./
 ```
 
-The custom extension will be available as `adblockpluschrome.zip`.
-
-`ABPCORE_TAG` values can be found [here](https://gitlab.com/eyeo/adblockplus/abc/adblockpluscore/-/tags).
+The custom extensions will be available in `extension` folder copied.
 
 Note: If the `adblockpluscore` revision has breaking changes it might not be
 possible to build the extension with it (or it won't be working properly).
