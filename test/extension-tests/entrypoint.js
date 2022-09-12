@@ -67,7 +67,7 @@ async function hasABPStarted(driver, handles){
   let handle;
 
   // Temporary, until: https://gitlab.com/adblockinc/ext/adblockplus/adblockplusui/-/issues/1222
-  await driver.wait(async() => {
+  isStarted = await driver.wait(async() => {
     for (handle of handles) {
       // Wait fo extension to start
       await driver.switchTo().window(handle);
@@ -79,7 +79,8 @@ async function hasABPStarted(driver, handles){
       }
     }
     return isStarted;
-  }, 10000, "Extension didn't open welcome or first run page", 3000);
+  }, 1000, "Extension didn't open welcome or first run page", 3000);
+  return isStarted;
 }
 
 async function waitForExtension(driver) {
@@ -92,10 +93,10 @@ async function waitForExtension(driver) {
   let origin;
   let handle;
   let started = true;
-
   let extensionName = await getExtensionName(driver, handles);
   if (extensionName.includes("Adblock Plus"))
     started = await hasABPStarted(driver, handles);
+
 
   for (handle of handles) {
     await driver.switchTo().window(handle);
@@ -108,7 +109,6 @@ async function waitForExtension(driver) {
       }
       callback();
     });
-
     if (origin && started)
       break;
   }
