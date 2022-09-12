@@ -62,31 +62,24 @@ async function getExtensionName(driver, handles){
   return extensionName ? extensionName : "";
 }
 
-async function hasExtensionStarted(driver, handles){
+async function hasABPStarted(driver, handles){
   let isStarted = false;
   let handle;
-  let extensionName = await getExtensionName(driver, handles);
 
   // Temporary, until: https://gitlab.com/adblockinc/ext/adblockplus/adblockplusui/-/issues/1222
-  if (extensionName.includes("Adblock Plus ")){
-    await driver.wait(async() => {
-      for (handle of handles) {
-        // Wait fo extension to start
-        await driver.switchTo().window(handle);
-        let currentUrl = await driver.getCurrentUrl();
-        if (currentUrl.indexOf("first-run.html") > -1 ||
+  await driver.wait(async() => {
+    for (handle of handles) {
+      // Wait fo extension to start
+      await driver.switchTo().window(handle);
+      let currentUrl = await driver.getCurrentUrl();
+      if (currentUrl.indexOf("first-run.html") > -1 ||
         currentUrl.indexOf("welcome.adblockplus.org") > -1) {
-          isStarted = true;
-          break;
-        }
+        isStarted = true;
+        break;
       }
-      return isStarted;
-    }, 10000, "Extension didn't open welcome or first run page", 3000);
-  }
-  else {
-    isStarted = true;
-  }
-  return isStarted;
+    }
+    return isStarted;
+  }, 10000, "Extension didn't open welcome or first run page", 3000);
 }
 
 async function waitForExtension(driver) {
@@ -98,8 +91,14 @@ async function waitForExtension(driver) {
   }, 10000, "Handles kept changing after timeout", 3000);
   let origin;
   let handle;
+  let started;
 
-  let started = await hasExtensionStarted(driver, handles);
+  let extensionName = await getExtensionName(driver, handles);
+  if (extensionName.includes("Adblock Plus "))
+    started = await hasABPStarted(driver, handles);
+  else
+    started = true;
+
   for (handle of handles) {
     await driver.switchTo().window(handle);
     origin = await driver.executeAsyncScript(async(...args) => {
