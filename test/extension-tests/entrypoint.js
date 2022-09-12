@@ -62,25 +62,19 @@ async function getExtensionName(driver, handles){
   return extensionName ? extensionName : "";
 }
 
-async function hasABPStarted(driver, handles){
-  let isStarted = false;
-  let handle;
-
+async function hasABPStarted(driver, handles) {
   // Temporary, until: https://gitlab.com/adblockinc/ext/adblockplus/adblockplusui/-/issues/1222
-  isStarted = await driver.wait(async() => {
-    for (handle of handles) {
-      // Wait fo extension to start
+  await driver.wait(async() => {
+    for (let handle of handles) {
       await driver.switchTo().window(handle);
       let currentUrl = await driver.getCurrentUrl();
-      if (currentUrl.indexOf("first-run.html") > -1 ||
-        currentUrl.indexOf("welcome.adblockplus.org") > -1) {
-        isStarted = true;
-        break;
-      }
+      if (currentUrl.includes("first-run.html") ||
+        currentUrl.includes("welcome.adblockplus.org"))
+        return true;
     }
-    return isStarted;
-  }, 1000, "Extension didn't open welcome or first run page", 3000);
-  return isStarted;
+    return false;
+  }
+  );
 }
 
 async function waitForExtension(driver) {
