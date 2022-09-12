@@ -41,7 +41,7 @@ let extensionPaths = [
   path.resolve("test", "extension-tests", "helper-extension")
 ];
 
-async function getExtensionName(driver,handles){
+async function getExtensionName(driver, handles){
   let handle;
   let extensionName;
 
@@ -59,7 +59,7 @@ async function getExtensionName(driver,handles){
     if (extensionName)
       break;
   }
-  return extensionName;
+  return extensionName ? extensionName : "";
 }
 async function isExtensionStarted(driver, handles){
   let isStarted = false;
