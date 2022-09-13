@@ -118,6 +118,7 @@ The custom extension will be available as `adblockpluschrome.zip`.
 
 Note: If the `adblockpluscore` revision has breaking changes it might not be
 possible to build the extension with it (or it won't be working properly).
+
 #### Debugging failing tests
 
 In order to access the screenshots for failing tests run the following command,
