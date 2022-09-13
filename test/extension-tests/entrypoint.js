@@ -41,6 +41,41 @@ let extensionPaths = [
   path.resolve("test", "extension-tests", "helper-extension")
 ];
 
+async function getExtensionName(driver, handles) {
+  let handle;
+  let extensionName;
+
+  for (handle of handles) {
+    await driver.switchTo().window(handle);
+    extensionName = await driver.executeAsyncScript(async(...args) => {
+      let callback = args[args.length - 1];
+      if (typeof browser != "undefined") {
+        let info = await browser.management.getSelf();
+        if (info.optionsUrl == location.href)
+          callback(info.name);
+      }
+      callback();
+    });
+    if (extensionName)
+      break;
+  }
+  return extensionName ? extensionName : "";
+}
+
+function hasABPStarted(driver, handles) {
+  // Temporary, until: https://gitlab.com/adblockinc/ext/adblockplus/adblockplusui/-/issues/1222
+  return driver.wait(async() => {
+    for (let handle of handles) {
+      await driver.switchTo().window(handle);
+      let currentUrl = await driver.getCurrentUrl();
+      if (currentUrl.includes("first-run.html") ||
+        currentUrl.includes("welcome.adblockplus.org"))
+        return true;
+    }
+    return false;
+  });
+}
+
 async function waitForExtension(driver) {
   let handles = [];
   await driver.wait(async() => {
@@ -48,9 +83,13 @@ async function waitForExtension(driver) {
     handles = await driver.getAllWindowHandles();
     return handles.every(handle => seenHandles.includes(handle));
   }, 10000, "Handles kept changing after timeout", 3000);
-
   let origin;
   let handle;
+  let started = true;
+  let extensionName = await getExtensionName(driver, handles);
+  if (extensionName.includes("Adblock Plus"))
+    started = await hasABPStarted(driver, handles);
+
   for (handle of handles) {
     await driver.switchTo().window(handle);
     origin = await driver.executeAsyncScript(async(...args) => {
@@ -62,13 +101,12 @@ async function waitForExtension(driver) {
       }
       callback();
     });
-
-    if (origin)
+    if (origin && started)
       break;
   }
 
   if (!origin)
-    throw new Error("options page not found");
+    throw new Error("Extension didn't start correctly, options is not shown");
 
   return [handle, origin];
 }
