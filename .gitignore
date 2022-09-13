@@ -1,7 +1,5 @@
 /node_modules/
 *.zip
 /testext/
-# Copied from docker 
-/extension
 /test/screenshots/
 /browser-snapshots/
