@@ -1,4 +1,4 @@
-FROM node:12-buster-slim
+FROM node:16-buster-slim
 
 RUN apt-get update
 RUN apt-get install -y wget git
@@ -16,9 +16,8 @@ RUN pip install git+https://gitlab.com/eyeo/auxiliary/eyeo-coding-style#egg=flak
 RUN pip install yamllint
 
 # Install node packages
-COPY package.json testpages.adblockplus.org/package.json
-RUN cd testpages.adblockplus.org \
-  && npm install
+COPY package*.json testpages.adblockplus.org/
+RUN cd testpages.adblockplus.org && npm install
 
 COPY . testpages.adblockplus.org
 

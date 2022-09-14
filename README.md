@@ -20,7 +20,7 @@ The execution is done in Docker.
 Checks are done using:
 * `flake8` with the [flake8-eyeo extension](https://gitlab.com/eyeo/auxiliary/eyeo-coding-style/-/tree/master/flake8-eyeo)
 for python scripts
-* npm `htmllint-cli` for html content
+* npm `linthtml` for html content
 * npm `eslint` for javascript content
 * npm `stylelint` for CSS content
 

@@ -9,14 +9,13 @@
   "type": "module",
   "devDependencies": {
     "@eyeo/get-browser-binary": "^0.3.0",
+    "@linthtml/linthtml": "^0.9.0",
     "chromedriver": "^91.0.1",
     "eslint": "^6.8.0",
     "eslint-config-eyeo": "^3.2.0",
     "eslint-plugin-html": "^6.0.1",
     "geckodriver": "^3.0.2",
     "got": "^11.8.2",
-    "htmllint": "^0.7.2",
-    "htmllint-cli": "^0.0.7",
     "jimp": "^0.16.1",
     "mocha": "^9.0.0",
     "msedgedriver": "^91.0.0",
@@ -25,8 +24,8 @@
     "stylelint-config-standard": "^20.0.0"
   },
   "scripts": {
-    "htmllint": "htmllint --rc test/.htmllintrc static/**/*.html \\*\\*/\\*.tmpl",
     "eslint": "eslint test/extension-tests/ static/ pages/**/*.tmpl",
+    "linthtml": "linthtml --config test/.linthtmlrc.json static/**/*.html \\*\\*/\\*.tmpl",
     "stylelint": "stylelint --config test/.stylelintrc.json **/*.{css,html,tmpl}",
     "test": "mocha --delay test/extension-tests/entrypoint.js --"
   }
