@@ -1,5 +1,5 @@
-from HTMLParser import HTMLParser
-from jinja2 import contextfunction
+from html.parser import HTMLParser
+from jinja2 import pass_context
 
 
 class FilterHTMLParser(HTMLParser):
@@ -30,7 +30,7 @@ class FilterHTMLParser(HTMLParser):
             self.filters.append(data)
 
 
-@contextfunction
+@pass_context
 def get_filters(context, specific_pages=None):
     filters = []
     for page, page_format in context['source'].list_pages():

@@ -161,7 +161,7 @@ test:edge:
     - $Env:NGINX = "C:\tools\nginx-1.19.0"
     - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
     - choco install -y openssl.light
-    - choco install -y python2
+    - choco install -y python3
     - choco upgrade -y nodejs --version 16.10.0
     - refreshenv
     # nginx config
@@ -178,9 +178,8 @@ test:edge:
       Add-Content c:\windows\system32\drivers\etc\hosts
     # Build CMS
     - git clone https://gitlab.com/eyeo/websites/cms.git
-    # https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/61
-    - git -C cms checkout 8bd1d07605d220be45f907260bbbf108c3fe41ca
-    - pip install -r cms\requirements.txt
+    - git -C cms checkout fbd1527b9f98d99a8b62c6ad5e32ac7758c19a28
+    - pip3 install -r cms\requirements.txt
     # Build tests
     - npm install
     # Generate test pages files
@@ -232,7 +231,7 @@ test:edge:
   extends: .production
   script:
     - env PYTHONPATH=/opt/cms:/opt/sitescripts
-      python -m cms.bin.generate_static_pages $PWD build
+      python3 -m cms.bin.generate_static_pages $PWD build
   artifacts:
     name: $CI_COMMIT_REF_SLUG
     paths:
