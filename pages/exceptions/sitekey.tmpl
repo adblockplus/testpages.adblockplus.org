@@ -15,8 +15,8 @@ description = Check that a filter using the $sitekey exception filter option is 
   </div>
   <h3>In frame elements</h3>
   <div id="{{id}}-area" class="testcase-area">
-    {# /sitekey-frame is served by https://gitlab.com/eyeo/devops/legacy/sitescripts/-/tree/master/sitescripts/testpages/web which parses /templates/sitekey_frame.tmpl #}
-    <iframe src="/sitekey-frame" style="width: 100%;"></iframe>
+    {# /sitekey-frame is served by https://gitlab.com/eyeo/devops/legacy/sitescripts/-/tree/master/sitescripts/testpages/web which parses /static/sitekey_frame.tmpl #}
+    <iframe id="sitekey-frame" src="/sitekey-frame" style="width: 100%;"></iframe>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -35,3 +35,31 @@ description = Check that a filter using the $sitekey exception filter option is 
     <li><pre>@@$document,sitekey=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANGtTstne7e8MbmDHDiMFkGbcuBgXmiVesGOG3gtYeM1EkrzVhBjGUvKXYE4GLFwqty3v5MuWWbvItUWBTYoVVsCAwEAAQ</pre></li>
   </ul>
 </section>
+
+<script>
+  "use strict";
+
+  if (expectedParameter()) { // eslint-disable-line no-undef
+    let frameDoc = document.getElementById("sitekey-frame").contentDocument;
+    frameDoc.write(`
+      <body>
+        <style>
+          html,
+          body {
+            margin: 0;
+            height: 100%;
+          }
+
+          .testcase-sitekey-expected {
+            flex-grow: 1;
+            padding: 0.5rem;
+            color: #fff;
+            background-color: #0dc74b;
+          }
+        </style>
+        <div class="testcase-sitekey-expected">Exception Target</div>
+        <img src="/images/expected.png"/>
+      </body>`);
+    frameDoc.close();
+  }
+</script>

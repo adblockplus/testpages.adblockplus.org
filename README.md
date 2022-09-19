@@ -159,6 +159,9 @@ python <CMS_PATH>/runserver.py --port 5001
 
 Test pages should now be accessible at http://localhost:5001.
 
+Note: The local testpages server does not have sitescripts enabled, that's why
+the Sitekey test is expected to fail.
+
 For more information and usage instructions see [CMS documentation](https://gitlab.com/eyeo/websites/cms/-/blob/master/README.md).
 
 ### Local page tests run

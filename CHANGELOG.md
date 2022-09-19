@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-09-20
+
+- Fixed a bug on the Sitekey page that would make the test pass when using an
+invalid sitekey filter.
+
 ## 2022-09-08
 
 - Moved iframe exception testpage from iframe to iframe_subdomains path.
