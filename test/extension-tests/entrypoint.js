@@ -78,6 +78,7 @@ function hasABPStarted(driver, handles) {
 
 async function waitForExtension(driver) {
   let handles = [];
+
   await driver.wait(async() => {
     let seenHandles = handles;
     handles = await driver.getAllWindowHandles();
@@ -86,9 +87,16 @@ async function waitForExtension(driver) {
   let origin;
   let handle;
   let started = true;
-  let extensionName = await getExtensionName(driver, handles);
-  if (extensionName.includes("Adblock Plus"))
-    started = await hasABPStarted(driver, handles);
+  let extensionName;
+  await driver.wait(async() => {
+    extensionName = await getExtensionName(driver, handles);
+  }, 2000, "Cannot  get extension name", 3000);
+
+  if (extensionName.includes("Adblock Plus")) {
+    await driver.wait(async() => {
+      started = await hasABPStarted(driver, handles);
+    }, 2000, "ABP is loaded but not started properly", 3000);
+  }
 
   for (handle of handles) {
     await driver.switchTo().window(handle);
@@ -167,9 +175,9 @@ if (typeof run == "undefined") {
           this.browserVersion = cap.getBrowserVersion();
           // eslint-disable-next-line no-console
           console.log(`Browser: ${this.browserName} ${this.browserVersion}`);
-
           try {
             // Wait for extension to finish installation
+
             await this.driver.sleep(2000);
             [this.extensionHandle, this.extensionOrigin] =
               await waitForExtension(this.driver);
