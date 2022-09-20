@@ -175,9 +175,9 @@ if (typeof run == "undefined") {
           this.browserVersion = cap.getBrowserVersion();
           // eslint-disable-next-line no-console
           console.log(`Browser: ${this.browserName} ${this.browserVersion}`);
+
           try {
             // Wait for extension to finish installation
-
             await this.driver.sleep(2000);
             [this.extensionHandle, this.extensionOrigin] =
               await waitForExtension(this.driver);
