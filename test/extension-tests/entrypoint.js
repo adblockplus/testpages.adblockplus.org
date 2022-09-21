@@ -47,17 +47,17 @@ async function getExtensionName(driver, handles) {
 
   for (handle of handles) {
     await driver.switchTo().window(handle);
-    await driver.wait(async() => {
-      extensionName = await driver.executeAsyncScript(async(...args) => {
-        let callback = args[args.length - 1];
-        if (typeof browser != "undefined") {
-          let info = await browser.management.getSelf();
-          if (info.optionsUrl == location.href)
-            callback(info.name);
-        }
-        callback();
-      });
-    }, 1000000, "Cannot  get extension name");
+    // await driver.wait(async() => {
+    extensionName = await driver.executeAsyncScript(async(...args) => {
+      let callback = args[args.length - 1];
+      if (typeof browser != "undefined") {
+        let info = await browser.management.getSelf();
+        if (info.optionsUrl == location.href)
+          callback(info.name);
+      }
+      callback();
+    });
+    // }, 1000000, "Cannot  get extension name");
     if (extensionName)
       break;
   }
@@ -76,7 +76,7 @@ function hasABPStarted(driver, handles) {
         return true;
     }
     return false;
-  });
+  }, 10000, "Welcome page is not shown for ABP");
 }
 
 async function waitForExtension(driver) {
