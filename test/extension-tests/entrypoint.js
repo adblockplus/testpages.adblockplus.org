@@ -44,9 +44,10 @@ let extensionPaths = [
 async function getExtensionName(driver, handles) {
   let handle;
   let extensionName;
-  await driver.wait(async() => {
-    for (handle of handles) {
-      await driver.switchTo().window(handle);
+
+  for (handle of handles) {
+    await driver.switchTo().window(handle);
+    await driver.wait(async() => {
       extensionName = await driver.executeAsyncScript(async(...args) => {
         let callback = args[args.length - 1];
         if (typeof browser != "undefined") {
@@ -56,11 +57,12 @@ async function getExtensionName(driver, handles) {
         }
         callback();
       });
-      if (extensionName)
-        break;
-    }
-    return extensionName ? extensionName : "";
-  }, 2000, "Cannot  get extension name", 3000);
+    }, 1000000, "Cannot  get extension name");
+    if (extensionName)
+      break;
+  }
+
+  return extensionName ? extensionName : "";
 }
 
 function hasABPStarted(driver, handles) {
