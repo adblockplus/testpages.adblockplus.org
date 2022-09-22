@@ -47,7 +47,6 @@ async function getExtensionName(driver, handles) {
 
   for (handle of handles) {
     await driver.switchTo().window(handle);
-    // await driver.wait(async() => {
     extensionName = await driver.executeAsyncScript(async(...args) => {
       let callback = args[args.length - 1];
       if (typeof browser != "undefined") {
@@ -57,7 +56,6 @@ async function getExtensionName(driver, handles) {
       }
       callback();
     });
-    // }, 1000000, "Cannot  get extension name");
     if (extensionName)
       break;
   }
