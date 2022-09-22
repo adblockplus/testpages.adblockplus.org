@@ -31,13 +31,13 @@ export function isExcluded(page, browserName, browserVersion) {
   // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/41
   else if (page == "exceptions/sitekey")
     excluded = {MicrosoftEdge: "", msedge: ""};
-  // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/102
+  // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/125
   else if (page == "exceptions/iframe_subdomains")
     excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
-  // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/105
   // https://gitlab.com/eyeo/adblockplus/abc/webext-sdk/-/issues/356
   else if (page == "exceptions/iframe")
     excluded = {firefox: ""};
+  // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/105
   else if (page == "filters/rewrite")
     excluded = {firefox: ">=100.0"};
   // https://gitlab.com/eyeo/adblockplus/adblockpluschrome/-/issues/306#note_484130304

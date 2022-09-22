@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-09-29
+
+- Renamed the title of pages/exceptions/iframe_subdomains.tmpl from `iFrame
+Exception` to `iFrame Subdomains Exception`, and removed the `<iframe>` ids
+on the static html files loaded by that page.
+
 ## 2022-09-27
 
 - Added the `GREP` parameter to the test Docker image, and deprecated the
@@ -58,7 +64,7 @@ invalid sitekey filter.
 
 ## 2021-03-12
 
-- Added XPath test page 
+- Added XPath test page
 
 ## 2021-02-24
 
