@@ -90,9 +90,7 @@ async function waitForExtension(driver) {
   let origin;
   let handle;
   let started = true;
-  let extensionName;
-
-  extensionName = await getExtensionName(driver, handles);
+  let extensionName = await getExtensionName(driver, handles);
 
   if (extensionName.includes("Adblock Plus"))
     started = await hasABPStarted(driver, handles);
