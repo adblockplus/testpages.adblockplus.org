@@ -59,6 +59,7 @@ async function getExtensionName(driver, handles) {
     if (extensionName)
       break;
   }
+
   return extensionName ? extensionName : "";
 }
 
@@ -73,11 +74,12 @@ function hasABPStarted(driver, handles) {
         return true;
     }
     return false;
-  });
+  }, 10000, "Welcome page is not shown for ABP");
 }
 
 async function waitForExtension(driver) {
   let handles = [];
+
   await driver.wait(async() => {
     let seenHandles = handles;
     handles = await driver.getAllWindowHandles();
