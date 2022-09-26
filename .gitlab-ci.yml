@@ -114,6 +114,12 @@ test:chrome:beta:
   variables:
     BROWSER: chromium beta
 
+test:chrome:dev:
+  extends: .test
+  allow_failure: true
+  variables:
+    BROWSER: chromium dev
+
 test:chrome:oldest:
   extends: .test
   variables:

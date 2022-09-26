@@ -60,6 +60,7 @@ docker run -e BROWSER="chromium latest" -it testpages
 The available browsers are:
 * chromium latest
 * chromium beta
+* chromium dev
 * chromium 77.0.3865.0
 * firefox latest
 * firefox beta
