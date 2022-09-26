@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-09-27
+
+- Added the `GREP` parameter to the test Docker image, and deprecated the
+`BROWSER`, `TESTS_SUBSET` and `TESTS_EXCLUDE` parameters.
+
 ## 2022-09-20
 
 - Fixed a bug on the Sitekey page that would make the test pass when using an
