@@ -48,13 +48,13 @@ session id). To fix this you need to increase shm memory:
 docker run --shm-size=256m -t testpages .
 ```
 
-#### Browser
+#### Grep
 
 `firefox latest` is the default browser. Other browsers can be run using the
-`BROWSER` argument:
+`GREP` argument:
 
 ```shell
-docker run -e BROWSER="chromium latest" -it testpages
+docker run -e GREP="chromium latest" -it testpages
 ```
 
 The available browsers are:
@@ -65,22 +65,21 @@ The available browsers are:
 * firefox beta
 * firefox 68.0
 
-#### Tests subset
-
-In order to run a subset of the tests, use the `TESTS_SUBSET` argument,
-which supports regular expressions syntax. Example:
+`GREP` supports regular expressions syntax, which means it can be extended to
+run a subset of those tests. Example:
 
 ```shell
-docker run -e TESTS_SUBSET="(Blocking|Popup)" -it testpages
+docker run -e GREP="chromium latest.*(Blocking|Popup)" -it testpages
 ```
 
-To exclude a subset of the tests, use the `TESTS_EXCLUDE` argument. Example:
+To exclude a subset of the tests, use a negative regular expression. Example:
 
 ```shell
-docker run -e TESTS_EXCLUDE="Snippets" -it testpages
+docker run -e GREP="^Browser: chromium latest((?\!Snippets).)*\$" -it testpages
 ```
 
-Note: When `TESTS_EXCLUDE` is set, then `TESTS_SUBSET` has no effect.
+Note: Before `GREP`, the parameters `BROWSER`, `TESTS_SUBSET` and
+`TESTS_EXCLUDE` were used instead. Those parameters are currently deprecated.
 
 #### Packed extensions
 
