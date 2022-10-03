@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-10-03
+
+- Updated one of the `iFrame Exception` filters, from
+`##[alt="Test image placeholder"]` to
+`##[alt="iframe-content-rewritten-by-script-placeholder"]`. More info: #125
+
 ## 2022-09-29
 
 - Renamed the title of pages/exceptions/iframe_subdomains.tmpl from `iFrame
