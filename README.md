@@ -8,7 +8,7 @@ is automatically generated from the files in this repository.
 The following tools are needed:
 * Node >= 16.10.0
 * npm >= 7
-* Python 3
+* Python 2.7
 * Docker
 
 ## Running the tests
@@ -141,7 +141,7 @@ Test pages run through the CMS test server. That project needs to be cloned:
 
 ```shell
 git clone https://gitlab.com/eyeo/websites/cms.git
-git -C cms checkout fbd1527b9f98d99a8b62c6ad5e32ac7758c19a28
+git -C cms checkout 8bd1d07605d220be45f907260bbbf108c3fe41ca
 ```
 
 After that, CMS dependencies need to be installed:

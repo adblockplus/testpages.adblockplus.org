@@ -1,7 +1,7 @@
 from datetime import datetime
-from jinja2 import pass_context
+from jinja2 import contextfunction
 
 
-@pass_context
+@contextfunction
 def get_date(context):
     return datetime.today().strftime('%d %B %Y')
