@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-10-04
+
+- Added `=content-type` to header exception filter. More info: #100
+
 ## 2022-10-03
 
 - Updated one of the `iFrame Exception` filters, from
