@@ -19,7 +19,8 @@ import semver from "semver";
 import Jimp from "jimp";
 
 import specializedTests from "./specialized.js";
-import {takeScreenshot, writeScreenshotFile} from "../misc/screenshots.js";
+import {takeScreenshot, writeScreenshotFile, writeScreenshotAndThrow}
+  from "../misc/screenshots.js";
 
 export function isExcluded(page, browserName, browserVersion) {
   let excluded;
@@ -34,9 +35,6 @@ export function isExcluded(page, browserName, browserVersion) {
   // https://gitlab.com/eyeo/adblockplus/abc/webext-sdk/-/issues/356
   else if (page == "exceptions/iframe")
     excluded = {firefox: ""};
-  // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/105
-  else if (page == "filters/rewrite")
-    excluded = {firefox: ">=100.0"};
   // https://gitlab.com/eyeo/adblockplus/adblockpluschrome/-/issues/306#note_484130304
   else if (page == "filters/webrtc" || page == "exceptions/webrtc")
     excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
@@ -44,14 +42,24 @@ export function isExcluded(page, browserName, browserVersion) {
          semver.satisfies(semver.coerce(browserVersion), excluded[browserName]);
 }
 
-export async function getExpectedScreenshot(driver, url) {
-  await driver.navigate().to(`${url}?expected=1`);
+export async function getExpectedScreenshot(context, url) {
+  let {driver, browserName, test} = context;
+  try {
+    await driver.navigate().to(`${url}?expected=1`);
+  }
+  catch (err) {
+    // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/105
+    if (err.name == "TimeoutError" && test.title == "Rewrite" &&
+        browserName == "firefox")
+      console.warn(`Expected ${test.title} page wasn't fully loaded: ${err}`);
+    else
+      await writeScreenshotAndThrow(context, err);
+  }
   return await takeScreenshot(driver);
 }
 
-export async function runGenericTests(driver, expectedScreenshot,
-                                      browserName, browserVersion, testTitle,
-                                      url, writeScreenshots = true) {
+export async function runGenericTests(driver, expectedScreenshot, browserName,
+                                      browserVersion, testTitle, url) {
   let actualScreenshot;
 
   async function compareScreenshots() {
@@ -82,9 +90,6 @@ export async function runGenericTests(driver, expectedScreenshot,
     }
   }
   catch (e) {
-    if (!writeScreenshots)
-      throw e;
-
     let paths = [];
     for (let [suffix, image] of [["actual", actualScreenshot],
                                  ["expected", expectedScreenshot]]) {
@@ -100,18 +105,16 @@ export function getPage(url) {
   return url.substr(url.lastIndexOf("/", url.lastIndexOf("/") - 1) + 1);
 }
 
-export async function runFirstTest(driver, browserName, browserVersion,
-                                   testCases, testTitle,
-                                   writeScreenshots = true) {
+export async function runFirstTest(context, testCases) {
+  let {driver, browserName, browserVersion, test} = context;
   for (let [url] of testCases) {
     let page = getPage(url);
     if (!(isExcluded(page, browserName, browserVersion) ||
           page in specializedTests)) {
-      let expectedScreenshot = await getExpectedScreenshot(driver, url);
+      let expectedScreenshot = await getExpectedScreenshot(context, url);
       await driver.navigate().to(url);
-      await runGenericTests(driver, expectedScreenshot,
-                            browserName, browserVersion,
-                            testTitle, url, writeScreenshots);
+      await runGenericTests(driver, expectedScreenshot, browserName,
+                            browserVersion, test.title, url);
       return;
     }
   }

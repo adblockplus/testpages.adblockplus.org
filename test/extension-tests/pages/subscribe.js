@@ -92,8 +92,7 @@ export default () => {
     }
     await this.driver.switchTo().window(currentHandle);
     await removePreviousFilters(this.driver, this.extensionHandle);
-    await runFirstTest(this.driver, this.browserName, this.browserVersion,
-                       testCases, this.test.title);
+    await runFirstTest(this, testCases);
     await removeSubscription(this.driver, this.extensionHandle, subscription);
     await checkLastError(this.driver, this.extensionHandle);
   });

@@ -165,6 +165,8 @@ if (typeof run == "undefined") {
             version,
             {headless, extensionPaths, incognito: false, insecure: true}
           );
+          await this.driver.manage().setTimeouts({pageLoad: 20000});
+
           let cap = await this.driver.getCapabilities();
           this.browserName = cap.getBrowserName();
           this.browserVersion = cap.getBrowserVersion();

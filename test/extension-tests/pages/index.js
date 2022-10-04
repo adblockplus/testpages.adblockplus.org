@@ -86,8 +86,7 @@ export default () => {
                 await specializedTests[page].run(element, this.extensionHandle);
             }
             else {
-              let expectedScreenshot = await getExpectedScreenshot(this.driver,
-                                                                   url);
+              let expectedScreenshot = await getExpectedScreenshot(this, url);
               await updateFilters(this.driver, this.extensionHandle, url);
               await runGenericTests(this.driver, expectedScreenshot,
                                     this.browserName, this.browserVersion,

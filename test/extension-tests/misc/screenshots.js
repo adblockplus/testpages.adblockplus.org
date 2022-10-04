@@ -25,6 +25,9 @@ export async function takeScreenshot(driver) {
   // the content as scrolling occurs. So we have to hide
   // the scrollbars to get reproducible screenshots.
   await driver.executeScript(`
+    if (!document.head)
+      return;
+
     let style = document.createElement("style");
     style.textContent = "html { overflow-y: scroll; }"
     document.head.appendChild(style);
