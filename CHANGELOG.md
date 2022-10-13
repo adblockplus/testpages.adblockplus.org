@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-10-13
+
+- Removed the deprecated `BROWSER`, `TESTS_SUBSET` and `TESTS_EXCLUDE`
+parameters from the test Docker image.
+
 ## 2022-10-04
 
 - Added `=content-type` to header exception filter. More info: #100

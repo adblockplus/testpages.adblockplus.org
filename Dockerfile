@@ -64,12 +64,7 @@ RUN PYTHONPATH=cms python3 -m cms.bin.generate_static_pages testpages.adblockplu
 ARG EXTENSION_FILE=""
 RUN if [ "$EXTENSION_FILE" != "" ]; then unzip -q testpages.adblockplus.org/$EXTENSION_FILE -d testpages.adblockplus.org/testext; fi
 
-ENV GREP=""
+ENV GREP="firefox latest"
 ENV SKIP_EXTENSION_DOWNLOAD=""
-# BROWSER, TESTS_SUBSET and TESTS_EXCLUDE are deprecated
-# https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/124
-ENV BROWSER="firefox latest"
-ENV TESTS_SUBSET=""
-ENV TESTS_EXCLUDE=""
 
 ENTRYPOINT ./testpages.adblockplus.org/test/entrypoint.sh

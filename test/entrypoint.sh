@@ -1,20 +1,8 @@
 #! /bin/bash
 
 # Browser config
-if [[ "$GREP" == *"chromium"* || "$BROWSER" == *"chromium"* ]]; then
+if [[ "$GREP" == *"chromium"* ]]; then
   XVFB_CMD="xvfb-run -a"
-fi
-
-# BROWSER, TESTS_SUBSET and TESTS_EXCLUDE are deprecated
-# https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/124
-if [[ "$TESTS_EXCLUDE" != "" ]]; then
-  tests="^Browser: $BROWSER((?!$TESTS_EXCLUDE).)*\$"
-else
-  tests="$BROWSER.*$TESTS_SUBSET"
-fi
-
-if [[ "$GREP" != "" ]]; then
-  tests="$GREP"
 fi
 
 # Run sitescripts
@@ -36,4 +24,4 @@ fi
 # Run tests
 export TEST_PAGES_URL="$SITE_URL/en/"
 export TEST_PAGES_INSECURE="true"
-$XVFB_CMD npm test -- -g "$tests"
+$XVFB_CMD npm test -- -g "$GREP"

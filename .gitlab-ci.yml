@@ -76,7 +76,7 @@ generate_extension:
     - >
       if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
         echo "INFO: Running test with custom extension."
-        GREP="^Browser: $GREP((?\!Snippets).)*\$"
+        GREP="^.*$GREP((?\!Snippets).)*\$"
         SKIP_EXTENSION_DOWNLOAD="true"
         docker build -t testpages \
           --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
@@ -195,12 +195,12 @@ test:edge:
       if($CI_COMMIT_REF_NAME -like "core-*")
       {
         Expand-Archive adblockpluschrome.zip -DestinationPath ./testext
-        $Env:TESTARG="^Browser: edge((?!Snippets).)*$";
+        $Env:TESTARG="^.*edge((?!Snippets).)*$";
       }
       else
       {
         node ./test/extension-tests/extension-download.js
-        $Env:TESTARG="Browser: edge";
+        $Env:TESTARG="edge";
       }
     - npm run test -- -g "$Env:TESTARG"
   dependencies:

@@ -76,11 +76,8 @@ docker run -e GREP="chromium latest.*(Blocking|Popup)" -it testpages
 To exclude a subset of the tests, use a negative regular expression. Example:
 
 ```shell
-docker run -e GREP="^Browser: chromium latest((?\!Snippets).)*\$" -it testpages
+docker run -e GREP="^.*chromium latest((?\!Snippets).)*\$" -it testpages
 ```
-
-Note: Before `GREP`, the parameters `BROWSER`, `TESTS_SUBSET` and
-`TESTS_EXCLUDE` were used instead. Those parameters are currently deprecated.
 
 #### Packed extensions
 
@@ -98,7 +95,7 @@ To run the tests with the custom extension package, you must provide the
 will be overridden by the default extension. Example:
 
 ```shell
-docker run -e SKIP_EXTENSION_DOWNLOAD="true" -e BROWSER="chromium" -it testpages
+docker run -e SKIP_EXTENSION_DOWNLOAD="true" -it testpages
 ```
 
 #### Custom extensions
