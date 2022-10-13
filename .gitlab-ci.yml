@@ -139,7 +139,12 @@ test:firefox:oldest:
   variables:
     GREP: firefox 68.0
 
-test:edge:
+test:edge:latest:
+  extends: .test
+  variables:
+    GREP: edge latest
+
+test:edge:windows:
   stage: test
   tags:
     - shared-windows
@@ -190,7 +195,6 @@ test:edge:
     # Run testpages server
     - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
       -PassThru
-    - $Env:TESTARG=""
     - >
       if($CI_COMMIT_REF_NAME -like "core-*")
       {

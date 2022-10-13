@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # Browser config
-if [[ "$GREP" == *"chromium"* ]]; then
+if [[ "$GREP" == *"chromium"* || "$GREP" == *"edge"* ]]; then
   XVFB_CMD="xvfb-run -a"
 fi
 

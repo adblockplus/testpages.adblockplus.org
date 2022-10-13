@@ -150,8 +150,8 @@ if (typeof run == "undefined") {
 (async() => {
   let pageTests = await getPageTests();
 
-  for (let browser of Object.keys(BROWSERS)) {
-    for (let version of BROWSER_VERSIONS[browser]) {
+  for (let [browser, versions] of Object.entries(BROWSER_VERSIONS)) {
+    for (let version of versions) {
       describe(`Browser: ${browser} ${version || "latest"}`, function() {
         this.timeout(0);
         this.pageTests = pageTests;
