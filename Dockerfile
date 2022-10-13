@@ -13,23 +13,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-FROM node:16-buster-slim
+FROM registry.gitlab.com/eyeo/docker/get-browser-binary:node16
 
-RUN apt-get update
-RUN apt-get install -y wget git unzip
+RUN apt-get update && apt-get install -y nginx
 
-# Non-headless Chromium requires xvfb-run
-RUN apt-get install -y libgtk-3-0 libxt6 xvfb libnss3 libxss1 libgconf-2-4 libasound2 libgbm1
+# CMS and sitescripts require Python 3
+RUN apt-get install -y python3 python3-distutils
+RUN wget https://bootstrap.pypa.io/pip/get-pip.py
+RUN python3 get-pip.py
 
-# CMS and Jinja2 require Python 2.7
-RUN apt-get install -y python
-RUN wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
-RUN python get-pip.py
-
-RUN pip install Jinja2
-
-# Sitescripts require spawn-fcgi, python-flup and python-m2crypto
-RUN apt-get install -y spawn-fcgi python-flup python-m2crypto nginx
+# Sitescripts requires spawn-fcgi, m2crypto, flup and Jinja2
+RUN apt-get install -y spawn-fcgi python3-m2crypto
+RUN pip3 install flup Jinja2
 
 # nginx config
 ENV DOMAIN=local.testpages.adblockplus.org
@@ -46,11 +41,13 @@ RUN touch /var/run/500-multiplexer_spawn-fcgi.pid
 
 # Build sitescripts
 RUN git clone https://gitlab.com/eyeo/devops/legacy/sitescripts.git
+# https://gitlab.com/eyeo/devops/legacy/sitescripts/-/merge_requests/25
+RUN git -C sitescripts checkout python3
 
 # Build CMS
-RUN git clone https://github.com/adblockplus/cms.git
-RUN git -C cms checkout 8bd1d07605d220be45f907260bbbf108c3fe41ca
-RUN pip install -r cms/requirements.txt
+RUN git clone https://gitlab.com/eyeo/websites/cms.git
+RUN git -C cms checkout fbd1527b9f98d99a8b62c6ad5e32ac7758c19a28
+RUN pip3 install -r cms/requirements.txt
 
 # Build tests
 COPY package*.json testpages.adblockplus.org/
@@ -61,7 +58,7 @@ COPY . testpages.adblockplus.org
 # Generate test pages files
 ENV SITE_URL=https://$DOMAIN:5001
 RUN mkdir -p /var/www/$DOMAIN
-RUN PYTHONPATH=cms python -m cms.bin.generate_static_pages testpages.adblockplus.org /var/www/$DOMAIN
+RUN PYTHONPATH=cms python3 -m cms.bin.generate_static_pages testpages.adblockplus.org /var/www/$DOMAIN
 
 # Unpack custom extension
 ARG EXTENSION_FILE=""
