@@ -64,48 +64,59 @@ async function getNumberOfHandles(driver) {
   return (await driver.getAllWindowHandles()).length;
 }
 
-async function checkPopup(element, extensionHandle) {
+async function checkPopup(element, extensionHandle, shouldBlockPopup) {
   let driver = element.getDriver();
-  let nHandles = await getNumberOfHandles(driver);
+  let initialHandles = await getNumberOfHandles(driver);
+
   let token = Math.floor(Math.random() * 1e8);
   await runWithHandle(driver, extensionHandle, () =>
-    driver.executeScript(`
-    self.tabCreated${token} = new Promise(resolve =>
-    {
-      browser.tabs.onCreated.addListener(function listener()
-      {
-        browser.tabs.onCreated.removeListener(listener);
-        resolve();
+    driver.executeScript((...args) => {
+      self[`tabCreated${args[0]}`] = new Promise(resolve => {
+        browser.tabs.onCreated.addListener(function listener() {
+          browser.tabs.onCreated.removeListener(listener);
+          resolve("tab created");
+        });
       });
-    });`));
+    }, token));
   await clickButtonOrLink(element);
 
-  await driver.sleep(1000);
-  await runWithHandle(driver, extensionHandle, () => driver.executeAsyncScript(
-    async(...args) => {
-      let callback = args[args.length - 1];
-      await self[`tabCreated${args[0]}`];
-      callback();
-    }, token)
-  );
+  try {
+    await driver.wait(async() => {
+      let handles = await getNumberOfHandles(driver);
+      return shouldBlockPopup ?
+        handles == initialHandles : handles > initialHandles;
+    }, 5000);
+  }
+  catch (err) {
+    if (shouldBlockPopup)
+      throw new Error(`Popup was not blocked: ${err}`);
+    else
+      throw new Error(`Popup was blocked: ${err}`);
+  }
 
-  return await getNumberOfHandles(driver) > nHandles;
+  let message = await runWithHandle(driver, extensionHandle, () =>
+    driver.executeAsyncScript(async(...args) => {
+      let callback = args[args.length - 1];
+      let msg = await self[`tabCreated${args[0]}`];
+      callback(msg);
+    }, token));
+
+  if (message != "tab created")
+    throw new Error(`Clicking button or link failed: ${message}`);
 }
 
 specialized["filters/popup"] = {
-  // testpages#83
+  // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/83
   excludedBrowsers: {firefox: ">90"},
 
   async run(element, extensionHandle) {
-    let hasPopup = await checkPopup(element, extensionHandle);
-    assert.ok(!hasPopup, "popup was closed");
+    await checkPopup(element, extensionHandle, true);
   }
 };
 
 specialized["exceptions/popup"] = {
   async run(element, extensionHandle) {
-    let hasPopup = await checkPopup(element, extensionHandle);
-    assert.ok(hasPopup, "popup remained open");
+    await checkPopup(element, extensionHandle, false);
   }
 };
 

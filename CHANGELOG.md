@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-10-20
+
+- Fixed an issue with the Popup automated test. More info: #131
+
 ## 2022-10-13
 
 - Removed the deprecated `BROWSER`, `TESTS_SUBSET` and `TESTS_EXCLUDE`
