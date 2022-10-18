@@ -80,7 +80,7 @@ function hasABPStarted(driver, handles) {
 async function waitForExtension(driver) {
   let handles = [];
 
-  await new Promise(r => setTimeout(r, 3000)); // helper extension timeout
+  await new Promise(r => setTimeout(r, 5000)); // helper extension timeout
   await driver.wait(async() => {
     let seenHandles = handles;
     handles = await driver.getAllWindowHandles();
