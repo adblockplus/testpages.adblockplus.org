@@ -76,14 +76,16 @@ export default () => {
         for (let [url, pageTitle] of testCases) {
           it(pageTitle, async function() {
             let page = getPage(url);
-            if (isExcluded(page, this.browserName, this.browserVersion))
+            if (isExcluded(page, this.browserName))
               this.skip();
 
             if (page in specializedTests) {
               await updateFilters(this.driver, this.extensionHandle, url);
               let locator = By.className("testcase-area");
-              for (let element of await this.driver.findElements(locator))
-                await specializedTests[page].run(element, this.extensionHandle);
+              for (let element of await this.driver.findElements(locator)) {
+                await specializedTests[page].run(this.driver, element,
+                                                 this.extensionHandle);
+              }
             }
             else {
               let expectedScreenshot = await getExpectedScreenshot(this, url);

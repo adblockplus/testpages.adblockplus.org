@@ -38,8 +38,7 @@ async function checkRequestBlocked(driver, resource) {
   }, 2000, "request wasn't blocked");
 }
 
-async function checkPing(element) {
-  let driver = element.getDriver();
+async function checkPing(driver, element) {
   await clickButtonOrLink(element);
   await checkRequestBlocked(driver, "ping");
 }
@@ -47,27 +46,21 @@ async function checkPing(element) {
 specialized["filters/ping"] = {
   // ping test needs access to browser logs
   // https://github.com/mozilla/geckodriver/issues/284
-  excludedBrowsers: {firefox: ""},
+  excludedBrowsers: ["firefox"],
 
   run: checkPing
 };
 
 specialized["exceptions/ping"] = {
-  excludedBrowsers: {firefox: ""},
+  excludedBrowsers: ["firefox"],
 
-  async run(element) {
-    await assert.rejects(async() => checkPing(element), /request wasn't blocked/);
+  async run(driver, element) {
+    await assert.rejects(async() => checkPing(driver, element),
+                         /request wasn't blocked/);
   }
 };
 
-async function getNumberOfHandles(driver) {
-  return (await driver.getAllWindowHandles()).length;
-}
-
-async function checkPopup(element, extensionHandle, shouldBlockPopup) {
-  let driver = element.getDriver();
-  let initialHandles = await getNumberOfHandles(driver);
-
+async function checkPopup(driver, element, extensionHandle, shouldBlockPopup) {
   let token = Math.floor(Math.random() * 1e8);
   await runWithHandle(driver, extensionHandle, () =>
     driver.executeScript((...args) => {
@@ -80,19 +73,23 @@ async function checkPopup(element, extensionHandle, shouldBlockPopup) {
     }, token));
   await clickButtonOrLink(element);
 
-  try {
-    await driver.wait(async() => {
-      let handles = await getNumberOfHandles(driver);
-      return shouldBlockPopup ?
-        handles == initialHandles : handles > initialHandles;
-    }, 5000);
-  }
-  catch (err) {
-    if (shouldBlockPopup)
-      throw new Error(`Popup was not blocked: ${err}`);
-    else
-      throw new Error(`Popup was blocked: ${err}`);
-  }
+  let id = await element.getAttribute("id");
+  await driver.wait(async() => {
+    let found = false;
+    for (let handle of await driver.getAllWindowHandles()) {
+      try {
+        let url =
+          await runWithHandle(driver, handle, () => driver.getCurrentUrl());
+        // needs to match filters/popup.tmpl and exceptions/popup.tmpl urls
+        found = found || url.includes("/testfiles/popup");
+      }
+      catch (err) {
+        if (err.name != "NoSuchWindowError")
+          throw err;
+      }
+    }
+    return shouldBlockPopup ? !found : found;
+  }, 1000, `Popup ${id} was ${shouldBlockPopup ? "not " : ""}blocked`);
 
   let message = await runWithHandle(driver, extensionHandle, () =>
     driver.executeAsyncScript(async(...args) => {
@@ -106,27 +103,23 @@ async function checkPopup(element, extensionHandle, shouldBlockPopup) {
 }
 
 specialized["filters/popup"] = {
-  // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/83
-  excludedBrowsers: {firefox: ">90"},
-
-  async run(element, extensionHandle) {
-    await checkPopup(element, extensionHandle, true);
+  async run(driver, element, extensionHandle) {
+    await checkPopup(driver, element, extensionHandle, true);
   }
 };
 
 specialized["exceptions/popup"] = {
-  async run(element, extensionHandle) {
-    await checkPopup(element, extensionHandle, false);
+  async run(driver, element, extensionHandle) {
+    await checkPopup(driver, element, extensionHandle, false);
   }
 };
 
 specialized["filters/other"] = {
   // other test needs access to browser logs
   // https://github.com/mozilla/geckodriver/issues/284
-  excludedBrowsers: {firefox: ""},
+  excludedBrowsers: ["firefox"],
 
-  async run(element) {
-    let driver = element.getDriver();
+  async run(driver) {
     await checkRequestBlocked(driver, "other/image.png");
   }
 };

@@ -15,31 +15,30 @@
  * along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import semver from "semver";
 import Jimp from "jimp";
 
 import specializedTests from "./specialized.js";
 import {takeScreenshot, writeScreenshotFile, writeScreenshotAndThrow}
   from "../misc/screenshots.js";
 
-export function isExcluded(page, browserName, browserVersion) {
-  let excluded;
+export function isExcluded(page, browserName) {
+  let excluded = [];
   if (page in specializedTests)
-    excluded = specializedTests[page].excludedBrowsers;
+    excluded = specializedTests[page].excludedBrowsers || [];
   // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/74
   else if (page == "filters/websocket" || page == "exceptions/websocket")
-    excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
+    excluded = ["MicrosoftEdge", "msedge", "firefox", "chrome"];
   // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/41
   else if (page == "exceptions/sitekey" && process.platform == "win32")
-    excluded = {MicrosoftEdge: "", msedge: ""};
+    excluded = ["MicrosoftEdge", "msedge"];
   // https://gitlab.com/eyeo/adblockplus/abc/webext-sdk/-/issues/356
   else if (page == "exceptions/iframe")
-    excluded = {firefox: ""};
+    excluded = ["firefox"];
   // https://gitlab.com/eyeo/adblockplus/adblockpluschrome/-/issues/306#note_484130304
   else if (page == "filters/webrtc" || page == "exceptions/webrtc")
-    excluded = {MicrosoftEdge: "", msedge: "", firefox: "", chrome: ""};
-  return !!excluded && browserName in excluded &&
-         semver.satisfies(semver.coerce(browserVersion), excluded[browserName]);
+    excluded = ["MicrosoftEdge", "msedge", "firefox", "chrome"];
+
+  return excluded.includes(browserName);
 }
 
 export async function getExpectedScreenshot(context, url) {
@@ -109,8 +108,7 @@ export async function runFirstTest(context, testCases) {
   let {driver, browserName, browserVersion, test} = context;
   for (let [url] of testCases) {
     let page = getPage(url);
-    if (!(isExcluded(page, browserName, browserVersion) ||
-          page in specializedTests)) {
+    if (!(isExcluded(page, browserName) || page in specializedTests)) {
       let expectedScreenshot = await getExpectedScreenshot(context, url);
       await driver.navigate().to(url);
       await runGenericTests(driver, expectedScreenshot, browserName,
