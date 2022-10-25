@@ -91,31 +91,13 @@ Example:
 docker build -t testpages --build-arg EXTENSION_FILE="adblockpluschrome-*.zip" .
 ```
 
-To run the tests with the custom extension package, you must provide the
-`SKIP_EXTENSION_DOWNLOAD` argument set to `true`, otherwise the custom extension
-will be overridden by the default extension. Example:
+Running the tests with a custom extension needs the `SKIP_EXTENSION_DOWNLOAD`
+argument to be set to `true`, otherwise the custom extension would be overridden
+by the default extension. Example:
 
 ```shell
 docker run -e SKIP_EXTENSION_DOWNLOAD="true" -it testpages
 ```
-
-#### Custom extensions
-
-An extension with a custom `adblockpluscore` revision can be obtained with the
-following commands:
-
-```shell
-docker build --build-arg ABPCORE_TAG=0.5.0 -t extensionimage -f test/generateExtension.Dockerfile .
-docker container create --name extgen extensionimage
-docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip ./
-```
-
-The custom extension will be available as `adblockpluschrome.zip`.
-
-`ABPCORE_TAG` values can be found [here](https://gitlab.com/eyeo/adblockplus/abc/adblockpluscore/-/tags).
-
-Note: If the `adblockpluscore` revision has breaking changes it might not be
-possible to build the extension with it (or it won't be working properly).
 
 #### Debugging failing tests
 

@@ -16,31 +16,17 @@
 ---
 
 stages:
-  - build_extension
   - test
   - build_production
   - deploy_production
 
 # TEST #########################################################################
 .test_runner:
-  image: docker:19.03.5
+  image: docker:20.10.16
   stage: test
   services:
-    - docker:19.03.5-dind
-  before_script:
-    ## Extract core tag for custom extension if branch has "core-"
-    - >
-      if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
-        export CORE=$(echo $CI_COMMIT_REF_NAME | \
-         sed "s/.*core-//" | sed "s/./&./1;s/./&./3" | \
-         sed "s/-.*//" )
-        echo "INFO: The CI pipeline will \
-        run based on the following adblockpluscore tag: ${CORE}"
-      fi
-  script:
-    - docker info
+    - docker:20.10.16-dind
   variables:
-    DOCKER_HOST: tcp://docker:2375/
     DOCKER_DRIVER: overlay2
   interruptible: true
 
@@ -50,45 +36,11 @@ test:lint:
     - docker build -t lintimage -f test/lint.Dockerfile .
     - docker run lintimage
 
-generate_extension:
-  extends: .test_runner
-  stage: build_extension
-  rules:
-    # yamllint disable-line rule:line-length
-    - if: $CI_COMMIT_REF_NAME =~ /core-/ && $CI_PIPELINE_SOURCE != "merge_request_event"
-  script:
-    - docker build --build-arg ABPCORE_TAG=$CORE -t extensionimage -f
-        test/generateExtension.Dockerfile .
-    - docker container create --name extgen extensionimage
-    - docker cp extgen:/adblockplusui/adblockpluschrome/adblockpluschrome.zip ./
-  artifacts:
-    paths:
-      - adblockpluschrome.zip
-    when: on_success
-    expire_in: 1 dy
-
 .test:
   extends: .test_runner
-  before_script:
-    - docker info
   script:
-    - SKIP_EXTENSION_DOWNLOAD="false"
-    - >
-      if echo "$CI_COMMIT_REF_NAME" | grep -q "core-"; then
-        echo "INFO: Running test with custom extension."
-        GREP="^.*$GREP((?\!Snippets).)*\$"
-        SKIP_EXTENSION_DOWNLOAD="true"
-        docker build -t testpages \
-          --build-arg EXTENSION_FILE="adblockpluschrome.zip" .
-      else
-        echo "INFO: Running test with downloaded extension."
-        docker build -t testpages .
-      fi
-    - docker run --shm-size=256m
-      -e SKIP_EXTENSION_DOWNLOAD="$SKIP_EXTENSION_DOWNLOAD"
-      -e GREP="$GREP" testpages
-  dependencies:
-    - generate_extension
+    - docker build -t testpages .
+    - docker run --shm-size=256m -e GREP="$GREP" testpages
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
     - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
@@ -195,21 +147,8 @@ test:edge:windows:
     # Run testpages server
     - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
       -PassThru
-    - >
-      if($CI_COMMIT_REF_NAME -like "core-*")
-      {
-        Expand-Archive adblockpluschrome.zip -DestinationPath ./testext
-        $Env:TESTARG="^.*edge((?!Snippets).)*$";
-      }
-      else
-      {
-        node ./test/extension-tests/extension-download.js
-        $Env:TESTARG="edge";
-      }
-    - npm run test -- -g "$Env:TESTARG"
-  dependencies:
-    - generate_extension
-
+    - node ./test/extension-tests/extension-download.js
+    - npm run test -- -g "edge"
   variables:
     TEST_PAGES_URL: https://local.testpages.adblockplus.org:5001/en/
     SITE_URL: https://local.testpages.adblockplus.org:5001
@@ -217,7 +156,7 @@ test:edge:windows:
     TEST_PAGES_INSECURE: "true"
   artifacts:
     paths:
-      - testpages.adblockplus.org/test/screenshots
+      - ./test/screenshots
     when: on_failure
     expire_in: 1 mo
   interruptible: true
