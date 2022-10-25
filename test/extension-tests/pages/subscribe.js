@@ -17,7 +17,6 @@
 
 import assert from "assert";
 import webdriver from "selenium-webdriver";
-import {checkLastError, runWithHandle} from "../misc/utils.js";
 import {writeScreenshotAndThrow} from "../misc/screenshots.js";
 import {runFirstTest} from "./utils.js";
 
@@ -63,19 +62,6 @@ async function removeSubscription(driver, extensionHandle, url) {
   }, url);
 }
 
-function removePreviousFilters(driver, extensionHandle) {
-  return runWithHandle(driver, extensionHandle, () => driver.executeAsyncScript(
-    async(...args) => {
-      let callback = args[args.length - 1];
-      let filters = await browser.runtime.sendMessage({type: "filters.get"});
-      await Promise.all(filters.map(filter => browser.runtime.sendMessage(
-        {type: "filters.remove", text: filter.text}
-      )));
-      callback();
-    }
-  ));
-}
-
 export default () => {
   it("subscribes to a link", async function() {
     let {testPagesURL, pageTests} = this.test.parent.parent.parent;
@@ -91,9 +77,7 @@ export default () => {
       await writeScreenshotAndThrow(this, e);
     }
     await this.driver.switchTo().window(currentHandle);
-    await removePreviousFilters(this.driver, this.extensionHandle);
     await runFirstTest(this, testCases);
     await removeSubscription(this.driver, this.extensionHandle, subscription);
-    await checkLastError(this.driver, this.extensionHandle);
   });
 };
