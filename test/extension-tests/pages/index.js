@@ -40,21 +40,9 @@ async function updateFilters(driver, extensionHandle, url) {
   let error = await runWithHandle(
     driver, extensionHandle, () => driver.executeAsyncScript(async(...args) => {
       let callback = args[args.length - 1];
-      let filToAdd = args[0];
-      let subs = await browser.runtime.sendMessage(
-        {type: "subscriptions.get"}
-      );
-      await Promise.all(subs.map(subscription => browser.runtime.sendMessage(
-        {type: "subscriptions.remove", url: subscription.url}
-      )));
-      let filToRemove = await browser.runtime.sendMessage(
-        {type: "filters.get"}
-      );
-      await Promise.all(filToRemove.map(filter => browser.runtime.sendMessage(
-        {type: "filters.remove", text: filter.text}
-      )));
+      let filtersToAdd = args[0];
       let errors = await browser.runtime.sendMessage(
-        {type: "filters.importRaw", text: filToAdd}
+        {type: "filters.importRaw", text: filtersToAdd}
       );
       callback(errors[0]);
     }, filters)
@@ -65,8 +53,26 @@ async function updateFilters(driver, extensionHandle, url) {
   await driver.navigate().refresh();
 }
 
+function removeFilters(driver, extensionHandle) {
+  return runWithHandle(driver, extensionHandle, () => driver.executeAsyncScript(
+    async(...args) => {
+      let callback = args[args.length - 1];
+      let filters = await browser.runtime.sendMessage({type: "filters.get"});
+      await Promise.all(filters.map(filter => browser.runtime.sendMessage(
+        {type: "filters.remove", text: filter.text}
+      )));
+      callback();
+    }
+  ));
+}
+
 export default () => {
   describe("Test pages", function() {
+    afterEach(async function() {
+      await removeFilters(this.driver, this.extensionHandle);
+      await checkLastError(this.driver, this.extensionHandle);
+    });
+
     it("discovered test cases", function() {
       assert.ok(this.test.parent.parent.pageTests.length > 0);
     });
@@ -94,8 +100,6 @@ export default () => {
                                     this.browserName, this.browserVersion,
                                     pageTitle, url);
             }
-
-            await checkLastError(this.driver, this.extensionHandle);
           });
         }
       });
