@@ -27,8 +27,10 @@ function expectedPageView() {
     }
   }
 
-  for (let frame of document.getElementsByTagName("iframe"))
-    frame.contentDocument.defaultView.addEventListener("DOMContentLoaded", expectedPageView);
+  for (let frame of document.getElementsByTagName("iframe")) {
+    if (frame.contentDocument)
+      frame.contentDocument.defaultView.addEventListener("DOMContentLoaded", expectedPageView);
+  }
 }
 
 window.addEventListener("DOMContentLoaded", () => {

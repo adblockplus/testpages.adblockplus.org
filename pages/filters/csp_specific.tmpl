@@ -1,7 +1,7 @@
 template = testcase
 title = CSP Specific site
 description = Check that a filter using the $csp filter option is working as expected.
-meta = http-equiv="Content-Security-Policy" content="frame-src 'none'"
+{% set meta = 'http-equiv="Content-Security-Policy" content="frame-src ' + site_url + '/testfiles/csp_specific/frame.html"' %}
 
 {% set case = "Specific site" %}
 {% set id = get_id(case) %}
@@ -40,18 +40,19 @@ meta = http-equiv="Content-Security-Policy" content="frame-src 'none'"
   {{ heading(case) }}
   <p>Test that a filter using the $csp filter option works on a specific site.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <iframe id="{{id}}-target" src="/testfiles/subdocument/subdocument.html" style="border: 0; width: 200px; height: 100px;" data-expectedresult="fail"></iframe>
+    <iframe src="/testfiles/csp_specific/expected.html" class="testcase-expected-view" style="border: 0; width: 200px; height: 100px;"></iframe>
+    <iframe id="{{id}}-target" src="/testfiles/csp_specific/frame.html" data-expectedresult="pass" style="border: 0; width: 200px; height: 100px;"></iframe>
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
-    <li>Check that the frame above is blocked.</li>
+    <li>Check that the frame above is not blocked.</li>
     <li>Add filter #1.</li>
     <li>Refresh page.</li>
-    <li>The frame above should still be blocked.</li>
+    <li>The frame above should be blocked.</li>
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>||{{ site_url|strip_proto }}^$csp=frame-src 'self'</pre></li>
+    <li><pre>||{{ site_url|strip_proto }}^$csp=frame-src 'none'</pre></li>
   </ul>
 </section>

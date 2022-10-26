@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-10-26
+
+- Fixed an issue with the CSP Specific page, where the `frame-src` filter
+had no effect. More info: #115
+
 ## 2022-10-20
 
 - Fixed an issue with the Popup automated test. More info: #131
