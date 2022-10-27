@@ -194,7 +194,8 @@ build:abptestpages:
   stage: deploy_production
   extends: .production
   script:
-    - sudo /usr/local/sbin/deploy_testpages $CI_PROJECT_DIR/build/
+    - echo $DEPLOY_SCRIPT
+    - sudo /usr/local/sbin/$DEPLOY_SCRIPT $CI_PROJECT_DIR/build/
   environment:
     name: $DOMAIN
     url: https://$DOMAIN
@@ -205,6 +206,7 @@ deploy:testpages:
     - build:testpages
   variables:
     DOMAIN: testpages.adblockplus.org
+    DEPLOY_SCRIPT: deploy_eyeo_cms_web_$DOMAIN
 
 deploy:abptestpages:
   extends: .deploy_production
@@ -212,3 +214,4 @@ deploy:abptestpages:
     - build:abptestpages
   variables:
     DOMAIN: abptestpages.org
+    DEPLOY_SCRIPT: deploy_testpages
