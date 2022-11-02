@@ -45,6 +45,16 @@ export async function getExpectedScreenshot(context, url) {
   let {driver, browserName, test} = context;
   try {
     await driver.navigate().to(`${url}?expected=1`);
+    await driver.wait(() => driver.executeScript(() => {
+      let ready = document.body.className.includes("expected-view");
+      for (let frame of document.getElementsByTagName("iframe")) {
+        if (frame.contentDocument) {
+          ready = ready &&
+            frame.contentDocument.body.className.includes("expected-view");
+        }
+      }
+      return ready;
+    }), 1000, "Expected view is not ready");
   }
   catch (err) {
     // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/105

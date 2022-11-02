@@ -19,17 +19,14 @@ function expectedPageView() {
   while (documents.length > 0) {
     let doc = documents.shift();
     doc.body.classList.add("expected-view");
-    for (let i = 0; i < doc.defaultView.frames.length; i++) {
+    let {frames} = doc.defaultView;
+    for (let i = 0; i < frames.length; i++) {
       try {
-        documents.push(doc.defaultView.frames[i].document);
+        documents.push(frames[i].document);
+        frames[i].document.defaultView.addEventListener("DOMContentLoaded", expectedPageView);
       }
       catch (e) {}
     }
-  }
-
-  for (let frame of document.getElementsByTagName("iframe")) {
-    if (frame.contentDocument)
-      frame.contentDocument.defaultView.addEventListener("DOMContentLoaded", expectedPageView);
   }
 }
 

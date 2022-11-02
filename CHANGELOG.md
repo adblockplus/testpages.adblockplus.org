@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-11-03
+
+- Simplified the `iFrame` test case on the `Elem Hide` page, removing elements
+that already get tested on the `Basic usage` test case.
+
 ## 2022-10-26
 
 - Fixed an issue with the CSP Specific page, where the `frame-src` filter

@@ -23,6 +23,9 @@ description = Check that usage loading frames works with exceptions
             </body>
           </html>`);
         document.getElementById("rewrite-frame-id").contentWindow.document.close();
+
+        if (expectedParameter()) // eslint-disable-line no-undef
+          expectedPageView(); // eslint-disable-line no-undef
       }
       document.getElementById("rewrite-frame-id").addEventListener("load", writeIframe);
     </script>

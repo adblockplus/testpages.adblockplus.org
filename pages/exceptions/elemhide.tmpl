@@ -33,14 +33,10 @@ description = Check that a filter using the $elemhide exception filter option is
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that a filter using the $elemhide filter option whitelists parent and child frame.</p>
+  <p>Test that a filter using the $elemhide filter option whitelists a subframe.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <img id="{{id}}-fail-1" src="/testfiles/elemhide/iframe/image.png" data-expectedresult="fail" data-dp="fail">
-    <div class="testcase-expected-view">Exception target</div>
-    <div id="{{id}}-pass-1" class="targ-elemhide" data-expectedresult="pass" data-dp="pass">Exception target</div>
-    <div class="testcase-examplecontent">Example Content</div>
+    <iframe id="test-frame" src="/testfiles/elemhide/iframe/iframe.html" style="width: 100%; height: 200px;"></iframe>
   </div>
-  <iframe id="test-frame" width="100%" height="262"  src="/testfiles/elemhide/iframe/iframe.html"></iframe>
   <h3>Steps</h3>
   <ul class="testcase-steps">
     <li>Make sure the previous test case filters have been removed.</li>

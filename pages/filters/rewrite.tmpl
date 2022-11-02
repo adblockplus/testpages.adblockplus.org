@@ -120,6 +120,9 @@ description = Check that a filter using the $rewrite filter option is working as
       target.setAttribute("data-dp", "fail");
       target.style.width = 0;
     }
+
+    if (expectedParameter()) // eslint-disable-line no-undef
+      expectedPageView(); // eslint-disable-line no-undef
   }, 200);
 </script>
 
@@ -206,7 +209,7 @@ description = Check that a filter using the $rewrite filter option is working as
 
   setTimeout(() => {
     let target = document.getElementById("1x1-target");
-  
+
     if (target.width === 1) {
       target.setAttribute("data-expectedresult", "pass");
       target.setAttribute("data-dp", "pass");
