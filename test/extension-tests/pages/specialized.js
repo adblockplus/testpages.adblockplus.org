@@ -89,7 +89,7 @@ async function checkPopup(driver, element, extensionHandle, shouldBlockPopup) {
       }
     }
     return shouldBlockPopup ? !found : found;
-  }, 1000, `Popup ${id} was ${shouldBlockPopup ? "not " : ""}blocked`);
+  }, 2000, `Popup ${id} was ${shouldBlockPopup ? "not " : ""}blocked`);
 
   let message = await runWithHandle(driver, extensionHandle, () =>
     driver.executeAsyncScript(async(...args) => {
