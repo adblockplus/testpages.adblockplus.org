@@ -20,15 +20,27 @@ stages:
   - build_production
   - deploy_production
 
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+
 # TEST #########################################################################
-.test_runner:
-  image: docker:20.10.16
+
+.test_rules:
   stage: test
+  rules:
+    - if: $SKIP_CI_TESTS == "true"
+      when: never
+    - when: always
+  interruptible: true
+
+.test_runner:
+  extends: .test_rules
+  image: docker:20.10.16
   services:
     - docker:20.10.16-dind
   variables:
     DOCKER_DRIVER: overlay2
-  interruptible: true
 
 test:lint:
   extends: .test_runner
@@ -97,7 +109,7 @@ test:edge:latest:
     GREP: edge latest
 
 test:edge:windows:
-  stage: test
+  extends: .test_rules
   tags:
     - shared-windows
     - windows
@@ -159,7 +171,6 @@ test:edge:windows:
       - ./test/screenshots
     when: on_failure
     expire_in: 1 mo
-  interruptible: true
 
 # BUILD, DEPLOY ################################################################
 
