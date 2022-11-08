@@ -1,15 +1,7 @@
-FROM node:16-bullseye-slim
+FROM registry.gitlab.com/eyeo/docker/get-browser-binary:node16-testpages
 
-RUN apt-get update
-RUN apt-get install -y wget git
-
-# Install flake8
-RUN apt-get install -y python3 python3-distutils
-RUN wget https://bootstrap.pypa.io/pip/get-pip.py
-RUN python3 get-pip.py
+# Install flake8 with flake8-eyeo
 RUN pip3 install flake8
-
-# Install flake8-eyeo
 RUN pip3 install git+https://gitlab.com/eyeo/auxiliary/eyeo-coding-style#egg=flake8-eyeo&subdirectory=flake8-eyeo
 
 # Install yamllint
