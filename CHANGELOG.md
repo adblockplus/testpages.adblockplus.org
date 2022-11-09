@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-11-09
+
+- Added a comma test case to the `Header` page. More info: #65
+
 ## 2022-11-07
 
 - Removed the unused staging list at `/en/staging`

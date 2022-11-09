@@ -41,7 +41,28 @@ description = Check that a filter using the $header filter option is working as 
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>||{{ site_url|strip_proto }}/testfiles/header/$header=content-type=image/png</pre></li>
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/header/image.png$header=content-type=image/png</pre></li>
+  </ul>
+</section>
+
+{% set case = "Comma" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a $header filter containing a comma (escaped as "\x2c") works on an image.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <img id="{{id}}-fail-1" src="/testfiles/header/image2.png" data-expectedresult="fail">
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/header/image2.png$header=date=\x2c</pre></li>
   </ul>
 </section>
 
