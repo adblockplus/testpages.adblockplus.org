@@ -203,7 +203,8 @@ a { color: inherit; }
 img[data-expectedresult="pass"],
 img.testcase-expected-view,
 audio.testcase-expected-view,
-video.testcase-expected-view {
+video.testcase-expected-view,
+iframe.testcase-expected-view {
   flex-grow: 0;
   padding: 0;
   background-color: transparent;

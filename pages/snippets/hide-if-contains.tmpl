@@ -134,7 +134,7 @@ description = Check that the hide-if-contains snippet is working as expected.
   {{ heading(case) }}
   <p>Test that usage of the snippet in a frame works as expected.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <iframe src="/testfiles/hide-if-contains/subdocument_expected.html" style="border: 0; width: 200px; height: 100px;" class="testcase-expected-view"></iframe>
+    <iframe src="/testfiles/hide-if-contains/subdocument_expected.html" style="border: 0; width: 200px; height: 100px; flex-grow: 1; padding: 0.5em; background-color: #0dc74b;" class="testcase-expected-view"></iframe>
     <iframe src="/testfiles/hide-if-contains/subdocument.html" style="border: 0; width: 200px; height: 100px; flex-grow: 1;" data-expectedresult="pass"></iframe>
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
