@@ -42,7 +42,7 @@ export function isExcluded(page, browserName) {
 }
 
 export async function getExpectedScreenshot(context, url) {
-  let {driver, browserName, test} = context;
+  let {driver} = context;
   try {
     await driver.navigate().to(`${url}?expected=1`);
     await driver.wait(() => driver.executeScript(() => {
@@ -57,12 +57,7 @@ export async function getExpectedScreenshot(context, url) {
     }), 1000, "Expected view is not ready");
   }
   catch (err) {
-    // https://gitlab.com/eyeo/adblockplus/abc/testpages.adblockplus.org/-/issues/105
-    if (err.name == "TimeoutError" && test.title == "Rewrite" &&
-        browserName == "firefox")
-      console.warn(`Expected ${test.title} page wasn't fully loaded: ${err}`);
-    else
-      await writeScreenshotAndThrow(context, err);
+    await writeScreenshotAndThrow(context, err);
   }
   return await takeScreenshot(driver);
 }
