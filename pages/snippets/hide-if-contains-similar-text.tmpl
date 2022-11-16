@@ -1,0 +1,24 @@
+template = testcase
+title = hide-if-contains-similar-text
+description = Check that the hide-if-contains-similar-text snippet is working as expected.
+
+{% set case = "Basic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of the snippet works as expected against a target that has intermediate decoy characters.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <p id="hicst-basic-id" data-expectedresult="fail">blaSponsTored-hicst-basicbla<br>Failed. Element is not hidden.</p>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-similar-text Sponsored-hicst-basic '#hicst-basic-id' '#hicst-basic-id' 1 4</pre></li>
+  </ul>
+</section>

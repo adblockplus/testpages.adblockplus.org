@@ -55,6 +55,9 @@ testpages.adblockplus.org#$#hide-if-contains-image-hash ff00007e7e140000 '* img'
 ! snippets/hide-if-contains-image
 testpages.adblockplus.org#$#hide-if-contains-image /^89504e470d0a1a0a0000000d4948445200000064000000640802/ div[shouldhide] div
 
+! snippets/hide-if-contains-similar-text
+testpages.adblockplus.org#$#hide-if-contains-similar-text Sponsored-hicst-basic '#hicst-basic-id' '#hicst-basic-id' 1 4
+
 ! snippets/hide-if-contains-visible-text
 testpages.adblockplus.org#$#hide-if-contains-visible-text Sponsored-hicvt-basic '#parent-basic > .article' '#parent-basic > .article .label'
 testpages.adblockplus.org#$#hide-if-contains-visible-text Sponsored-hicvt-content '#parent-content > .article' '#parent-content > .article .label'
