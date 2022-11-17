@@ -6,10 +6,10 @@ description = Check if json-prune feature works properly.
 
 {% set case = "json-prune" %}
 {% set id = get_id(case) %}
-<section class="testcase-panel">
+<section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that basic usage of the json-prune snippet works as expected..</p>
-  <div class="testcase-area" id="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
   </div>
