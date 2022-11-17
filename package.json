@@ -1,6 +1,6 @@
 {
   "name": "testpages.adblockplus.org",
-  "repository": "https://hg.adblockplus.org/testpages.adblockplus.org/",
+  "repository": "https://gitlab.com/eyeo/developer-experience/testpages.adblockplus.org",
   "license": "GPL-3.0",
   "engines": {
     "node": ">=16.10.0",

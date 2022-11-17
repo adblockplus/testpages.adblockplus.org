@@ -127,7 +127,7 @@ invalid sitekey filter.
 
 ## 2020-10-01
 
-- Removed Object and Object Exception test pages. More info [here](https://gitlab.com/eyeo/adblockplus/testpages.adblockplus.org/-/issues/55)
+- Removed Object and Object Exception test pages. More info [here](https://gitlab.com/eyeo/developer-experience/testpages.adblockplus.org/-/issues/55)
 
 ## 2020-07-28
 
