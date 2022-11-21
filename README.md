@@ -99,6 +99,16 @@ by the default extension. Example:
 docker run -e SKIP_EXTENSION_DOWNLOAD="true" -it testpages
 ```
 
+Any ad blocking extension can be used to run automated tests on testpages, as
+long as it provides the following APIs:
+
+* `subscriptions.get(ignoreDisabled, downloadable)` - returning subscriptions urls
+* `subscriptions.remove(url)` - removing subscription with provided url
+* `filters.get` - listing all filters available for user
+* `filters.remove(text)` - removing filter with provided text
+* `filters.importRaw(text)` - adding filter in a raw format with text specified
+* `debug.getLastError` - returning last error thrown in extension console
+
 #### Debugging failing tests
 
 In order to access the screenshots for failing tests run the following command,
