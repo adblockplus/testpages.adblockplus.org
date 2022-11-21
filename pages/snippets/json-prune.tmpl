@@ -39,7 +39,7 @@ description = Check if json-prune feature works properly.
 
   setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
-    let targetTestCase = document.getElementById("testcase-area");
+    let targetTestCase = document.getElementById("{{id}}-area");
     let divToManipulate = document.createElement("div");
     divToManipulate.id = "fail";
     targetTestCase.appendChild(divToManipulate);
