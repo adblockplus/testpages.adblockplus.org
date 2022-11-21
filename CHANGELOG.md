@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-11-21
+
+- Added test pages for `json-override` and `hide-if-contains-similar-text`
+snippets. More info: #134
+
 ## 2022-11-09
 
 - Added a comma test case to the `Header` page. More info: #65
