@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2022-12-12
+
+- Removed the `testpages-snippets.txt` filter list. More info: #137
+
 ## 2022-11-21
 
 - Added test pages for `json-override` and `hide-if-contains-similar-text`
