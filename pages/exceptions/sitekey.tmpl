@@ -15,20 +15,21 @@ description = Check that a filter using the $sitekey exception filter option is 
   </div>
   <h3>In frame elements</h3>
   <div id="{{id}}-area" class="testcase-area">
-    {# /sitekey-frame is served by https://gitlab.com/eyeo/devops/legacy/sitescripts/-/tree/master/sitescripts/testpages/web which parses /static/sitekey_frame.tmpl #}
+    {# /sitekey-frame is served by the endpoints server which parses /endpoints/sitekey/sitekey_frame.njk #}
     <iframe id="sitekey-frame" src="/sitekey-frame" style="width: 100%;"></iframe>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
-    <li>Add filters #1, #2 and #3.</li>
-    <li>Refresh page.</li>
+    <li>Add filter #1 and refresh page.</li>
+    <li>Make sure that in frame elements are not blocked.</li>
+    <li>Add filters #2, #3 and #4, and refresh page.</li>
     <li>All elements should be blocked from both out of frame and in frame above.</li>
-    <li>Add filter #4.</li>
-    <li>Refresh page.</li>
+    <li>Add filter #5 and refresh page.</li>
     <li>Out of frame elements should keep blocked, and in frame elements should become unblocked.</li>
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#@#[data-adblockkey]</pre></li>
     <li><pre>{{ site_url|domain }}##.testcase-sitekey-eh</pre></li>
     <li><pre>||{{ site_url|strip_proto }}/testfiles/sitekey/outofframe.png</pre></li>
     <li><pre>||{{ site_url|strip_proto }}/testfiles/sitekey/inframe.png</pre></li>

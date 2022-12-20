@@ -127,21 +127,21 @@ test:edge:windows:
       -ArgumentList "/i MicrosoftEdgeEnterpriseX64.msi /norestart /qn" -Wait
     # Install other packages
     - choco install -y nginx --version=1.19.0
-    - $Env:NGINX = "C:\tools\nginx-1.19.0"
+    - $Env:NGINX_WIN = "C:\tools\nginx-1.19.0"
     - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
-    - choco install -y openssl.light
+    - choco install -y openssl
     - choco install -y python3
-    - choco upgrade -y nodejs --version 16.10.0
+    - choco upgrade -y nodejs --version 16.19.0
     - refreshenv
     # nginx config
-    - xcopy test\etc\nginx\* $Env:NGINX\conf\ /E /V /F /H
-    - (Get-Content $Env:NGINX\conf\nginx.conf).replace("octet-stream;",
+    - xcopy test\etc\nginx\* $Env:NGINX_WIN\conf\ /E /V /F /H
+    - (Get-Content $Env:NGINX_WIN\conf\nginx.conf).replace("octet-stream;",
         "octet-stream;`n
         include $Env:NGINX_LINUX/conf/sites-enabled-windows/*.conf;"
-      ) | Set-Content $Env:NGINX\conf\nginx.conf
+      ) | Set-Content $Env:NGINX_WIN\conf\nginx.conf
     - openssl req -x509 -newkey rsa:4096
-      -keyout $Env:NGINX\conf\${Env:DOMAIN}_key.pem
-      -out $Env:NGINX\conf\${Env:DOMAIN}_cert.pem
+      -keyout $Env:NGINX_WIN\conf\${Env:DOMAIN}_key.pem
+      -out $Env:NGINX_WIN\conf\${Env:DOMAIN}_cert.pem
       -days 365 -nodes -subj "/CN=$Env:DOMAIN"
     - echo "`n127.0.0.1 $Env:DOMAIN" |
       Add-Content c:\windows\system32\drivers\etc\hosts
@@ -152,13 +152,15 @@ test:edge:windows:
     # Build tests
     - npm install
     # Generate test pages files
-    - mkdir -p $Env:NGINX\html\$Env:DOMAIN
+    - mkdir -p $Env:NGINX_WIN\html\$Env:DOMAIN
     - $Env:PYTHONPATH = "cms"
-    - python -m cms.bin.generate_static_pages . $Env:NGINX\html\$Env:DOMAIN
+    - python -m cms.bin.generate_static_pages . $Env:NGINX_WIN\html\$Env:DOMAIN
   script:
-    # Run testpages server
-    - Start-Process "$Env:NGINX\nginx.exe" -WorkingDirectory "$Env:NGINX"
-      -PassThru
+    # Run test pages server
+    - Start-Process "$Env:NGINX_WIN\nginx.exe"
+      -WorkingDirectory "$Env:NGINX_WIN" -PassThru
+    # Run endpoints server
+    - Start-Process "npm" -ArgumentList "run start-endpoints" -PassThru
     - node ./test/extension-tests/extension-download.js
     - npm run test -- -g "edge"
   variables:
@@ -184,7 +186,7 @@ test:edge:windows:
   stage: build_production
   extends: .production
   script:
-    - env PYTHONPATH=/opt/cms:/opt/sitescripts
+    - env PYTHONPATH=/opt/cms
       python3 -m cms.bin.generate_static_pages $PWD build
   artifacts:
     name: $CI_COMMIT_REF_SLUG
@@ -206,7 +208,7 @@ build:abptestpages:
   extends: .production
   script:
     - echo $DEPLOY_SCRIPT
-    - sudo /usr/local/sbin/$DEPLOY_SCRIPT $CI_PROJECT_DIR/build/
+    - sudo /usr/local/sbin/$DEPLOY_SCRIPT $CI_PROJECT_DIR/build/ $CI_PROJECT_DIR
   environment:
     name: $DOMAIN
     url: https://$DOMAIN

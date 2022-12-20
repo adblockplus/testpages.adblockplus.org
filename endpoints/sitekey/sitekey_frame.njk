@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html{% if public_key and signature %} data-adblockkey="{{ public_key + "_" + signature }}"{% endif %}>
+<html {% if adblockkey %}data-adblockkey="{{ adblockkey }}"{% endif %}>
   <head>
-    <title>{{ title }}</title>
+    <title>Sitekey frame</title>
     <style>
       html,
       body {
@@ -16,7 +16,6 @@
         background-color: #0dc74b;
       }
     </style>
-    {{ head|safe }}
   </head>
   <body>
     <div id="inframe-target" class="testcase-sitekey-eh">Exception Target</div>

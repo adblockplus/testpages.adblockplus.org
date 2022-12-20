@@ -28,9 +28,6 @@ export function isExcluded(page, browserName) {
   // https://gitlab.com/eyeo/developer-experience/testpages.adblockplus.org/-/issues/74
   else if (page == "filters/websocket" || page == "exceptions/websocket")
     excluded = ["MicrosoftEdge", "msedge", "firefox", "chrome"];
-  // https://gitlab.com/eyeo/developer-experience/testpages.adblockplus.org/-/issues/41
-  else if (page == "exceptions/sitekey" && process.platform == "win32")
-    excluded = ["MicrosoftEdge", "msedge"];
   // https://gitlab.com/eyeo/adblockplus/abc/webext-sdk/-/issues/356
   else if (page == "exceptions/iframe")
     excluded = ["firefox"];

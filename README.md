@@ -157,20 +157,23 @@ project root folder:
 python <CMS_PATH>/runserver.py --port 5001
 ```
 
-Test pages should now be accessible at http://localhost:5001.
+Test pages should now be accessible at http://localhost:5001. For more
+information and usage instructions see [CMS documentation](https://gitlab.com/eyeo/websites/cms/-/blob/master/README.md).
 
-Note: The local testpages server does not have sitescripts enabled, that's why
-the Sitekey test is expected to fail.
+Additionaly, the endpoints server needs to run as well, and should be accessible
+at http://localhost:4000:
 
-For more information and usage instructions see [CMS documentation](https://gitlab.com/eyeo/websites/cms/-/blob/master/README.md).
+```shell
+npm run start-endpoints
+```
 
 ### Local page tests run
 
 It may be useful to run page tests outside docker, for debugging purposes.
 
-Besides running the local testpages server, the test runner expects an unpacked
-ABP extension to be located in the `./testext` folder. That can be achieved by
-downloading the latest ABP release:
+Besides having both CMS and endpoint servers running, the test runner expects an
+unpacked ABP extension to be located in the `./testext` folder. That can be
+achieved by downloading the latest ABP release:
 
 ```shell
 node ./test/extension-tests/extension-download.js
@@ -180,11 +183,16 @@ Note: It is also possible to manually extract a different ABP version into the
 `./testext` folder.
 
 After that, tests are ready to run. Please notice the `TEST_PAGES_URL`
-environment variable needs to point to the local testpages server:
+environment variable needs to point to the local CMS server:
 
 ```shell
 TEST_PAGES_URL=http://localhost:5001 npm test -- -g "chromium latest"
 ```
 
-Note: The `subscribes to a link` test case is expected to fail on the local run,
+Notes:
+
+- The `subscribes to a link` test case is expected to fail on the local run,
 because it requires an `https` server which `runserver.py` does not provide.
+- The `Sitekey` test case is also expected to fail locally, because it requires
+a request redirection to http://localhost:4000 which `runserver.py` does not
+provide.

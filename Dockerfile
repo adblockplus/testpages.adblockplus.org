@@ -25,14 +25,6 @@ RUN cd /etc/nginx && openssl req -x509 -newkey rsa:4096 \
   -out ${DOMAIN}_cert.pem \
   -days 365 -nodes -subj '/CN=$DOMAIN'
 
-# spawn-fcgi config
-RUN touch /var/run/500-multiplexer_spawn-fcgi.pid
-
-# Build sitescripts
-RUN git clone https://gitlab.com/eyeo/devops/legacy/sitescripts.git
-# https://gitlab.com/eyeo/devops/legacy/sitescripts/-/merge_requests/25
-RUN git -C sitescripts checkout python3
-
 # Build CMS
 RUN git clone https://gitlab.com/eyeo/websites/cms.git
 RUN git -C cms checkout fbd1527b9f98d99a8b62c6ad5e32ac7758c19a28
