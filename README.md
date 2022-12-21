@@ -65,7 +65,6 @@ The available browsers are:
 * firefox latest
 * firefox beta
 * firefox 75.0
-* firefox 68.0
 * edge latest
 
 `GREP` supports regular expressions syntax, which means it can be extended to
