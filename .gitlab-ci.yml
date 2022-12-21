@@ -101,7 +101,7 @@ test:firefox:beta:
 test:firefox:oldest:
   extends: .test
   variables:
-    GREP: firefox 75.0
+    GREP: firefox 68.0
 
 test:edge:latest:
   extends: .test

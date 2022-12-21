@@ -32,7 +32,7 @@ const TEST_PAGES_URL = process.env.TEST_PAGES_URL ||
 const TEST_PAGES_INSECURE = process.env.TEST_PAGES_INSECURE == "true";
 const BROWSER_VERSIONS = {
   chromium: [void 0, "beta", "dev", "77.0.3865.0"],
-  firefox: [void 0, "beta", "75.0"],
+  firefox: [void 0, "beta", "75.0", "68.0"],
   edge: [void 0]
 };
 
