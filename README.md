@@ -64,6 +64,7 @@ The available browsers are:
 * chromium 77.0.3865.0
 * firefox latest
 * firefox beta
+* firefox 75.0
 * firefox 68.0
 * edge latest
 
