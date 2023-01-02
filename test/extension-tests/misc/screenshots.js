@@ -42,7 +42,7 @@ export async function takeScreenshot(driver) {
       window.scrollTo(0, arguments[0]);
       return [document.documentElement.clientWidth,
               document.documentElement.scrollHeight,
-              window.scrollY];`, fullScreenshot.bitmap.height);
+              Math.round(window.scrollY)];`, fullScreenshot.bitmap.height);
     let data = await driver.takeScreenshot();
     let partialScreenshot = await Jimp.read(Buffer.from(data, "base64"));
     let combinedScreenshot = new Jimp(width, offset +
