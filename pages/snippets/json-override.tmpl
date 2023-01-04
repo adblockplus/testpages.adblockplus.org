@@ -33,9 +33,9 @@ description = Check if json-override feature works properly.
   let propertiesToUse = '{"data-expectedresult": "fail"}';
   let propertiesObject;
 
-  maybeDelayedTest(() => { // eslint-disable-line no-undef
+  setTimeout(() => { // eslint-disable-line no-undef
     propertiesObject = JSON.parse(propertiesToUse);
-  });
+  }, 10);
 
   setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef

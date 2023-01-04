@@ -33,9 +33,9 @@ description = Check if json-prune feature works properly.
   let propertiesToUse = '{"jsonprune": "true", "data-expectedresult": "fail", "aria-label":"json-prune-fail"}';
   let propertiesObject;
 
-  maybeDelayedTest(() => { // eslint-disable-line no-undef
+  setTimeout(() => { // eslint-disable-line no-undef
     propertiesObject = JSON.parse(propertiesToUse);
-  });
+  }, 10);
 
   setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
