@@ -1,0 +1,36 @@
+template = testcase
+title =  simulate-mouse-event
+description = Check if simulate-mouse-event feature works properly.
+
+{% set case = "simulate-mouse-event" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of the simulate-mouse-event snippet works as expected..</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+    <p id="sme-basic-id" data-expectedresult="fail"></p>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#simulate-mouse-event 'div#sme-basic-id$delay=0' </pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  const element = document.getElementById("sme-basic-id");
+  element.addEventListener("click", () => element.setAttribute("data-expectedresult", "pass"));
+
+  setTimeout(() => {
+    removeWaitingContent(); // eslint-disable-line no-undef
+  }, 500);
+</script>
