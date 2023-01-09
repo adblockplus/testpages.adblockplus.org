@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2023-01-03
+
+- On the test run, changed the `checkLastError()` default behavior to log a
+warning instead of throwing an error. That can be changed with the new
+`THROW_LAST_ERROR` parameter. More info: #141
+
 ## 2022-12-12
 
 - Removed the `testpages-snippets.txt` filter list. More info: #137

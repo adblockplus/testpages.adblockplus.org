@@ -40,9 +40,10 @@ docker build -t testpages .
 docker run -it testpages
 ```
 
-Note: it might happen that tests are crashing due to insufficient memory on
-docker (tests will fail on `abort-on-property-write` with error related to
-session id). To fix this you need to increase shm memory:
+Note: it might happen that tests are crashing due to insufficient shared memory
+on docker (tests will fail with a `NoSuchSessionError: invalid session id`
+error). To fix this you need to increase the size of the shared memory
+directory:
 
 ```shell
 docker run --shm-size=256m -t testpages .
@@ -109,6 +110,14 @@ long as it provides the following APIs:
 * `filters.remove(text)` - removing filter with provided text
 * `filters.importRaw(text)` - adding filter in a raw format with text specified
 * `debug.getLastError` - returning last error thrown in extension console
+
+The default behavior for `debug.getLastError` is to log a warning. That can be
+changed to throw an actual error by setting the `THROW_LAST_ERROR` argument to
+`true`. Example:
+
+```shell
+docker run -e THROW_LAST_ERROR="true" -it testpages
+```
 
 #### Debugging failing tests
 

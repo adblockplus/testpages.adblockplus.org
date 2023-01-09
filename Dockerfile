@@ -55,5 +55,6 @@ RUN if [ "$EXTENSION_FILE" != "" ]; then unzip -q testpages.adblockplus.org/$EXT
 
 ENV GREP="firefox latest"
 ENV SKIP_EXTENSION_DOWNLOAD=""
+ENV THROW_LAST_ERROR=""
 
 ENTRYPOINT ./testpages.adblockplus.org/test/entrypoint.sh

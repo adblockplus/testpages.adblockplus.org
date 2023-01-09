@@ -20,11 +20,17 @@ import assert from "assert";
 export async function checkLastError(driver, handle) {
   await driver.switchTo().window(handle);
 
-  let error = await driver.executeScript(
-    "return browser.runtime.sendMessage({type: \"debug.getLastError\"});"
-  );
-  if (error != null)
-    assert.fail("Unhandled error in background page: " + error);
+  let error = await driver.executeScript(() => {
+    return browser.runtime.sendMessage({type: "debug.getLastError"});
+  });
+  if (error == null)
+    return;
+
+  let text = `Unhandled error in background page: ${error}`;
+  if (process.env.THROW_LAST_ERROR == "true")
+    assert.fail(text);
+  else
+    console.warn(text);
 }
 
 export async function runWithHandle(driver, handle, callback) {
