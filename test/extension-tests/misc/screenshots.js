@@ -16,45 +16,12 @@
  */
 
 import path from "path";
-import Jimp from "jimp";
+import {takeFullPageScreenshot} from "@eyeo/get-browser-binary";
 
 const SCREENSHOT_DIR = path.join("test", "screenshots");
 
-export async function takeScreenshot(driver) {
-  // On macOS scrollbars appear and disappear overlapping
-  // the content as scrolling occurs. So we have to hide
-  // the scrollbars to get reproducible screenshots.
-  await driver.executeScript(`
-    if (!document.head)
-      return;
-
-    let style = document.createElement("style");
-    style.textContent = "html { overflow-y: scroll; }"
-    document.head.appendChild(style);
-    if (document.documentElement.clientWidth == window.innerWidth)
-      style.textContent = "html::-webkit-scrollbar { display: none; }";
-    else
-      document.head.removeChild(style);`);
-
-  let fullScreenshot = new Jimp(0, 0);
-  while (true) {
-    let [width, height, offset] = await driver.executeScript(`
-      window.scrollTo(0, arguments[0]);
-      return [document.documentElement.clientWidth,
-              document.documentElement.scrollHeight,
-              Math.round(window.scrollY)];`, fullScreenshot.bitmap.height);
-    let data = await driver.takeScreenshot();
-    let partialScreenshot = await Jimp.read(Buffer.from(data, "base64"));
-    let combinedScreenshot = new Jimp(width, offset +
-                                             partialScreenshot.bitmap.height);
-    combinedScreenshot.composite(fullScreenshot, 0, 0);
-    combinedScreenshot.composite(partialScreenshot, 0, offset);
-    fullScreenshot = combinedScreenshot;
-
-    if (fullScreenshot.bitmap.height >= height)
-      break;
-  }
-  return fullScreenshot;
+export function takeScreenshot(driver) {
+  return takeFullPageScreenshot(driver);
 }
 
 export async function writeScreenshotFile(image, browserName, browserVersion,

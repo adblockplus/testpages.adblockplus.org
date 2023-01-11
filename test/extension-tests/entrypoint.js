@@ -24,9 +24,6 @@ import {BROWSERS} from "@eyeo/get-browser-binary";
 import {writeScreenshotAndThrow} from "./misc/screenshots.js";
 import definePageTests from "./pages/index.js";
 
-// Required to set the driver path on Windows
-import "msedgedriver";
-
 const TEST_PAGES_URL = process.env.TEST_PAGES_URL ||
                        "https://testpages.adblockplus.org/en/";
 const TEST_PAGES_INSECURE = process.env.TEST_PAGES_INSECURE == "true";
