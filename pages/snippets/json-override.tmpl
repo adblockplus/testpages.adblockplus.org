@@ -2,8 +2,6 @@ template = testcase
 title =  JSON override
 description = Check if json-override feature works properly.
 
-<script src="/testfiles/maybe-delayed/test.js"></script>
-
 {% set case = "json-override" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
@@ -33,9 +31,9 @@ description = Check if json-override feature works properly.
   let propertiesToUse = '{"data-expectedresult": "fail"}';
   let propertiesObject;
 
-  maybeDelayedTest(() => { // eslint-disable-line no-undef
+  setTimeout(() => {
     propertiesObject = JSON.parse(propertiesToUse);
-  });
+  }, 100);
 
   setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
