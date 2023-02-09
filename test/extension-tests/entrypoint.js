@@ -112,7 +112,7 @@ async function waitForExtension(driver) {
 }
 
 async function getPageTests() {
-  let options = TEST_PAGES_INSECURE ? {rejectUnauthorized: false} : {};
+  let options = TEST_PAGES_INSECURE ? {https: {rejectUnauthorized: false}} : {};
   let response;
 
   try {
