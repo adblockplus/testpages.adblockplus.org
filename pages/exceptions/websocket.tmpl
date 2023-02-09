@@ -13,8 +13,10 @@ description = Check that usage of the $websocket filter option in an exception i
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
-    <li>Add filter #1 and #2.</li>
-    <li>Refresh page.</li>
+    <li>Check that the connection is NOT blocked before adding the filters. That means the testcase above currently passes.</li>
+    <li>Add filter #1 and refresh page.</li>
+    <li>Check that the connection is blocked and the testcase above fails.</li>
+    <li>Add filter #2 and refresh page.</li>
     <li>The connection should NOT be blocked and its state indicated in the test case above.</li>
   </ul>
   <h3>Filters</h3>
@@ -27,7 +29,7 @@ description = Check that usage of the $websocket filter option in an exception i
 <script>
   "use strict";
 
-  let url = "wss://echo.websocket.org";
+  let url = "wss://{{ site_url|strip_proto }}/websocket";
   let websocket = new WebSocket(url);
   websocket.onopen = function() {
     websocket.send("Test message was echoed back");

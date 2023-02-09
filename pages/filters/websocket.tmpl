@@ -13,6 +13,7 @@ description = Check that a filter using the $websocket filter option is working 
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
+    <li>Check that the connection is NOT blocked before adding the filter. That means the testcase above currently fails.</li>
     <li>Add filter #1.</li>
     <li>Refresh page.</li>
     <li>The connection should be blocked and its state indicated in the test case above.</li>
@@ -26,7 +27,7 @@ description = Check that a filter using the $websocket filter option is working 
 <script>
   "use strict";
 
-  let url = "wss://echo.websocket.org";
+  let url = "wss://{{ site_url|strip_proto }}/websocket";
   let websocket = new WebSocket(url);
   websocket.onopen = function() {
     websocket.send("Test message was echoed back");

@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2023-02-09
+
+- Updated the `WebSocket` and `WebSocker Exception` pages to use a self hosted
+websocket endpoint. More info: #48
+
 ## 2023-01-03
 
 - On the test run, changed the `checkLastError()` default behavior to log a

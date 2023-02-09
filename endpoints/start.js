@@ -22,9 +22,11 @@ import crypto from "crypto";
 
 import express from "express";
 import nunjucks from "nunjucks";
+import {WebSocketServer} from "ws";
 
 const HOST = "localhost";
 const HTTP_PORT = 4000;
+const WS_PORT = 4001;
 
 let dirname = path.dirname(url.fileURLToPath(import.meta.url));
 let app = express();
@@ -60,4 +62,14 @@ app.get("/", (req, res) => {
 app.listen(HTTP_PORT, HOST, () => {
   // eslint-disable-next-line no-console
   console.log(`Endpoints server listening at http://${HOST}:${HTTP_PORT}`);
+});
+
+let wss = new WebSocketServer({host: HOST, port: WS_PORT}, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Web socket server listening at ws://${HOST}:${WS_PORT}`);
+});
+
+wss.on("connection", ws => {
+  ws.on("error", console.error);
+  ws.send("echo");
 });
