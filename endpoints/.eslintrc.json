@@ -1,7 +1,4 @@
 {
-  "env": {
-    "node": true
-  },
   "rules": {
     "max-len": [
       "error",

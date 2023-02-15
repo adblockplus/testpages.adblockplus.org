@@ -1,5 +1,6 @@
-template = default
+{% extends "../templates/default.tmpl" %}
 
+{% block body %}
 <section class="site-panel">
   <h2>Welcome</h2>
   <p>This site provides test pages for <a href="https://adblockplus.org/">Adblock Plus</a> functionality.</p>
@@ -23,7 +24,7 @@ template = default
   <h2>Filter test cases</h2>
   <h3>Blocking and Hiding</h3>
   <ul class="site-pagelist">
-    <li><a class="test-link" href="filters/blocking">Blocking</a></li>
+    <li><a class="test-link" href="/pages/filters/blocking">Blocking</a></li>
     <li><a class="test-link" href="filters/element-hiding">Element Hiding</a></li>
     <li><a class="test-link" href="filters/element-hiding-emulation">Element Hiding Emulation / Extended Selectors</a></li>
     <li><a class="test-link" href="filters/hide-on-DOM-mutation">Element Hiding on DOM Mutation / Extended Selectors</a></li>
@@ -126,3 +127,4 @@ template = default
     <li><a class="test-link" href="circumvention/inline-style-important">Inline style !important</a></li>
   </ul>
 </section>
+{% endblock %}

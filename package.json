@@ -9,6 +9,8 @@
   "type": "module",
   "dependencies": {
     "express": "^4.18.2",
+    "gulp": "^4.0.2",
+    "gulp-nunjucks-render": "^2.2.3",
     "nunjucks": "^3.2.3",
     "ws": "^8.12.0"
   },
@@ -32,6 +34,7 @@
     "linthtml": "linthtml --config test/.linthtmlrc.json static/**/*.html \\*\\*/\\*.tmpl",
     "stylelint": "stylelint --config test/.stylelintrc.json \"**/*.{css,html}\"",
     "test": "mocha --delay test/extension-tests/entrypoint.js --",
-    "start-endpoints": "node endpoints/start.js"
+    "start-endpoints": "node endpoints/start.js",
+    "build": "gulp --gulpfile gulpfile.cjs build"
   }
 }

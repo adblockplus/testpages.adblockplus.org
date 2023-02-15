@@ -6,9 +6,9 @@ is automatically generated from the files in this repository.
 ## Getting started
 
 The following tools are needed:
+
 * Node >= 18
 * npm >= 9
-* Python 3
 * Docker
 
 ## Running the tests
@@ -18,6 +18,7 @@ The execution is done in Docker.
 ### Lint
 
 Checks are done using:
+
 * `flake8` with the [flake8-eyeo extension](https://gitlab.com/eyeo/auxiliary/eyeo-coding-style/-/tree/master/flake8-eyeo)
 for python scripts
 * npm `linthtml` for html content
@@ -50,6 +51,7 @@ docker run --shm-size=1g -e GREP="chromium latest" -it testpages
 ```
 
 The available browsers are:
+
 * chromium latest
 * chromium beta
 * chromium dev
@@ -128,44 +130,28 @@ docker cp $(docker ps -aqf ancestor=testpages | head -n 1):/var/log/nginx/ <dest
 
 ## Local testpages execution
 
-Test pages run through the CMS test server. That project needs to be cloned:
+Static test pages need to be generated locally:
 
 ```shell
-git clone https://gitlab.com/eyeo/websites/cms.git
-git -C cms checkout fbd1527b9f98d99a8b62c6ad5e32ac7758c19a28
+LOCAL_BUILD=true npm run build
 ```
 
-After that, CMS dependencies need to be installed:
+The endpoints server can be used to serve the generated pages:
 
 ```shell
-pip install -r <CMS_PATH>/requirements.txt
+LOCAL_BUILD=true npm run start-endpoints
 ```
 
-Finally, to start the CMS server run the following command from the testpages
-project root folder:
-
-```shell
-python <CMS_PATH>/runserver.py --port 5001
-```
-
-Test pages should now be accessible at http://localhost:5001. For more
-information and usage instructions see [CMS documentation](https://gitlab.com/eyeo/websites/cms/-/blob/master/README.md).
-
-Additionaly, the endpoints server needs to run as well, and should be accessible
-at http://localhost:4000:
-
-```shell
-npm run start-endpoints
-```
+Test pages should now be accessible at <http://localhost:4000>.
 
 Testpages filters are set dynamically (except for Wildcard Domain support which are hardcoded). You can start server
 with testpages filters pointing to specific domain:
 
 ```shell
 SITE_URL=http://local.abptestpages.org python3 ../cms/runserver.py --port 5001
-``` 
+```
 
-If you wish to test Domain Wildcard scenario locally, you need to 
+If you wish to test Domain Wildcard scenario locally, you need to
 start browser from command line and map ports to  `local.abptestpages.org` (filters are already
 pointing to this domain).
 This works for Chromium browser only (excute command on the folder where browser binary
@@ -177,7 +163,7 @@ On Mac:
 open Chromium.app --args --host-resolver-rules="MAP local.abptestpages.org localhost:5001"
 ```
 
-On Linux: 
+On Linux:
 You may need to use `chromium` or `google-chrome` based on your distribution.
 
 ```shell
@@ -185,7 +171,7 @@ chromium --args --host-resolver-rules="MAP local.abptestpages.org localhost:5001
 ```
 
 On Windows:
-For a default installation on a 64-bit system. 
+For a default installation on a 64-bit system.
 
 ```shell
 start "" "C:\Program Files\Google\Chrome\Application\chrome.exe" --host-resolver-rules="MAP local.abptestpages.org localhost:5001"
@@ -195,7 +181,7 @@ start "" "C:\Program Files\Google\Chrome\Application\chrome.exe" --host-resolver
 
 It may be useful to run page tests outside docker, for debugging purposes.
 
-Besides having both CMS and endpoint servers running, the test runner expects an
+Besides having the endpoints server running, the test runner expects an
 unpacked ABP extension to be located in the `./testext` folder. That can be
 achieved by downloading the latest ABP release:
 
@@ -207,14 +193,13 @@ Note: It is also possible to manually extract a different ABP version into the
 `./testext` folder.
 
 After that, tests are ready to run. Please notice the `TEST_PAGES_URL`
-environment variable needs to point to the local CMS server, if you wish to test
-on abptestpages.org then don't provide that variable:
+environment variable needs to point to the local server:
 
 ```shell
-TEST_PAGES_URL=http://localhost:5001 npm test -- -g "chromium latest"
+TEST_PAGES_URL=http://localhost:4000 npm test -- -g "chromium latest"
 ```
 
-If testpage is excluded from execution in: 
+If testpage is excluded from execution in:
 `/test/extension-tests/pages/utils.js`and you want to unskip it, you
 can define environment variable to force unskip.
 
@@ -224,8 +209,5 @@ TESTS_TO_INCLUDE=filters/wildcard-domain npm test -- -g "chromium latest"
 
 Notes:
 
-- The `subscribes to a link` test case is expected to fail on the local run,
-because it requires an `https` server which `runserver.py` does not provide.
-- The `Sitekey` and `WebSocket` test cases are also expected to fail locally,
-because they require a request redirection to http://localhost:4000 and
-http://localhost:4001 which `runserver.py` does not provide.
+* The `subscribes to a link` test case is expected to fail on the local run,
+because it requires an `https` server.

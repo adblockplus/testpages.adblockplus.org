@@ -12,7 +12,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2023-12-14
 
-- Added test page for Wildcard support 
+- Added test page for Wildcard support
 
 ## 2023-11-23
 
@@ -175,15 +175,15 @@ invalid sitekey filter.
 
 ## 2021-02-24
 
-- Added subpage containing only Testpages supported by DP ABP integrations (ABP Chromium and ABP Webview). Subpage is available under link: https://testpages.adblockplus.org/en/dp
+- Added subpage containing only Testpages supported by DP ABP integrations (ABP Chromium and ABP Webview). Subpage is available under link: <https://testpages.adblockplus.org/en/dp>
 
 ## 2021-02-08
 
-- Deployed new testpages top-level domain: https://abptestpages.org
+- Deployed new testpages top-level domain: <https://abptestpages.org>
 
 ## 2020-12-14
 
-- Added subpage containing only Testpages supported by ABPKit. Subpage is available under link: https://testpages.adblockplus.org/en/abpkit
+- Added subpage containing only Testpages supported by ABPKit. Subpage is available under link: <https://testpages.adblockplus.org/en/abpkit>
 
 ## 2020-10-06
 
@@ -246,6 +246,7 @@ invalid sitekey filter.
 ### Constraints and Exceptions pages update
 
 Deleted static files:
+
 - `static/testcasefiles/document/image.jpg`
 - `static/testcasefiles/document/stylesheet.css`
 - `static/testcasefiles/document/stylesheet.css`
@@ -258,6 +259,7 @@ Deleted static files:
 - `static/testcasefiles/matchcase/2/ABC.jpg`
 
 Added static files:
+
 - `static/testfiles/document/image.png`
 - `static/testfiles/elemhide/image.png`
 - `static/testfiles/genericblock/generic.png`

@@ -24,6 +24,6 @@ fi
 
 # Run tests
 start_servers
-export TEST_PAGES_URL="$SITE_URL/en/"
+export TEST_PAGES_URL="$SITE_URL/"
 export TEST_PAGES_INSECURE="true"
 $XVFB_CMD npm test -- -g "$GREP"
