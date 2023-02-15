@@ -1,7 +1,9 @@
-template = testcase
-title = Blocking
-description = Check that basic blocking functionality is working as expected.
+{% extends "../templates/testcase.tmpl" %}
 
+{% set title = "Blocking" %}
+{% set description = "Check that basic blocking functionality is working as expected." %}
+
+{% block body %}
 {% set case = "Full Path" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
@@ -119,3 +121,5 @@ description = Check that basic blocking functionality is working as expected.
     <li><pre>||subdomain.abptestpages.org/testfiles/blocking/subdomain.png</pre></li>
   </ul>
 </section>
+
+{% endblock %}

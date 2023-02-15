@@ -17,13 +17,6 @@ FROM registry.gitlab.com/eyeo/docker/get-browser-binary:node22
 
 RUN apt-get update && apt-get install -y nginx
 
-# CMS and sitescripts require Python 3
-RUN apt-get install -y python3 python3-distutils python3-pip
-
-# Sitescripts require spawn-fcgi, m2crypto, flup and Jinja2
-RUN apt-get install -y spawn-fcgi python3-m2crypto
-RUN pip3 install flup Jinja2
-
 # nginx config
 ENV DOMAIN=local.testpages.adblockplus.org
 COPY test/etc /etc
@@ -34,11 +27,6 @@ RUN cd /etc/nginx && openssl req -x509 -newkey rsa:4096 \
   -out ${DOMAIN}_cert.pem \
   -days 365 -nodes -subj '/CN=$DOMAIN'
 
-# Build CMS
-RUN git clone https://gitlab.com/eyeo/websites/cms.git
-RUN git -C cms checkout fbd1527b9f98d99a8b62c6ad5e32ac7758c19a28
-RUN pip3 install -r cms/requirements.txt
-
 # Build tests
 COPY package*.json testpages.adblockplus.org/
 RUN cd testpages.adblockplus.org && npm install
@@ -48,7 +36,8 @@ COPY . testpages.adblockplus.org
 # Generate test pages files
 ENV SITE_URL=https://$DOMAIN:5001
 RUN mkdir -p /var/www/$DOMAIN
-RUN PYTHONPATH=cms python3 -m cms.bin.generate_static_pages testpages.adblockplus.org /var/www/$DOMAIN
+RUN cd testpages.adblockplus.org && npm run build
+RUN cp -r testpages.adblockplus.org/dist/* /var/www/$DOMAIN
 
 # Unpack custom extension
 ARG EXTENSION_FILE=""

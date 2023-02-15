@@ -25,11 +25,12 @@ import nunjucks from "nunjucks";
 import {WebSocketServer} from "ws";
 
 const HOST = "localhost";
-const HTTP_PORT = 4000;
-const WS_PORT = 4001;
-const WSE_PORT = 4002;
+const HTTP_PORT = 5001;
+const WS_PORT = 5002;
+const WSE_PORT = 5003;
 
 let dirname = path.dirname(url.fileURLToPath(import.meta.url));
+let distFolder = path.join(dirname, "..", "dist");
 let app = express();
 
 nunjucks.configure(path.join(dirname, "sitekey"), {
@@ -54,11 +55,18 @@ app.get("/sitekey-frame", async(req, res) => {
   res.render("sitekey_frame.njk", {adblockkey});
 });
 
-app.use(express.static(path.join(dirname, "..", "static")));
+// File extensions fallback should only be needed for localhost
+// https://expressjs.com/en/4x/api.html#express.static
+let options = process.env.LOCAL_BUILD == "true" ? {extensions: "html"} : {};
+app.use(express.static(distFolder, options));
 
-app.get("/", (req, res) => {
-  res.send(`Invalid endpoint: ${req.url}`);
-});
+if (process.env.LOCAL_BUILD == "true") {
+  // Instead of redirecting, maybe static testpages should be served on a
+  // different port (i.e. 4002) to separate them from regular enpoints
+  app.get("/", (req, res) => {
+    res.redirect("/pages/index.html");
+  });
+}
 
 app.listen(HTTP_PORT, HOST, () => {
   // eslint-disable-next-line no-console
@@ -77,7 +85,7 @@ wss.on("connection", ws => {
 
 let wses = new WebSocketServer({host: HOST, port: WSE_PORT}, () => {
   // eslint-disable-next-line no-console
-  console.log(`Web socket server listening at ws://${HOST}:${WSE_PORT}`);
+  console.log(`Web socket exception server listening at ws://${HOST}:${WSE_PORT}`);
 });
 
 wses.on("connection", ws => {

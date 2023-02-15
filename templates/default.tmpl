@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
   {% set page_title = 'ABP Test Pages' %}
-  <? include head ?>
+  {% include "../includes/head.tmpl" %}
   <body>
-    <? include header ?>
-    {{ body|safe }}
-    <? include footer ?>
+    {% include "../includes/header.tmpl" %}
+    {% block body %}{% endblock %}
+    {% include "../includes/footer.tmpl" %}
   </body>
 </html>

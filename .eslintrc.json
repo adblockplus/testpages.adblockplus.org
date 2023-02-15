@@ -3,7 +3,8 @@
   "root": true,
   "env": {
     "browser": true,
-    "webextensions": true
+    "webextensions": true,
+    "node": true
   },
   "globals": {
     "exports": true,
