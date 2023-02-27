@@ -46,13 +46,13 @@ test:lint:
   extends: .test_runner
   script:
     - docker build -t lintimage -f test/lint.Dockerfile .
-    - docker run lintimage
+    - docker run -t lintimage
 
 .test:
   extends: .test_runner
   script:
     - docker build -t testpages .
-    - docker run --shm-size=256m -e GREP="$GREP" testpages
+    - docker run --shm-size=256m -e GREP="$GREP" -t testpages
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
     - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
