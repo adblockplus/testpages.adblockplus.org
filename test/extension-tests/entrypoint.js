@@ -41,17 +41,21 @@ let extensionPaths = [
 async function getExtensionName(driver, handles) {
   let handle;
   let extensionName;
-
+///// IT FAILS SOMEWHERE BELOW
   for (handle of handles) {
     await driver.switchTo().window(handle);
     extensionName = await driver.executeAsyncScript(async(...args) => {
       let callback = args[args.length - 1];
+
+      // Firefox
       if (typeof browser != "undefined") {
         let info = await browser.management.getSelf();
         if (info.optionsUrl == location.href)
           callback(info.name);
       }
-      if (typeof chrome.management != "undefined") {
+
+      // Chromium
+      else if (typeof chrome.management != "undefined") {
         new Promise((resolve, reject) => {
           chrome.management.getSelf(info => {
             if (chrome.runtime.lastError)
@@ -114,6 +118,8 @@ async function waitForExtension(driver) {
     await driver.switchTo().window(handle);
     origin = await driver.executeAsyncScript(async(...args) => {
       let callback = args[args.length - 1];
+
+      // Firefox
       if (typeof browser != "undefined") {
         let info = await browser.management.getSelf();
         if (info.optionsUrl == location.href) {
@@ -121,7 +127,9 @@ async function waitForExtension(driver) {
           return;
         }
       }
-      if (typeof chrome.management != "undefined") {
+
+      // Chromium
+      else if (typeof chrome.management != "undefined") {
         new Promise((resolve, reject) => {
           chrome.management.getSelf(info => {
             if (chrome.runtime.lastError)
@@ -149,7 +157,6 @@ async function waitForExtension(driver) {
 
   if (!origin)
     throw new Error("Extension didn't start correctly, options is not shown");
-
 
   return [handle, origin];
 }
