@@ -44,21 +44,54 @@ async function addSubscription(driver, extensionHandle, currentHandle) {
 async function checkSubscriptionAdded(driver, url) {
   let added = await driver.executeAsyncScript(async(...args) => {
     let callback = args[args.length - 1];
-    let subs = await browser.runtime.sendMessage(
-      {type: "subscriptions.get", ignoreDisabled: true, downloadable: true}
-    );
+    let subs = null;
+
+    // Firefox
+    if (typeof browser !== "undefined") {
+      subs = await browser.runtime.sendMessage(
+        {type: "subscriptions.get", ignoreDisabled: true, downloadable: true}
+      );
+    }
+
+    // Chromium
+    else {
+      chrome.runtime.sendMessage(
+        {type: "subscriptions.get", ignoreDisabled: true, downloadable: true},
+        response => {
+          subs = response; callback(subs.some(s => s.url == args[0]));
+        }
+      );
+    }
     callback(subs.some(s => s.url == args[0]));
   }, url);
   assert.ok(added, "subscription added");
 }
 
+
+
 async function removeSubscription(driver, extensionHandle, url) {
   await driver.switchTo().window(extensionHandle);
   await driver.executeAsyncScript(async(...args) => {
     let callback = args[args.length - 1];
-    await browser.runtime.sendMessage({type: "subscriptions.remove",
-                                       url: args[0]});
-    callback();
+
+    // Firefox
+    if (typeof browser != "undefined") {
+      await browser.runtime.sendMessage({
+        type: "subscriptions.remove",
+        url: args[0]
+      });
+      callback();
+    }
+
+    // Chromium
+    else if (typeof chrome != "undefined") {
+      chrome.runtime.sendMessage(
+        {type: "subscriptions.remove", url: args[0]},
+        () => {
+          callback();
+        }
+      );
+    }
   }, url);
 }
 

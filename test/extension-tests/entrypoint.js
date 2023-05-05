@@ -51,6 +51,26 @@ async function getExtensionName(driver, handles) {
         if (info.optionsUrl == location.href)
           callback(info.name);
       }
+      if (typeof chrome.management != "undefined") {
+        new Promise((resolve, reject) => {
+          chrome.management.getSelf(info => {
+            if (chrome.runtime.lastError)
+              reject(chrome.runtime.lastError.message);
+
+            else if (info.optionsUrl == location.href)
+              resolve(info.name);
+
+            else
+              reject("optionsUrl does not match");
+          });
+        }).then(name => {
+          callback(name);
+        }).catch(error => {
+          console.error(error);
+          callback();
+        });
+        return;
+      }
       callback();
     });
     if (extensionName)
@@ -96,8 +116,30 @@ async function waitForExtension(driver) {
       let callback = args[args.length - 1];
       if (typeof browser != "undefined") {
         let info = await browser.management.getSelf();
-        if (info.optionsUrl == location.href)
+        if (info.optionsUrl == location.href) {
           callback(location.origin);
+          return;
+        }
+      }
+      if (typeof chrome.management != "undefined") {
+        new Promise((resolve, reject) => {
+          chrome.management.getSelf(info => {
+            if (chrome.runtime.lastError)
+              reject(chrome.runtime.lastError.message);
+
+            else if (info.optionsUrl == location.href)
+              resolve(location.origin);
+
+            else
+              reject("optionsUrl does not match");
+          });
+        }).then(locationOrigin => {
+          callback(locationOrigin);
+        }).catch(error => {
+          console.error(error);
+          callback();
+        });
+        return;
       }
       callback();
     });
@@ -107,6 +149,7 @@ async function waitForExtension(driver) {
 
   if (!origin)
     throw new Error("Extension didn't start correctly, options is not shown");
+
 
   return [handle, origin];
 }
