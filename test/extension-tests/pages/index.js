@@ -38,13 +38,14 @@ async function updateFilters(driver, extensionHandle, url) {
   await driver.navigate().to(url);
   let filters = await getFilters(driver);
   let error = null;
-  // Firefox
   error = await runWithHandle(
     driver, extensionHandle, () =>
       driver.executeAsyncScript(async(...args) => {
         let errors = null;
         let callback = args[args.length - 1];
         let filtersToAdd = args[0];
+
+        // Firefox
         if (typeof browser != "undefined") {
           errors = await browser.runtime.sendMessage(
             {type: "filters.importRaw", text: filtersToAdd}

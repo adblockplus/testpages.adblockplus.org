@@ -26,7 +26,7 @@ export async function checkLastError(driver, handle) {
       browser.runtime.sendMessage({type: "debug.getLastError"}).then(callback);
 
     // Chromium
-    if (typeof chrome != "undefined" && typeof chrome.management != "undefined")
+    if (typeof chrome != "undefined" && typeof chrome.runtime != "undefined")
       chrome.runtime.sendMessage({type: "debug.getLastError"}, callback);
   });
 
