@@ -114,7 +114,6 @@ function removeFilters(driver, extensionHandle) {
 export default () => {
   describe("Test pages", function() {
     afterEach(async function() {
-      await new Promise(r => setTimeout(r, 20000));
       await removeFilters(this.driver, this.extensionHandle);
       await checkLastError(this.driver, this.extensionHandle);
     });
