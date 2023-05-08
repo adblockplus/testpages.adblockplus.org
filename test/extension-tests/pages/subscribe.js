@@ -58,7 +58,8 @@ async function checkSubscriptionAdded(driver, url) {
       chrome.runtime.sendMessage(
         {type: "subscriptions.get", ignoreDisabled: true, downloadable: true},
         response => {
-          subs = response; callback(subs.some(s => s.url == args[0]));
+          subs = response;
+          callback(subs.some(s => s.url == args[0]));
         }
       );
     }
@@ -85,9 +86,7 @@ async function removeSubscription(driver, extensionHandle, url) {
     else if (typeof chrome != "undefined") {
       chrome.runtime.sendMessage(
         {type: "subscriptions.remove", url: args[0]},
-        () => {
-          callback();
-        }
+        () => callback()
       );
     }
   }, url);

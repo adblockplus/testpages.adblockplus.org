@@ -55,7 +55,7 @@ async function getExtensionName(driver, handles) {
       }
       // Chromium
       if (typeof chrome != "undefined" &&
-              typeof chrome.management != "undefined") {
+          typeof chrome.management != "undefined") {
         new Promise((resolve, reject) => {
           chrome.management.getSelf(info => {
             if (chrome.runtime.lastError)
@@ -130,15 +130,13 @@ async function waitForExtension(driver) {
 
       // Chromium
       if (typeof chrome != "undefined" &&
-              typeof chrome.management != "undefined"){
+          typeof chrome.management != "undefined") {
         new Promise((resolve, reject) => {
           chrome.management.getSelf(info => {
             if (chrome.runtime.lastError)
               reject(chrome.runtime.lastError.message);
-
             else if (info.optionsUrl == location.href)
               resolve(location.origin);
-
             else
               reject("optionsUrl does not match");
           });

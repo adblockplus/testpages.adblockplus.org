@@ -57,13 +57,10 @@ async function updateFilters(driver, extensionHandle, url) {
 
         // Chromium
         if (typeof chrome != "undefined") {
-          errors = await new Promise(resolve => {
-            chrome.runtime.sendMessage({type: "filters.importRaw",
-                                        text: filtersToAdd},
-                                       errorsInResponse => {
-                                         resolve(errorsInResponse[0]);
-                                       });
-          });
+          errors = await new Promise(resolve => chrome.runtime.sendMessage(
+            {type: "filters.importRaw", text: filtersToAdd},
+            errorsInResponse => resolve(errorsInResponse[0])
+          ));
           if (typeof errors != "undefined")
             callback(errors[0]);
           else
@@ -80,7 +77,6 @@ function removeFilters(driver, extensionHandle) {
   return runWithHandle(driver, extensionHandle, () => driver.executeAsyncScript(
     async(...args) => {
       let callback = args[args.length - 1];
-
       // Firefox
       if (typeof browser !== "undefined") {
         let filters = await browser.runtime.sendMessage({type: "filters.get"});
@@ -99,9 +95,7 @@ function removeFilters(driver, extensionHandle) {
         await Promise.all(filters.map(filter => new Promise(resolve => {
           chrome.runtime.sendMessage(
             {type: "filters.remove", text: filter.text},
-            response => {
-              resolve(response);
-            }
+            response => resolve(response)
           );
         })));
       }

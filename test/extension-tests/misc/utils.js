@@ -25,7 +25,6 @@ export async function checkLastError(driver, handle) {
     if (typeof browser !== "undefined")
       browser.runtime.sendMessage({type: "debug.getLastError"}).then(callback);
 
-
     // Chromium
     if (typeof chrome != "undefined" && typeof chrome.management != "undefined")
       chrome.runtime.sendMessage({type: "debug.getLastError"}, callback);
@@ -34,15 +33,12 @@ export async function checkLastError(driver, handle) {
   if (error == null)
     return;
 
-
   let text = `Unhandled error in background page: ${error.message}`;
   if (process.env.THROW_LAST_ERROR == "true")
     assert.fail(text);
-
   else
     console.warn(text);
 }
-
 
 export async function runWithHandle(driver, handle, callback) {
   let currentHandle = await driver.getWindowHandle();
