@@ -56,7 +56,7 @@ async function updateFilters(driver, extensionHandle, url) {
         }
 
         // Chromium
-        else if (typeof chrome != "undefined") {
+        if (typeof chrome != "undefined") {
           errors = await new Promise(resolve => {
             chrome.runtime.sendMessage({type: "filters.importRaw",
                                         text: filtersToAdd},
@@ -90,7 +90,7 @@ function removeFilters(driver, extensionHandle) {
       }
 
       // Chromium
-      else if (typeof chrome != "undefined") {
+      if (typeof chrome != "undefined") {
         let filters = await new Promise(resolve => {
           chrome.runtime.sendMessage({type: "filters.get"}, response => {
             resolve(response);

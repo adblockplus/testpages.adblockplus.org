@@ -46,6 +46,8 @@ async function getExtensionName(driver, handles) {
     await driver.switchTo().window(handle);
     extensionName = await driver.executeAsyncScript(async(...args) => {
       let callback = args[args.length - 1];
+
+      // Firefox
       if (typeof browser != "undefined") {
         let info = await browser.management.getSelf();
         if (info.optionsUrl == location.href)

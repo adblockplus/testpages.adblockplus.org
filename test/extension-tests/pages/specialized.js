@@ -65,8 +65,8 @@ async function checkPopup(driver, element, extensionHandle, shouldBlockPopup) {
   await runWithHandle(driver, extensionHandle, () =>
     driver.executeScript((...args) => {
       self[`tabCreated${args[0]}`] = new Promise(resolve => {
-        browser.tabs.onCreated.addListener(function listener() {
-          browser.tabs.onCreated.removeListener(listener);
+        chrome.tabs.onCreated.addListener(function listener() {
+          chrome.tabs.onCreated.removeListener(listener);
           resolve("tab created");
         });
       });
