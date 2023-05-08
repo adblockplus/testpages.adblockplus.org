@@ -38,24 +38,23 @@ let extensionPaths = [
   path.resolve("test", "extension-tests", "helper-extension")
 ];
 
+
 async function getExtensionName(driver, handles) {
   let handle;
   let extensionName;
-///// IT FAILS SOMEWHERE BELOW
+
   for (handle of handles) {
     await driver.switchTo().window(handle);
     extensionName = await driver.executeAsyncScript(async(...args) => {
       let callback = args[args.length - 1];
-
-      // Firefox
       if (typeof browser != "undefined") {
         let info = await browser.management.getSelf();
         if (info.optionsUrl == location.href)
           callback(info.name);
       }
-
       // Chromium
-      else if (typeof chrome.management != "undefined") {
+      if (typeof chrome != "undefined" &&
+              typeof chrome.management != "undefined") {
         new Promise((resolve, reject) => {
           chrome.management.getSelf(info => {
             if (chrome.runtime.lastError)
@@ -80,7 +79,6 @@ async function getExtensionName(driver, handles) {
     if (extensionName)
       break;
   }
-
   return extensionName ? extensionName : "";
 }
 
@@ -129,7 +127,8 @@ async function waitForExtension(driver) {
       }
 
       // Chromium
-      else if (typeof chrome.management != "undefined") {
+      if (typeof chrome != "undefined" &&
+              typeof chrome.management != "undefined"){
         new Promise((resolve, reject) => {
           chrome.management.getSelf(info => {
             if (chrome.runtime.lastError)
@@ -157,7 +156,6 @@ async function waitForExtension(driver) {
 
   if (!origin)
     throw new Error("Extension didn't start correctly, options is not shown");
-
   return [handle, origin];
 }
 
@@ -205,7 +203,7 @@ if (typeof run == "undefined") {
         this.testPagesURL = TEST_PAGES_URL;
 
         before(async function() {
-          let headless = browser == "firefox";
+          let headless = false; // = browser == "firefox";
           // eslint-disable-next-line no-console
           console.log(`Getting ready to run ${browser}...`);
           this.driver = await BROWSERS[browser].getDriver(

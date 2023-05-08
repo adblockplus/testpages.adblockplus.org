@@ -38,30 +38,33 @@ async function updateFilters(driver, extensionHandle, url) {
   await driver.navigate().to(url);
   let filters = await getFilters(driver);
   let error = null;
-
   // Firefox
-  if (typeof browser != "undefined") {
-    error = await runWithHandle(driver, extensionHandle, () =>
+  error = await runWithHandle(
+    driver, extensionHandle, () =>
       driver.executeAsyncScript(async(...args) => {
+        let errors = null;
         let callback = args[args.length - 1];
         let filtersToAdd = args[0];
-        let errors = await browser.runtime.sendMessage({
-          type: "filters.importRaw",
-          text: filtersToAdd});
-        callback(errors[0]);
-      }, filters));
-  }
+        if (typeof browser != "undefined") {
+          errors = await browser.runtime.sendMessage(
+            {type: "filters.importRaw", text: filtersToAdd}
+          );
+          callback(errors[0]);
+        }
 
-  // Chromium
-  else if (typeof chrome != "undefined") {
-    error = await new Promise(resolve => {
-      chrome.runtime.sendMessage({type: "filters.importRaw", text: filters},
-                                 errors => {
-                                   resolve(errors[0]);
-                                 });
-    });
-  }
-
+        // Chromium
+        else if (typeof chrome != "undefined") {
+          errors = await new Promise(resolve => {
+            chrome.runtime.sendMessage({type: "filters.importRaw",
+                                        text: filtersToAdd},
+                                       errorsInResponse => {
+                                         resolve(errorsInResponse[0]);
+                                       });
+          });
+          callback(errors[0]);
+        }
+      }, filters)
+  );
   if (error)
     throw error;
 
@@ -103,10 +106,10 @@ function removeFilters(driver, extensionHandle) {
   ));
 }
 
-
 export default () => {
   describe("Test pages", function() {
     afterEach(async function() {
+      await new Promise(r => setTimeout(r, 20000));
       await removeFilters(this.driver, this.extensionHandle);
       await checkLastError(this.driver, this.extensionHandle);
     });

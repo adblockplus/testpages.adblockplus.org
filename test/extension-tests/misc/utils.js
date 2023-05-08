@@ -21,14 +21,14 @@ export async function checkLastError(driver, handle) {
   await driver.switchTo().window(handle);
 
   let error = await driver.executeAsyncScript(async callback => {
-    if (typeof browser !== "undefined") {
-      // Firefox
+    // Firefox
+    if (typeof browser !== "undefined")
       browser.runtime.sendMessage({type: "debug.getLastError"}).then(callback);
-    }
-    else {
-      // Chrome
+
+
+    // Chromium
+    if (typeof chrome != "undefined" && typeof chrome.management != "undefined")
       chrome.runtime.sendMessage({type: "debug.getLastError"}, callback);
-    }
   });
 
   if (error == null)

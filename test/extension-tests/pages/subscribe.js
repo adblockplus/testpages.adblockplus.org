@@ -54,7 +54,7 @@ async function checkSubscriptionAdded(driver, url) {
     }
 
     // Chromium
-    else {
+    if (typeof chrome != "undefined"){
       chrome.runtime.sendMessage(
         {type: "subscriptions.get", ignoreDisabled: true, downloadable: true},
         response => {
