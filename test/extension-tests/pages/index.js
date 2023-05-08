@@ -49,7 +49,10 @@ async function updateFilters(driver, extensionHandle, url) {
           errors = await browser.runtime.sendMessage(
             {type: "filters.importRaw", text: filtersToAdd}
           );
-          callback(errors[0]);
+          if (typeof errors != "undefined")
+            callback(errors[0]);
+          else
+            callback();
         }
 
         // Chromium
@@ -61,13 +64,15 @@ async function updateFilters(driver, extensionHandle, url) {
                                          resolve(errorsInResponse[0]);
                                        });
           });
-          callback(errors[0]);
+          if (typeof errors != "undefined")
+            callback(errors[0]);
+          else
+            callback();
         }
       }, filters)
   );
   if (error)
     throw error;
-
   await driver.navigate().refresh();
 }
 
