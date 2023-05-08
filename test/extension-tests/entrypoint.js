@@ -203,7 +203,7 @@ if (typeof run == "undefined") {
         this.testPagesURL = TEST_PAGES_URL;
 
         before(async function() {
-          let headless = false; // = browser == "firefox";
+          let headless = browser == "firefox";
           // eslint-disable-next-line no-console
           console.log(`Getting ready to run ${browser}...`);
           this.driver = await BROWSERS[browser].getDriver(
