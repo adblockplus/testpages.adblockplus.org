@@ -67,8 +67,6 @@ async function checkSubscriptionAdded(driver, url) {
   assert.ok(added, "subscription added");
 }
 
-
-
 async function removeSubscription(driver, extensionHandle, url) {
   await driver.switchTo().window(extensionHandle);
   await driver.executeAsyncScript(async(...args) => {
