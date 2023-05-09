@@ -61,10 +61,8 @@ async function getExtensionName(driver, handles) {
           chrome.management.getSelf(info => {
             if (chrome.runtime.lastError)
               reject(chrome.runtime.lastError.message);
-
             else if (info.optionsUrl == location.href)
               resolve(info.name);
-
             else
               reject("optionsUrl does not match");
           });
