@@ -37,19 +37,40 @@ async function getFilters(driver) {
 async function updateFilters(driver, extensionHandle, url) {
   await driver.navigate().to(url);
   let filters = await getFilters(driver);
-  let error = await runWithHandle(
-    driver, extensionHandle, () => driver.executeAsyncScript(async(...args) => {
-      let callback = args[args.length - 1];
-      let filtersToAdd = args[0];
-      let errors = await browser.runtime.sendMessage(
-        {type: "filters.importRaw", text: filtersToAdd}
-      );
-      callback(errors[0]);
-    }, filters)
+  let error = null;
+  error = await runWithHandle(
+    driver, extensionHandle, () =>
+      driver.executeAsyncScript(async(...args) => {
+        let errors = null;
+        let callback = args[args.length - 1];
+        let filtersToAdd = args[0];
+
+        // Firefox
+        if (typeof browser != "undefined") {
+          errors = await browser.runtime.sendMessage(
+            {type: "filters.importRaw", text: filtersToAdd}
+          );
+          if (typeof errors != "undefined")
+            callback(errors[0]);
+          else
+            callback();
+        }
+
+        // Chromium
+        if (typeof chrome != "undefined") {
+          errors = await new Promise(resolve => chrome.runtime.sendMessage(
+            {type: "filters.importRaw", text: filtersToAdd},
+            errorsInResponse => resolve(errorsInResponse[0])
+          ));
+          if (typeof errors != "undefined")
+            callback(errors[0]);
+          else
+            callback();
+        }
+      }, filters)
   );
   if (error)
     throw error;
-
   await driver.navigate().refresh();
 }
 
@@ -57,10 +78,29 @@ function removeFilters(driver, extensionHandle) {
   return runWithHandle(driver, extensionHandle, () => driver.executeAsyncScript(
     async(...args) => {
       let callback = args[args.length - 1];
-      let filters = await browser.runtime.sendMessage({type: "filters.get"});
-      await Promise.all(filters.map(filter => browser.runtime.sendMessage(
-        {type: "filters.remove", text: filter.text}
-      )));
+      // Firefox
+      if (typeof browser !== "undefined") {
+        let filters = await browser.runtime.sendMessage({type: "filters.get"});
+        await Promise.all(filters.map(filter => browser.runtime.sendMessage(
+          {type: "filters.remove", text: filter.text}
+        )));
+      }
+
+      // Chromium
+      if (typeof chrome != "undefined") {
+        let filters = await new Promise(resolve => {
+          chrome.runtime.sendMessage({type: "filters.get"}, response => {
+            resolve(response);
+          });
+        });
+        await Promise.all(filters.map(filter => new Promise(resolve => {
+          chrome.runtime.sendMessage(
+            {type: "filters.remove", text: filter.text},
+            response => resolve(response)
+          );
+        })));
+      }
+
       callback();
     }
   ));

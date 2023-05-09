@@ -46,10 +46,33 @@ async function getExtensionName(driver, handles) {
     await driver.switchTo().window(handle);
     extensionName = await driver.executeAsyncScript(async(...args) => {
       let callback = args[args.length - 1];
+
+      // Firefox
       if (typeof browser != "undefined") {
         let info = await browser.management.getSelf();
         if (info.optionsUrl == location.href)
           callback(info.name);
+      }
+      // Chromium
+      if (typeof chrome != "undefined" &&
+          typeof chrome.management != "undefined" &&
+          typeof chrome.runtime != "undefined") {
+        new Promise((resolve, reject) => {
+          chrome.management.getSelf(info => {
+            if (chrome.runtime.lastError)
+              reject(chrome.runtime.lastError.message);
+            else if (info.optionsUrl == location.href)
+              resolve(info.name);
+            else
+              reject("optionsUrl does not match");
+          });
+        }).then(name => {
+          callback(name);
+        }).catch(error => {
+          console.error(error);
+          callback();
+        });
+        return;
       }
       callback();
     });
@@ -94,10 +117,35 @@ async function waitForExtension(driver) {
     await driver.switchTo().window(handle);
     origin = await driver.executeAsyncScript(async(...args) => {
       let callback = args[args.length - 1];
+
+      // Firefox
       if (typeof browser != "undefined") {
         let info = await browser.management.getSelf();
-        if (info.optionsUrl == location.href)
+        if (info.optionsUrl == location.href) {
           callback(location.origin);
+          return;
+        }
+      }
+
+      // Chromium
+      if (typeof chrome != "undefined" &&
+          typeof chrome.management != "undefined") {
+        new Promise((resolve, reject) => {
+          chrome.management.getSelf(info => {
+            if (chrome.runtime.lastError)
+              reject(chrome.runtime.lastError.message);
+            else if (info.optionsUrl == location.href)
+              resolve(location.origin);
+            else
+              reject("optionsUrl does not match");
+          });
+        }).then(locationOrigin => {
+          callback(locationOrigin);
+        }).catch(error => {
+          console.error(error);
+          callback();
+        });
+        return;
       }
       callback();
     });
