@@ -30,7 +30,7 @@ export async function checkLastError(driver, handle) {
       chrome.runtime.sendMessage({type: "debug.getLastError"}, callback);
   });
 
-  if (error == null)
+  if (error == null || typeof error.message == "undefined")
     return;
 
   let text = `Unhandled error in background page: ${error.message}`;
