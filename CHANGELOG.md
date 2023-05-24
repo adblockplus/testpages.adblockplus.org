@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2023-05-23
+
+- Added test page for `simulate-mouse-event` snippet. More info: #145
+
 ## 2023-02-09
 
 - Updated the `WebSocket` and `WebSocker Exception` pages to use a self hosted
