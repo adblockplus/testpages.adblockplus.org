@@ -28,25 +28,25 @@ description = Check if simulate-mouse-event feature works properly.
 
 <script>
   "use strict";
+  
+  const targetTestCase = document.getElementById("{{id}}-area");
+  const divToManipulate = document.createElement("div");
   const showTestResult = (result) => {
     removeWaitingContent(); // eslint-disable-line no-undef
     divToManipulate.id = result;
     divToManipulate.setAttribute("data-expectedresult", result);
     targetTestCase.appendChild(divToManipulate);
-  }
+  };
 
-  const targetTestCase = document.getElementById("{{id}}-area"); 
-  const divToManipulate = document.createElement("div");
   let timeout = setTimeout(() => {
     timeout = 0;
     showTestResult("fail");
   }, 500);
 
   const element = document.getElementById("sme-basic-id");
-  element.addEventListener("click", ()=> {
-    if (timeout) {
+  element.addEventListener("click", () => {
+    if (timeout)
       clearTimeout(timeout);
-    }
     showTestResult("pass");
   });
 </script>
