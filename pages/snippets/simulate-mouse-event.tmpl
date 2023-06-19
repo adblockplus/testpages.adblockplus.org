@@ -28,10 +28,10 @@ description = Check if simulate-mouse-event feature works properly.
 
 <script>
   "use strict";
-  
+
   const targetTestCase = document.getElementById("{{id}}-area");
   const divToManipulate = document.createElement("div");
-  const showTestResult = (result) => {
+  const showTestResult = result => {
     removeWaitingContent(); // eslint-disable-line no-undef
     divToManipulate.id = result;
     divToManipulate.setAttribute("data-expectedresult", result);
