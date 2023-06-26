@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2023-06-26
+
+- Switched default testpages url to `https://abptestpages.org/`
+
 ## 2023-05-23
 
 - Added test page for `simulate-mouse-event` snippet. More info: #145
