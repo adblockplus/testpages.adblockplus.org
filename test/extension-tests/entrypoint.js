@@ -25,7 +25,7 @@ import {writeScreenshotAndThrow} from "./misc/screenshots.js";
 import definePageTests from "./pages/index.js";
 
 const TEST_PAGES_URL = process.env.TEST_PAGES_URL ||
-                       "https://testpages.adblockplus.org/en/";
+                       "https://abptestpages.org/";
 const TEST_PAGES_INSECURE = process.env.TEST_PAGES_INSECURE == "true";
 const BROWSER_VERSIONS = {
   chromium: [void 0, "beta", "dev", "77.0.3865.0"],
