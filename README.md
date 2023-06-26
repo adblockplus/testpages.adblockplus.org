@@ -1,6 +1,6 @@
 # testpages.adblockplus.org web content
 
-The web content of the [testpages.adblockplus.org domain](https://testpages.adblockplus.org/)
+The web content of the [abptestpages.org domain](https://abptestpages.org/)
 is automatically generated from the files in this repository.
 
 ## Getting started
