@@ -193,11 +193,6 @@ test:edge:windows:
     paths:
       - build
 
-build:testpages:
-  extends: .build_production
-  variables:
-    SITE_URL: https://testpages.adblockplus.org
-
 build:abptestpages:
   extends: .build_production
   variables:
