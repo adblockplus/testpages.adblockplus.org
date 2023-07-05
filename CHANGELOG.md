@@ -1,6 +1,9 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## 2023-07-06
+
+- Removed deployment to testpages.adblockplus.org
 
 ## 2023-06-26
 
