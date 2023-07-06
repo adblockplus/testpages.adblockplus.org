@@ -193,11 +193,6 @@ test:edge:windows:
     paths:
       - build
 
-build:testpages:
-  extends: .build_production
-  variables:
-    SITE_URL: https://testpages.adblockplus.org
-
 build:abptestpages:
   extends: .build_production
   variables:
@@ -212,14 +207,6 @@ build:abptestpages:
   environment:
     name: $DOMAIN
     url: https://$DOMAIN
-
-deploy:testpages:
-  extends: .deploy_production
-  dependencies:
-    - build:testpages
-  variables:
-    DOMAIN: testpages.adblockplus.org
-    DEPLOY_SCRIPT: deploy_eyeo_cms_web_$DOMAIN
 
 deploy:abptestpages:
   extends: .deploy_production
