@@ -22,17 +22,31 @@ description = Check if simulate-mouse-event feature works properly.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#simulate-mouse-event 'div#sme-basic-id$delay=0' </pre></li>
+    <li><pre>{{ site_url|domain }}#$#simulate-mouse-event '#sme-basic-id$delay=0' </pre></li>
   </ul>
 </section>
 
 <script>
   "use strict";
 
-  const element = document.getElementById("sme-basic-id");
-  element.addEventListener("click", () => element.setAttribute("data-expectedresult", "pass"));
-
-  setTimeout(() => {
+  const targetTestCase = document.getElementById("{{id}}-area");
+  const divToManipulate = document.createElement("div");
+  const showTestResult = result => {
     removeWaitingContent(); // eslint-disable-line no-undef
+    divToManipulate.id = result;
+    divToManipulate.setAttribute("data-expectedresult", result);
+    targetTestCase.appendChild(divToManipulate);
+  };
+
+  let timeout = setTimeout(() => {
+    timeout = 0;
+    showTestResult("fail");
   }, 500);
+
+  const element = document.getElementById("sme-basic-id");
+  element.addEventListener("click", () => {
+    if (timeout)
+      clearTimeout(timeout);
+    showTestResult("pass");
+  });
 </script>
