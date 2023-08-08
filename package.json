@@ -13,14 +13,14 @@
     "ws": "^8.12.0"
   },
   "devDependencies": {
-    "@eyeo/get-browser-binary": "^0.9.0",
+    "@eyeo/get-browser-binary": "^0.13.0",
     "@linthtml/linthtml": "^0.9.4",
     "eslint": "^8.33.0",
     "eslint-config-eyeo": "^3.2.0",
     "eslint-plugin-html": "^7.1.0",
     "geckodriver": "^3.0.2",
     "got": "^12.5.3",
-    "jimp": "^0.16.2",
+    "jimp": "^0.22.4",
     "mocha": "^10.2.0",
     "selenium-webdriver": "^4.7.1",
     "stylelint": "^13.3.2",
