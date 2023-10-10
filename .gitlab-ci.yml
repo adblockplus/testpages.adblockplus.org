@@ -130,7 +130,7 @@ test:edge:windows:
     - $Env:NGINX_WIN = "C:\tools\nginx-1.19.0"
     - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
     - choco install -y openssl
-    - choco install -y python3
+    - choco install -y python3 --version 3.11.4
     - choco upgrade -y nodejs --version 16.19.0
     - refreshenv
     # nginx config
