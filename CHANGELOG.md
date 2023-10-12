@@ -1,6 +1,10 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## 2023-10-11
+
+- Added warning image to show if sitekey exception rule fails to apply.
+
 ## 2023-07-06
 
 - Removed deployment to testpages.adblockplus.org
