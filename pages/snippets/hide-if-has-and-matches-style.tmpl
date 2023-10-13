@@ -27,7 +27,7 @@ description = Check that the hide-if-has-and-matches-style snippet is working as
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that usage of the snippet with legit elements works as expected.</p>
+  <p>Test that an element that does not match the <a href="https://developers.eyeo.com/snippets/conditional-hiding-snippets/hide-if-has-and-matches-style#parameters">searchStyle</a> parameter is not hidden.</p>
   <div id="comments-target" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
