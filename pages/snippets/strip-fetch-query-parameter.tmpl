@@ -74,6 +74,13 @@ description = Check that the strip-fetch-query-parameter snippet is working as e
         element.innerHTML = `${param} was called.`;
         document.getElementById("other-target").appendChild(element);
       }
+      else {
+        let element = document.createElement("div");
+        element.setAttribute("data-expectedresult", "fail");
+        element.setAttribute("aria-label", "{{id}}-fail");
+        element.innerHTML = `Failed. ${param} was not called.`;
+        document.getElementById("other-target").appendChild(element);
+      }
     }
   }
 

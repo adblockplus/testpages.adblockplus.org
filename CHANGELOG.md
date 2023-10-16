@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## 2023-10-16
 
+- `strip-fetch-query-parameter test` fails if a filter blocks a legit element. Previously, it would still show a green box.
+- `abp-testcase-subscription.txt` has been updated to include the filter `abptestpages.org##div[id='{{eh-id}}']` instead of `abptestpages.org##div[id='']`. This modification ensures the successful execution of the associated test.
+
+## 2023-10-16
+
 - hide-if-has-and-matches-style test fails if a filter blocks a legit element. Previously, it would still show a green box.
 
 ## 2023-10-11
@@ -24,7 +29,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2023-02-09
 
-- Updated the `WebSocket` and `WebSocker Exception` pages to use a self hosted
+- Updated the `WebSocket` and `WebSocket Exception` pages to use a self hosted
 websocket endpoint. More info: #48
 
 ## 2023-01-03
