@@ -1,6 +1,11 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+
+## 2023-10-16
+
+- hide-if-has-and-matches-style test fails if a filter blocks a legit element. Previously, it would still show a green box.
+
 ## 2023-10-11
 
 - Added warning image to show if sitekey exception rule fails to apply.
