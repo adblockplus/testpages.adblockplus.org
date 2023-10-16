@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## 2023-10-16
 
+- `strip-fetch-query-parameter test` fails if a filter blocks a legit element. Previously, it would still show a green box.
+- `abp-testcase-subscription.txt` has been updated to include the filter `abptestpages.org##div[id='{{eh-id}}']` instead of `abptestpages.org##div[id='']`. This modification ensures the successful execution of the associated test.
+
+## 2023-10-16
+
 - hide-if-has-and-matches-style test fails if a filter blocks a legit element. Previously, it would still show a green box.
 
 ## 2023-10-11
