@@ -21,15 +21,15 @@ description = Check that usage of the $websocket filter option in an exception i
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>$websocket,domain={{ site_url|domain }}</pre></li>
-    <li><pre>@@$websocket,domain={{ site_url|domain }}</pre></li>
+    <li><pre>{{ site_url|domain }}/exception_websocket$websocket,domain={{ site_url|domain }}</pre></li>
+    <li><pre>@@{{ site_url|domain }}/exception_websocket$websocket,domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>
 
 <script>
   "use strict";
 
-  let url = "wss://{{ site_url|strip_proto }}/websocket";
+  let url = "wss://{{ site_url|strip_proto }}/exception_websocket";
   let websocket = new WebSocket(url);
   websocket.onopen = function() {
     websocket.send("Test message was echoed back");
