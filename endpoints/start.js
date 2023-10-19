@@ -27,6 +27,7 @@ import {WebSocketServer} from "ws";
 const HOST = "localhost";
 const HTTP_PORT = 4000;
 const WS_PORT = 4001;
+const WSE_PORT = 4002;
 
 let dirname = path.dirname(url.fileURLToPath(import.meta.url));
 let app = express();
@@ -70,6 +71,16 @@ let wss = new WebSocketServer({host: HOST, port: WS_PORT}, () => {
 });
 
 wss.on("connection", ws => {
+  ws.on("error", console.error);
+  ws.send("echo");
+});
+
+let wses = new WebSocketServer({host: HOST, port: WSE_PORT}, () => {
+  // eslint-disable-next-line no-console
+  console.log(`Web socket server listening at ws://${HOST}:${WSE_PORT}`);
+});
+
+wses.on("connection", ws => {
   ws.on("error", console.error);
   ws.send("echo");
 });

@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2023-10-17
+
+- Resolved conflicting websocket and websocket exception filters
+
 ## 2023-10-16
 
 - `strip-fetch-query-parameter test` fails if a filter blocks a legit element. Previously, it would still show a green box.
