@@ -196,8 +196,7 @@ if (typeof run == "undefined") {
 
 (async() => {
   let pageTests = await getPageTests();
-  console.log("Custom browser", CUSTOM_BROWSER, CUSTOM_BROWSER_VERSION);
-  if (CUSTOM_BROWSER && CUSTOM_BROWSER_VERSION){
+  if (CUSTOM_BROWSER){
     browserVersions = {};
     browserVersions[CUSTOM_BROWSER] = [CUSTOM_BROWSER_VERSION];
   }
