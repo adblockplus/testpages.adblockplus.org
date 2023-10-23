@@ -27,7 +27,9 @@ import definePageTests from "./pages/index.js";
 const TEST_PAGES_URL = process.env.TEST_PAGES_URL ||
                        "https://abptestpages.org/";
 const TEST_PAGES_INSECURE = process.env.TEST_PAGES_INSECURE == "true";
-const BROWSER_VERSIONS = {
+const CUSTOM_BROWSER = process.env.CUSTOM_BROWSER;
+const CUSTOM_BROWSER_VERSION = process.env.BROWSER_VERSION || "latest";
+let browserVersions = {
   chromium: [void 0, "beta", "dev", "77.0.3865.0"],
   firefox: [void 0, "beta", "75.0", "68.0"],
   edge: [void 0]
@@ -194,8 +196,12 @@ if (typeof run == "undefined") {
 
 (async() => {
   let pageTests = await getPageTests();
+  if (CUSTOM_BROWSER){
+    browserVersions = {};
+    browserVersions[CUSTOM_BROWSER] = [CUSTOM_BROWSER_VERSION];
+  }
 
-  for (let [browser, versions] of Object.entries(BROWSER_VERSIONS)) {
+  for (let [browser, versions] of Object.entries(browserVersions)) {
     for (let version of versions) {
       describe(`Browser: ${browser} ${version || "latest"}`, function() {
         this.timeout(0);
