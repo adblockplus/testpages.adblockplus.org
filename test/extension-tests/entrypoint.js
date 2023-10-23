@@ -200,6 +200,7 @@ if (typeof run == "undefined") {
     browserVersions = {};
     browserVersions[CUSTOM_BROWSER] = [CUSTOM_BROWSER_VERSION];
     console.log(`Running tests for ${CUSTOM_BROWSER} ${CUSTOM_BROWSER_VERSION}`);
+    console.log(`Passed ${browserVersions[CUSTOM_BROWSER]}`);
   }
 
   for (let [browser, versions] of Object.entries(browserVersions)) {
