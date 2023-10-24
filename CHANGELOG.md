@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2023-10-18
+
+- Removed WebRTC testpages
+
 ## 2023-10-17
 
 - Resolved conflicting websocket and websocket exception filters
