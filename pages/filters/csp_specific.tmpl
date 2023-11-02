@@ -5,6 +5,7 @@ description = Check that a filter using the $csp filter option is working as exp
 
 {% set case = "Specific site" %}
 {% set id = get_id(case) %}
+
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that a filter using the $csp filter option works on a specific site.</p>
@@ -20,8 +21,9 @@ description = Check that a filter using the $csp filter option is working as exp
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>||{{ site_url|strip_proto }}^$csp=script-src {{ site_url }}/lib/utils.js</pre></li>
+    <li><pre>||{{ site_url|strip_proto }}/{{ locale }}/{{ page }}^$csp=script-src {{ site_url }}/lib/utils.js</pre></li>
   </ul>
+
 </section>
 
 <script>
@@ -42,6 +44,7 @@ description = Check that a filter using the $csp filter option is working as exp
   <div id="{{id}}-area" class="testcase-area">
     <iframe src="/testfiles/csp_specific/expected.html" class="testcase-expected-view" style="border: 0; width: 200px; height: 100px; flex-grow: 1; padding: 0.5em; background-color: #0dc74b;"></iframe>
     <iframe id="{{id}}-target" src="/testfiles/csp_specific/frame.html" data-expectedresult="pass" style="border: 0; width: 200px; height: 100px;"></iframe>
+
     <div class="testcase-examplecontent">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -53,6 +56,6 @@ description = Check that a filter using the $csp filter option is working as exp
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>||{{ site_url|strip_proto }}^$csp=frame-src 'none'</pre></li>
+    <li><pre>||{{ site_url|strip_proto }}/{{ locale }}/{{ page }}^$csp=frame-src 'none'</pre></li>
   </ul>
 </section>
