@@ -113,7 +113,7 @@ description = Check that basic element hiding functionality is working as expect
   {{ heading(case) }}
   <p>Test that an element hiding filter using an attribute selector hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" width="100" height="100" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail-1" width="100" height="100" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -134,7 +134,7 @@ description = Check that basic element hiding functionality is working as expect
   {{ heading(case) }}
   <p>Test that an element hiding filter using an attribute selector hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" href="http://testcase-attribute.com/" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail-1" href="http://testcase-attribute.com/" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -155,7 +155,7 @@ description = Check that basic element hiding functionality is working as expect
   {{ heading(case) }}
   <p>Test that an element hiding filter using an attribute selector hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" style="width: 200px;" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail-1" style="width: 200px;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -176,7 +176,7 @@ description = Check that basic element hiding functionality is working as expect
   {{ heading(case) }}
   <p>Test that an element hiding filter using a starts with selector hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" href="http://testcase-startswith.com/test" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail-1" href="http://testcase-startswith.com/test" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -197,7 +197,7 @@ description = Check that basic element hiding functionality is working as expect
   {{ heading(case) }}
   <p>Test that an element hiding filter using a starts with selector hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" style="width: 201px; color: white;" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail-1" style="width: 201px; color: white;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -218,7 +218,7 @@ description = Check that basic element hiding functionality is working as expect
   {{ heading(case) }}
   <p>Test that an element hiding filter using a ends with selector hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" style="color: white; width: 202px;" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail-1" style="color: white; width: 202px;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -239,7 +239,7 @@ description = Check that basic element hiding functionality is working as expect
   {{ heading(case) }}
   <p>Test that an element hiding filter using a contains selector hides its target.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" style="color: white; width: 203px;" class="eh-sibling" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail-1" style="color: white; width: 203px;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>

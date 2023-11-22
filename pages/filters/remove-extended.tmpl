@@ -1,0 +1,274 @@
+template = testcase
+title = Remove with Extended Selectors
+description = Check that remove functionality with extended selectors is working as expected.
+
+<style>
+.remove-properties {
+  width: 46px;
+}
+
+.remove-chained {
+  width: 47px;
+}
+
+.remove-case {
+  width: 48px;
+}
+
+.remove-wildcard {
+  cursor: pointer;
+}
+
+.remove-regex1 {
+  width: 131px;
+}
+
+.remove-regex2 {
+  width: 135px;
+}
+
+.remove-regex3 {
+  width: 136px;
+}
+</style>
+
+{% set case = "Basic :-abp-properties() usage with remove" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using a :-abp-properties() selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="remove-properties test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div:-abp-properties(width: 46px) {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Basic :-abp-has() usage with remove" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using a :-abp-has() selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
+      <div>
+        <span class="remove-abp-has">Target</span>
+      </div>
+    </div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div:-abp-has(>div>span.remove-abp-has) {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Basic :has() usage with remove" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using a :has() selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="test-if-removed" data-expectedresult="fail" data-dp="fail">
+      <div>
+        <span class="remove-has">Target</span>
+      </div>
+    </div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div:has(>div>span.remove-has) {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Basic :-abp-contains() usage with remove" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using a :-abp-contains() selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <span id="{{id}}-fail-1" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">remove-contains-target</span>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#span:-abp-contains(remove-contains-target) {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Basic :xpath() usage with remove" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using a :xpath() selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <span id="{{id}}-fail" class="test-if-removed" data-expectedresult="fail" data-dp="fail">Target</span>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#span:xpath(//*[@id="basic-xpath-usage-with-remove-fail"]) {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Basic :has-text() usage with remove" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using a :-has-text() selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <span id="{{id}}-fail-1" class="test-if-removed" data-expectedresult="fail" data-dp="fail">remove-has-text</span>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#span:has-text(remove-has-text) {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Chained extended selectors with remove" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using several of the extended selectors removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
+      <div class="remove-chained">Target</div>
+    </div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div:-abp-has(> div:-abp-properties(width: 47px)) {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Case insensitive extended selectors with remove" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter is case insensitive and still removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="remove-case test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div:-abp-properties(WiDtH: 48px) {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Wildcard in extended selector with remove" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using wildcards still removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="remove-wildcard test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#.remove-wildcard:-abp-properties(cursor:*) {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Regular expression in :-abp-properties() with remove" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using regular expressions still removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="remove-regex1 test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail-2" class="remove-regex2 test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent remove-regex3">Not a target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have both the red elements removed, and replaced with green elements.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div:-abp-properties(/width: 13[1-5]px;/) {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Regular expression in :-abp-contains() with remove" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using regular expressions still removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">remove-containsregex1</div>
+    <div id="{{id}}-fail-2" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">remove-containsregex2</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have both the red elements removed, and replaced with green elements.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#div > div:-abp-contains(/remove-containsregex\d/) {remove: true;}</pre></li>
+  </ul>
+</section>
+
+<script>
+  const testcases = document.getElementsByClassName("testcase-area");
+  [...testcases].forEach((tca) => {
+    verifyTargetRemoved(tca, "test-if-removed");
+  });
+</script>

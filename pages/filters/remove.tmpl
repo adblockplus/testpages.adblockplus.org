@@ -1,0 +1,252 @@
+template = testcase
+title = Remove
+description = Check that remove functionality is working as expected.
+
+{% set case = "Remove with ID selector" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using an ID selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="remove-id" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}###remove-id {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Remove with ID selector with double curly braces" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using an ID selector with two curly braces removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{ '{{remove-id}}' }}" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[id='{{ '{{remove-id}}' }}'] {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Remove with class selector" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using a class selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="remove-class test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##.remove-class {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Remove with descendant selector" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel"> 
+  {{ heading(case) }}
+  <p>Test that a remove filter using a descendant selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="remove-descendant test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##.testcase-area > .remove-descendant {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Remove with sibling selector" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using a sibling selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div id="{{id}}-fail-1" class="remove-sibling test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##.testcase-examplecontent + .remove-sibling {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Remove with attribute selector 1" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using an attribute selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" width="40" height="40" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[height="40"][width="40"] {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Remove with attribute selector 2" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using an attribute selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" href="http://testcase-attribute-remove.com/" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[href="http://testcase-attribute-remove.com/"] {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Remove with attribute selector 3" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using an attribute selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" style="width: 42px;" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[style="width: 42px;"] {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Remove starts with selector 1" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using a starts with selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" href="http://testcase-startswith-remove.com/test" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[href^="http://testcase-startswith-remove.com/"] {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Remove starts with selector 2" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using a starts with selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" style="width: 43px; color: white;" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[style^="width: 43px;"] {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Remove ends with selector 1" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using a ends with selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" style="color: white; width: 44px;" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[style$="width: 44px;"] {remove: true;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Remove contains" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using a contains selector removes its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" style="color: white; width: 45px;" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM should have the red element removed, and replaced with a green element.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[style*="width: 45px;"] {remove: true;}</pre></li>
+  </ul>
+</section>
+
+<script>
+  const testcases = document.getElementsByClassName("testcase-area");
+  [...testcases].forEach((tca) => {
+    verifyTargetRemoved(tca, "test-if-removed");
+  });
+</script>
