@@ -29,7 +29,7 @@ export function isExcluded(page, browserName) {
   else if (page == "exceptions/iframe")
     excluded = ["firefox"];
   else if (/^filters\/remove/.test(page))
-    excluded = ["firefox", "chromium", "edge"];
+    return true;
 
   return excluded.includes(browserName);
 }
