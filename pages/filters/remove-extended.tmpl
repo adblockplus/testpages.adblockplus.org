@@ -267,8 +267,10 @@ description = Check that remove functionality with extended selectors is working
 </section>
 
 <script>
+  "use strict";
+
   const testcases = document.getElementsByClassName("testcase-area");
-  [...testcases].forEach((tca) => {
-    verifyTargetRemoved(tca, "test-if-removed");
+  [...testcases].forEach(tca => {
+    verifyTargetRemoved(tca, "test-if-removed"); // eslint-disable-line no-undef
   });
 </script>

@@ -38,14 +38,13 @@ window.addEventListener("DOMContentLoaded", () => {
 // Replaces every removed child of targetNode with the specified class with a green element
 function verifyTargetRemoved(targetNode, classNameToCheck) {
   const callback = (mutations, observer) => {
-    //observer.disconnect();
-    mutations.forEach((mutation) => {
-      mutation.removedNodes.forEach((removedNode) => {
-        if (removedNode.className.split(' ').includes(classNameToCheck)) {
-          const divElement = document.createElement('div');
-          divElement.setAttribute('data-expectedresult', 'pass');
-          divElement.setAttribute('aria-label', 'pass');
-          divElement.textContent = 'Target removed';
+    mutations.forEach(mutation => {
+      mutation.removedNodes.forEach(removedNode => {
+        if (removedNode.className.split(" ").includes(classNameToCheck)) {
+          const divElement = document.createElement("div");
+          divElement.setAttribute("data-expectedresult", "pass");
+          divElement.setAttribute("aria-label", "pass");
+          divElement.textContent = "Target removed";
           targetNode.appendChild(divElement);
         }
       });
@@ -56,7 +55,7 @@ function verifyTargetRemoved(targetNode, classNameToCheck) {
 
   const observerConfig = {
     childList: true,
-    subtree: true,
+    subtree: true
   };
 
   observer.observe(targetNode, observerConfig);

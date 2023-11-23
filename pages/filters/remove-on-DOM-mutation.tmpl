@@ -43,7 +43,7 @@ description = Check that a remove filter using simple selectors work properly on
   }, 500);
 
   const testcases = document.getElementsByClassName("testcase-area");
-  [...testcases].forEach((tca) => {
-    verifyTargetRemoved(tca, "test-if-removed");
+  [...testcases].forEach(tca => {
+    verifyTargetRemoved(tca, "test-if-removed"); // eslint-disable-line no-undef
   });
 </script>
