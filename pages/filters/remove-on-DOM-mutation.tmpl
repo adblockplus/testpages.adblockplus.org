@@ -1,12 +1,12 @@
 title = Remove on DOM Mutation
 template = testcase
-description = Check that a remove filter using simple selectors work properly on DOM Mutation.
+description = Check that a remove filter using simple selectors works properly on DOM Mutation.
 
 {% set case = "input" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Check that a filter using #{{id}} selectors work properly on DOM Mutation.</p>
+  <p>Check that a filter using #{{id}} selectors works properly on DOM Mutation.</p>
   <div id="{{id}}-script-target" class="testcase-area">
     <div id="input-remove" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Static Target</div>
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
