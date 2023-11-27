@@ -28,6 +28,8 @@ export function isExcluded(page, browserName) {
   // https://gitlab.com/eyeo/adblockplus/abc/webext-sdk/-/issues/356
   else if (page == "exceptions/iframe")
     excluded = ["firefox"];
+  else if (/^filters\/remove/.test(page))
+    return true;
 
   return excluded.includes(browserName);
 }

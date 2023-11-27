@@ -1,0 +1,49 @@
+title = Remove on DOM Mutation
+template = testcase
+description = Check that a remove filter using simple selectors works properly on DOM Mutation.
+
+{% set case = "input" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Check that a filter using #{{id}} selectors works properly on DOM Mutation.</p>
+  <div id="{{id}}-script-target" class="testcase-area">
+    <div id="input-remove" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Static Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>Two green elements with Target Removed text should appear.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?##input-remove {remove: true;}</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  setTimeout(() => {
+    removeWaitingContent(); // eslint-disable-line no-undef
+    const testCases = ["input"];
+    testCases.forEach(elementType => {
+      let target = document.getElementById(`${elementType}-script-target`);
+      let newElement = document.createElement(elementType);
+      newElement.innerHTML = "Failed.";
+      newElement.className = "test-if-removed";
+      newElement.setAttribute("data-expectedresult", "fail");
+      newElement.setAttribute("aria-label", "script-fail");
+      newElement.id = `${elementType}-remove`;
+      target.appendChild(newElement);
+    });
+  }, 500);
+
+  const testcases = document.getElementsByClassName("testcase-area");
+  [...testcases].forEach(tca => {
+    verifyTargetRemoved(tca, "test-if-removed"); // eslint-disable-line no-undef
+  });
+</script>

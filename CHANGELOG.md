@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2023-11-23
+
+- Added test pages for `remove` filters
+
 ## 2023-10-18
 
 - Removed WebRTC testpages
