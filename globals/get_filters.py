@@ -39,7 +39,9 @@ def get_filters(context, specific_pages=None):
 
         parser = FilterHTMLParser()
         parser.feed(context['source'].read_page(page, page_format)[0])
-        if parser.filters and not any('remove' in s for s in parser.filters):
+        skip_list = ['remove', 'inline-css']
+        def excluded(s): any(skip in s for skip in skip_list)
+        if parser.filters and not any(excluded(s) for s in parser.filters):
             filters += ['', '! ' + page] + parser.filters
 
     return context.environment.from_string('\n'.join(filters)).render(context)

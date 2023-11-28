@@ -1,0 +1,41 @@
+title = Inline CSS on DOM Mutation
+template = testcase
+description = Check that an inline CSS filter using simple selectors works properly on DOM Mutation.
+
+{% set case = "span" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Check that a filter using #{{id}} selectors works properly on DOM Mutation.</p>
+  <div id="{{id}}-script-target" class="testcase-area">
+    <div id="span-inline-css" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Static Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>Both static and dynamic target elements should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?##span-inline-css {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  setTimeout(() => {
+    removeWaitingContent(); // eslint-disable-line no-undef
+    let target = document.getElementById("span-script-target");
+    let newElement = document.createElement("span");
+    newElement.innerHTML = "Dynamic Target";
+    newElement.setAttribute("data-expectedresult", "fail");
+    newElement.setAttribute("aria-label", "script-fail");
+    newElement.id = "span-inline-css";
+    target.appendChild(newElement);
+  }, 500);
+</script>
+
