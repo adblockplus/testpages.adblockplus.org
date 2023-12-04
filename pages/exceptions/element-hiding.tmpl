@@ -26,3 +26,31 @@ description = Check that usage of the element hiding filter in an exception is w
     <li><pre>{{ site_url|domain }}#@#.testcase-ehe</pre></li>
   </ul>
 </section>
+
+<!--
+  NOTE(kzlomek): Don't forget to re-enable tests for inline CSS
+{% set case = "Inline CSS with exception usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that inline CSS filter is overridden by element hiding exception.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-expected-view">Exception Target</div>
+    <div id="{{id}}-pass-1" class="testcase-inline-css-ehe" data-expectedresult="pass" data-dp="pass" aria-label="{{id}}-pass">Exception Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The exception target element should change color from green to red.</li>
+    <li>Add filter #2.</li>
+    <li>The exception target element should become green again.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##.testcase-inline-css-ehe {background-color: #c70d2c;}</pre></li>
+    <li><pre>{{ site_url|domain }}#@#.testcase-inline-css-ehe</pre></li>
+  </ul>
+</section>
+-->
