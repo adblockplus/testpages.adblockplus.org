@@ -4,6 +4,10 @@ description = Check that a filter using the $domain filter  with wildcard is wor
 
 {% set case = "Static" %}
 {% set id = get_id(case) %}
+<div class="note">
+<h2 class="note"> This scenario won't work when running testpages on localhost due to missing domain </h2>
+<h2 class="note"> If you are testing this scenario on domain different than abptestpages.org, update filters accordingly </h2>
+</div>
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Test that a filter using the $domain filter option works on a static target.</p>
