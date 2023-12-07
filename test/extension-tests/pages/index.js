@@ -124,7 +124,7 @@ export default () => {
         for (let [url, pageTitle] of testCases) {
           it(pageTitle, async function() {
             let page = getPage(url);
-            if (UNSKIP.length > 0 && !UNSKIP.includes(page)){
+            if (UNSKIP && !UNSKIP.includes(page)){
               if (isExcluded(page, this.browserName))
                 this.skip();
             }
