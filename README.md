@@ -197,6 +197,13 @@ environment variable needs to point to the local CMS server:
 TEST_PAGES_URL=http://localhost:5001 npm test -- -g "chromium latest"
 ```
 
+If testpage is excluded from execution and you want to unskip it, you
+can define environment variable to force unskip.
+
+```shell
+UNSKIP=filters/wildcard-domain npm test -- -g "chromium latest"
+```
+
 Notes:
 
 - The `subscribes to a link` test case is expected to fail on the local run,
