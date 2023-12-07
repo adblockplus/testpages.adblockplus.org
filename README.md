@@ -167,6 +167,14 @@ at http://localhost:4000:
 npm run start-endpoints
 ```
 
+If you wish to test Domain Wildcard scenario locally, you need to start browser
+from command line and map ports to  `local.abptestpages.org`. This works for Chromium browser only.
+
+On Mac:
+```shell
+open Chromium.app --args --host-resolver-rules="MAP local.abptestpages.org localhost:5001"
+```
+
 ### Local page tests run
 
 It may be useful to run page tests outside docker, for debugging purposes.
