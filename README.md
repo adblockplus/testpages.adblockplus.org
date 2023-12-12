@@ -201,7 +201,7 @@ If testpage is excluded from execution and you want to unskip it, you
 can define environment variable to force unskip.
 
 ```shell
-UNSKIP=filters/wildcard-domain npm test -- -g "chromium latest"
+TESTS_TO_INCLUDE=filters/wildcard-domain npm test -- -g "chromium latest"
 ```
 
 Notes:

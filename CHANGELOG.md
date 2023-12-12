@@ -6,7 +6,6 @@ All notable changes to this project will be documented in this file.
 
 - Added test page for Wildcard support
 
-
 ## 2023-11-23
 
 - Added test pages for `remove` filters

@@ -24,8 +24,7 @@ import {getExpectedScreenshot, getPage, isExcluded, runGenericTests}
   from "./utils.js";
 
 const {By} = webdriver;
-const UNSKIP = process.env.UNSKIP || "";
-
+const TESTS_TO_INCLUDE = process.env.TESTS_TO_INCLUDE || "";
 
 async function getFilters(driver) {
   let filters = new Set();
@@ -124,7 +123,7 @@ export default () => {
         for (let [url, pageTitle] of testCases) {
           it(pageTitle, async function() {
             let page = getPage(url);
-            if (!UNSKIP.includes(page)){
+            if (!TESTS_TO_INCLUDE.includes(page)){
               if (isExcluded(page, this.browserName))
                 this.skip();
             }
