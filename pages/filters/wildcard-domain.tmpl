@@ -2,6 +2,37 @@ template = testcase
 title = Wildcard Domain
 description = Check that a filter using the $domain filter  with wildcard is working as expected.
 
+<style>
+.ehe-properties {
+  width: 213px;
+}
+
+.ehe-chained {
+  width: 214px;
+}
+
+.ehe-case {
+  width: 215px;
+}
+
+.ehe-wildcard {
+  cursor: pointer;
+}
+
+.ehe-regex1 {
+  width: 121px;
+}
+
+.ehe-regex2 {
+  width: 125px;
+}
+
+.ehe-regex3 {
+  width: 126px;
+}
+</style>
+
+
 <div class="note">
   <h2 class="note">This scenario won't work when running testpages on localhost due to missing domain </h2> 
   <h3 class="note">Please refer to project documentation on how to map localhost to proper domain </h3>
@@ -92,6 +123,117 @@ description = Check that a filter using the $domain filter  with wildcard is wor
   </ul>
 </section>
 
+{% set case = "Basic :-abp-properties() usage with wildcard support" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an element hiding emulation filter using a :-abp-properties() selector hides its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="ehe-properties" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>abptestpages.*#?#div:-abp-properties(width: 213px)</pre></li>
+  </ul>
+</section>
+
+{% set case = "Basic :-abp-has() usage with wildcard support" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an element hiding emulation filter using a :-abp-has() selector hides its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
+      <div>
+        <span class="ehe-abp-has">Target</span>
+      </div>
+    </div>
+    <div class="testcase-examplecontent">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>abptestpages.*#?#div:-abp-has(>div>span.ehe-abp-has)</pre></li>
+  </ul>
+</section>
+
+{% set case = "Chained extended selectors with Wildcard domains support" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that element hiding emulation filter using several of the extended selectors hides its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
+      <div class="ehe-chained">Target</div>
+    </div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>abptestpages.*#?#div:-abp-has(> div:-abp-properties(width: 214px))</pre></li>
+  </ul>
+</section>
+
+{% set case = "Element Hide Emulation Wildcard in extended selector and wildcard in domain" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an element hiding emulation filter using wildcards still hides its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="ehe-wildcard" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element should be hidden and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>abptestpages.*#?#.ehe-wildcard:-abp-properties(cursor:*)</pre></li>
+  </ul>
+</section>
+
+{% set case = "Regular expression in :-abp-contains() and wildcard domain" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an element hiding emulation filter using regular expressions still hides its target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">ehe-containsregex1</div>
+    <div id="{{id}}-fail-2" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">ehe-containsregex2</div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>Both red target elements should be hidden and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>abptestpages.*#?#div > div:-abp-contains(ehe-containsregex)</pre></li>
+  </ul>
+</section>
 
 
 {% set case = "Contains with Wildcards" %}
