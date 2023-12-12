@@ -168,7 +168,8 @@ npm run start-endpoints
 ```
 
 If you wish to test Domain Wildcard scenario locally, you need to start browser
-from command line and map ports to  `local.abptestpages.org`. This works for Chromium browser only.
+from command line and map ports to  `local.abptestpages.org`. This works for Chromium browser only
+(excute command on the folder where browser binary is).
 
 On Mac:
 ```shell
