@@ -1,5 +1,6 @@
 from html.parser import HTMLParser
 from jinja2 import pass_context
+from datetime import datetime
 
 
 class FilterHTMLParser(HTMLParser):
@@ -32,16 +33,16 @@ class FilterHTMLParser(HTMLParser):
 
 @pass_context
 def get_filters(context, specific_pages=None):
-    filters = []
+    page_skip_list = ['/remove', '/inline-css']
+    filters = ["! Generated: " + datetime.now().strftime("%d/%m/%Y %H:%M:%S")]
     for page, page_format in context['source'].list_pages():
         if specific_pages and page not in specific_pages:
             continue
-
+        if any([word_to_skip in page for word_to_skip in page_skip_list]):
+            continue
         parser = FilterHTMLParser()
         parser.feed(context['source'].read_page(page, page_format)[0])
-        skip_list = ['remove', 'inline-css']
-        def excluded(s): any(skip in s for skip in skip_list)
-        if parser.filters and not any(excluded(s) for s in parser.filters):
+        if parser.filters:
             filters += ['', '! ' + page] + parser.filters
 
     return context.environment.from_string('\n'.join(filters)).render(context)

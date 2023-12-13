@@ -2,6 +2,8 @@ template = testcase
 title = Inline CSS
 description = Check that inline CSS functionality is working as expected.
 
+<p><b>Note:</b> Filters used here are not part of abp-testcase-subscription.txt and need to be added manually.</p>
+
 {% set case = "Inline CSS with ID selector" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
@@ -109,7 +111,7 @@ description = Check that inline CSS functionality is working as expected.
   {{ heading(case) }}
   <p>Test that an inline css filter using an attribute selector changes target background form red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" width="40" height="40" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail-1" width="50" height="50" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -119,7 +121,7 @@ description = Check that inline CSS functionality is working as expected.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}##div[height="40"][width="40"] {background-color: #0dc74b;}</pre></li>
+    <li><pre>{{ site_url|domain }}##div[height="50"][width="50"] {background-color: #0dc74b;}</pre></li>
   </ul>
 </section>
 
@@ -149,7 +151,7 @@ description = Check that inline CSS functionality is working as expected.
   {{ heading(case) }}
   <p>Test that an inline css filter using an attribute selector changes target background form red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" style="width: 42px;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail-1" style="width: 52px;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -159,7 +161,7 @@ description = Check that inline CSS functionality is working as expected.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}##div[style="width: 42px;"] {background-color: #0dc74b;}</pre></li>
+    <li><pre>{{ site_url|domain }}##div[style="width: 52px;"] {background-color: #0dc74b;}</pre></li>
   </ul>
 </section>
 
@@ -190,7 +192,7 @@ description = Check that inline CSS functionality is working as expected.
   {{ heading(case) }}
   <p>Test that an inline css filter using a starts with selector changes target background form red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" style="width: 43px; color: white;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail-1" style="width: 53px; color: white;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -200,7 +202,7 @@ description = Check that inline CSS functionality is working as expected.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}##div[style^="width: 43px;"] {background-color: #0dc74b;}</pre></li>
+    <li><pre>{{ site_url|domain }}##div[style^="width: 53px;"] {background-color: #0dc74b;}</pre></li>
   </ul>
 </section>
 
@@ -210,7 +212,7 @@ description = Check that inline CSS functionality is working as expected.
   {{ heading(case) }}
   <p>Test that an inline css filter using a ends with selector changes target background form red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" style="color: white; width: 44px;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail-1" style="color: white; width: 54px;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -220,7 +222,7 @@ description = Check that inline CSS functionality is working as expected.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}##div[style$="width: 44px;"] {background-color: #0dc74b;}</pre></li>
+    <li><pre>{{ site_url|domain }}##div[style$="width: 54px;"] {background-color: #0dc74b;}</pre></li>
   </ul>
 </section>
 
@@ -230,7 +232,7 @@ description = Check that inline CSS functionality is working as expected.
   {{ heading(case) }}
   <p>Test that an inline css filter using a contains selector changes target background form red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div id="{{id}}-fail-1" style="color: white; width: 45px;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail-1" style="color: white; width: 55px;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -240,6 +242,6 @@ description = Check that inline CSS functionality is working as expected.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}##div[style*="width: 45px;"] {background-color: #0dc74b;}</pre></li>
+    <li><pre>{{ site_url|domain }}##div[style*="width: 55px;"] {background-color: #0dc74b;}</pre></li>
   </ul>
 </section>

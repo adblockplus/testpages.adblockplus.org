@@ -2,17 +2,19 @@ template = testcase
 title = Inline CSS with Extended Selectors
 description = Check that inline CSS functionality with extended selectors is working as expected.
 
+<p><b>Note:</b> Filters used here are not part of abp-testcase-subscription.txt and need to be added manually.</p>
+
 <style>
 .inline-css-properties {
-  width: 46px;
+  width: 56px;
 }
 
 .inline-css-chained {
-  width: 47px;
+  width: 57px;
 }
 
 .inline-css-case {
-  width: 48px;
+  width: 58px;
 }
 
 .inline-css-wildcard {
@@ -20,15 +22,15 @@ description = Check that inline CSS functionality with extended selectors is wor
 }
 
 .inline-css-regex1 {
-  width: 131px;
+  width: 141px;
 }
 
 .inline-css-regex2 {
-  width: 135px;
+  width: 145px;
 }
 
 .inline-css-regex3 {
-  width: 136px;
+  width: 146px;
 }
 </style>
 
@@ -48,7 +50,7 @@ description = Check that inline CSS functionality with extended selectors is wor
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#?#div:-abp-properties(width: 46px) {background-color: #0dc74b;}</pre></li>
+    <li><pre>{{ site_url|domain }}#?#div:-abp-properties(width: 56px) {background-color: #0dc74b;}</pre></li>
   </ul>
 </section>
 
@@ -179,7 +181,7 @@ description = Check that inline CSS functionality with extended selectors is wor
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#?#div:-abp-has(> div:-abp-properties(width: 47px)) {background-color: #0dc74b;}</pre></li>
+    <li><pre>{{ site_url|domain }}#?#div:-abp-has(> div:-abp-properties(width: 57px)) {background-color: #0dc74b;}</pre></li>
   </ul>
 </section>
 
@@ -199,7 +201,7 @@ description = Check that inline CSS functionality with extended selectors is wor
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#?#div:-abp-properties(WiDtH: 48px) {background-color: #0dc74b;}</pre></li>
+    <li><pre>{{ site_url|domain }}#?#div:-abp-properties(WiDtH: 58px) {background-color: #0dc74b;}</pre></li>
   </ul>
 </section>
 
@@ -241,7 +243,7 @@ description = Check that inline CSS functionality with extended selectors is wor
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#?#div:-abp-properties(/width: 13[1-5]px;/) {background-color: #0dc74b;}</pre></li>
+    <li><pre>{{ site_url|domain }}#?#div:-abp-properties(/width: 14[1-5]px;/) {background-color: #0dc74b;}</pre></li>
   </ul>
 </section>
 
