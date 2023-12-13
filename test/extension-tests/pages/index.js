@@ -24,7 +24,6 @@ import {getExpectedScreenshot, getPage, isExcluded, runGenericTests}
   from "./utils.js";
 
 const {By} = webdriver;
-const TESTS_TO_INCLUDE = process.env.TESTS_TO_INCLUDE || "";
 
 async function getFilters(driver) {
   let filters = new Set();
@@ -123,10 +122,8 @@ export default () => {
         for (let [url, pageTitle] of testCases) {
           it(pageTitle, async function() {
             let page = getPage(url);
-            if (!TESTS_TO_INCLUDE.includes(page)){
-              if (isExcluded(page, this.browserName))
-                this.skip();
-            }
+            if (isExcluded(page, this.browserName))
+              this.skip();
             if (page in specializedTests) {
               await updateFilters(this.driver, this.extensionHandle, url);
               let locator = By.className("testcase-area");
