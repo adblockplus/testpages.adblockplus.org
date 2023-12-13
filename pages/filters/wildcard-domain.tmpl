@@ -4,19 +4,15 @@ description = Check that a filter using the $domain filter with wildcard is work
 
 <style>
 .ehe-properties {
-  width: 213px;
+  width: 230px;
 }
 
 .ehe-chained {
-  width: 214px;
-}
-
-.ehe-case {
-  width: 215px;
+  width: 231px;
 }
 
 .ehe-wildcard {
-  cursor: pointer;
+  font-weight: 100;
 }
 
 .ehe-regex1 {
@@ -45,8 +41,8 @@ description = Check that a filter using the $domain filter with wildcard is work
   <p>Test that a filter using the $domain filter with wildcard option works on a static target.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
-    <img id="{{id}}-pass-1" src="/testfiles/domain/static/excluded/image.png" data-dp="pass" aria-label="{{id}}-pass">
-    <img id="{{id}}-fail-1" src="/testfiles/domain/static/target/image.png" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
+    <img id="{{id}}-pass-1" src="/testfiles/wildcard-domain/static/excluded/image.png" data-dp="pass" aria-label="{{id}}-pass">
+    <img id="{{id}}-fail-1" src="/testfiles/wildcard-domain/static/target/image.png" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -56,7 +52,29 @@ description = Check that a filter using the $domain filter with wildcard is work
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>/testfiles/domain/static/target/$domain=abptestpages.*</pre></li>
+    <li><pre>/testfiles/wildcard-domain/static/target/$domain=abptestpages.*</pre></li>
+  </ul>
+</section>
+
+{% set case = "Element Hiding: Static with subdomain" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a filter using the $domain filter with wildcard option works on a static target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <img id="{{id}}-pass-1" src="/testfiles/wildcard-domain/static-subdomain/excluded/image.png" data-dp="pass" aria-label="{{id}}-pass">
+    <img id="{{id}}-fail-1" src="/testfiles/wildcard-domain/static-subdomain/target/image.png" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The green image containing the white square should not be blocked, and the red image should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>/testfiles/wildcard-domain/static-subdomain/target/$domain=local.abptestpages.*</pre></li>
   </ul>
 </section>
 
@@ -77,7 +95,7 @@ description = Check that a filter using the $domain filter with wildcard is work
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>/testfiles/domain/dynamic/$domain=abptestpages.*</pre></li>
+    <li><pre>/testfiles/wildcard-domain/dynamic/$domain=abptestpages.*</pre></li>
   </ul>
 </section>
 
@@ -162,7 +180,7 @@ description = Check that a filter using the $domain filter with wildcard is work
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>abptestpages.*#?#div:-abp-properties(width: 213px)</pre></li>
+    <li><pre>abptestpages.*#?#div:-abp-properties(width: 230px)</pre></li>
   </ul>
 </section>
 
@@ -210,7 +228,7 @@ description = Check that a filter using the $domain filter with wildcard is work
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>abptestpages.*#?#div:-abp-has(> div:-abp-properties(width: 214px))</pre></li>
+    <li><pre>abptestpages.*#?#div:-abp-has(> div:-abp-properties(width: 231px))</pre></li>
   </ul>
 </section>
 
@@ -231,7 +249,7 @@ description = Check that a filter using the $domain filter with wildcard is work
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>abptestpages.*#?#.ehe-wildcard:-abp-properties(cursor:*)</pre></li>
+    <li><pre>abptestpages.*#?#.ehe-wildcard:-abp-properties(font-weight:*)</pre></li>
   </ul>
 </section>
 
@@ -261,7 +279,7 @@ description = Check that a filter using the $domain filter with wildcard is work
   "use strict";
 
   let image = document.createElement("img");
-  image.src = "/testfiles/domain/dynamic/image.png";
+  image.src = "/testfiles/wildcard-domain/dynamic/image.png";
   image.setAttribute("data-expectedresult", "fail");
   image.setAttribute("data-dp", "fail");
   image.setAttribute("aria-label", "{{id}}-fail");
