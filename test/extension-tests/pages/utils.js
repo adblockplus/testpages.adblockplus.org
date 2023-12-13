@@ -32,6 +32,7 @@ export function isExcluded(page, browserName) {
   // https://gitlab.com/eyeo/adblockplus/abc/webext-sdk/-/issues/356
   else if (page == "exceptions/iframe")
     excluded = ["firefox"];
+  // Should be un-excluded for Chrome when ABP will start supporting feature
   else if (page == "filters/wildcard-domain")
     return true;
   else if (/^filters\/remove/.test(page))
