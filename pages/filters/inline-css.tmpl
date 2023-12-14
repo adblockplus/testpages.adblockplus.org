@@ -1,0 +1,247 @@
+template = testcase
+title = Inline CSS
+description = Check that inline CSS functionality is working as expected.
+
+<p><b>Note:</b> Filters used here are not part of abp-testcase-subscription.txt and need to be added manually.</p>
+
+{% set case = "Inline CSS with ID selector" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a remove filter using an ID selector changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="inline-css-id" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}###inline-css-id {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Inline CSS with ID selector with double curly braces" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline css filter using an ID selector with two curly braces changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{ '{{inline-css-id}}' }}" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[id='{{ '{{inline-css-id}}' }}'] {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Inline CSS with class selector" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline css filter using a class selector changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="inline-css-class test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##.inline-css-class {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Inline CSS with descendant selector" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel"> 
+  {{ heading(case) }}
+  <p>Test that an inline css filter using a descendant selector changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="inline-css-descendant test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##.testcase-area > .inline-css-descendant {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Inline CSS with sibling selector" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline css filter using a sibling selector changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div id="{{id}}-fail-1" class="inline-css-sibling test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##.testcase-examplecontent + .inline-css-sibling {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Inline CSS with attribute selector 1" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline css filter using an attribute selector changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" width="50" height="50" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[height="50"][width="50"] {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Inline CSS with attribute selector 2" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline css filter using an attribute selector changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" href="http://testcase-attribute-inline-css.com/" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[href="http://testcase-attribute-inline-css.com/"] {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Inline CSS with attribute selector 3" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline css filter using an attribute selector changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" style="width: 52px;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[style="width: 52px;"] {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Inline CSS starts with selector 1" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline css filter using a starts with selector changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" href="http://testcase-startswith-inline-css.com/test" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[href^="http://testcase-startswith-inline-css.com/"] {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Inline CSS starts with selector 2" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline css filter using a starts with selector changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" style="width: 53px; color: white;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[style^="width: 53px;"] {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Inline CSS ends with selector 1" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline css filter using a ends with selector changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" style="color: white; width: 54px;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[style$="width: 54px;"] {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Inline CSS contains" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline css filter using a contains selector changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" style="color: white; width: 55px;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}##div[style*="width: 55px;"] {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>

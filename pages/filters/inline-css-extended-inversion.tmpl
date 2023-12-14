@@ -1,0 +1,225 @@
+template = testcase
+title = Inline CSS Inversion
+description = Check that inline CSS inversion functionality is working as expected.
+
+<p><b>Note:</b> Filters used here are not part of abp-testcase-subscription.txt and need to be added manually.</p>
+
+<style>
+
+.inline-css-inv-properties {
+  height: 81px;
+}
+
+.inline-css-inv-properties-not-hide {
+  width: 147px;
+}
+
+.inline-css-inv-chained {
+  width: 148px;
+}
+
+.inline-css-inv-case-not-hide {
+  width: 149px;
+}
+
+.inline-css-inv-wildcard-not-hide {
+  cursor: pointer;
+}
+
+.inline-css-inv-regex1 {
+  width: 156px;
+}
+
+.inline-css-inv-regex2 {
+  width: 150px;
+}
+
+.inline-css-inv-regex3 {
+  width: 153px;
+}
+
+.inline-css-inv-regex4 {
+  width: 155px;
+}
+
+</style>
+
+{% set case = "Basic :not(:-abp-properties()) usage with inline CSS" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline CSS filter using a :not(:-abp-properties()) selector changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area" >
+    <div id="{{id}}-fail" class="inline-css-inv-properties" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div  class="testcase-examplecontent inline-css-inv-properties inline-css-inv-properties-not-hide" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#.inline-css-inv-properties:not(:-abp-properties(width: 147px)) {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Basic :not(:-abp-has()) usage with inline CSS" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline CSS filter using a :not(:-abp-has()) selector changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail" class="inline-css-inv-has" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
+      Target
+    </div>
+    <div class="testcase-examplecontent inline-css-inv-has" aria-label="{{id}}-example">
+      <span class="inline-css-inv-has-not-hide">Example Content</span>
+    </div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#.inline-css-inv-has:not(:-abp-has(span.inline-css-inv-has-not-hide)) {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Basic :not(:-abp-contains()) usage with inline CSS" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline CSS filter using a not(:-abp-contains()) selector changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <span id="{{id}}-fail" class="inline-css-inv-contains" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</span>
+    <span class="testcase-examplecontent inline-css-inv-contains" aria-label="{{id}}-example">example-content</span>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#.inline-css-inv-contains:not(span:-abp-contains(example-content)) {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Chained extended selectors with not() selector with inline CSS" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline CSS filter using several of the extended selectors and not() selector changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="inline-css-inv-chained-parent" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
+      Target
+    </div>
+    <div class="testcase-examplecontent inline-css-inv-chained-parent" aria-label="{{id}}-example">
+      <div class="inline-css-inv-chained">Example Content</div>
+    </div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#.inline-css-inv-chained-parent:not(:-abp-has(> div:-abp-properties(width: 148px))) {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Case insensitive extended selectors with not() selector with inline CSS" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline CSS filter is case insensitive and still changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail" class="inline-css-inv-case" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent inline-css-inv-case inline-css-inv-case-not-hide" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#.inline-css-inv-case:not(:-abp-properties(WiDtH: 149px)) {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Wildcard in extended selector combined with :not() selector with inline CSS" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline CSS filter using wildcards still not changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail" class="inline-css-inv-wildcard" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent inline-css-inv-wildcard inline-css-inv-wildcard-not-hide" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The DOM element should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#.inline-css-inv-wildcard:not(:-abp-properties(cursor:*)) {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Regular expression in :not(:-abp-properties()) with inline CSS" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline CSS filter using regular expressions still changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="inline-css-inv-regex inline-css-inv-regex1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div id="{{id}}-fail-2" class="inline-css-inv-regex inline-css-inv-regex2" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-examplecontent inline-css-inv-regex inline-css-inv-regex3">Not a target</div>
+    <div class="testcase-examplecontent inline-css-inv-regex inline-css-inv-regex4" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>Both red target elements should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#.inline-css-inv-regex:not(:-abp-properties(/width: 15[1-5]px;/)) {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Regular expression in :not(:-abp-contains()) with inline CSS" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an inline CSS filter using regular expressions still changes target background form red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <span id="{{id}}-fail-1" class="inline-css-inv-contains-regex" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">inline-css-inv-containsregextarget</span>
+    <span id="{{id}}-fail-2" class="inline-css-inv-contains-regex" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">inline-css-inv-containsregextarget2</span>
+    <span class="testcase-examplecontent inline-css-inv-contains-regex">example-contentregex1</span>
+    <span class="testcase-examplecontent inline-css-inv-contains-regex" aria-label="{{id}}-example">example-contentregex2</span>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>Both red target elements should change background from red to green.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#?#.inline-css-inv-contains-regex:not(span:-abp-contains(/example-contentregex\d/)) {background-color: #0dc74b;}</pre></li>
+  </ul>
+</section>

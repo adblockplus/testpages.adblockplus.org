@@ -37,6 +37,10 @@ export function isExcluded(page, browserName) {
     return true;
   else if (/^filters\/remove/.test(page))
     return true;
+  else if (/^filters\/inline-css/.test(page))
+    return true;
+  else if (/^exceptions\/inline-css/.test(page))
+    return true;
 
   return excluded.includes(browserName);
 }
