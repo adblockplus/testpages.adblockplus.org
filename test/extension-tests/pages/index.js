@@ -124,6 +124,7 @@ export default () => {
             let page = getPage(url);
             if (isExcluded(page, this.browserName))
               this.skip();
+
             if (page in specializedTests) {
               await updateFilters(this.driver, this.extensionHandle, url);
               let locator = By.className("testcase-area");
