@@ -20,14 +20,21 @@ import Jimp from "jimp";
 import specializedTests from "./specialized.js";
 import {takeScreenshot, writeScreenshotFile, writeScreenshotAndThrow}
   from "../misc/screenshots.js";
+const TESTS_TO_INCLUDE = process.env.TESTS_TO_INCLUDE || "";
 
 export function isExcluded(page, browserName) {
+  if (TESTS_TO_INCLUDE.includes(page))
+    return false;
+
   let excluded = [];
   if (page in specializedTests)
     excluded = specializedTests[page].excludedBrowsers || [];
   // https://gitlab.com/eyeo/adblockplus/abc/webext-sdk/-/issues/356
   else if (page == "exceptions/iframe")
     excluded = ["firefox"];
+  // Should be un-excluded for Chrome when ABP will start supporting feature
+  else if (page == "filters/wildcard-domain")
+    return true;
   else if (/^filters\/remove/.test(page))
     return true;
 
