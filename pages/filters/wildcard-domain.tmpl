@@ -64,7 +64,7 @@ description = Check that a filter using the $domain filter with wildcard is work
   <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <img id="{{id}}-pass-1" src="/testfiles/wildcard-domain/static-subdomain/excluded/image.png" data-dp="pass" aria-label="{{id}}-pass">
-    <img id="{{id}}-fail-1" src="/testfiles/wildcard-domain/static-subdomain/target/image.png" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
+    <img id="{{id}}-fail-1" src="https://subdomain.abptestpages.org/testfiles/wildcard-domain/static-subdomain/target/image.png" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -74,7 +74,7 @@ description = Check that a filter using the $domain filter with wildcard is work
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>/testfiles/wildcard-domain/static-subdomain/target/$domain=local.abptestpages.*</pre></li>
+    <li><pre>/testfiles/wildcard-domain/static-subdomain/target/$domain=abptestpages.*</pre></li>
   </ul>
 </section>
 
