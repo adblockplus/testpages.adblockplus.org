@@ -48,27 +48,6 @@ description = Check that a filter using the $rewrite filter option is working as
 
 <link rel="stylesheet" href="/testfiles/rewrite/stylesheet.css">
 
-<script>
-  "use strict";
-
-  setTimeout(() => {
-    let target = document.getElementById("stylesheet-target");
-    let targetStyle = getComputedStyle(target);
-    if (targetStyle.width === "150px") {
-      target.innerHTML = "Failed. Stylesheet was NOT blocked.";
-    }
-    else {
-      target.innerHTML = "Passed. Stylesheet was blocked.";
-      target.style.display = "none";
-      // Style must be equal to .testcase-expected-view,
-      target.style = `flex-grow: 1;
-        padding: .5rem;
-        color: #fff;
-        background-color: #0dc74b;`;
-    }
-  }, 200);
-</script>
-
 {% set case = "Subdocument" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
@@ -90,42 +69,6 @@ description = Check that a filter using the $rewrite filter option is working as
   </ul>
 </section>
 
-<script>
-  "use strict";
-
-  setTimeout(() => {
-    let target = document.getElementById("subdocument-target");
-    let contentDoc = null;
-
-    // Older versions of Chrome will throw an exception here when the
-    // iframe contentDocument is accessed, because the rewritten
-    // subdocument is technically cross-origin.
-    try {
-      contentDoc = target.contentDocument;
-    }
-    catch (ex) {
-      contentDoc = null;
-    }
-
-    if (contentDoc === null) {
-      target.style.display = "none";
-      target.setAttribute("data-expectedresult", "pass");
-      target.setAttribute("data-dp", "pass");
-      target.style.width = 0;
-      target.style.flexGrow = 0;
-      target.style.padding = 0;
-    }
-    else {
-      target.setAttribute("data-expectedresult", "fail");
-      target.setAttribute("data-dp", "fail");
-      target.style.width = 0;
-    }
-
-    if (expectedParameter()) // eslint-disable-line no-undef
-      expectedPageView(); // eslint-disable-line no-undef
-  }, 200);
-</script>
-
 {% set case = "Text" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
@@ -146,40 +89,6 @@ description = Check that a filter using the $rewrite filter option is working as
     <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/*.txt$rewrite=abp-resource:blank-text,domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>
-
-<script>
-  "use strict";
-
-  let req = new XMLHttpRequest();
-
-  req.onerror = function(e) {
-    let result = document.getElementById("text-status");
-    result.innerHTML = "Passed. Text is blank.";
-    result.setAttribute("data-expectedresult", "pass");
-    result.setAttribute("data-dp", "pass");
-  };
-  req.onload = function(e) {
-    let result = document.getElementById("text-status");
-
-    if (this.status == 200) {
-      if (this.responseText == "") {
-        result.innerHTML = "Passed. Text is blank.";
-        result.setAttribute("data-expectedresult", "pass");
-        result.setAttribute("data-dp", "pass");
-      }
-      else {
-        result.innerHTML = this.responseText;
-        result.setAttribute("data-expectedresult", "fail");
-        result.setAttribute("data-dp", "fail");
-      }
-    }
-  };
-
-  setTimeout(() => {
-    req.open("GET", "{{ site_url }}/testfiles/rewrite/text.txt", true);
-    req.send();
-  }, 500);
-</script>
 
 {% set case = "1x1 GIF" %}
 {% set id = get_id(case) %}
@@ -204,20 +113,6 @@ description = Check that a filter using the $rewrite filter option is working as
   </ul>
 </section>
 
-<script>
-  "use strict";
-
-  setTimeout(() => {
-    let target = document.getElementById("1x1-target");
-
-    if (target.width === 1) {
-      target.setAttribute("data-expectedresult", "pass");
-      target.setAttribute("data-dp", "pass");
-      target.width = 0;
-    }
-  }, 500);
-</script>
-
 {% set case = "2x2 PNG" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
@@ -240,20 +135,6 @@ description = Check that a filter using the $rewrite filter option is working as
     <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/2x2.png$rewrite=abp-resource:2x2-transparent-png,domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>
-
-<script>
-  "use strict";
-
-  setTimeout(() => {
-    let target = document.getElementById("2x2-target");
-
-    if (target.width === 2) {
-      target.setAttribute("data-expectedresult", "pass");
-      target.setAttribute("data-dp", "pass");
-      target.width = 0;
-    }
-  }, 500);
-</script>
 
 {% set case = "3x2 PNG" %}
 {% set id = get_id(case) %}
@@ -278,20 +159,6 @@ description = Check that a filter using the $rewrite filter option is working as
   </ul>
 </section>
 
-<script>
-  "use strict";
-
-  setTimeout(() => {
-    let target = document.getElementById("3x2-target");
-
-    if (target.width === 3) {
-      target.setAttribute("data-expectedresult", "pass");
-      target.setAttribute("data-dp", "pass");
-      target.width = 0;
-    }
-  }, 500);
-</script>
-
 {% set case = "32x32 PNG" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
@@ -314,20 +181,6 @@ description = Check that a filter using the $rewrite filter option is working as
     <li><pre>||{{ site_url|strip_proto }}/testfiles/rewrite/32x32.png$rewrite=abp-resource:32x32-transparent-png,domain={{ site_url|domain }}</pre></li>
   </ul>
 </section>
-
-<script>
-  "use strict";
-
-  setTimeout(() => {
-    let target = document.getElementById("32x32-target");
-
-    if (target.width === 32) {
-      target.setAttribute("data-expectedresult", "pass");
-      target.setAttribute("data-dp", "pass");
-      target.width = 0;
-    }
-  }, 500);
-</script>
 
 {% set case = "Audio" %}
 {% set id = get_id(case) %}
@@ -382,6 +235,122 @@ description = Check that a filter using the $rewrite filter option is working as
 <script>
   "use strict";
 
+  function testStylesheetRewrite() {
+    let target = document.getElementById("stylesheet-target");
+    let targetStyle = getComputedStyle(target);
+    if (targetStyle.width === "150px") {
+      target.innerHTML = "Failed. Stylesheet was NOT blocked.";
+    }
+    else {
+      target.innerHTML = "Passed. Stylesheet was blocked.";
+      target.style.display = "none";
+      // Style must be equal to .testcase-expected-view,
+      target.style = `flex-grow: 1;
+        padding: .5rem;
+        color: #fff;
+        background-color: #0dc74b;`;
+    }
+  }
+
+  function testSubdocumentRewrite(){
+    let target = document.getElementById("subdocument-target");
+    let contentDoc = null;
+
+    // Older versions of Chrome will throw an exception here when the
+    // iframe contentDocument is accessed, because the rewritten
+    // subdocument is technically cross-origin.
+    try {
+      contentDoc = target.contentDocument;
+    }
+    catch (ex) {
+      contentDoc = null;
+    }
+
+    if (contentDoc === null) {
+      target.style.display = "none";
+      target.setAttribute("data-expectedresult", "pass");
+      target.setAttribute("data-dp", "pass");
+      target.style.width = 0;
+      target.style.flexGrow = 0;
+      target.style.padding = 0;
+    }
+    else {
+      target.setAttribute("data-expectedresult", "fail");
+      target.setAttribute("data-dp", "fail");
+      target.style.width = 0;
+    }
+  }
+
+  function testXhrRewrite() {
+    let req = new XMLHttpRequest();
+
+    req.onerror = function(e) {
+      let result = document.getElementById("text-status");
+      result.innerHTML = "Passed. Text is blank.";
+      result.setAttribute("data-expectedresult", "pass");
+      result.setAttribute("data-dp", "pass");
+    };
+    req.onload = function(e) {
+      let result = document.getElementById("text-status");
+
+      if (this.status == 200) {
+        if (this.responseText == "") {
+          result.innerHTML = "Passed. Text is blank.";
+          result.setAttribute("data-expectedresult", "pass");
+          result.setAttribute("data-dp", "pass");
+        }
+        else {
+          result.innerHTML = this.responseText;
+          result.setAttribute("data-expectedresult", "fail");
+          result.setAttribute("data-dp", "fail");
+        }
+      }
+    };
+
+    req.open("GET", "{{ site_url }}/testfiles/rewrite/text.txt", true);
+    req.send();
+  }
+
+  function testImageRewriteOne() {
+    let target = document.getElementById("1x1-target");
+
+    if (target.width === 1) {
+      target.setAttribute("data-expectedresult", "pass");
+      target.setAttribute("data-dp", "pass");
+      target.width = 0;
+    }
+  }
+
+  function testImageRewriteTwo() {
+    let target = document.getElementById("2x2-target");
+
+    if (target.width === 2) {
+      target.setAttribute("data-expectedresult", "pass");
+      target.setAttribute("data-dp", "pass");
+      target.width = 0;
+    }
+  }
+
+  function testImageRewriteThree() {
+    let target = document.getElementById("3x2-target");
+
+    if (target.width === 3) {
+      target.setAttribute("data-expectedresult", "pass");
+      target.setAttribute("data-dp", "pass");
+      target.width = 0;
+    }
+  }
+
+  function testImageRewriteFour() {
+    let target = document.getElementById("32x32-target");
+
+    if (target.width === 32) {
+      target.setAttribute("data-expectedresult", "pass");
+      target.setAttribute("data-dp", "pass");
+      target.width = 0;
+    }
+  }
+
   function printDuration(mediaElement) {
     let duration = document.createElement("div");
     // Truncate duration to one demical to avoid cross-browser differences
@@ -423,9 +392,25 @@ description = Check that a filter using the $rewrite filter option is working as
     }
   }
 
-  manageMedia("mp3-target", "audio/mpeg", "audio.mp3");
-  if (typeof netscape != "undefined")
-    setTimeout(() => manageMedia("mp4-target", "video/mp4; codecs=\"avc1.42E01E\"", "video.mp4"), 200);
-  else
-    manageMedia("mp4-target", "video/mp4; codecs=\"avc1.42E01E\"", "video.mp4");
+  function testMediaRewrite() {
+    manageMedia("mp3-target", "audio/mpeg", "audio.mp3");
+    if (typeof netscape != "undefined")
+      setTimeout(() => manageMedia("mp4-target", "video/mp4; codecs=\"avc1.42E01E\"", "video.mp4"), 200);
+    else
+      manageMedia("mp4-target", "video/mp4; codecs=\"avc1.42E01E\"", "video.mp4");
+  }
+
+  window.addEventListener("load", () => {
+    setTimeout(() => testStylesheetRewrite(), 0);
+    setTimeout(() => testSubdocumentRewrite(), 0);
+    setTimeout(() => testXhrRewrite(), 0);
+    setTimeout(() => testImageRewriteOne(), 0);
+    setTimeout(() => testImageRewriteTwo(), 0);
+    setTimeout(() => testImageRewriteThree(), 0);
+    setTimeout(() => testImageRewriteFour(), 0);
+    setTimeout(() => testMediaRewrite(), 0);
+  });
+
+  if (expectedParameter()) // eslint-disable-line no-undef
+    expectedPageView(); // eslint-disable-line no-undef
 </script>
