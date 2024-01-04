@@ -1,11 +1,12 @@
 "use strict";
 
-function removeWaitingContent() {
+function removeWaitingContent(targetId) {
   let className = "testcase-waiting-content";
-  let elements = document.getElementsByClassName(className);
+  let targetNode = (typeof targetId != "undefined") ? document.getElementById(targetId) : document;
+  let elements = targetNode.getElementsByClassName(className);
   while (elements.length > 0) {
     elements[0].remove();
-    elements = document.getElementsByClassName(className);
+    elements = targetNode.getElementsByClassName(className);
   }
 }
 

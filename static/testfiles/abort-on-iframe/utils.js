@@ -51,7 +51,7 @@ var [testAbortOnIframePropertyRead, testAbortOnIframePropertyWrite] = (function(
       setTimeout(() => {
         try {
           let testPassed;
-          removeWaitingContent(); // eslint-disable-line no-undef
+          removeWaitingContent(target); // eslint-disable-line no-undef
 
           for (let property of properties) {
             let propertyTestPassed = false;
