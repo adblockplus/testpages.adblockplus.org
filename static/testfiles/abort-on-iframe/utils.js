@@ -45,6 +45,10 @@ var [testAbortOnIframePropertyRead, testAbortOnIframePropertyWrite] = (function(
     let target = testName + "-target";
     try {
       appendIframe(iframeId);
+      if (expectedParameter()) { // eslint-disable-line no-undef
+        expectedPageView(); // eslint-disable-line no-undef
+        return;
+      }
       let iframe = document.querySelector("#" + iframeId);
       initializeIframe && initializeIframe(iframe);
 
