@@ -21,7 +21,7 @@ description = Check that a filter using the $csp filter option is working as exp
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>||{{ site_url|strip_proto }}/{{ locale }}/{{ page }}^$csp=script-src {{ site_url }}/lib/utils.js</pre></li>
+    <li><pre>||{{ site_url|strip_proto }}/en/filters/csp_specific^$csp=script-src {{ site_url }}/lib/utils.js</pre></li>
   </ul>
 
 </section>
@@ -56,6 +56,6 @@ description = Check that a filter using the $csp filter option is working as exp
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>||{{ site_url|strip_proto }}/{{ locale }}/{{ page }}^$csp=frame-src 'none'</pre></li>
+    <li><pre>||{{ site_url|strip_proto }}/en/filters/csp_specific^$csp=frame-src 'none'</pre></li>
   </ul>
 </section>
