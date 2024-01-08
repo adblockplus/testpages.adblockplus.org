@@ -48,39 +48,37 @@ var [testAbortOnIframePropertyRead, testAbortOnIframePropertyWrite] = (function(
       let iframe = document.querySelector("#" + iframeId);
       initializeIframe && initializeIframe(iframe);
 
-      setTimeout(() => {
-        try {
-          let testPassed;
-          removeWaitingContent(target); // eslint-disable-line no-undef
+      try {
+        let testPassed;
+        removeWaitingContent(target); // eslint-disable-line no-undef
 
-          for (let property of properties) {
-            let propertyTestPassed = false;
-            try {
-              let [o, p] = getSubProperty(iframe.contentWindow, property);
-              if (isRead)
-                o[p];
-              else
-                o[p] = true;
-            }
-            catch (e) {
-              if (e.name === "ReferenceError")
-                propertyTestPassed = true;
-              else
-                throw e;
-            }
-            if (typeof testPassed === "undefined") // first property tested
-              testPassed = propertyTestPassed;
+        for (let property of properties) {
+          let propertyTestPassed = false;
+          try {
+            let [o, p] = getSubProperty(iframe.contentWindow, property);
+            if (isRead)
+              o[p];
             else
-              testPassed = testPassed && propertyTestPassed;
+              o[p] = true;
           }
+          catch (e) {
+            if (e.name === "ReferenceError")
+              propertyTestPassed = true;
+            else
+              throw e;
+          }
+          if (typeof testPassed === "undefined") // first property tested
+            testPassed = propertyTestPassed;
+          else
+            testPassed = testPassed && propertyTestPassed;
+        }
 
-          if (!testPassed)
-            insertFailElement(target);
-        }
-        catch (e) {
+        if (!testPassed)
           insertFailElement(target);
-        }
-      }, 500);
+      }
+      catch (e) {
+        insertFailElement(target);
+      }
     }
     catch (e) {
       insertFailElement(target);
