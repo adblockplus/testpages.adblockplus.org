@@ -25,13 +25,6 @@ template = testcase
   </ul>
 </section>
 
-<script>
-  "use strict";
-
-  testAbortOnIframePropertyRead("basic", ["aoiprb"], // eslint-disable-line no-undef
-                                iframe => iframe.contentWindow.aoiprb = false);
-</script>
-
 {% set case = "Sub property" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
@@ -52,13 +45,6 @@ template = testcase
     <li><pre>{{ site_url|domain }}#$#abort-on-iframe-property-read aoipr.sp</pre></li>
   </ul>
 </section>
-
-<script>
-  "use strict";
-
-  testAbortOnIframePropertyRead("subproperty", ["aoipr.sp"], // eslint-disable-line no-undef
-                                iframe => iframe.contentWindow.aoipr = {sp: false});
-</script>
 
 {% set case = "Multiple properties" %}
 {% set id = get_id(case) %}
@@ -84,9 +70,15 @@ template = testcase
 <script>
   "use strict";
 
-  testAbortOnIframePropertyRead("multipleproperties", ["aoipr1", "aoipr2"],  // eslint-disable-line no-undef
-                                iframe => {
-                                  iframe.contentWindow.aoipr1 = false;
-                                  iframe.contentWindow.aoipr2 = false;
-                                });
+  window.addEventListener("load", () => {
+    setTimeout(() => testAbortOnIframePropertyRead("basic", ["aoiprb"], iframe => // eslint-disable-line no-undef
+      iframe.contentWindow.aoiprb = false), 0);
+    setTimeout(() => testAbortOnIframePropertyRead("subproperty", ["aoipr.sp"], iframe => // eslint-disable-line no-undef
+      iframe.contentWindow.aoipr = {sp: false}), 0);
+    setTimeout(() => testAbortOnIframePropertyRead( // eslint-disable-line no-undef
+      "multipleproperties", ["aoipr1", "aoipr2"], iframe => {
+        iframe.contentWindow.aoipr1 = false;
+        iframe.contentWindow.aoipr2 = false;
+      }), 0);
+  });
 </script>

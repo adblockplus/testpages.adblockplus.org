@@ -25,12 +25,6 @@ template = testcase
   </ul>
 </section>
 
-<script>
-  "use strict";
-
-  testAbortOnIframePropertyWrite("basic", ["aoipwb"]); // eslint-disable-line no-undef
-</script>
-
 {% set case = "Sub property" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
@@ -51,13 +45,6 @@ template = testcase
     <li><pre>{{ site_url|domain }}#$#abort-on-iframe-property-write aoipw.sp</pre></li>
   </ul>
 </section>
-
-<script>
-  "use strict";
-
-  testAbortOnIframePropertyWrite("subproperty", ["aoipw.sp"], // eslint-disable-line no-undef
-                                 iframe => iframe.contentWindow.aoipw = {sp: false});
-</script>
 
 {% set case = "Multiple properties" %}
 {% set id = get_id(case) %}
@@ -83,5 +70,11 @@ template = testcase
 <script>
   "use strict";
 
-  testAbortOnIframePropertyWrite("multipleproperties", ["aoipw1", "aoipw2"]);  // eslint-disable-line no-undef
+  window.addEventListener("load", () => {
+    setTimeout(() => testAbortOnIframePropertyWrite("basic", ["aoipwb"]), 0); // eslint-disable-line no-undef
+    setTimeout(() => testAbortOnIframePropertyWrite( // eslint-disable-line no-undef
+      "subproperty", ["aoipw.sp"], iframe => iframe.contentWindow.aoipw = {sp: false}), 0);
+    setTimeout(() => testAbortOnIframePropertyWrite( // eslint-disable-line no-undef
+      "multipleproperties", ["aoipw1", "aoipw2"]), 0);
+  });
 </script>
