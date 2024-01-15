@@ -8,7 +8,7 @@ is automatically generated from the files in this repository.
 The following tools are needed:
 * Node >= 16.10.0
 * npm >= 7
-* Python 3
+* Python 3.11.6
 * Docker
 
 ## Running the tests
