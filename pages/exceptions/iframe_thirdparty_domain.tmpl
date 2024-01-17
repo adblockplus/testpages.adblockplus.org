@@ -9,7 +9,7 @@ description = Check that iFrames from third party domains are not blocked
   <p>Test that allowed domain framed inside a blocked domain is not allowed</p>
   <div id="{{id}}-area" class="testcase-area">
     <div>
-      <iframe src="https://example.com/" width="300" height="300"></iframe>
+      <iframe id="third-party-frame" src="about:blank" width="300" height="300"></iframe>
     </div>
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
@@ -28,6 +28,9 @@ description = Check that iFrames from third party domains are not blocked
 
 <script>
   "use strict";
+
+  const frame = document.getElementById("third-party-frame");
+  frame.src = "https://example.com/";
 
   fetch("https://example.com").then(response => {
     if (response.ok)
