@@ -1,0 +1,42 @@
+template = testcase
+title = iFrame from third party domain
+description = Check that iFrames from third party domains are not blocked
+
+{% set case = "iFrame from third party domain" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that allowed domain framed inside a blocked domain is not allowed</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div>
+      <iframe src="https://example.com/" width="300" height="300"></iframe>
+    </div>
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>https://example.com/ website should be visible inside the iframe</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>$third-party,xmlhttprequest,domain={{ site_url|strip_proto }}</pre></li>
+  </ul>
+</section>
+
+
+<script>
+  "use strict";
+
+  fetch("https://example.com").then(response => {
+    if (response.ok)
+      console.log("iFrame from third party domain test passed");
+    else
+      console.log("iFrame from third party domain test failed");
+  }).catch(error => {
+    console.log("iFrame from third party domain test failed");
+    console.log(error);
+  });
+
+</script>
