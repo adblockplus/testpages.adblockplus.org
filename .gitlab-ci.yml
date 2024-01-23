@@ -52,7 +52,7 @@ test:lint:
   extends: .test_runner
   script:
     - docker build -t testpages .
-    - docker run --shm-size=256m -e GREP="$GREP" -t testpages
+    - docker run --shm-size=1g -e GREP="$GREP" -t testpages
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
     - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
@@ -131,7 +131,7 @@ test:edge:windows:
     - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
     - choco install -y openssl
     - choco install -y python3 --version 3.11.4
-    - choco upgrade -y nodejs --version 16.19.0
+    - choco upgrade -y --no-progress nodejs --version 18.17.1
     - refreshenv
     # nginx config
     - xcopy test\etc\nginx\* $Env:NGINX_WIN\conf\ /E /V /F /H

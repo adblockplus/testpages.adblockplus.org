@@ -1,4 +1,4 @@
-FROM registry.gitlab.com/eyeo/docker/get-browser-binary:node16-testpages
+FROM registry.gitlab.com/eyeo/docker/get-browser-binary:node18-testpages
 
 # Install flake8 with flake8-eyeo
 RUN pip3 install flake8

@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2024-01-29
+
+- Require Node 18
+
 ## 2024-01-25
 
 - Add functionality to copy filter text on click event for testcase

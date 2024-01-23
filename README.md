@@ -6,8 +6,8 @@ is automatically generated from the files in this repository.
 ## Getting started
 
 The following tools are needed:
-* Node >= 16.10.0
-* npm >= 7
+* Node >= 18
+* npm >= 9
 * Python 3
 * Docker
 
@@ -37,16 +37,7 @@ Tests can be executed with:
 
 ```shell
 docker build -t testpages .
-docker run -it testpages
-```
-
-Note: it might happen that tests are crashing due to insufficient shared memory
-on docker (tests will fail with a `NoSuchSessionError: invalid session id`
-error). To fix this you need to increase the size of the shared memory
-directory:
-
-```shell
-docker run --shm-size=256m -t testpages .
+docker run --shm-size=1g -it testpages
 ```
 
 #### Grep
@@ -55,7 +46,7 @@ docker run --shm-size=256m -t testpages .
 `GREP` argument:
 
 ```shell
-docker run -e GREP="chromium latest" -it testpages
+docker run --shm-size=1g -e GREP="chromium latest" -it testpages
 ```
 
 The available browsers are:
@@ -73,13 +64,13 @@ The available browsers are:
 run a subset of those tests. Example:
 
 ```shell
-docker run -e GREP="chromium latest.*(Blocking|Popup)" -it testpages
+docker run -e --shm-size=1g GREP="chromium latest.*(Blocking|Popup)" -it testpages
 ```
 
 To exclude a subset of the tests, use a negative regular expression. Example:
 
 ```shell
-docker run -e GREP="^.*chromium latest((?\!Snippets).)*\$" -it testpages
+docker run -e --shm-size=1g GREP="^.*chromium latest((?\!Snippets).)*\$" -it testpages
 ```
 
 #### Packed extensions
@@ -98,7 +89,7 @@ argument to be set to `true`, otherwise the custom extension would be overridden
 by the default extension. Example:
 
 ```shell
-docker run -e SKIP_EXTENSION_DOWNLOAD="true" -it testpages
+docker run --shm-size=1g -e SKIP_EXTENSION_DOWNLOAD="true" -it testpages
 ```
 
 Any ad blocking extension can be used to run automated tests on testpages, as
@@ -116,7 +107,7 @@ changed to throw an actual error by setting the `THROW_LAST_ERROR` argument to
 `true`. Example:
 
 ```shell
-docker run -e THROW_LAST_ERROR="true" -it testpages
+docker run --shm-size=1g -e THROW_LAST_ERROR="true" -it testpages
 ```
 
 #### Debugging failing tests

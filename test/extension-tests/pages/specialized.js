@@ -84,7 +84,7 @@ async function checkPopup(driver, element, extensionHandle, shouldBlockPopup) {
         found = found || url.includes("/testfiles/popup");
       }
       catch (err) {
-        if (err.name != "NoSuchWindowError")
+        if (err.name != "NoSuchWindowError" && err.name != "WebDriverError")
           throw err;
       }
     }
