@@ -12,9 +12,7 @@ body {
   max-width: 100%;
 }
 
-a {
-  color: inherit;
-}
+a { color: inherit; }
 
 #site-header {
   margin: 0;
@@ -42,17 +40,11 @@ a {
   text-decoration: none;
 }
 
-#site-header a:hover {
-  background-color: #970a21;
-}
+#site-header a:hover { background-color: #970a21; }
 
-#site-header-abpkit a:hover {
-  background-color: #062f55;
-}
+#site-header-abpkit a:hover { background-color: #062f55; }
 
-#site-header-dp a:hover {
-  background-color: #292929;
-}
+#site-header-dp a:hover { background-color: #292929; }
 
 #site-footer {
   color: #ececec;
@@ -62,9 +54,7 @@ a {
   padding: 0.5em;
 }
 
-#site-update {
-  text-align: center;
-}
+#site-update { text-align: center; }
 
 .site-panel {
   background-color: white;
@@ -83,14 +73,14 @@ a {
   background-color: #fff;
 }
 
-.testcase-panel>p,
-.testcase-panel>h2,
-.testcase-panel>h3 {
+.testcase-panel > p,
+.testcase-panel > h2,
+.testcase-panel > h3 {
   padding: 0.5em;
   border-bottom: 1px solid #ccc;
 }
 
-.testcase-panel>h2 {
+.testcase-panel > h2 {
   font-size: 1.2em;
 }
 
