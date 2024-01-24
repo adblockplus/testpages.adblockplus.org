@@ -2,6 +2,30 @@
 <html>
   {% set page_title = title + ' - ABP Test Pages' %}
   <? include head ?>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+    const preElements = document.querySelectorAll(".testcase-filters pre");
+
+    preElements.forEach(function (preElement) {
+      preElement.addEventListener("click", function () {
+        const filterText = preElement.textContent;
+        const textArea = document.createElement("textarea");
+        textArea.value = filterText;
+
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textArea);
+
+        preElement.innerText = "COPIED!"
+        
+        setTimeout(function () {
+          preElement.textContent = filterText;
+        }, 500);
+        });
+      });
+    });
+  </script>
   <body>
     <? include header ?>
 
