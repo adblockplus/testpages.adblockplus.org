@@ -158,6 +158,11 @@ a { color: inherit; }
   font-family: monospace;
 }
 
+.testcase-filters pre:hover {
+  cursor: pointer;
+  filter: brightness(85%);
+}
+
 .testcase-waiting-content {
   flex-grow: 1;
   padding: 0.5em;
