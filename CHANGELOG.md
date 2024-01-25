@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2024-01-25
+
+- Add functionality to copy filter text on click event for testcase
+
 ## 2023-12-14
 
 - Added test page for Wildcard support 
