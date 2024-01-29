@@ -29,7 +29,7 @@ export function isExcluded(page, browserName) {
   let excluded = [];
   if (page in specializedTests)
     excluded = specializedTests[page].excludedBrowsers || [];
-  // https://gitlab.com/eyeo/adblockplus/abc/webext-sdk/-/issues/356
+  // https://jira.eyeo.com/browse/EE-43
   else if (page == "exceptions/iframe")
     excluded = ["firefox"];
   // Should be un-excluded for Chrome when ABP will start supporting feature
