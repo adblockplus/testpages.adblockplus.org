@@ -4,12 +4,25 @@ description = Check that the CSS selector's extended syntax is working as expect
 
 {% set case = "Simple closed shadow root with hide-if-contains" %}
 {% set id = get_id(case) %}
+<svg style="display: none;">
+  <text id="svg1" y="14" style="fill: currentcolor; font-size: 16px; overflow: visible;">
+    svg-test - Failed. Element is not hidden.
+  </text>
+</svg>
+<svg style="display: none;"><use id="svg2" href="#svg1"></use></svg>
+<svg style="display: none;">
+    <text id="svg3" y="14" style="fill: currentcolor; font-size: 16px; overflow: visible;">
+        <tspan>
+            svg-test - Failed. Element is not hidden.
+        </tspan>
+    </text>
+</svg>
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that basic usage of the snippet works as expected against a closed shadow root.</p>
+  <p>Test that basic usage of hide-if-contains works as expected against a closed shadow root.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
-        <div id="hic-static-id" data-expectedresult="fail"></div>
+    <div class="testcase-examplecontent">Example Content</div>
+    <div id="hic-simple-sh-id" data-expectedresult="fail"></div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -23,22 +36,21 @@ description = Check that the CSS selector's extended syntax is working as expect
   </ul>
 </section>
 <script type="text/javascript">
-  const target = document.getElementById("hic-static-id");
-  const shadowRoot = target.attachShadow({mode: "closed"});
+  const hicSimpleShTarget = document.getElementById("hic-simple-sh-id");
+  const hicSimpleShRoot = hicSimpleShTarget.attachShadow({mode: "closed"});
   const child = document.createElement("span");
   child.innerHTML = "hic-simple-sh <br> Failed. Element is not hidden.";
-  shadowRoot.appendChild(child);
+  hicSimpleShRoot.appendChild(child);
 </script>
 
-
-{% set case = "Nested closed shadow root with hide-if-contains" %}
+{% set case = "Wrapping shadow root with hide-if-contains" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that basic usage of the snippet works as expected against a nested closed shadow root.</p>
-  <div id="basic-dynamic-target" class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
-    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  <p>Test that basic usage of hide-if-contains works as expected against a nested closed shadow root.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div id="hic-nested-sh-id" data-expectedresult="fail"></div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -48,24 +60,26 @@ description = Check that the CSS selector's extended syntax is working as expect
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-contains 'hic-basic-dynamic' p[id]</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains 'hic-nested-sh' 'div[id]' 'div[id] ^^sh^^ div ^^sh^^ span'</pre></li>
   </ul>
 </section>
+<script type="text/javascript">
+  const hicNestedShTarget = document.getElementById("hic-nested-sh-id");
+  const shadowRoot1 = hicNestedShTarget.attachShadow({mode: "closed"});
+  const parent = document.createElement("div");
+  shadowRoot1.appendChild(parent);
+  const nestedChild = document.createElement('span');
+  nestedChild.innerHTML = "hic-nested-sh <br> Failed. Element is not hidden.";
+  const shadowRoot2 = parent.attachShadow({mode: 'closed'});
+  shadowRoot2.appendChild(nestedChild);
+</script>
 
-{% set case = "Search usage" %}
+{% set case = "Closed shadow root wraps several elements with hide-if-contains" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that usage of the snippet with the search parameter works as expected.</p>
-  <div id="search1-target" class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{id}}-example1">Example Content</div>
-    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
-    <div class="testcase-expected-view">hic-search<br>Should not be hidden</div>
-  </div>
-  <div id="search2-target" class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{id}}-example2">Example Content</div>
-    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
-  </div>
+  <p>Test that usage of hide-if-contains with the search parameter works as expected.</p>
+  <div id="wrapping-sh-root" class="testcase-area"></div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
     <li>Add filter #1.</li>
@@ -74,55 +88,64 @@ description = Check that the CSS selector's extended syntax is working as expect
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-contains 'hic-search' p[id] .target</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains 'hic-wrapping-sh' 'div[id] ^^sh^^ div' </pre></li>
   </ul>
 </section>
 
-<script>
-  "use strict";
+<script type="text/javascript">
+  const wrappingElem = document.getElementById("wrapping-sh-root");
+  const wrappingShadowRoot = wrappingElem.attachShadow({mode: 'closed'});
 
-  function injectElement(id, element) {
-    let target = document.getElementById(`${id}-target`);
-    target.appendChild(element);
-  }
+  const style = document.createElement('style');
+  style.textContent = `
+    :host .testcase-examplecontent,
+    :host .testcase-expected-view,
+    [data-expectedresult="pass"] {
+      flex-grow: 1;
+      padding: 0.5em;
+      color: #fff;
+      background-color: #0dc74b;
+    }
 
-  setTimeout(() => {
-    removeWaitingContent(); // eslint-disable-line no-undef
+    :host [data-expectedresult="fail"] {
+      flex-grow: 1;
+      padding: 0.5em;
+      color: #fff;
+      background-color: #c70d2c;
+    }
+  `;
+  wrappingShadowRoot.appendChild(style);
+  
+  const testcaseExamplecontent = document.createElement('div');
+  testcaseExamplecontent.classList.add('testcase-examplecontent');
+  testcaseExamplecontent.textContent = "Example Content"
+  wrappingShadowRoot.appendChild(testcaseExamplecontent);
 
-    let dynamic = document.createElement("p");
-    dynamic.id = "hic-dynamic-id";
-    dynamic.innerHTML = "<div>hic-basic-dynamic<br>Failed. Element is not hidden.</div>";
-    dynamic.setAttribute("data-expectedresult", "fail");
+  const testcaseContent = document.createElement('div');
+  testcaseContent.classList.add('testcase-content');
+  testcaseContent.setAttribute('data-expectedresult', 'fail');
+  testcaseContent.innerHTML = 'hic-wrapping-sh <br> Failed. Element is not hidden.';
+  wrappingShadowRoot.appendChild(testcaseContent);
 
-
-    let search1 = document.createElement("p");
-    search1.id = Math.random().toString(36).substring(2);
-    search1.setAttribute("data-expectedresult", "pass");
-    search1.innerHTML = "hic-search<br>Should not be hidden";
-
-    let search2 = document.createElement("p");
-    search2.id = Math.random().toString(36).substring(2);
-    search2.className = "target";
-    search2.setAttribute("data-expectedresult", "fail");
-    search2.innerHTML = "hic-search<br>Failed. Element is not hidden.";
-
-    injectElement("basic-dynamic", dynamic);
-    injectElement("search1", search1);
-    injectElement("search2", search2);
-  }, 500);
+  const testcaseExpectedView = document.createElement('div');
+  testcaseExpectedView.classList.add('testcase-expected-view');
+  testcaseExpectedView.setAttribute('data-expectedresult', 'pass');
+  testcaseExpectedView.textContent = "Should not be hidden";
+  wrappingShadowRoot.appendChild(testcaseExpectedView);
 </script>
 
-{% set case = "Regex usage" %}
+
+{% set case = "Simple svg-use pattern with hide-if-contains" %}
 {% set id = get_id(case) %}
+
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that usage of the snippet with regex works as expected.</p>
+  <p>Test that usage of hide-if-contains works as expected against a shadow DOM created with SVG.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
-    <p class="testcase-expected-view">hic-regex-1<br>Should not be hidden</p>
-    <p id="hic-regex-1" data-expectedresult="pass">hic-regex-1<br>Should not be hidden</p>
-    <p id="hic-regex-2" data-expectedresult="fail" aria-label="{{id}}-fail">hic-regex-2<br>Failed. Element is not hidden.</p>
-    <p id="hic-regex-3" data-expectedresult="fail" aria-label="{{id}}-fail">hic-regex-3<br>Failed. Element is not hidden.</p>
+    <p class="testcase-examplecontent">Example Content</p>
+    <p data-expectedresult="fail">
+      <svg height="18"> <use href="#svg1"></use> </svg>
+    </p>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -132,37 +155,55 @@ description = Check that the CSS selector's extended syntax is working as expect
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-contains /hic-regex-[2-3]/ p[id]</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains 'svg-test' 'div[id] p' 'div[id] p svg use ^^svg^^'</pre></li>
   </ul>
 </section>
 
-{% set case = "Frame usage" %}
+
+{% set case = "Nested svg-use pattern with hide-if-contains" %}
 {% set id = get_id(case) %}
+
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that usage of the snippet in a frame works as expected.</p>
+  <p>Test that usage of hide-if-contains works as expected against nested SVGs</p>
   <div id="{{id}}-area" class="testcase-area">
-    <iframe src="/testfiles/hide-if-contains/subdocument_expected.html" style="border: 0; width: 200px; height: 100px; flex-grow: 1; padding: 0.5em; background-color: #0dc74b;" class="testcase-expected-view"></iframe>
-    <iframe src="/testfiles/hide-if-contains/subdocument.html" style="border: 0; width: 200px; height: 100px; flex-grow: 1;" data-expectedresult="pass"></iframe>
-    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <p class="testcase-examplecontent">Example Content</p>
+    <p data-expectedresult="fail">
+      <svg height="18"> <use href="#svg2"></use> </svg>
+    </p>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
     <li>Add filter #1.</li>
     <li>Refresh page.</li>
-    <li>The red element in the test case above should be hidden.</li>
+    <li>The red elements in the test case above should be hidden and the green one not hidden.</li>
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-contains hidden span#frame-target</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains 'svg-test' 'div[id] p' 'div[id] p svg use ^^svg^^ ^^svg^^'</pre></li>
   </ul>
 </section>
 
+{% set case = "Subtree in svg-use pattern with hide-if-contains" %}
+{% set id = get_id(case) %}
 
-
-
-
-
-template = testcase
-title = hide-if-contains
-description = Check that the hide-if-contains snippet is working as expected.
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that usage of hide-if-contains works as expected against subtree within svg-use</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <p class="testcase-examplecontent">Example Content</p>
+    <p data-expectedresult="fail">
+      <svg height="18"> <use href="#svg3"></use> </svg>
+    </p>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red elements in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains 'svg-test' 'div[id] p' 'div[id] p svg use ^^svg^^ tspan'</pre></li>
+  </ul>
+</section>
