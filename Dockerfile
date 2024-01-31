@@ -16,7 +16,7 @@
 FROM registry.gitlab.com/eyeo/docker/get-browser-binary:node18-testpages
 
 # nginx config
-ENV DOMAIN=local.testpages.adblockplus.org
+ENV DOMAIN=local.abptestpages.org
 COPY test/etc /etc
 RUN rm /etc/nginx/sites-enabled/default
 RUN rm /etc/nginx/sites-available/default
