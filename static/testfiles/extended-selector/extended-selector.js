@@ -133,8 +133,8 @@ const hihamssShRoot = labelTargetHihamss.attachShadow({mode: "closed"});
 const hihamssLabel = document.createElement("span");
 const hihamssA = document.createElement("a");
 hihamssA.setAttribute("href", "#hihamss");
-hihamssA.setAttribute("style", "color: inherit; text-decoration: none;")
-hihamssA.textContent= "hihamss";
+hihamssA.setAttribute("style", "color: inherit; text-decoration: none;");
+hihamssA.textContent = "hihamss";
 hihamssLabel.innerHTML += "Failed. Element should be hidden.<br>";
 hihamssLabel.className = "label";
 hihamssLabel.appendChild(hihamssA);
