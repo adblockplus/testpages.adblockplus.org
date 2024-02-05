@@ -164,9 +164,9 @@ test:edge:windows:
     - node ./test/extension-tests/extension-download.js
     - npm run test -- -g "edge"
   variables:
-    TEST_PAGES_URL: https://local.testpages.adblockplus.org:5001/en/
-    SITE_URL: https://local.testpages.adblockplus.org:5001
-    DOMAIN: local.testpages.adblockplus.org
+    TEST_PAGES_URL: https://local.abptestpages.org:5001/en/
+    SITE_URL: https://local.abptestpages.org:5001
+    DOMAIN: local.abptestpages.org
     TEST_PAGES_INSECURE: "true"
   artifacts:
     paths:
