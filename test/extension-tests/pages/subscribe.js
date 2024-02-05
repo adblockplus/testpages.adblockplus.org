@@ -94,6 +94,9 @@ async function removeSubscription(driver, extensionHandle, url) {
 
 export default () => {
   it("subscribes to a link", async function() {
+    // See https://gitlab.com/adblockinc/ext/adblockplus/adblockplusui/-/issues/1609
+    this.skip();
+
     let {testPagesURL, pageTests} = this.test.parent.parent.parent;
     let testCases = pageTests[0][1];
     let subscription = `${testPagesURL}abp-testcase-subscription.txt`;
