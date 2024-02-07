@@ -162,11 +162,11 @@ Testpages filters are set dynamically (except for Wildcard Domain support which 
 with testpages filters pointing to specific domain:
 
 ```shell
-SITE_URL=http://local.abptestpages.org python3 ../cms/runserver.py --port 5001
+SITE_URL=http://local.docker.abptestpages.org python3 ../cms/runserver.py --port 5001
 ``` 
 
 If you wish to test Domain Wildcard scenario locally, you need to 
-start browser from command line and map ports to  `local.abptestpages.org` (filters are already
+start browser from command line and map ports to  `local.docker.abptestpages.org` (filters are already
 pointing to this domain).
 This works for Chromium browser only (excute command on the folder where browser binary
 is).
@@ -174,21 +174,21 @@ is).
 On Mac:
 
 ```shell
-open Chromium.app --args --host-resolver-rules="MAP local.abptestpages.org localhost:5001"
+open Chromium.app --args --host-resolver-rules="MAP local.docker.abptestpages.org localhost:5001"
 ```
 
 On Linux: 
 You may need to use `chromium` or `google-chrome` based on your distribution.
 
 ```shell
-chromium --args --host-resolver-rules="MAP local.abptestpages.org localhost:5001"
+chromium --args --host-resolver-rules="MAP local.docker.abptestpages.org localhost:5001"
 ```
 
 On Windows:
 For a default installation on a 64-bit system. 
 
 ```shell
-start "" "C:\Program Files\Google\Chrome\Application\chrome.exe" --host-resolver-rules="MAP local.abptestpages.org localhost:5001"
+start "" "C:\Program Files\Google\Chrome\Application\chrome.exe" --host-resolver-rules="MAP local.docker.abptestpages.org localhost:5001"
 ```
 
 ### Local page tests run
