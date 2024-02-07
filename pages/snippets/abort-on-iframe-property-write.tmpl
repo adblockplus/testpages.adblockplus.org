@@ -71,10 +71,10 @@ template = testcase
   "use strict";
 
   window.addEventListener("load", () => {
-    setTimeout(() => testAbortOnIframePropertyWrite("basic", ["aoipwb"]), 200); // eslint-disable-line no-undef
+    setTimeout(() => testAbortOnIframePropertyWrite("basic", ["aoipwb"]), 0); // eslint-disable-line no-undef
     setTimeout(() => testAbortOnIframePropertyWrite( // eslint-disable-line no-undef
-      "subproperty", ["aoipw.sp"], iframe => iframe.contentWindow.aoipw = {sp: false}), 200);
+      "subproperty", ["aoipw.sp"], iframe => iframe.contentWindow.aoipw = {sp: false}), 0);
     setTimeout(() => testAbortOnIframePropertyWrite( // eslint-disable-line no-undef
-      "multipleproperties", ["aoipw1", "aoipw2"]), 200);
+      "multipleproperties", ["aoipw1", "aoipw2"]), 0);
   });
 </script>
