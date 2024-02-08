@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2024-02-08
+
+- Adding two new testpages in the Snippet folder to test CSS extended selectors for accessing shadow DOM elements
+
 ## 2024-02-07
 
 - Generating the wildcard filter per domain

@@ -1,0 +1,147 @@
+template = testcase
+title = Extended selector to access shadow DOM elements
+description = Check that the CSS selector's extended syntax is working as expected.
+
+<style>
+  .testcase-area { height: 100px; }
+</style>
+
+{% set case = "Simple closed shadow root with hide-if-contains" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of hide-if-contains works as expected against a closed shadow root.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div id="hic-simple-sh-id" data-expectedresult="fail"></div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains 'hic-simple-sh' 'div[id]' 'div[id] ^^sh^^ span'</pre></li>
+  </ul>
+</section>
+
+{% set case = "Wrapping shadow root with hide-if-contains" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of hide-if-contains works as expected against a nested closed shadow root.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div id="hic-nested-sh-id" data-expectedresult="fail"></div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element added to the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains 'hic-nested-sh' 'div[id]' 'div[id] ^^sh^^ div ^^sh^^ span'</pre></li>
+  </ul>
+</section>
+
+{% set case = "Closed shadow root wraps several elements with hide-if-contains" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>
+    Test that usage of hide-if-contains works as expected when transpassing a shadow root boundary, 
+    hiding one element within but not the whole shadow root.
+  </p>
+  <div id="wrapping-sh-root" class="testcase-area"></div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains 'hic-wrapping-sh' 'div[id] ^^sh^^ div' </pre></li>
+  </ul>
+</section>
+
+{% set case = "Closed shadow root with hide-if-contains-visible-text" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of hide-if-contains-visible-text works as expected against a closed shadow root.</p>
+  <div id="basic-target" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div id="parent-basic" class="testcase-content" data-expectedresult="fail" aria-label="{{id}}-fail" >
+      <div class="article">
+        <div id="label"></div>
+        Failed. Element not hidden.
+      </div>
+    </div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-visible-text 'hicvt-test' '#parent-basic' '#label ^^sh^^ div'</pre></li>
+  </ul>
+</section>
+
+{% set case = "Simple closed shadow root with hide-if-contains-and-matches-style" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of hide-if-contains-and-matches-style works as expected against a closed shadow root.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <p class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</p>
+    <p class="testcase-content" id="hicamss-target" data-expectedresult="fail"></p>
+    <p id="hicams-sh-fake-target" data-expectedresult="pass"><span>Should not be hidden.</span><span class="label">hicamss</span></p>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-and-matches-style hicamss p[id] 'p[id] ^^sh^^ span.label' /./ 'font-size: 16px;'</pre></li>
+  </ul>
+</section>
+
+{% set case = "Simple closed shadow root with hide-if-has-and-matches-style" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of hide-if-has-and-matches-style works as expected against a closed shadow root.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <p class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</p>
+    <p class="testcase-content" id="hihamss-target" data-expectedresult="fail"></p>
+    <p id="hihams-sh-fake-target" data-expectedresult="pass">
+      <span>
+        Should not be hidden. 
+        <a href="#hihamss" style="text-decoration: none;">hicamss </a> 
+      </span>
+    </p>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-has-and-matches-style a[href="#hihamss"] p[id] 'p[id] ^^sh^^ span.label' /./ 'font-size: 16px;'</pre></li>
+  </ul>
+</section>
+
+<script src="/testfiles/extended-selector/extended-selector.js"></script>

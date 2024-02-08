@@ -52,7 +52,6 @@ testcaseContent.innerHTML = "hic-wrapping-sh <br> Failed. Element is not hidden.
 wrappingShadowRoot.appendChild(testcaseContent);
 
 const testcaseExpectedView = document.createElement("div");
-testcaseExpectedView.classList.add("testcase-expected-view");
 testcaseExpectedView.setAttribute("data-expectedresult", "pass");
 testcaseExpectedView.textContent = "Should not be hidden";
 wrappingShadowRoot.appendChild(testcaseExpectedView);
@@ -139,3 +138,12 @@ hihamssLabel.innerHTML += "Failed. Element should be hidden.<br>";
 hihamssLabel.className = "label";
 hihamssLabel.appendChild(hihamssA);
 hihamssShRoot.appendChild(hihamssLabel);
+
+// Handle expected views for test screenshots
+const isExpectedMode = window.location.search.indexOf("expected=1") >= 0;
+if (isExpectedMode) {
+  testcaseContent.style.display = "none";
+  testcaseExpectedView.classList.add("testcase-expected-view");
+  document.getElementById("hicams-sh-fake-target").classList.add("testcase-expected-view");
+  document.getElementById("hihams-sh-fake-target").classList.add("testcase-expected-view");
+}
