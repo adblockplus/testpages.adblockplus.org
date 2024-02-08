@@ -97,8 +97,8 @@ description = Check that the CSS selector's extended syntax is working as expect
   <p>Test that basic usage of hide-if-contains-and-matches-style works as expected against a shadow DOM created with SVG.</p>
   <div id="{{id}}-area" class="testcase-area">
     <p class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</p>
-    <p class="testcase-content" id="hicamssvg-target" data-expectedresult="fail"><svg><use href="#svg-hicamss"></use></svg></p>
-    <p id="lkvsaq" data-expectedresult="pass"><span>Should not be hidden.</span><span class="label" style="display: none;">hicamss</span></p>
+    <p class="testcase-content" id="hicams-svg-target" data-expectedresult="fail"><svg><use href="#svg-hicamss"></use></svg></p>
+    <p id="hicams-svg-fake-target" data-expectedresult="pass"><span>Should not be hidden.</span><span class="label">hicamss</span></p>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -115,8 +115,8 @@ description = Check that the CSS selector's extended syntax is working as expect
 {% set case = "Simple svg-use pattern with hide-if-has-and-matches-style" %}
 {% set id = get_id(case) %}
 <svg style="display: none;">
-  <text id="svg-hihamss" y="14" style="fill: currentcolor; font-size: 16px; overflow: visible;">
-    <a href="#hihamss">hihamss. Failed. Element is not hidden.</a>
+  <text id="svg-hihamss" y="14" style="fill: white; font-size: 16px; overflow: visible;">
+    <a href="#hihamss" style="fill: white; text-decoration: none;">hihamss. Failed. Element is not hidden.</a>
   </text>
 </svg>
 <section id="{{id}}-section" class="testcase-panel">
@@ -124,8 +124,12 @@ description = Check that the CSS selector's extended syntax is working as expect
   <p>Test that basic usage of hide-if-has-and-matches-style works as expected against a shadow DOM created with SVG.</p>
   <div id="{{id}}-area" class="testcase-area">
     <p class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</p>
-    <p class="testcase-content" id="hihamssvg-target" data-expectedresult="fail"><svg><use href="#svg-hihamss"></use></svg></p>
-    <p id="lkvsaqg" data-expectedresult="pass"><span>Should not be hidden.</span><span class="label" style="display: none;">hicamss</span></p>
+    <p class="testcase-content" id="hihams-svg-target" data-expectedresult="fail"><svg><use href="#svg-hihamss"></use></svg></p>
+    <p id="hihams-svg-fake-target" data-expectedresult="pass">
+      <span>
+        Should not be hidden. <a href="#hihamss" style="text-decoration: none;">hicamss</a>
+      </span>
+    </p>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -141,7 +145,8 @@ description = Check that the CSS selector's extended syntax is working as expect
 
 <script>
 const isExpectedMode = window.location.search.indexOf("expected=1") >= 0;
-if (isExpectedMode)
-  document.getElementById("lkvsaq").classList.add("testcase-expected-view");
-  document.getElementById("lkvsaqg").classList.add("testcase-expected-view");
+if (isExpectedMode) {
+  document.getElementById("hicams-svg-fake-target").classList.add("testcase-expected-view");
+  document.getElementById("hihams-svg-fake-target").classList.add("testcase-expected-view");
+}
 </script>

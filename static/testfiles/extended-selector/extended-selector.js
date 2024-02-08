@@ -145,6 +145,6 @@ const isExpectedMode = window.location.search.indexOf("expected=1") >= 0;
 if (isExpectedMode) {
   testcaseContent.style.display = "none";
   testcaseExpectedView.classList.add("testcase-expected-view");
-  document.getElementById("lkvsaq").classList.add("testcase-expected-view");
-  document.getElementById("lkvsaqg").classList.add("testcase-expected-view");
+  document.getElementById("hicams-sh-fake-target").classList.add("testcase-expected-view");
+  document.getElementById("hihams-sh-fake-target").classList.add("testcase-expected-view");
 }
