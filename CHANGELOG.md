@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2-24-02-07
+## 2024-02-07
 
 - Generating the wildcard filter per domain
 
