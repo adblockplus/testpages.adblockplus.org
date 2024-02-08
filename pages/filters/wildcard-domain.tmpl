@@ -51,7 +51,7 @@ description = Check that a filter using the $domain filter with wildcard is work
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>abptestpages.*##div[style*="width: 203px;"]</pre></li>
+    <li><pre>{{ site_url|domain|build_wildcard_filter }}##div[style*="width: 203px;"]</pre></li>
   </ul>
 </section>
 
@@ -72,7 +72,7 @@ description = Check that a filter using the $domain filter with wildcard is work
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>abptestpages.*###eh-id</pre></li>
+    <li><pre>{{ site_url|domain|build_wildcard_filter }}###eh-id</pre></li>
   </ul>
 </section>
 
@@ -93,7 +93,7 @@ description = Check that a filter using the $domain filter with wildcard is work
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>abptestpages.*##div[height="100"][width="100"]</pre></li>
+    <li><pre>{{ site_url|domain|build_wildcard_filter }}##div[height="100"][width="100"]</pre></li>
   </ul>
 </section>
 
@@ -114,7 +114,7 @@ description = Check that a filter using the $domain filter with wildcard is work
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>abptestpages.*#?#div:-abp-properties(width: 230px)</pre></li>
+    <li><pre>{{ site_url|domain|build_wildcard_filter }}#?#div:-abp-properties(width: 230px)</pre></li>
   </ul>
 </section>
 
@@ -139,7 +139,7 @@ description = Check that a filter using the $domain filter with wildcard is work
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>abptestpages.*#?#div:-abp-has(>div>span.ehe-abp-has)</pre></li>
+    <li><pre>{{ site_url|domain|build_wildcard_filter }}#?#div:-abp-has(>div>span.ehe-abp-has)</pre></li>
   </ul>
 </section>
 
@@ -162,7 +162,7 @@ description = Check that a filter using the $domain filter with wildcard is work
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>abptestpages.*#?#div:-abp-has(> div:-abp-properties(width: 231px))</pre></li>
+    <li><pre>{{ site_url|domain|build_wildcard_filter }}#?#div:-abp-has(> div:-abp-properties(width: 231px))</pre></li>
   </ul>
 </section>
 
@@ -183,7 +183,7 @@ description = Check that a filter using the $domain filter with wildcard is work
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>abptestpages.*#?#.ehe-wildcard:-abp-properties(font-weight:*)</pre></li>
+    <li><pre>{{ site_url|domain|build_wildcard_filter }}#?#.ehe-wildcard:-abp-properties(font-weight:*)</pre></li>
   </ul>
 </section>
 
@@ -205,7 +205,7 @@ description = Check that a filter using the $domain filter with wildcard is work
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>abptestpages.*#?#div > div:-abp-contains(ehe-containsregex)</pre></li>
+    <li><pre>{{ site_url|domain|build_wildcard_filter }}#?#div > div:-abp-contains(ehe-containsregex)</pre></li>
   </ul>
 </section>
 
