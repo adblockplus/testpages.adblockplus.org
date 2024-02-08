@@ -143,10 +143,11 @@ description = Check that the CSS selector's extended syntax is working as expect
   </ul>
 </section>
 
-<script>
-const isExpectedMode = window.location.search.indexOf("expected=1") >= 0;
-if (isExpectedMode) {
-  document.getElementById("hicams-svg-fake-target").classList.add("testcase-expected-view");
-  document.getElementById("hihams-svg-fake-target").classList.add("testcase-expected-view");
-}
+<script type="text/javascript">
+  "use strict"
+  const isExpectedMode = window.location.search.indexOf("expected=1") >= 0;
+  if (isExpectedMode) {
+    document.getElementById("hicams-svg-fake-target").classList.add("testcase-expected-view");
+    document.getElementById("hihams-svg-fake-target").classList.add("testcase-expected-view");
+  }
 </script>
