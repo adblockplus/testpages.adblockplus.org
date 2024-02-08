@@ -7,7 +7,13 @@
     const filterElements = document.querySelectorAll(".testcase-filters pre");
 
     filterElements.forEach(function(element) {
+      let isCopying = false;
       element.addEventListener("click", function() {
+        if (isCopying) {
+          return;
+        }
+
+        isCopying = true;
         const filterText = element.textContent;
         const textArea = document.createElement("textarea");
         textArea.value = filterText;
@@ -21,6 +27,7 @@
         
         setTimeout(function() {
           element.textContent = filterText;
+          isCopying = false;
         }, 500);
         });
       });
