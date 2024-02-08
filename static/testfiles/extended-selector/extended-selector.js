@@ -18,7 +18,6 @@ const shadowRoot2 = parentElem.attachShadow({mode: "closed"});
 shadowRoot2.appendChild(nestedChild);
 
 // Closed shadow root wraps several elements with hide-if-contains
-const isExpectedMode = window.location.search.indexOf("expected=1") >= 0;
 const wrappingElem = document.getElementById("wrapping-sh-root");
 const wrappingShadowRoot = wrappingElem.attachShadow({mode: "closed"});
 const hicWrappingShStyle = document.createElement("style");
@@ -56,11 +55,6 @@ const testcaseExpectedView = document.createElement("div");
 testcaseExpectedView.setAttribute("data-expectedresult", "pass");
 testcaseExpectedView.textContent = "Should not be hidden";
 wrappingShadowRoot.appendChild(testcaseExpectedView);
-
-if (isExpectedMode) {
-  testcaseContent.style.display = "none";
-  testcaseExpectedView.classList.add("testcase-expected-view");
-}
 
 // Closed shadow root with hide-if-contains-visible-text
 const label = document.getElementById("label");
@@ -144,3 +138,13 @@ hihamssLabel.innerHTML += "Failed. Element should be hidden.<br>";
 hihamssLabel.className = "label";
 hihamssLabel.appendChild(hihamssA);
 hihamssShRoot.appendChild(hihamssLabel);
+
+
+// Handle expected views for test screenshots
+const isExpectedMode = window.location.search.indexOf("expected=1") >= 0;
+if (isExpectedMode) {
+  testcaseContent.style.display = "none";
+  testcaseExpectedView.classList.add("testcase-expected-view");
+  document.getElementById("lkvsaq").classList.add("testcase-expected-view");
+  document.getElementById("lkvsaqg").classList.add("testcase-expected-view");
+}
