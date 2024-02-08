@@ -101,9 +101,9 @@ description = Check that the CSS selector's extended syntax is working as expect
   {{ heading(case) }}
   <p>Test that basic usage of hide-if-contains-and-matches-style works as expected against a closed shadow root.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
-    <div class="testcase-content" id="hicamss-target" data-expectedresult="fail"></div>
-    <div class="testcase-expected-view" id="lkvsaq" data-expectedresult="pass"><div><span>Should not be hidden.</span><span class="label" style="display: none;">hicamss</span></div></div>
+    <p class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</p>
+    <p class="testcase-content" id="hicamss-target" data-expectedresult="fail"></p>
+    <p class="testcase-expected-view" id="lkvsaq" data-expectedresult="pass"><span>Should not be hidden.</span><span class="label" style="display: none;">hicamss</span></p>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -113,7 +113,7 @@ description = Check that the CSS selector's extended syntax is working as expect
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-contains-and-matches-style hicamss div[id] 'div[id] ^^sh^^ span.label' /./ 'font-size: 16px;'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-and-matches-style hicamss p[id] 'p[id] ^^sh^^ span.label' /./ 'font-size: 16px;'</pre></li>
   </ul>
 </section>
 
@@ -123,9 +123,9 @@ description = Check that the CSS selector's extended syntax is working as expect
   {{ heading(case) }}
   <p>Test that basic usage of hide-if-has-and-matches-style works as expected against a closed shadow root.</p>
   <div id="{{id}}-area" class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
-    <div class="testcase-content" id="hihamss-target" data-expectedresult="fail"></div>
-    <div class="testcase-expected-view" id="lkvsaqg" data-expectedresult="pass"><div><span>Should not be hidden.</span><span class="label" style="display: none;">hicamss</span></div></div>
+    <p class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</p>
+    <p class="testcase-content" id="hihamss-target" data-expectedresult="fail"></p>
+    <p class="testcase-expected-view" id="lkvsaqg" data-expectedresult="pass"><span>Should not be hidden.</span><span class="label" style="display: none;">hicamss</span></p>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -135,7 +135,7 @@ description = Check that the CSS selector's extended syntax is working as expect
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-has-and-matches-style a[href="#hihamss"] div[id] 'div[id] ^^sh^^ span.label'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-has-and-matches-style a[href="#hihamss"] p[id] 'p[id] ^^sh^^ span.label' /./ 'font-size: 16px;'</pre></li>
   </ul>
 </section>
 

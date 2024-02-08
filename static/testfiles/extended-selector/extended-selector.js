@@ -50,15 +50,17 @@ const testcaseContent = document.createElement("div");
 testcaseContent.classList.add("testcase-content");
 testcaseContent.setAttribute("data-expectedresult", "fail");
 testcaseContent.innerHTML = "hic-wrapping-sh <br> Failed. Element is not hidden.";
-if (isExpectedMode)
-  testcaseContent.style.display = "none";
 wrappingShadowRoot.appendChild(testcaseContent);
 
 const testcaseExpectedView = document.createElement("div");
-testcaseExpectedView.classList.add("testcase-expected-view");
 testcaseExpectedView.setAttribute("data-expectedresult", "pass");
 testcaseExpectedView.textContent = "Should not be hidden";
 wrappingShadowRoot.appendChild(testcaseExpectedView);
+
+if (isExpectedMode) {
+  testcaseContent.style.display = "none";
+  testcaseExpectedView.classList.add("testcase-expected-view");
+}
 
 // Closed shadow root with hide-if-contains-visible-text
 const label = document.getElementById("label");
