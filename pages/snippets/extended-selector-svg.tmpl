@@ -1,0 +1,140 @@
+template = testcase
+title = Extended selector to access shadow DOM elements
+description = Check that the CSS selector's extended syntax is working as expected.
+
+<style>
+  .testcase-area { height: 100px; }
+</style>
+
+<svg style="display: none;">
+  <text id="svg1" y="14" style="fill: currentcolor; font-size: 16px; overflow: visible;">
+    svg-test - Failed. Element is not hidden.
+  </text>
+</svg>
+<svg style="display: none;"><use id="svg2" href="#svg1"></use></svg>
+<svg style="display: none;">
+  <text id="svg3" y="14" style="fill: currentcolor; font-size: 16px; overflow: visible;">
+    <tspan> svg-test - Failed. Element is not hidden.</tspan>
+  </text>
+</svg>
+
+{% set case = "Simple svg-use pattern with hide-if-contains" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that usage of hide-if-contains works as expected against a shadow DOM created with SVG.</div>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent">Example Content</div>
+    <div data-expectedresult="fail">
+      <svg height="18"> <use href="#svg1"></use> </svg>
+    </div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red elements in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains 'svg-test' 'div[id] div' 'div[id] div svg use ^^svg^^'</pre></li>
+  </ul>
+</section>
+
+{% set case = "Nested svg-use pattern with hide-if-contains" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that usage of hide-if-contains works as expected against nested SVGs</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <p class="testcase-examplecontent">Example Content</p>
+    <p data-expectedresult="fail">
+      <svg height="18"> <use href="#svg2"></use> </svg>
+    </p>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red elements in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains 'svg-test' 'div[id] p' 'div[id] p svg use ^^svg^^ ^^svg^^'</pre></li>
+  </ul>
+</section>
+
+{% set case = "Subtree in svg-use pattern with hide-if-contains" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that usage of hide-if-contains works as expected against subtree within svg-use</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <p class="testcase-examplecontent">Example Content</p>
+    <p data-expectedresult="fail">
+      <svg height="18"> <use href="#svg3"></use> </svg>
+    </p>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red elements in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains 'svg-test' 'div[id] p' 'div[id] p svg use ^^svg^^ tspan'</pre></li>
+  </ul>
+</section>
+
+{% set case = "Simple svg-use pattern with hide-if-contains-and-matches-style" %}
+{% set id = get_id(case) %}
+<svg style="display: none;">
+  <text id="svg-hicamss" y="14" style="fill: currentcolor; font-size: 16px; overflow: visible;">hicamss</text>
+</svg>
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of hide-if-contains-and-matches-style works as expected against a shadow DOM created with SVG.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <p class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</p>
+    <p class="testcase-content" id="isnfnv" data-expectedresult="fail" style="display: flex;"><span>Failed. Element is not hidden.</span><svg><use href="#svg-hicamss"></use></svg></p>
+    <p id="lkvsaq" data-expectedresult="pass"><span>Should not be hidden.</span><span class="label" style="display: none;">hicamss</span></p>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-and-matches-style hicamss p[id] 'p[id] svg use ^^svg^^' /./ 'font-size: 16px;'</pre></li>
+  </ul>
+</section>
+
+{% set case = "Simple svg-use pattern with hide-if-has-and-matches-style" %}
+{% set id = get_id(case) %}
+<svg style="display: none;">
+  <text id="svg-hihamss" y="14" style="fill: currentcolor; font-size: 16px; overflow: visible;">
+    <a href="#hihamss">hihamss</a>
+  </text>
+</svg>
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of hide-if-has-and-matches-style works as expected against a shadow DOM created with SVG.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <p class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</p>
+    <p id="hihamssvg-target" data-expectedresult="fail" style="display: flex;"><span>Failed. Element is not hidden.</span><svg><use href="#svg-hihamss"></use></svg></p>
+    <p id="lkvsaqg" data-expectedresult="pass"><span>Should not be hidden.</span><span class="label" style="display: none;">hicamss</span></p>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-has-and-matches-style a[href="#hihamss"] p[id] 'p[id] svg use ^^svg^^' 'font-size: 16px;'</pre></li>
+  </ul>
+</section>
