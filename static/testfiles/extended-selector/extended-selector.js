@@ -18,6 +18,7 @@ const shadowRoot2 = parentElem.attachShadow({mode: "closed"});
 shadowRoot2.appendChild(nestedChild);
 
 // Closed shadow root wraps several elements with hide-if-contains
+const isExpectedMode = window.location.search.indexOf("expected=1") >= 0;
 const wrappingElem = document.getElementById("wrapping-sh-root");
 const wrappingShadowRoot = wrappingElem.attachShadow({mode: "closed"});
 const hicWrappingShStyle = document.createElement("style");
@@ -49,6 +50,8 @@ const testcaseContent = document.createElement("div");
 testcaseContent.classList.add("testcase-content");
 testcaseContent.setAttribute("data-expectedresult", "fail");
 testcaseContent.innerHTML = "hic-wrapping-sh <br> Failed. Element is not hidden.";
+if (isExpectedMode)
+  testcaseContent.style.display = "none";
 wrappingShadowRoot.appendChild(testcaseContent);
 
 const testcaseExpectedView = document.createElement("div");
