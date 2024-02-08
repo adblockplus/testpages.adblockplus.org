@@ -127,17 +127,16 @@ hicamssLabel.className = "label";
 hicamssShRoot.appendChild(hicamssLabel);
 
 // Simple closed shadow root with hide-if-has-and-matches-style
-const labelTargetHihamss = document.getElementById("hihamss-target");
-const hihamssShRoot = labelTargetHihamss.attachShadow({mode: "closed"});
-const hihamssLabel = document.createElement("span");
+const spanTargetHihamss = document.getElementById("hihamss-target");
+const hihamssShRoot = spanTargetHihamss.attachShadow({mode: "closed"});
+const hihamssSpan = document.createElement("span");
 const hihamssA = document.createElement("a");
 hihamssA.setAttribute("href", "#hihamss");
 hihamssA.setAttribute("style", "color: inherit; text-decoration: none;");
 hihamssA.textContent = "hihamss";
-hihamssLabel.innerHTML += "Failed. Element should be hidden.<br>";
-hihamssLabel.className = "label";
-hihamssLabel.appendChild(hihamssA);
-hihamssShRoot.appendChild(hihamssLabel);
+hihamssSpan.innerHTML += "Failed. Element should be hidden.<br>";
+hihamssSpan.appendChild(hihamssA);
+hihamssShRoot.appendChild(hihamssSpan);
 
 // Handle expected views for test screenshots
 const isExpectedMode = window.location.search.indexOf("expected=1") >= 0;
