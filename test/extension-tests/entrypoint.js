@@ -30,7 +30,7 @@ const TEST_PAGES_INSECURE = process.env.TEST_PAGES_INSECURE == "true";
 const CUSTOM_BROWSER = process.env.CUSTOM_BROWSER;
 const CUSTOM_BROWSER_VERSION = process.env.BROWSER_VERSION || "latest";
 let browserVersions = {
-  chromium: [void 0, "beta", "dev", "77.0.3865.0"],
+  chromium: [void 0, "beta", "dev", "88.0.4324.27"],
   firefox: [void 0, "beta", "75.0", "68.0"],
   edge: [void 0]
 };
