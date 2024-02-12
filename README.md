@@ -53,7 +53,7 @@ The available browsers are:
 * chromium latest
 * chromium beta
 * chromium dev
-* chromium 77.0.3865.0
+* chromium 88.0.4324.27
 * firefox latest
 * firefox beta
 * firefox 75.0
