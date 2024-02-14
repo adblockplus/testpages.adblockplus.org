@@ -2,8 +2,6 @@ template = testcase
 title = Remove with Extended Selectors
 description = Check that remove functionality with extended selectors is working as expected.
 
-<p><b>Note:</b> Filters used here are not part of abp-testcase-subscription.txt and need to be added manually.</p>
-
 <style>
 .remove-properties {
   width: 46px;
@@ -41,6 +39,7 @@ description = Check that remove functionality with extended selectors is working
   <p>Test that a remove filter using a :-abp-properties() selector removes its target.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" class="remove-properties test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -65,6 +64,7 @@ description = Check that remove functionality with extended selectors is working
         <span class="remove-abp-has">Target</span>
       </div>
     </div>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -89,7 +89,9 @@ description = Check that remove functionality with extended selectors is working
       <div>
         <span class="remove-has">Target</span>
       </div>
+      <div class="testcase-expected-view">Target removed</div>
     </div>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -110,6 +112,7 @@ description = Check that remove functionality with extended selectors is working
   <p>Test that a remove filter using a :-abp-contains() selector removes its target.</p>
   <div id="{{id}}-area" class="testcase-area">
     <span id="{{id}}-fail-1" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">remove-contains-target</span>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -130,6 +133,7 @@ description = Check that remove functionality with extended selectors is working
   <p>Test that a remove filter using a :xpath() selector removes its target.</p>
   <div id="{{id}}-area" class="testcase-area">
     <span id="{{id}}-fail" class="test-if-removed" data-expectedresult="fail" data-dp="fail">Target</span>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -150,6 +154,7 @@ description = Check that remove functionality with extended selectors is working
   <p>Test that a remove filter using a :-has-text() selector removes its target.</p>
   <div id="{{id}}-area" class="testcase-area">
     <span id="{{id}}-fail-1" class="test-if-removed" data-expectedresult="fail" data-dp="fail">remove-has-text</span>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -172,6 +177,7 @@ description = Check that remove functionality with extended selectors is working
     <div id="{{id}}-fail-1" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
       <div class="remove-chained">Target</div>
     </div>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -192,6 +198,7 @@ description = Check that remove functionality with extended selectors is working
   <p>Test that a remove filter is case insensitive and still removes its target.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" class="remove-case test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -212,6 +219,7 @@ description = Check that remove functionality with extended selectors is working
   <p>Test that a remove filter using wildcards still removes its target.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" class="remove-wildcard test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -234,6 +242,8 @@ description = Check that remove functionality with extended selectors is working
     <div id="{{id}}-fail-1" class="remove-regex1 test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div id="{{id}}-fail-2" class="remove-regex2 test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-examplecontent remove-regex3">Not a target</div>
+    <div class="testcase-expected-view">Target removed</div>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -255,6 +265,8 @@ description = Check that remove functionality with extended selectors is working
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">remove-containsregex1</div>
     <div id="{{id}}-fail-2" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">remove-containsregex2</div>
+    <div class="testcase-expected-view">Target removed</div>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">

@@ -2,8 +2,6 @@ title = Inline CSS on DOM Mutation
 template = testcase
 description = Check that an inline CSS filter using simple selectors works properly on DOM Mutation.
 
-<p><b>Note:</b> Filters used here are not part of abp-testcase-subscription.txt and need to be added manually.</p>
-
 {% set case = "span" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
@@ -11,7 +9,9 @@ description = Check that an inline CSS filter using simple selectors works prope
   <p>Check that a filter using #{{id}} selectors works properly on DOM Mutation.</p>
   <div id="{{id}}-script-target" class="testcase-area">
     <div id="span-inline-css" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Static Target</div>
+    <div class="testcase-expected-view">Static Target</div>
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-expected-view">Dynamic Target</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>

@@ -2,8 +2,6 @@ template = testcase
 title = Remove Inversion
 description = Check that remove inversion functionality is working as expected.
 
-<p><b>Note:</b> Filters used here are not part of abp-testcase-subscription.txt and need to be added manually.</p>
-
 <style>
 
 .removei-properties {
@@ -52,6 +50,7 @@ description = Check that remove inversion functionality is working as expected.
   <div id="{{id}}-area" class="testcase-area" >
     <div id="{{id}}-fail" class="removei-properties test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div  class="testcase-examplecontent removei-properties removei-properties-not-hide" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -77,6 +76,7 @@ description = Check that remove inversion functionality is working as expected.
     <div class="testcase-examplecontent removei-has" aria-label="{{id}}-example">
       <span class="removei-has-not-hide">Example Content</span>
     </div>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -98,6 +98,7 @@ description = Check that remove inversion functionality is working as expected.
   <div id="{{id}}-area" class="testcase-area">
     <span id="{{id}}-fail" class="removei-contains test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</span>
     <span class="testcase-examplecontent removei-contains" aria-label="{{id}}-example">example-content</span>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -123,6 +124,7 @@ description = Check that remove inversion functionality is working as expected.
     <div class="testcase-examplecontent removei-chained-parent" aria-label="{{id}}-example">
       <div class="removei-chained">Example Content</div>
     </div>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -144,6 +146,7 @@ description = Check that remove inversion functionality is working as expected.
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail" class="removei-case test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-examplecontent removei-case removei-case-not-hide" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -165,6 +168,7 @@ description = Check that remove inversion functionality is working as expected.
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail" class="removei-wildcard test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-examplecontent removei-wildcard removei-wildcard-not-hide" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -188,6 +192,8 @@ description = Check that remove inversion functionality is working as expected.
     <div id="{{id}}-fail-2" class="removei-regex removei-regex2 test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-examplecontent removei-regex removei-regex3">Not a target</div>
     <div class="testcase-examplecontent removei-regex removei-regex4" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-expected-view">Target removed</div>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -211,6 +217,8 @@ description = Check that remove inversion functionality is working as expected.
     <span id="{{id}}-fail-2" class="removei-contains-regex test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">removei-containsregextarget2</span>
     <span class="testcase-examplecontent removei-contains-regex">example-contentregex1</span>
     <span class="testcase-examplecontent removei-contains-regex" aria-label="{{id}}-example">example-contentregex2</span>
+    <div class="testcase-expected-view">Target removed</div>
+    <div class="testcase-expected-view">Target removed</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">

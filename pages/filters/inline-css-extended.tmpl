@@ -2,8 +2,6 @@ template = testcase
 title = Inline CSS with Extended Selectors
 description = Check that inline CSS functionality with extended selectors is working as expected.
 
-<p><b>Note:</b> Filters used here are not part of abp-testcase-subscription.txt and need to be added manually.</p>
-
 <style>
 .inline-css-properties {
   width: 56px;
@@ -41,6 +39,7 @@ description = Check that inline CSS functionality with extended selectors is wor
   <p>Test that an inline CSS filter using a :-abp-properties() selector changes target background form red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" class="inline-css-properties" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-expected-view">Target</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -65,6 +64,7 @@ description = Check that inline CSS functionality with extended selectors is wor
         <span class="inline-css-abp-has">Target</span>
       </div>
     </div>
+    <div class="testcase-expected-view">Target</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -90,6 +90,7 @@ description = Check that inline CSS functionality with extended selectors is wor
         <span class="inline-css-has">Target</span>
       </div>
     </div>
+    <div class="testcase-expected-view">Target</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -110,6 +111,7 @@ description = Check that inline CSS functionality with extended selectors is wor
   <p>Test that an inline CSS filter using a :-abp-contains() selector changes target background form red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <span id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">.inline-css-contains-target</span>
+    <div class="testcase-expected-view">inline-css-contains-targe</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -130,6 +132,7 @@ description = Check that inline CSS functionality with extended selectors is wor
   <p>Test that an inline CSS filter using a :xpath() selector changes target background form red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <span id="{{id}}-fail" data-expectedresult="fail" data-dp="fail">Target</span>
+    <div class="testcase-expected-view">Target</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -150,6 +153,7 @@ description = Check that inline CSS functionality with extended selectors is wor
   <p>Test that an inline CSS filter using a :-has-text() selector changes target background form red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <span id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail">inline-css-has-text</span>
+    <div class="testcase-expected-view">inline-css-has-text</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -172,6 +176,7 @@ description = Check that inline CSS functionality with extended selectors is wor
     <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
       <div class="inline-css-chained">Target</div>
     </div>
+    <div class="testcase-expected-view">Target</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -192,6 +197,7 @@ description = Check that inline CSS functionality with extended selectors is wor
   <p>Test that an inline CSS filter is case insensitive and still changes target background form red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" class="inline-css-case" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-expected-view">Target</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -212,6 +218,7 @@ description = Check that inline CSS functionality with extended selectors is wor
   <p>Test that an inline CSS filter using wildcards still changes target background form red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" class="inline-css-wildcard" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-expected-view">Target</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -233,6 +240,8 @@ description = Check that inline CSS functionality with extended selectors is wor
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" class="inline-css-regex1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div id="{{id}}-fail-2" class="inline-css-regex2" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-expected-view">Target</div>
+    <div class="testcase-expected-view">Target</div>
     <div class="testcase-examplecontent .inline-css-regex3">Not a target</div>
   </div>
   <h3>Steps</h3>
@@ -255,6 +264,8 @@ description = Check that inline CSS functionality with extended selectors is wor
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">inline-css-containsregex1</div>
     <div id="{{id}}-fail-2" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">inline-css-containsregex2</div>
+    <div class="testcase-expected-view">inline-css-containsregex1</div>
+    <div class="testcase-expected-view">inline-css-containsregex2</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
