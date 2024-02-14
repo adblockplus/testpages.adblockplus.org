@@ -6,7 +6,7 @@ description = Check that inline CSS functionality is working as expected.
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline css filter using an ID selector changes target background form red to green.</p>
+  <p>Test that an inline css filter using an ID selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="inline-css-id" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-expected-view">Target</div>
@@ -27,7 +27,7 @@ description = Check that inline CSS functionality is working as expected.
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline css filter using an ID selector with two curly braces changes target background form red to green.</p>
+  <p>Test that an inline css filter using an ID selector with two curly braces changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{ '{{inline-css-id}}' }}" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-expected-view">Target</div>
@@ -48,7 +48,7 @@ description = Check that inline CSS functionality is working as expected.
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline css filter using a class selector changes target background form red to green.</p>
+  <p>Test that an inline css filter using a class selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" class="inline-css-class test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-expected-view">Target</div>
@@ -69,7 +69,7 @@ description = Check that inline CSS functionality is working as expected.
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel"> 
   {{ heading(case) }}
-  <p>Test that an inline css filter using a descendant selector changes target background form red to green.</p>
+  <p>Test that an inline css filter using a descendant selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" class="inline-css-descendant test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-expected-view">Target</div>
@@ -90,7 +90,7 @@ description = Check that inline CSS functionality is working as expected.
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline css filter using a sibling selector changes target background form red to green.</p>
+  <p>Test that an inline css filter using a sibling selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div id="{{id}}-fail-1" class="inline-css-sibling test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
@@ -112,7 +112,7 @@ description = Check that inline CSS functionality is working as expected.
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline css filter using an attribute selector changes target background form red to green.</p>
+  <p>Test that an inline css filter using an attribute selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" width="50" height="50" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-expected-view">Target</div>
@@ -133,7 +133,7 @@ description = Check that inline CSS functionality is working as expected.
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline css filter using an attribute selector changes target background form red to green.</p>
+  <p>Test that an inline css filter using an attribute selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" href="http://testcase-attribute-inline-css.com/" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-expected-view">Target</div>
@@ -154,7 +154,7 @@ description = Check that inline CSS functionality is working as expected.
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline css filter using an attribute selector changes target background form red to green.</p>
+  <p>Test that an inline css filter using an attribute selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" style="width: 52px;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-expected-view">Target</div>
@@ -175,7 +175,7 @@ description = Check that inline CSS functionality is working as expected.
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline css filter using a starts with selector changes target background form red to green.</p>
+  <p>Test that an inline css filter using a starts with selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" href="http://testcase-startswith-inline-css.com/test" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-expected-view">Target</div>
@@ -197,7 +197,7 @@ description = Check that inline CSS functionality is working as expected.
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline css filter using a starts with selector changes target background form red to green.</p>
+  <p>Test that an inline css filter using a starts with selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" style="width: 53px; color: white;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-expected-view">Target</div>
@@ -218,7 +218,7 @@ description = Check that inline CSS functionality is working as expected.
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline css filter using a ends with selector changes target background form red to green.</p>
+  <p>Test that an inline css filter using a ends with selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" style="color: white; width: 54px;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-expected-view">Target</div>
@@ -239,7 +239,7 @@ description = Check that inline CSS functionality is working as expected.
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline css filter using a contains selector changes target background form red to green.</p>
+  <p>Test that an inline css filter using a contains selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" style="color: white; width: 55px;" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-expected-view">Target</div>

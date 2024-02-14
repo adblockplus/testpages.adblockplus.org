@@ -36,7 +36,7 @@ description = Check that inline CSS functionality with extended selectors is wor
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using a :-abp-properties() selector changes target background form red to green.</p>
+  <p>Test that an inline CSS filter using a :-abp-properties() selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" class="inline-css-properties" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-expected-view">Target</div>
@@ -57,7 +57,7 @@ description = Check that inline CSS functionality with extended selectors is wor
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using a :-abp-has() selector changes target background form red to green.</p>
+  <p>Test that an inline CSS filter using a :-abp-has() selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
       <div>
@@ -83,7 +83,7 @@ description = Check that inline CSS functionality with extended selectors is wor
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using a :has() selector changes target background form red to green.</p>
+  <p>Test that an inline CSS filter using a :has() selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail">
       <div>
@@ -108,7 +108,7 @@ description = Check that inline CSS functionality with extended selectors is wor
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using a :-abp-contains() selector changes target background form red to green.</p>
+  <p>Test that an inline CSS filter using a :-abp-contains() selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <span id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">.inline-css-contains-target</span>
     <div class="testcase-expected-view">inline-css-contains-targe</div>
@@ -129,7 +129,7 @@ description = Check that inline CSS functionality with extended selectors is wor
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using a :xpath() selector changes target background form red to green.</p>
+  <p>Test that an inline CSS filter using a :xpath() selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <span id="{{id}}-fail" data-expectedresult="fail" data-dp="fail">Target</span>
     <div class="testcase-expected-view">Target</div>
@@ -150,7 +150,7 @@ description = Check that inline CSS functionality with extended selectors is wor
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using a :-has-text() selector changes target background form red to green.</p>
+  <p>Test that an inline CSS filter using a :-has-text() selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <span id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail">inline-css-has-text</span>
     <div class="testcase-expected-view">inline-css-has-text</div>
@@ -171,7 +171,7 @@ description = Check that inline CSS functionality with extended selectors is wor
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using several of the extended selectors changes target background form red to green.</p>
+  <p>Test that an inline CSS filter using several of the extended selectors changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
       <div class="inline-css-chained">Target</div>
@@ -194,7 +194,7 @@ description = Check that inline CSS functionality with extended selectors is wor
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter is case insensitive and still changes target background form red to green.</p>
+  <p>Test that an inline CSS filter is case insensitive and still changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" class="inline-css-case" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-expected-view">Target</div>
@@ -215,7 +215,7 @@ description = Check that inline CSS functionality with extended selectors is wor
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using wildcards still changes target background form red to green.</p>
+  <p>Test that an inline CSS filter using wildcards still changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" class="inline-css-wildcard" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div class="testcase-expected-view">Target</div>
@@ -236,7 +236,7 @@ description = Check that inline CSS functionality with extended selectors is wor
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using regular expressions still changes target background form red to green.</p>
+  <p>Test that an inline CSS filter using regular expressions still changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" class="inline-css-regex1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div id="{{id}}-fail-2" class="inline-css-regex2" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
@@ -260,7 +260,7 @@ description = Check that inline CSS functionality with extended selectors is wor
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using regular expressions still changes target background form red to green.</p>
+  <p>Test that an inline CSS filter using regular expressions still changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">inline-css-containsregex1</div>
     <div id="{{id}}-fail-2" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">inline-css-containsregex2</div>
