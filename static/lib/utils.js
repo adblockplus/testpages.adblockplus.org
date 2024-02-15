@@ -38,6 +38,17 @@ window.addEventListener("DOMContentLoaded", () => {
 
 // Replaces every removed child of targetNode with the specified class with a green element
 function verifyTargetRemoved(targetNode, classNameToCheck) {
+  // Required for expected pages
+  const url = window.location.href;
+  if (url.endsWith("?expected=1")) {
+    const divElement = document.createElement("div");
+    divElement.className = "testcase-examplecontent";
+    divElement.setAttribute("aria-label", "pass");
+    divElement.textContent = "Target removed";
+    targetNode.appendChild(divElement);
+    return;
+  }
+
   const callback = (mutations, observer) => {
     mutations.forEach(mutation => {
       mutation.removedNodes.forEach(removedNode => {
