@@ -2,8 +2,6 @@ template = testcase
 title = Inline CSS Inversion
 description = Check that inline CSS inversion functionality is working as expected.
 
-<p><b>Note:</b> Filters used here are not part of abp-testcase-subscription.txt and need to be added manually.</p>
-
 <style>
 
 .inline-css-inv-properties {
@@ -48,10 +46,11 @@ description = Check that inline CSS inversion functionality is working as expect
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using a :not(:-abp-properties()) selector changes target background form red to green.</p>
-  <div id="{{id}}-area" class="testcase-area" >
+  <p>Test that an inline CSS filter using a :not(:-abp-properties()) selector changes target background from red to green.</p>
+  <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail" class="inline-css-inv-properties" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
-    <div  class="testcase-examplecontent inline-css-inv-properties inline-css-inv-properties-not-hide" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-expected-view inline-css-inv-properties">Target</div>
+    <div class="testcase-examplecontent inline-css-inv-properties inline-css-inv-properties-not-hide" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -69,11 +68,12 @@ description = Check that inline CSS inversion functionality is working as expect
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using a :not(:-abp-has()) selector changes target background form red to green.</p>
+  <p>Test that an inline CSS filter using a :not(:-abp-has()) selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail" class="inline-css-inv-has" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
       Target
     </div>
+    <div class="testcase-expected-view">Target</div>
     <div class="testcase-examplecontent inline-css-inv-has" aria-label="{{id}}-example">
       <span class="inline-css-inv-has-not-hide">Example Content</span>
     </div>
@@ -94,9 +94,10 @@ description = Check that inline CSS inversion functionality is working as expect
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using a not(:-abp-contains()) selector changes target background form red to green.</p>
+  <p>Test that an inline CSS filter using a not(:-abp-contains()) selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <span id="{{id}}-fail" class="inline-css-inv-contains" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</span>
+    <div class="testcase-expected-view">Target</div>
     <span class="testcase-examplecontent inline-css-inv-contains" aria-label="{{id}}-example">example-content</span>
   </div>
   <h3>Steps</h3>
@@ -115,11 +116,12 @@ description = Check that inline CSS inversion functionality is working as expect
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using several of the extended selectors and not() selector changes target background form red to green.</p>
+  <p>Test that an inline CSS filter using several of the extended selectors and not() selector changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" class="inline-css-inv-chained-parent" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
       Target
     </div>
+    <div class="testcase-expected-view">Target</div>
     <div class="testcase-examplecontent inline-css-inv-chained-parent" aria-label="{{id}}-example">
       <div class="inline-css-inv-chained">Example Content</div>
     </div>
@@ -140,9 +142,10 @@ description = Check that inline CSS inversion functionality is working as expect
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter is case insensitive and still changes target background form red to green.</p>
+  <p>Test that an inline CSS filter is case insensitive and still changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail" class="inline-css-inv-case" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-expected-view">Target</div>
     <div class="testcase-examplecontent inline-css-inv-case inline-css-inv-case-not-hide" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -161,9 +164,10 @@ description = Check that inline CSS inversion functionality is working as expect
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using wildcards still not changes target background form red to green.</p>
+  <p>Test that an inline CSS filter using wildcards still not changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail" class="inline-css-inv-wildcard" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-expected-view">Target</div>
     <div class="testcase-examplecontent inline-css-inv-wildcard inline-css-inv-wildcard-not-hide" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -182,10 +186,12 @@ description = Check that inline CSS inversion functionality is working as expect
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using regular expressions still changes target background form red to green.</p>
+  <p>Test that an inline CSS filter using regular expressions still changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div id="{{id}}-fail-1" class="inline-css-inv-regex inline-css-inv-regex1" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
     <div id="{{id}}-fail-2" class="inline-css-inv-regex inline-css-inv-regex2" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Target</div>
+    <div class="testcase-expected-view inline-css-inv-regex1">Target</div>
+    <div class="testcase-expected-view inline-css-inv-regex2">Target</div>
     <div class="testcase-examplecontent inline-css-inv-regex inline-css-inv-regex3">Not a target</div>
     <div class="testcase-examplecontent inline-css-inv-regex inline-css-inv-regex4" aria-label="{{id}}-example">Example Content</div>
   </div>
@@ -205,10 +211,12 @@ description = Check that inline CSS inversion functionality is working as expect
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that an inline CSS filter using regular expressions still changes target background form red to green.</p>
+  <p>Test that an inline CSS filter using regular expressions still changes target background from red to green.</p>
   <div id="{{id}}-area" class="testcase-area">
     <span id="{{id}}-fail-1" class="inline-css-inv-contains-regex" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">inline-css-inv-containsregextarget</span>
     <span id="{{id}}-fail-2" class="inline-css-inv-contains-regex" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">inline-css-inv-containsregextarget2</span>
+    <div class="testcase-expected-view">inline-css-inv-containsregextarget</div>
+    <div class="testcase-expected-view">inline-css-inv-containsregextarget2</div>
     <span class="testcase-examplecontent inline-css-inv-contains-regex">example-contentregex1</span>
     <span class="testcase-examplecontent inline-css-inv-contains-regex" aria-label="{{id}}-example">example-contentregex2</span>
   </div>

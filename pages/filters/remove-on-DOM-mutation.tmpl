@@ -2,8 +2,6 @@ title = Remove on DOM Mutation
 template = testcase
 description = Check that a remove filter using simple selectors works properly on DOM Mutation.
 
-<p><b>Note:</b> Filters used here are not part of abp-testcase-subscription.txt and need to be added manually.</p>
-
 {% set case = "input" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
@@ -12,6 +10,8 @@ description = Check that a remove filter using simple selectors works properly o
   <div id="{{id}}-script-target" class="testcase-area">
     <div id="input-remove" class="test-if-removed" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">Static Target</div>
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-expected-view">Target removed</div>
+    <div class="testcase-expected-view">Target removed</div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
