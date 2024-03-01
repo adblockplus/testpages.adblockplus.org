@@ -161,7 +161,7 @@ test:edge:windows:
       -WorkingDirectory "$Env:NGINX_WIN" -PassThru
     # Run endpoints server
     - Start-Process "npm" -ArgumentList "run start-endpoints" -PassThru
-    - node ./test/extension-tests/extension-download.js
+    - node ./test/extension-tests/extension-abp-snippets-download.js
     - npm run test -- -g "edge"
   variables:
     TEST_PAGES_URL: https://local.testpages.adblockplus.org:5001/en/
