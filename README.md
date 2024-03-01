@@ -64,13 +64,13 @@ The available browsers are:
 run a subset of those tests. Example:
 
 ```shell
-docker run -e --shm-size=1g GREP="chromium latest.*(Blocking|Popup)" -it testpages
+docker run --shm-size=1g -e GREP="chromium latest.*(Blocking|Popup)" -it testpages
 ```
 
 To exclude a subset of the tests, use a negative regular expression. Example:
 
 ```shell
-docker run -e --shm-size=1g GREP="^.*chromium latest((?\!Snippets).)*\$" -it testpages
+docker run --shm-size=1g -e GREP="^.*chromium latest((?\!Snippets).)*\$" -it testpages
 ```
 
 #### Packed extensions
