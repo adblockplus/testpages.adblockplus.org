@@ -64,7 +64,7 @@ async function run() {
 
   const authOptions = hasPrivateAccessToken ? {
     headers: {
-      "PRIVATE-TOKEN": process.env.PRIVATE_TOKEN
+      "PRIVATE-TOKEN": process.env.GIT_TOKEN
     }
   } : {};
 
