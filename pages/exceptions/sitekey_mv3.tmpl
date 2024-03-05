@@ -1,0 +1,66 @@
+template = testcase
+title = Sitekey on MV3
+description = Check that a filter using the $sitekey exception filter option is working as expected on MV3.
+
+{% set case = "Sitekey" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a f ilter using the $sitekey option whitelists in frame elements.</p>
+  <h3>Out of frame elements</h3>
+  <div id="{{id}}-area" class="testcase-area">
+    <div id="{{id}}-fail-1" class="testcase-sitekey-eh" data-expectedresult="fail" data-dp="fail">Target element</div>
+    <div class="testcase-examplecontent">Example Content</div>
+    <img id="{{id}}-fail-2" src="/testfiles/sitekey/outofframe.png" data-expectedresult="fail" data-dp="fail">
+  </div>
+  <h3>In frame elements</h3>
+  <div id="{{id}}-area" class="testcase-area">
+    {# /sitekey-frame is served by the endpoints server which parses /endpoints/sitekey/sitekey_frame.njk #}
+    <iframe id="sitekey-frame" src="/sitekey-frame?mv3=1" style="width: 100%;"></iframe>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1 and refresh page.</li>
+    <li>Make sure that in frame elements are not blocked.</li>
+    <li>Add filters #2, #3 and #4, and refresh page.</li>
+    <li>All elements should be blocked from both out of frame and in frame above.</li>
+    <li>Add filter #5 and refresh page.</li>
+    <li>All elements should stay blocked from both out of frame and in frame above. However you should see "Exception Target" text in the frame.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#@#[data-adblockkey]</pre></li>
+    <li><pre>{{ site_url|domain }}##.testcase-sitekey-eh</pre></li>
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/sitekey/outofframe.png</pre></li>
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/sitekey/inframe.png</pre></li>
+    <li><pre>@@$document,sitekey=MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBANGtTstne7e8MbmDHDiMFkGbcuBgXmiVesGOG3gtYeM1EkrzVhBjGUvKXYE4GLFwqty3v5MuWWbvItUWBTYoVVsCAwEAAQ</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  if (expectedParameter()) { // eslint-disable-line no-undef
+    let frameDoc = document.getElementById("sitekey-frame").contentDocument;
+    frameDoc.write(`
+      <body>
+        <style>
+          html,
+          body {
+            margin: 0;
+            height: 100%;
+          }
+
+          .testcase-sitekey-expected {
+            flex-grow: 1;
+            padding: 0.5rem;
+            color: #fff;
+            background-color: #0dc74b;
+          }
+        </style>
+        <div class="testcase-sitekey-expected">Exception Target</div>
+        <img src="/images/expected.png"/>
+      </body>`);
+    frameDoc.close();
+  }
+</script>
