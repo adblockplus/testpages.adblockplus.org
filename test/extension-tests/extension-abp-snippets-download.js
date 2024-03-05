@@ -56,15 +56,19 @@ export async function downloadWithOptions(url, destFile, options = {}) {
 
 
 async function run() {
-  const hasJobToken = process.env.CI_JOB_TOKEN !== undefined;
-  const hasPrivateAccessToken = process.env.GIT_TOKEN !== undefined;
+  const hasJobToken = typeof process.env.CI_JOB_TOKEN !== "undefined";
+  const hasPrivateAccessToken =
+    typeof process.env.ANTI_CV_TOKEN !== "undefined";
 
-  if (!hasJobToken && !hasPrivateAccessToken)
-    throw new Error("No authentication token found.");
+  if (!hasJobToken && !hasPrivateAccessToken) {
+    throw new Error(
+      "No authentication token found."
+    );
+  }
 
   const authOptions = hasPrivateAccessToken ? {
     headers: {
-      "PRIVATE-TOKEN": process.env.GIT_TOKEN
+      "PRIVATE-TOKEN": process.env.ANTI_CV_TOKEN
     }
   } : {};
 
