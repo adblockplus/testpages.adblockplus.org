@@ -57,7 +57,7 @@ export async function downloadWithOptions(url, destFile, options = {}) {
 
 async function run() {
   const hasJobToken = process.env.CI_JOB_TOKEN !== undefined;
-  const hasPrivateAccessToken = process.env.PRIVATE_TOKEN !== undefined;
+  const hasPrivateAccessToken = process.env.GIT_TOKEN !== undefined;
 
   if (!hasJobToken && !hasPrivateAccessToken)
     throw new Error("No authentication token found.");
