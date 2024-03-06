@@ -27,13 +27,10 @@
 
   <script>
     if (new URLSearchParams(location.search).get("mv3")) {
-      const target1 = document.getElementById("sitekey-fail-3");
-      target1.src = "/testfiles/sitekey/inframe_mv3.png";
-      target1["data-expectedresult"] = "fail";
-      target1["data-dp"] = "fail";
-
-      const target2 = document.getElementById("warning-image");
-      target2.style.display = "none";
+      const target = document.getElementById("sitekey-fail-3");
+      target.src = "/testfiles/sitekey/inframe_mv3.png";
+      target["data-expectedresult"] = "fail";
+      target["data-dp"] = "fail";
     }
   </script>
 </html>
