@@ -20,16 +20,20 @@
   <body>
     <div id="inframe-target" class="testcase-sitekey-eh">Exception Target</div>
     <div>
-      <img id="inframe-image" src="/testfiles/sitekey/inframe.png" style="position: absolute; left: 0; z-index: 1;"/>
+      <img id="sitekey-fail-3" src="/testfiles/sitekey/inframe.png" style="position: absolute; left: 0; z-index: 1;"/>
+      <img id="warning-image" src="/testfiles/sitekey/warning.png" style="position: absolute; left: 0; z-index: 0;"/>
     </div>
   </body>
-  <script>
-    "use strict";
 
+  <script>
     if (new URLSearchParams(location.search).get("mv3")) {
-      const target = document.getElementById("inframe-image");
-      target["data-expectedresult"]="fail";
-      target["data-dp"]="fail";
+      const target1 = document.getElementById("sitekey-fail-3");
+      target1.src = "/testfiles/sitekey/inframe_mv3.png";
+      target1["data-expectedresult"] = "fail";
+      target1["data-dp"] = "fail";
+
+      const target2 = document.getElementById("warning-image");
+      target2.style.display = "none";
     }
   </script>
 </html>
