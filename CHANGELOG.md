@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2024-03-06
+
+- Added test page for allowlisting with sitekey on MV3 (skipped by default).
+
 ## 2024-02-07
 
 - Generating the wildcard filter per domain
