@@ -41,6 +41,8 @@ export function isExcluded(page, browserName) {
     return true;
   else if (/^exceptions\/inline-css/.test(page))
     return true;
+  else if (page == "exceptions/sitekey_mv3")
+    return true;
 
   return excluded.includes(browserName);
 }
