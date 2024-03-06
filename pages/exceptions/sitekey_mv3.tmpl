@@ -25,7 +25,7 @@ description = Check that a filter using the $sitekey exception filter option is 
     <li>Add filters #2, #3 and #4, and refresh page.</li>
     <li>All elements should be blocked from both out of frame and in frame above.</li>
     <li>Add filter #5 and refresh page.</li>
-    <li>All elements should stay blocked from both out of frame and in frame above. However you should see "Exception Target" text in the frame.</li>
+    <li>Out of frame elements should keep blocked. The in frame red image should also keep blocked, but the in frame "Exception Target" should become unblocked.</li>
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
