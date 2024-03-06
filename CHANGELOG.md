@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2024-03-06
 
-- Added test page for allowlisting with sitekey on MV3 (skipped by default).
+- Added a new page "Sitekey on MV3". The existing Sitekey page was renamed to "Sitekey on MV2".
 
 ## 2024-02-07
 
