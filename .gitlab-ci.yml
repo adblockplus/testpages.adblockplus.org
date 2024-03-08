@@ -52,6 +52,7 @@ test:lint:
   extends: .test_runner
   script:
     - docker build -t testpages .
+    # yamllint disable-line rule:line-length
     - docker run --shm-size=1g -e GREP="$GREP" -e ANTI_CV_TOKEN="$ANTI_CV_TOKEN" -t testpages
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
