@@ -52,7 +52,7 @@ test:lint:
   extends: .test_runner
   script:
     - docker build -t testpages .
-    - docker run --shm-size=1g -e GREP="$GREP" -e ANTI_CV_TOKEN="$ANTI_CV_TOKEN" -t testpages
+    - docker run --shm-size=1g -e GREP="$GREP" -t testpages
   after_script:
     - IMAGE_ID=$(docker ps -aqf ancestor=testpages)
     - docker cp $IMAGE_ID:/testpages.adblockplus.org/test/screenshots .
