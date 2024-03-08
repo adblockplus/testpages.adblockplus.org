@@ -56,30 +56,24 @@ export async function downloadWithOptions(url, destFile, options = {}) {
 
 
 async function run() {
-  const hasJobToken = typeof process.env.ANTI_CV_TOKEN !== "undefined";
-  const hasPrivateAccessToken =
-    typeof process.env.PRIVATE_TOKEN !== "undefined";
-
-  if (!hasJobToken && !hasPrivateAccessToken) {
+  const abpsnippetsDownloadToken = typeof process.env.ANTI_CV_TOKEN !== "undefined";
+  if (!abpsnippetsDownloadToken) {
     throw new Error(
       "No authentication token found."
     );
   }
 
-  const authOptions = hasPrivateAccessToken ? {
+  const authOptions = {
     headers: {
       "PRIVATE-TOKEN": process.env.ANTI_CV_TOKEN
     }
-  } : {};
+  };
 
-  const optionalQuery = hasJobToken ?
-    `&job_token=${process.env.CI_JOB_TOKEN}` :
-    "";
   const filename = "next.zip";
   let archive = path.join(process.cwd(), filename);
   let testext = path.join(process.cwd(), "testext");
   await downloadWithOptions(
-    `https://gitlab.com/api/v4/projects/23002705/jobs/artifacts/next/download?job=build-abp${optionalQuery}`,
+    `https://gitlab.com/api/v4/projects/23002705/jobs/artifacts/next/download?job=build-abp`,
     archive,
     authOptions
   );
