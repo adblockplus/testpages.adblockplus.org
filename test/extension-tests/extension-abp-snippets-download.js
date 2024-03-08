@@ -56,7 +56,8 @@ export async function downloadWithOptions(url, destFile, options = {}) {
 
 
 async function run() {
-  const abpsnippetsDownloadToken = typeof process.env.ANTI_CV_TOKEN !== "undefined";
+  const abpsnippetsDownloadToken = 
+    typeof process.env.ANTI_CV_TOKEN !== "undefined";
   if (!abpsnippetsDownloadToken) {
     throw new Error(
       "No authentication token found."
@@ -73,7 +74,7 @@ async function run() {
   let archive = path.join(process.cwd(), filename);
   let testext = path.join(process.cwd(), "testext");
   await downloadWithOptions(
-    `https://gitlab.com/api/v4/projects/23002705/jobs/artifacts/next/download?job=build-abp`,
+    "https://gitlab.com/api/v4/projects/23002705/jobs/artifacts/next/download?job=build-abp",
     archive,
     authOptions
   );
