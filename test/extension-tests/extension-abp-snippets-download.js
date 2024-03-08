@@ -56,7 +56,7 @@ export async function downloadWithOptions(url, destFile, options = {}) {
 
 
 async function run() {
-  const abpsnippetsDownloadToken = 
+  const abpsnippetsDownloadToken =
     typeof process.env.ANTI_CV_TOKEN !== "undefined";
   if (!abpsnippetsDownloadToken) {
     throw new Error(
@@ -110,6 +110,5 @@ async function run() {
     await unlink(archive);
   }
 }
-
 
 run();
