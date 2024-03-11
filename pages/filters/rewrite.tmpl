@@ -394,9 +394,9 @@ description = Check that a filter using the $rewrite filter option is working as
 
   function testMediaRewrite() {
     manageMedia("mp3-target", "audio/mpeg", "audio.mp3");
-    const manageVideo = manageMedia("mp4-target", "video/mp4; codecs='avc1.42e01e'", "video.mp4");
+    const manageVideo = () => manageMedia("mp4-target", "video/mp4; codecs='avc1.42e01e'", "video.mp4");
     if (typeof netscape != "undefined")
-      setTimeout(() => manageVideo(), 200);
+      setTimeout(manageVideo, 200);
     else
       manageVideo();
   }
