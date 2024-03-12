@@ -51,7 +51,7 @@ test:lint:
 .test:
   extends: .test_runner
   script:
-    - 
+    - node ./test/extension-tests/extension-abp-snippets-download.js
     - docker build -t testpages .
     # yamllint disable-line rule:line-length
     - docker run --shm-size=1g -e GREP="$GREP" -e ANTI_CV_TOKEN="$ANTI_CV_TOKEN" -t testpages
