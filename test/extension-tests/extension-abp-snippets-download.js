@@ -22,7 +22,7 @@ import extractZip from "extract-zip";
 import fs from "node:fs";
 import {pipeline} from "node:stream";
 import {promisify} from "node:util";
-import {readdir, unlink} from "node:fs/promises";
+import {readdir, rmdir, unlink} from "node:fs/promises";
 
 /**
  * Downloads url resources.
@@ -85,26 +85,46 @@ async function run() {
     // Get the list of files in the extracted directory
     const files = await readdir(distBuildABP);
 
-    // Find and extract the desired file
-    const targetFileName = files.find(file =>
-      file.startsWith("adblockplus-chrome-") &&
-      file.endsWith(".zip") &&
-      !file.includes("mv3")
-    );
+    // // Find Chrome extension zip file
+    // const chromeFileName = files.find(file =>
+    //   file.startsWith("adblockplus-chrome-") &&
+    //       file.endsWith(".zip") &&
+    //       !file.includes("mv3")
+    // );
 
-    if (targetFileName) {
-      const targetFilePath = path.join(distBuildABP, targetFileName);
-      await extractZip(targetFilePath, {dir: testext});
+    // Find Firefox extension file
+    const xpiFileName = files.find(file => file.endsWith(".xpi"));
 
-      // Remove the original zip file
-      await unlink(targetFilePath);
+    // if (chromeFileName) {
+    //   const targetZipFilePath = path.join(distBuildABP, chromeFileName);
+    //   const chromeExtractionPath = path.join(testext, "chrome");
+    //   // Ensure the directory exists
+    //   await fs.promises.mkdir(chromeExtractionPath, {recursive: true});
+    //   await extractZip(targetZipFilePath, {dir: chromeExtractionPath});
+
+    //   // Remove the original .zip file
+    //   await unlink(targetZipFilePath);
+    //   // eslint-disable-next-line no-console
+    //   console.log(`${chromeFileName} extracted to ${testext}`);
+    // }
+    // else {
+    //   console.error("Target .zip file not found.");
+    // }
+
+    // If the .xpi file is found, copy it to testext
+    if (xpiFileName) {
+      const sourceXpiFilePath = path.join(distBuildABP, xpiFileName);
+      const targetXpiFilePath = path.join(testext, xpiFileName);
+      await fs.promises.copyFile(sourceXpiFilePath, targetXpiFilePath);
       // eslint-disable-next-line no-console
-      console.log(`${filename} extracted to ${testext}`);
+      console.log(`${xpiFileName} copied to ${testext}`);
     }
     else {
-      // eslint-disable-next-line no-console
-      console.error("Target file not found.");
+      console.error("Target .xpi file not found.");
     }
+
+    // Delete the distBuildABP folder
+    await rmdir(distBuildABP, {recursive: true});
   }
   finally {
     await unlink(archive);
