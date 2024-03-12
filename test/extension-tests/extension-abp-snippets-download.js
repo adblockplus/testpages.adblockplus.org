@@ -85,37 +85,43 @@ async function run() {
     // Get the list of files in the extracted directory
     const files = await readdir(distBuildABP);
 
-    // // Find Chrome extension zip file
-    // const chromeFileName = files.find(file =>
-    //   file.startsWith("adblockplus-chrome-") &&
-    //       file.endsWith(".zip") &&
-    //       !file.includes("mv3")
-    // );
+     // Find Chrome extension zip file
+    const chromeFileName = files.find(file =>
+      file.startsWith("adblockplus-chrome-") &&
+          file.endsWith(".zip") &&
+          !file.includes("mv3")
+    );
 
     // Find Firefox extension file
     const xpiFileName = files.find(file => file.endsWith(".xpi"));
 
-    // if (chromeFileName) {
-    //   const targetZipFilePath = path.join(distBuildABP, chromeFileName);
-    //   const chromeExtractionPath = path.join(testext, "chrome");
-    //   // Ensure the directory exists
-    //   await fs.promises.mkdir(chromeExtractionPath, {recursive: true});
-    //   await extractZip(targetZipFilePath, {dir: chromeExtractionPath});
+    if (chromeFileName) {
+      // Rename file to adblockplus.zip   
+      const sourceZipFilePath = path.join(distBuildABP, chromeFileName);
+      const newZipFilePath = path.join(distBuildABP, "adblockplus-chrome.zip");
+      await fs.promises.rename(sourceZipFilePath, newZipFilePath);
+      await fs.promises.mkdir(chromeExtractionPath, {recursive: true});
+      
+      const targetZipFilePath = path.join(testext, chromeFileName);
+      await fs.promises.copyFile(newZipFilePath, targetZipFilePath);
+      const chromeExtractionPath = path.join(testext, "chrome");
+      await extractZip(targetZipFilePath, {dir: chromeExtractionPath});
 
-    //   // Remove the original .zip file
-    //   await unlink(targetZipFilePath);
-    //   // eslint-disable-next-line no-console
-    //   console.log(`${chromeFileName} extracted to ${testext}`);
-    // }
-    // else {
-    //   console.error("Target .zip file not found.");
-    // }
+      // eslint-disable-next-line no-console
+      console.log(`${chromeFileName} copied to ${testext}`);
+    }
+    else {
+      console.error("Target .zip file not found.");
+    }
 
     // If the .xpi file is found, copy it to testext
     if (xpiFileName) {
       const sourceXpiFilePath = path.join(distBuildABP, xpiFileName);
+      const newZipFilePath = path.join(distBuildABP, "adblockplus-firefox.zip");
+      await fs.promises.rename(sourceXpiFilePath, newZipFilePath);
+
       const targetXpiFilePath = path.join(testext, xpiFileName);
-      await fs.promises.copyFile(sourceXpiFilePath, targetXpiFilePath);
+      await fs.promises.copyFile(newZipFilePath, targetXpiFilePath);
       // eslint-disable-next-line no-console
       console.log(`${xpiFileName} copied to ${testext}`);
     }
