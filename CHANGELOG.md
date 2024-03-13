@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2024-03-06
+
+- Added a new page "Sitekey on MV3". The existing Sitekey page was renamed to "Sitekey on MV2".
+
 ## 2024-02-12
 
 - Upgrading Chrome oldest 77.0.3865.0 to 88.0.4324.27 because it is the minimun version that supports browser.dom.openOrClosedShadowRoot

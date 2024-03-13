@@ -24,4 +24,18 @@
       <img id="warning-image" src="/testfiles/sitekey/warning.png" style="position: absolute; left: 0; z-index: 0;"/>
     </div>
   </body>
+
+  <script>
+    "use strict";
+
+    if (new URLSearchParams(location.search).get("mv3")) {
+      const target1 = document.getElementById("inframe-image");
+      target1.src = "/testfiles/sitekey/inframe_mv3.png";
+      target1["data-expectedresult"] = "fail";
+      target1["data-dp"] = "fail";
+
+      const target2 = document.getElementById("warning-image");
+      target2.style.display = "none";
+    }
+  </script>
 </html>
