@@ -109,7 +109,7 @@ test:edge:latest:
   variables:
     GREP: edge latest
 
-#test:edge:windows:
+# test:edge:windows:
 #  extends: .test_rules
 #  tags:
 #    - shared-windows
@@ -117,11 +117,11 @@ test:edge:latest:
 #    - windows-1809
 #  before_script:
 #    # Fix for refreshenv
-     # yamllint disable-line rule:line-length
+# yamllint disable-line rule:line-length
 #    # https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/13#note_337853320
 #    - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
 #    # Install Microsoft Edge
-     # yamllint disable-line rule:line-length
+# yamllint disable-line rule:line-length
 #    - Invoke-WebRequest -Uri "${Env:CI_API_V4_URL}/projects/${Env:CI_PROJECT_ID}/packages/generic/microsoft-edge/79.0.309/MicrosoftEdgeEnterpriseX64.msi"
 #      -Headers @{'JOB-TOKEN' = $Env:CI_JOB_TOKEN}
 #      -OutFile 'MicrosoftEdgeEnterpriseX64.msi'
