@@ -89,9 +89,9 @@ test:chrome:oldest:
     GREP: chromium 88.0.4324.27
 
 # test:firefox:latest:
-#  extends: .test
-#  variables:
-#    GREP: firefox latest
+#   extends: .test
+#   variables:
+#     GREP: firefox latest
 
 # test:firefox:beta:
 #   extends: .test
