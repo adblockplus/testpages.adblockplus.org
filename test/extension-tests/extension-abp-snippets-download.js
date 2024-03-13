@@ -85,42 +85,23 @@ async function run() {
     // Get the list of files in the extracted directory
     const files = await readdir(distBuildABP);
 
-    // // Find Chrome extension zip file
-    // const chromeFileName = files.find(file =>
-    //   file.startsWith("adblockplus-chrome-") &&
-    //       file.endsWith(".zip") &&
-    //       !file.includes("mv3")
-    // );
+    const extensionFileName = files.find(file =>
+      file.startsWith("adblockplus-chrome-") &&
+          file.endsWith(".zip") &&
+          !file.includes("mv3")
+    );
 
-    // Find Firefox extension file
-    const xpiFileName = files.find(file => file.endsWith(".xpi"));
+    if (extensionFileName) {
+      const targetZipFilePath = path.join(distBuildABP, extensionFileName);
+      await extractZip(targetZipFilePath, {dir: testext});
 
-    // if (chromeFileName) {
-    //   const targetZipFilePath = path.join(distBuildABP, chromeFileName);
-    //   const chromeExtractionPath = path.join(testext, "chrome");
-    //   // Ensure the directory exists
-    //   await fs.promises.mkdir(chromeExtractionPath, {recursive: true});
-    //   await extractZip(targetZipFilePath, {dir: chromeExtractionPath});
-
-    //   // Remove the original .zip file
-    //   await unlink(targetZipFilePath);
-    //   // eslint-disable-next-line no-console
-    //   console.log(`${chromeFileName} extracted to ${testext}`);
-    // }
-    // else {
-    //   console.error("Target .zip file not found.");
-    // }
-
-    // If the .xpi file is found, copy it to testext
-    if (xpiFileName) {
-      const sourceXpiFilePath = path.join(distBuildABP, xpiFileName);
-      const targetXpiFilePath = path.join(testext, xpiFileName);
-      await fs.promises.copyFile(sourceXpiFilePath, targetXpiFilePath);
+      // Remove the original .zip file
+      await unlink(targetZipFilePath);
       // eslint-disable-next-line no-console
-      console.log(`${xpiFileName} copied to ${testext}`);
+      console.log(`${extensionFileName} extracted to ${testext}`);
     }
     else {
-      console.error("Target .xpi file not found.");
+      console.error("Target .zip file not found.");
     }
 
     // Delete the distBuildABP folder
