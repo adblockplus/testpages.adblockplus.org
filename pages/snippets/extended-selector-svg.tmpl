@@ -144,7 +144,8 @@ description = Check that the CSS selector's extended syntax is working as expect
 </section>
 
 <script type="text/javascript">
-  "use strict"
+  "use strict";
+
   const isExpectedMode = window.location.search.indexOf("expected=1") >= 0;
   if (isExpectedMode) {
     document.getElementById("hicams-svg-fake-target").classList.add("testcase-expected-view");

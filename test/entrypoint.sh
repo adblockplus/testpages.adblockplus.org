@@ -17,7 +17,7 @@ cd testpages.adblockplus.org
 
 # Download extension
 if [[ "$SKIP_EXTENSION_DOWNLOAD" != "true" ]]; then
-  node ./test/extension-tests/extension-download.js
+  node ./test/extension-tests/extension-abp-snippets-download.js
 else
   echo "INFO: A custom extension will be used to run the tests"
 fi
