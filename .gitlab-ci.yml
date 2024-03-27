@@ -24,7 +24,7 @@ workflow:
 
 default:
   tags:
-    - "runner-test"
+    - runner-test
 
 # TEST #########################################################################
 
