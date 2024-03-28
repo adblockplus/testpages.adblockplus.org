@@ -8,22 +8,22 @@
   },
   "type": "module",
   "dependencies": {
-    "express": "^4.18.2",
-    "nunjucks": "^3.2.3",
-    "ws": "^8.12.0"
+    "express": "^4.18.3",
+    "nunjucks": "^3.2.4",
+    "ws": "^8.16.0"
   },
   "devDependencies": {
-    "@eyeo/get-browser-binary": "^0.15.0",
-    "@linthtml/linthtml": "^0.9.4",
-    "eslint": "^8.33.0",
+    "@eyeo/get-browser-binary": "^0.16.0",
+    "@linthtml/linthtml": "^0.9.5",
+    "eslint": "^8.57.0",
     "eslint-config-eyeo": "^3.2.0",
     "eslint-plugin-html": "^7.1.0",
     "geckodriver": "3.1.0",
-    "got": "^12.5.3",
-    "jimp": "^0.22.4",
-    "mocha": "^10.2.0",
-    "selenium-webdriver": "4.15.0",
-    "stylelint": "^16.2.0",
+    "got": "^14.2.0",
+    "jimp": "^0.22.12",
+    "mocha": "^10.3.0",
+    "selenium-webdriver": "4.18.1",
+    "stylelint": "^16.2.1",
     "stylelint-config-html": "^1.1.0",
     "stylelint-config-standard": "^36.0.0"
   },
