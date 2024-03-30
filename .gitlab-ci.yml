@@ -188,7 +188,7 @@ workflow:
     - cd cms && PYTHONPATH=cms python3 -m cms.bin.generate_static_pages $PWD/.. ../public
     # Find all files without an extension and add .html
     - find ../public -type f ! -name "*.*" -exec mv {} {}.html \;
-    - cp ../public/en/index.html public/index.html
+    - cp ../public/en/index.html ../public/index.html
   artifacts:
     paths:
       - public
