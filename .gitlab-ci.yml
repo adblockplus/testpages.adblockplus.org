@@ -210,7 +210,7 @@ build:abptestpages:staging:
   extends: .production
   script:
       - env PYTHONPATH=/opt/cms
-      python3 -m cms.bin.generate_static_pages $PWD build
+        python3 -m cms.bin.generate_static_pages $PWD build
   artifacts:
     name: $CI_COMMIT_REF_SLUG
     paths:
