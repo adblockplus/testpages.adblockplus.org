@@ -193,7 +193,7 @@ workflow:
     paths:
       - public
 
-pages
+pages:
   only:
     - CV-2357-hosting-staging
   extends: .build_static
