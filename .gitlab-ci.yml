@@ -178,7 +178,6 @@ test:edge:latest:
 
 # BUILD, DEPLOY ################################################################
 
-
 .build_static:
   stage: build
   script:
