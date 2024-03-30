@@ -16,7 +16,7 @@
 ---
 
 stages:
-  # - test
+  - test
   - build
   - deploy
 
@@ -27,6 +27,7 @@ workflow:
 # TEST #########################################################################
 
 .test_rules:
+  when: manual
   stage: test
   rules:
     - if: $SKIP_CI_TESTS == "true"
