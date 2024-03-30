@@ -180,6 +180,7 @@ workflow:
 
 .build_static:
   stage: build
+  image: python:3.10-bookworm
   script:
     - git clone https://gitlab.com/eyeo/websites/cms.git
     - git -C cms checkout fbd1527b9f98d99a8b62c6ad5e32ac7758c19a28
