@@ -185,12 +185,10 @@ workflow:
     - git clone https://gitlab.com/eyeo/websites/cms.git
     - git -C cms checkout fbd1527b9f98d99a8b62c6ad5e32ac7758c19a28
     - pip3 install -r cms/requirements.txt
-    - PYTHONPATH=cms python3 -m cms.bin.generate_static_pages $PWD build
-    - env PYTHONPATH=/opt/cms
-      python3 -m cms.bin.generate_static_pages $PWD public
+    - cd cms && PYTHONPATH=cms python3 -m cms.bin.generate_static_pages $PWD ../public
     # Find all files without an extension and add .html
-    - find public -type f ! -name "*.*" -exec mv {} {}.html \;
-    - cp public/en/index.html public/index.html
+    - find ../public -type f ! -name "*.*" -exec mv {} {}.html \;
+    - cp ../public/en/index.html public/index.html
   artifacts:
     paths:
       - public
