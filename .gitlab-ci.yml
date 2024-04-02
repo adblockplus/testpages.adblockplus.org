@@ -196,7 +196,7 @@ test:edge:latest:
 
 pages:
   only:
-    - CV-2357-hosting-staging
+    - anti-cv-testpages
   extends: .build_static
 
 .production:
