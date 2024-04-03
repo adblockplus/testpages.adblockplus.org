@@ -17,8 +17,8 @@
 
 stages:
   - test
-  - build_production
-  - deploy_production
+  - build
+  - deploy
 
 workflow:
   rules:
@@ -178,6 +178,27 @@ test:edge:latest:
 
 # BUILD, DEPLOY ################################################################
 
+.build_static:
+  stage: build
+  image: python:3.10-bookworm
+  script:
+    - git clone https://gitlab.com/eyeo/websites/cms.git
+    - git -C cms checkout fbd1527b9f98d99a8b62c6ad5e32ac7758c19a28
+    - pip3 install -r cms/requirements.txt
+    - cd cms && PYTHONPATH=cms python3 -m cms.bin.generate_static_pages
+      $PWD/.. ../public
+    # Find all files without an extension and add .html
+    - find ../public -type f ! -name "*.*" -exec mv {} {}.html \;
+    - cp ../public/en/index.html ../public/index.html
+  artifacts:
+    paths:
+      - public
+
+pages:
+  only:
+    - anti-cv-testpages
+  extends: .build_static
+
 .production:
   tags:
     - eyeo_cms_web_server_testpages-1.uplink.eyeo.it
@@ -185,7 +206,7 @@ test:edge:latest:
     - master
 
 .build_production:
-  stage: build_production
+  stage: build
   extends: .production
   script:
     - env PYTHONPATH=/opt/cms
@@ -201,7 +222,7 @@ build:abptestpages:
     SITE_URL: https://abptestpages.org
 
 .deploy_production:
-  stage: deploy_production
+  stage: deploy
   extends: .production
   script:
     - echo $DEPLOY_SCRIPT
