@@ -377,26 +377,53 @@ description = Check that a filter using the $rewrite filter option is working as
       mediaElement.parentNode.appendChild(durationElement);
   }
 
-  function manageMedia(id, kind, file) {
+  function manageMedia(id, kind, file, showError = true) {
     let element = document.getElementById(id);
 
     if (element.canPlayType(kind) == "") {
-      printUnsupported(element, kind);
+      if (showError)
+        printUnsupported(element, kind);
+      return false;
     }
-    else {
-      element.innerHTML = `<source src="/testfiles/rewrite/${file}?${Date.now()}" type="${kind}">`;
-      if (element.readyState >= 1)
-        printDuration(element);
-      else
-        element.addEventListener("loadedmetadata", () => printDuration(element));
-    }
+  
+    element.innerHTML = `<source src="/testfiles/rewrite/${file}?${Date.now()}" type="${kind}">`;
+    if (element.readyState >= 1)
+      printDuration(element);
+    else
+      element.addEventListener("loadedmetadata", () => printDuration(element));
+    return true;
+  }
+
+  function useSingleQuotes() {
+    let url = new URL(window.location.href);
+    return url.searchParams.get("single_quotes") == "1";
+  }
+
+  function manageVideo(showError = true) {
+    let codecs = "avc1.42e01e";
+
+    // Firefox requires codecs string to have single quotes,
+    // see https://jira.eyeo.com/browse/EE-343.
+    // ABB requires codecs string to have no or double quotes.
+    if (typeof netscape != "undefined" && useSingleQuotes())
+      codecs = "'" + codecs + "'";
+
+    return manageMedia("mp4-target", "video/mp4; codecs=" + codecs, "video.mp4", showError);
+  }
+
+  function manageVideoWithRetry(attempts) {
+    setTimeout(() => {
+      attempts -= 1;
+      const isLastAttempt = (attempts == 0);
+      if (!manageVideo(isLastAttempt) && !isLastAttempt)
+        manageVideoWithRetry(attempts);
+    }, 200);
   }
 
   function testMediaRewrite() {
     manageMedia("mp3-target", "audio/mpeg", "audio.mp3");
-    const manageVideo = () => manageMedia("mp4-target", "video/mp4; codecs=avc1.42e01e", "video.mp4");
     if (typeof netscape != "undefined")
-      setTimeout(manageVideo, 200);
+      manageVideoWithRetry(5);
     else
       manageVideo();
   }
