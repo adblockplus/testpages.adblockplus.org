@@ -394,21 +394,8 @@ description = Check that a filter using the $rewrite filter option is working as
     return true;
   }
 
-  function useSingleQuotes() {
-    let url = new URL(window.location.href);
-    return url.searchParams.get("single_quotes") == "1";
-  }
-
   function manageVideo(showError = true) {
-    let codecs = "avc1.42e01e";
-
-    // Firefox requires codecs string to have single quotes,
-    // see https://jira.eyeo.com/browse/EE-343.
-    // ABB requires codecs string to have no or double quotes.
-    if (typeof netscape != "undefined" && useSingleQuotes())
-      codecs = "'" + codecs + "'";
-
-    return manageMedia("mp4-target", "video/mp4; codecs=" + codecs, "video.mp4", showError);
+    return manageMedia("mp4-target", "video/mp4; codecs=avc1.42e01e", "video.mp4", showError);
   }
 
   function manageVideoWithRetry(attempts) {

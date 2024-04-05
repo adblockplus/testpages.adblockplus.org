@@ -21,7 +21,6 @@ import specializedTests from "./specialized.js";
 import {takeScreenshot, writeScreenshotFile, writeScreenshotAndThrow}
   from "../misc/screenshots.js";
 const TESTS_TO_INCLUDE = process.env.TESTS_TO_INCLUDE || "";
-const SINGLE_QUOTES = process.env.SINGLE_QUOTES;
 
 export function isExcluded(page, browserName) {
   if (TESTS_TO_INCLUDE.includes(page))
@@ -90,10 +89,6 @@ export async function runGenericTests(driver, expectedScreenshot, browserName,
       // We execute the test in a new tab to ensure the cache isn't used.
       try {
         await driver.switchTo().newWindow("tab");
-        if (SINGLE_QUOTES) {
-          url += url.includes("?") ? "&" : "?";
-          url += "single_quotes=1";
-        }
         await driver.navigate().to(url);
       }
       catch (e3) {
