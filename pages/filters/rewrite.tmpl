@@ -404,13 +404,13 @@ description = Check that a filter using the $rewrite filter option is working as
       const isLastAttempt = (attempts == 0);
       if (!manageVideo(isLastAttempt) && !isLastAttempt)
         manageVideoWithRetry(attempts);
-    }, 500);
+    }, 200);
   }
 
   function testMediaRewrite() {
     manageMedia("mp3-target", "audio/mpeg", "audio.mp3");
     if (typeof netscape != "undefined")
-      manageVideoWithRetry(5);
+      manageVideoWithRetry(20);
     else
       manageVideo();
   }
