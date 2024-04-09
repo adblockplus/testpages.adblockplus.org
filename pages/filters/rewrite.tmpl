@@ -412,7 +412,7 @@ description = Check that a filter using the $rewrite filter option is working as
     if (typeof netscape != "undefined")
       // Firefox might take some time to return "supported" for codec support
       // (especially in Docker with limited resources). See EE-343.
-      manageVideoWithRetry(20);
+      manageVideoWithRetry(100);
     else
       manageVideo();
   }
