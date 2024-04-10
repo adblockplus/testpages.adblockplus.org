@@ -364,57 +364,31 @@ description = Check that a filter using the $rewrite filter option is working as
     mediaElement.parentNode.appendChild(duration);
   }
 
-  function printUnsupported(mediaElement, mediaKind) {
+  function printUnsupported(mediaElement, mediaKind, error) {
     let durationElement = expectedParameter() ? // eslint-disable-line no-undef
       mediaElement.parentNode.getElementsByClassName("testcase-expected-view")[0] :
       document.createElement("div");
 
     durationElement.className = "testcase-waiting-content";
     durationElement.style = "display: block;";
-    durationElement.innerHTML = `${mediaKind} isn't supported on this browser`;
+    durationElement.innerHTML = `${mediaKind} isn't supported on this browser: ${error}`;
 
     if (!expectedParameter()) // eslint-disable-line no-undef
       mediaElement.parentNode.appendChild(durationElement);
   }
 
-  function manageMedia(id, kind, file, showError = true) {
+  function manageMedia(id, mimeType, file) {
     let element = document.getElementById(id);
-
-    if (element.canPlayType(kind) == "") {
-      if (showError)
-        printUnsupported(element, kind);
-      return false;
-    }
-  
-    element.innerHTML = `<source src="/testfiles/rewrite/${file}?${Date.now()}" type="${kind}">`;
-    if (element.readyState >= 1)
-      printDuration(element);
-    else
-      element.addEventListener("loadedmetadata", () => printDuration(element));
-    return true;
-  }
-
-  function manageVideo(showError = true) {
-    return manageMedia("mp4-target", "video/mp4; codecs=avc1.42e01e", "video.mp4", showError);
-  }
-
-  function manageVideoWithRetry(attempts) {
-    setTimeout(() => {
-      attempts -= 1;
-      const isLastAttempt = (attempts == 0);
-      if (!manageVideo(isLastAttempt) && !isLastAttempt)
-        manageVideoWithRetry(attempts);
-    }, 200);
+    element.addEventListener("loadedmetadata", () => printDuration(element));
+    element.addEventListener("error", () => printUnsupported(element, mimeType, element.error));
+    element.type = mimeType;
+    element.src = `/testfiles/rewrite/${file}?${Date.now()}`;
+    element.load();
   }
 
   function testMediaRewrite() {
     manageMedia("mp3-target", "audio/mpeg", "audio.mp3");
-    if (typeof netscape != "undefined")
-      // Firefox might take some time to return "supported" for codec support
-      // (especially in Docker with limited resources). See EE-343.
-      manageVideoWithRetry(100);
-    else
-      manageVideo();
+    manageMedia("mp4-target", "video/mp4; codecs=\"avc1.42e01e\"", "video.mp4");
   }
 
   window.addEventListener("load", () => {
