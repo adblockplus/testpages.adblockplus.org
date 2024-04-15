@@ -19,7 +19,7 @@ description = Check that the hide-if-matches-xpath3 snippet is working as expect
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-matches-xpath3 '//*[name()=\"div\" and matches(@class,\"Spon(.+)sored\")]'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-matches-xpath3 '//*[name()="div" and matches(@class,"Spon(.+)sored")]'</pre></li>
   </ul>
 </section>
 
@@ -63,6 +63,6 @@ description = Check that the hide-if-matches-xpath3 snippet is working as expect
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-matches-xpath3 '//*[name()=\"div\" and xs:decimal(@data-num) > 2.5 ]'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-matches-xpath3 '//*[name()="div" and xs:decimal(@data-num) > 2.5 ]'</pre></li>
   </ul>
 </section>
