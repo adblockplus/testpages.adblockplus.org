@@ -40,47 +40,40 @@ description = Check that the hide-if-matches-computed-xpath snippet is working a
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-matches-computed-xpath '//div[@class="{{"{{"}}}}"]/child::text()[contains(.,"Failed")]' '//span[@id="target2"]' '/test(.*)test/'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-matches-computed-xpath '//div[contains(@class, "{{"{{"}}}}")][contains(., "Failed")]' '//span[@id="target2"]' '/test-(.*)-test/'</pre></li>
   </ul>
 </section>
 
 
 <script>
- "use strict";
+  "use strict";
+  
+  function generateTestCase(targetClassName, prefix, suffix, testcaseAreaIndex) {
+    const testcaseArea = document.querySelectorAll(".testcase-area")[testcaseAreaIndex];
+    const newElement = document.createElement("div");
+    newElement.setAttribute("data-expectedresult", "fail");
+    newElement.classList.add(targetClassName);
+    newElement.innerHTML = "Failed. Element is not hidden - ";
+    testcaseArea.appendChild(newElement);
+
+    const newElementChild = document.createElement("span");
+    newElementChild.innerHTML = prefix + targetClassName + suffix;
+    newElementChild.setAttribute("id", "target" + (testcaseAreaIndex + 1));
+    newElement.appendChild(newElementChild);
+  }
+
+  // Generate random integer
   const randomInt = Math.floor(Math.random() * 20);
 
   setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
 
-    // first test case
+    // Generate first test case
     const target1ClassName = "himcx-simple-" + randomInt;
-    const testcaseArea1 = document.querySelectorAll(".testcase-area")[0];
-    const newElement1 = document.createElement("div");
-    newElement1.setAttribute("data-expectedresult", "fail");
-    newElement1.classList.add(target1ClassName);
-    newElement1.innerHTML = "Failed. Element is not hidden - ";
-    testcaseArea1.appendChild(newElement1);
-    
-    const newElementChild1 = document.createElement("span");
-    newElementChild1.innerHTML = target1ClassName;
-    newElementChild1.setAttribute("id", "target1");
-    
-    newElement1.appendChild(newElementChild1);
+    generateTestCase(target1ClassName, "", "", 0);
 
-    // second test case
+    // Generate second test case
     const target2ClassName = "himcx-regex-" + randomInt;
-    const testcaseArea2 = document.querySelectorAll(".testcase-area")[1];
-    const newElement2 = document.createElement("div");
-    debugger;
-    newElement2.setAttribute("data-expectedresult", "fail");
-    newElement2.classList.add(target2ClassName);
-    newElement2.innerHTML = "Failed. Element is not hidden - ";
-    console.log(newElement2);
-    testcaseArea2.appendChild(newElement2);
-    
-    const newElementChild2 = document.createElement("span");
-    newElementChild2.innerHTML = `${target2ClassName}`;
-    newElementChild2.setAttribute("id", "target2");
-    newElement2.appendChild(newElementChild2);
-    }, 1000);
+    generateTestCase(target2ClassName, "test-", "-test", 1);
+  }, 1000);
 </script>
