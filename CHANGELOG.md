@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2024-04-15
+
+- Added two new pages in pages/snippets: hide-if-matches-computed-xpath and hide-if-matches-xpath3.
+
 ## 2024-03-06
 
 - Added a new page "Sitekey on MV3". The existing Sitekey page was renamed to "Sitekey on MV2".
