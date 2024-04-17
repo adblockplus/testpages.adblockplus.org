@@ -1,0 +1,79 @@
+template = testcase
+title = hide-if-matches-computed-xpath
+description = Check that the hide-if-matches-computed-xpath snippet is working as expected.
+
+{% set case = "Hide when class changes dynamically based on a string found in another element" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of the snippet works as expected against target whose class changes after first load.</p>
+  <div id="{{id}}-area"  class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element inside in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-matches-computed-xpath '//div[@class="{{"{{"}}}}"]' '//span[@id="target1"]' '/himcx-simple.*/'</pre></li>
+  </ul>
+</section>
+
+{% set case = "Hide when class matches regex group" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of the snippet works as expected against target whose class changes after first load.</p>
+  <div id="{{id}}-area"  class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element inside in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-matches-computed-xpath '//div[contains(@class, "{{"{{"}}}}")][contains(., "Failed")]' '//span[@id="target2"]' '/test-(.*)-test/'</pre></li>
+  </ul>
+</section>
+
+
+<script>
+  "use strict";
+  
+  function generateTestCase(targetClassName, prefix, suffix, testcaseAreaIndex) {
+    const testcaseArea = document.querySelectorAll(".testcase-area")[testcaseAreaIndex];
+    const newElement = document.createElement("div");
+    newElement.setAttribute("data-expectedresult", "fail");
+    newElement.classList.add(targetClassName);
+    newElement.innerHTML = "Failed. Element is not hidden - ";
+    testcaseArea.appendChild(newElement);
+
+    const newElementChild = document.createElement("span");
+    newElementChild.innerHTML = prefix + targetClassName + suffix;
+    newElementChild.setAttribute("id", "target" + (testcaseAreaIndex + 1));
+    newElement.appendChild(newElementChild);
+  }
+
+  // Generate random integer
+  const randomInt = Math.floor(Math.random() * 20);
+
+  setTimeout(() => {
+    removeWaitingContent(); // eslint-disable-line no-undef
+
+    // Generate first test case
+    const target1ClassName = "himcx-simple-" + randomInt;
+    generateTestCase(target1ClassName, "", "", 0);
+
+    // Generate second test case
+    const target2ClassName = "himcx-regex-" + randomInt;
+    generateTestCase(target2ClassName, "test-", "-test", 1);
+  }, 1000);
+</script>
