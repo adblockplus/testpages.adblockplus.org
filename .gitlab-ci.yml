@@ -118,6 +118,11 @@ test:edge:windows:
     # Fix for refreshenv
     # https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/13#note_337853320
     - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+    # Setup chocolatey cache location
+    - New-Item -Name "chococache" -Path "$(Get-Location)" -ItemType "directory" -Force
+    - choco config set cacheLocation "$(Get-Location)\chococache"
+    # Increase the timeout to a full hour (3600 seconds)
+    - choco config set commandExecutionTimeoutSeconds 3600
     # Install Microsoft Edge
     # yamllint disable-line rule:line-length
     - Invoke-WebRequest -Uri "${Env:CI_API_V4_URL}/projects/${Env:CI_PROJECT_ID}/packages/generic/microsoft-edge/79.0.309/MicrosoftEdgeEnterpriseX64.msi"
