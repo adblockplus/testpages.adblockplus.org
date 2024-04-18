@@ -364,41 +364,31 @@ description = Check that a filter using the $rewrite filter option is working as
     mediaElement.parentNode.appendChild(duration);
   }
 
-  function printUnsupported(mediaElement, mediaKind) {
+  function printUnsupported(mediaElement, mediaKind, error) {
     let durationElement = expectedParameter() ? // eslint-disable-line no-undef
       mediaElement.parentNode.getElementsByClassName("testcase-expected-view")[0] :
       document.createElement("div");
 
     durationElement.className = "testcase-waiting-content";
     durationElement.style = "display: block;";
-    durationElement.innerHTML = `${mediaKind} isn't supported on this browser`;
+    durationElement.innerHTML = `${mediaKind} isn't supported on this browser: ${error}`;
 
     if (!expectedParameter()) // eslint-disable-line no-undef
       mediaElement.parentNode.appendChild(durationElement);
   }
 
-  function manageMedia(id, kind, file) {
+  function manageMedia(id, mimeType, file) {
     let element = document.getElementById(id);
-
-    if (element.canPlayType(kind) == "") {
-      printUnsupported(element, kind);
-    }
-    else {
-      element.innerHTML = `<source src="/testfiles/rewrite/${file}?${Date.now()}" type="${kind}">`;
-      if (element.readyState >= 1)
-        printDuration(element);
-      else
-        element.addEventListener("loadedmetadata", () => printDuration(element));
-    }
+    element.addEventListener("loadedmetadata", () => printDuration(element));
+    element.addEventListener("error", () => printUnsupported(element, mimeType, element.error));
+    element.type = mimeType;
+    element.src = `/testfiles/rewrite/${file}?${Date.now()}`;
+    element.load();
   }
 
   function testMediaRewrite() {
     manageMedia("mp3-target", "audio/mpeg", "audio.mp3");
-    const manageVideo = () => manageMedia("mp4-target", "video/mp4; codecs=avc1.42e01e", "video.mp4");
-    if (typeof netscape != "undefined")
-      setTimeout(manageVideo, 200);
-    else
-      manageVideo();
+    manageMedia("mp4-target", "video/mp4; codecs=\"avc1.42e01e\"", "video.mp4");
   }
 
   window.addEventListener("load", () => {
