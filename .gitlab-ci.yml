@@ -114,6 +114,12 @@ test:edge:windows:
     - shared-windows
     - windows
     - windows-1809
+  cache:
+    - key:
+        files:
+          - .gitlab-ci.yml
+      paths:
+        - chococache
   before_script:
     # Fix for refreshenv
     # https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/13#note_337853320
@@ -138,6 +144,8 @@ test:edge:windows:
     - choco install -y python3 --version 3.11.4
     - choco upgrade -y --no-progress nodejs --version 18.17.1
     - refreshenv
+    # Debug information to be removed
+    - Get-ChildItem -Path "$(Get-Location)\chococache" -Recurse
     # nginx config
     - xcopy test\etc\nginx\* $Env:NGINX_WIN\conf\ /E /V /F /H
     - (Get-Content $Env:NGINX_WIN\conf\nginx.conf).replace("octet-stream;",
