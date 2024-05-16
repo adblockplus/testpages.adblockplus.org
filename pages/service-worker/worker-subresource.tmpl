@@ -1,0 +1,73 @@
+template = testcase
+title = Blocking a request from a service worker script
+description = Check that blocking a request made by a worker script works as expected.
+
+<script src="/testfiles/service-worker/fetch_from_service_worker.js"></script>
+
+{% set case = "Blocking a request from a service worker script" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <div id="blocked-target" class="testcase-area">
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element and not a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>/testfiles/service-worker/ad.png</pre></li>
+  </ul>
+</section>
+
+{% set case = "Allowing a request from a service worker script by an exception filter" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <div id="allowed-target" class="testcase-area">
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element and not a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>/testfiles/service-worker/no_ad.png</pre></li>
+    <li><pre>@@/testfiles/service-worker/no_ad.png</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+  setup('/fetching-service-worker.js')
+  .then((status) => {
+    if (status !== 'ready') {
+      handleError();
+    } else {
+      const blocked = fetch_from_service_worker('/testfiles/service-worker/ad.png');
+      const allowed = fetch_from_service_worker('/testfiles/service-worker/no_ad.png');
+      const promises = [allowed, blocked];
+      Promise.allSettled(promises)
+      .then((results) => {
+        if (results[0].value === 'fetch completed') {
+          addChild('allowed-target', 'pass');
+        } else {
+          addChild('allowed-target', 'fail');
+        }
+        if (results[1].value === 'TypeError: Failed to fetch') {
+          addChild('blocked-target', 'pass');
+        } else {
+          addChild('blocked-target', 'fail');
+        }
+      });
+    }
+  }).catch((error) => {
+    handleError();
+  }).finally(() => removeWaitingContent());
+</script>
