@@ -2,14 +2,16 @@ template = testcase
 title = Blocking a service worker script
 description = Check that blocking a worker script works as expected.
 
-<script src="/testfiles/service-worker/fetch_from_service_worker.js"></script>
+<script src="/testfiles/service-worker/script.js"></script>
 
 {% set case = "Blocking a service worker script" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
+  <p>Test that a filter matching a service worker url will block installing the service worker.</p>
   <div id="blocked-target" class="testcase-area">
-    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting for worker setup to finish...</div>
+    <div class="testcase-expected-view">Target</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -27,8 +29,10 @@ description = Check that blocking a worker script works as expected.
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
+  <p>Test that an exception filter matching a service worker url will allow installing the service worker.</p>
   <div id="allowed-target" class="testcase-area">
-    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting for worker setup to finish...</div>
+    <div class="testcase-expected-view">Target</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -48,24 +52,23 @@ description = Check that blocking a worker script works as expected.
 
 <script>
   "use strict";
+
   const promises = [
-    setup('/allowed-service-worker.js'),
-    setup('/blocked-service-worker.js')
+    setup("/allowed-service-worker.js"), // eslint-disable-line no-undef
+    setup("/blocked-service-worker.js") // eslint-disable-line no-undef
   ];
   Promise.allSettled(promises)
-  .then((results) => {
-    if (results[0].value === 'ready') {
-      addChild('allowed-target', 'pass');
-    } else {
-      addChild('allowed-target', 'fail');
-    }
-    if (results[1].value === 'blocked') {
-      addChild('blocked-target', 'pass');
-    } else {
-      addChild('blocked-target', 'fail');
-    }
+  .then(results => {
+    if (results[0].value === "ready")
+      addChild("allowed-target", "pass"); // eslint-disable-line no-undef
+    else
+      addChild("allowed-target", "fail"); // eslint-disable-line no-undef
+
+    if (results[1].value === "blocked")
+      addChild("blocked-target", "pass"); // eslint-disable-line no-undef
+    else
+      addChild("blocked-target", "fail"); // eslint-disable-line no-undef
   })
-  .catch((error) => {
-    handleError();
-  }).finally(() => removeWaitingContent());
+  .catch(error => handleError()) // eslint-disable-line no-undef
+  .finally(() => removeWaitingContent()); // eslint-disable-line no-undef
 </script>
