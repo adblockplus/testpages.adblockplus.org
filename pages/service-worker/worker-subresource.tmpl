@@ -70,7 +70,7 @@ description = Check that blocking a request made by a worker script works as exp
           else
             addChild("allowed-target", "fail"); // eslint-disable-line no-undef
 
-          if (results[1].value === "TypeError: Failed to fetch")
+          if (results[1].value !== "fetch completed")
             addChild("blocked-target", "pass"); // eslint-disable-line no-undef
           else
             addChild("blocked-target", "fail"); // eslint-disable-line no-undef

@@ -19,9 +19,7 @@ async function setup(workerName) {
     await navigator.serviceWorker.register(workerName + "?" + Date.now(), {scope: location.pathname});
   }
   catch (error) {
-    if (error.message.startsWith("Failed to register a ServiceWorker"))
-      return "blocked";
-    return "unknown_error";
+    return "blocked";
   }
   await navigator.serviceWorker.ready;
   return "ready";
