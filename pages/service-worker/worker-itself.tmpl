@@ -53,22 +53,24 @@ description = Check that blocking a worker script works as expected.
 <script>
   "use strict";
 
-  const promises = [
-    setup("/allowed-service-worker.js"), // eslint-disable-line no-undef
-    setup("/blocked-service-worker.js") // eslint-disable-line no-undef
-  ];
-  Promise.allSettled(promises)
-  .then(results => {
-    if (results[0].value === "ready")
-      addChild("allowed-target", "pass"); // eslint-disable-line no-undef
-    else
-      addChild("allowed-target", "fail"); // eslint-disable-line no-undef
+  removeWorkers().then(_ => { // eslint-disable-line no-undef
+    const promises = [
+      setup("/blocked-service-worker.js"), // eslint-disable-line no-undef
+      setup("/allowed-service-worker.js") // eslint-disable-line no-undef
+    ];
+    Promise.allSettled(promises)
+    .then(results => {
+      if (results[0].value === "blocked")
+        addChild("blocked-target", "pass"); // eslint-disable-line no-undef
+      else
+        addChild("blocked-target", "fail"); // eslint-disable-line no-undef
 
-    if (results[1].value === "blocked")
-      addChild("blocked-target", "pass"); // eslint-disable-line no-undef
-    else
-      addChild("blocked-target", "fail"); // eslint-disable-line no-undef
-  })
-  .catch(error => handleError()) // eslint-disable-line no-undef
-  .finally(() => removeWaitingContent()); // eslint-disable-line no-undef
+      if (results[1].value === "ready")
+        addChild("allowed-target", "pass"); // eslint-disable-line no-undef
+      else
+        addChild("allowed-target", "fail"); // eslint-disable-line no-undef
+    })
+    .catch(error => handleError()) // eslint-disable-line no-undef
+    .finally(() => removeWaitingContent()); // eslint-disable-line no-undef
+  });
 </script>

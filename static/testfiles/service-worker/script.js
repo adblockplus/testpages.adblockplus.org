@@ -1,10 +1,22 @@
 "use strict";
 
+async function removeWorkers() {
+  if (!("serviceWorker" in navigator))
+    throw "Workers not supported";
+  const registrations = await navigator.serviceWorker.getRegistrations();
+  return new Promise(resolve => {
+    for (let registration of registrations)
+      registration.unregister();
+    resolve(registrations.length);
+  });
+}
+
 async function setup(workerName) {
   if (!("serviceWorker" in navigator))
     throw "Workers not supported";
   try {
-    await navigator.serviceWorker.register(workerName, {scope: location.pathname});
+    // Adding date param prevents from fetching worker from a cache
+    await navigator.serviceWorker.register(workerName + "?" + Date.now(), {scope: location.pathname});
   }
   catch (error) {
     if (error.message.startsWith("Failed to register a ServiceWorker"))

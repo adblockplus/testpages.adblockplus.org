@@ -53,29 +53,31 @@ description = Check that blocking a request made by a worker script works as exp
 <script>
   "use strict";
 
-  setup("/fetching-service-worker.js") // eslint-disable-line no-undef
-  .then(status => {
-    if (status !== "ready") {
-      handleError(); // eslint-disable-line no-undef
-    }
-    else {
-      const blocked = fetchFromServiceWorker("/testfiles/service-worker/ad.png"); // eslint-disable-line no-undef
-      const allowed = fetchFromServiceWorker("/testfiles/service-worker/no_ad.png"); // eslint-disable-line no-undef
-      const promises = [allowed, blocked];
-      Promise.allSettled(promises)
-      .then(results => {
-        if (results[0].value === "fetch completed")
-          addChild("allowed-target", "pass"); // eslint-disable-line no-undef
-        else
-          addChild("allowed-target", "fail"); // eslint-disable-line no-undef
+  removeWorkers().then(_ => { // eslint-disable-line no-undef
+    setup("/fetching-service-worker.js") // eslint-disable-line no-undef
+    .then(status => {
+      if (status !== "ready") {
+        handleError(); // eslint-disable-line no-undef
+      }
+      else {
+        const blocked = fetchFromServiceWorker("/testfiles/service-worker/ad.png"); // eslint-disable-line no-undef
+        const allowed = fetchFromServiceWorker("/testfiles/service-worker/no_ad.png"); // eslint-disable-line no-undef
+        const promises = [allowed, blocked];
+        Promise.allSettled(promises)
+        .then(results => {
+          if (results[0].value === "fetch completed")
+            addChild("allowed-target", "pass"); // eslint-disable-line no-undef
+          else
+            addChild("allowed-target", "fail"); // eslint-disable-line no-undef
 
-        if (results[1].value === "TypeError: Failed to fetch")
-          addChild("blocked-target", "pass"); // eslint-disable-line no-undef
-        else
-          addChild("blocked-target", "fail"); // eslint-disable-line no-undef
-      });
-    }
-  })
-  .catch(error => handleError()) // eslint-disable-line no-undef
-  .finally(() => removeWaitingContent()); // eslint-disable-line no-undef
+          if (results[1].value === "TypeError: Failed to fetch")
+            addChild("blocked-target", "pass"); // eslint-disable-line no-undef
+          else
+            addChild("blocked-target", "fail"); // eslint-disable-line no-undef
+        });
+      }
+    })
+    .catch(error => handleError()) // eslint-disable-line no-undef
+    .finally(() => removeWaitingContent()); // eslint-disable-line no-undef
+  });
 </script>

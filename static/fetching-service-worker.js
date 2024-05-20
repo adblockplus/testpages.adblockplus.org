@@ -19,3 +19,7 @@ async function handleEvent(event) {
 self.addEventListener("message", event => {
   event.waitUntil(handleEvent(event));
 });
+
+self.addEventListener("install", event => {
+  self.skipWaiting();
+});
