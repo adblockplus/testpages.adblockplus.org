@@ -118,7 +118,7 @@ test:edge:windows:
           - .gitlab-ci.yml
           - package-lock.json
       paths:
-        - choco_cache
+        # - choco_cache
         - node_modules
         - pip_cache
   before_script:
@@ -126,13 +126,13 @@ test:edge:windows:
     # https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/13#note_337853320
     - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
     # Setup cache locations for chocolatey and pip
-    - New-Item -Name "choco_cache" -Path "$(Get-Location)"
-      -ItemType "directory" -Force
+    # - New-Item -Name "choco_cache" -Path "$(Get-Location)"
+    #  -ItemType "directory" -Force
     - New-Item -Name "pip_cache" -Path "$(Get-Location)"
       -ItemType "directory" -Force
-    - choco config set cacheLocation "$(Get-Location)\choco_cache"
+    # - choco config set cacheLocation "$(Get-Location)\choco_cache"
     # Increase the timeout to a full hour (3600 seconds)
-    - choco config set commandExecutionTimeoutSeconds 3600
+    # - choco config set commandExecutionTimeoutSeconds 3600
     # Install Microsoft Edge
     # yamllint disable-line rule:line-length
     - Invoke-WebRequest -Uri "${Env:CI_API_V4_URL}/projects/${Env:CI_PROJECT_ID}/packages/generic/microsoft-edge/79.0.309/MicrosoftEdgeEnterpriseX64.msi"
@@ -144,9 +144,9 @@ test:edge:windows:
     - choco install -y nginx --version=1.19.0
     - $Env:NGINX_WIN = "C:\tools\nginx-1.19.0"
     - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
-    - choco install -y openssl --version 3.3.0
-    - choco install -y python3 --version 3.11.4
-    #- choco upgrade -y --no-progress nodejs --version 18.17.1
+    - choco install -y openssl --version=3.3.0
+    - choco install -y python3 --version=3.11.4
+    # - choco upgrade -y --no-progress nodejs --version 18.17.1
     - refreshenv
     # nginx config
     - xcopy test\etc\nginx\* $Env:NGINX_WIN\conf\ /E /V /F /H
