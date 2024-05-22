@@ -122,6 +122,7 @@ test:edge:windows:
         - node_modules
         - pip_cache
   before_script:
+    - choco install -y openssl
     # Fix for refreshenv
     # https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/13#note_337853320
     - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
@@ -144,7 +145,6 @@ test:edge:windows:
     - choco install -y nginx --version=1.19.0
     - $Env:NGINX_WIN = "C:\tools\nginx-1.19.0"
     - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
-    - choco install -y openssl --version=3.3.0
     - choco install -y python3 --version=3.11.4
     # - choco upgrade -y --no-progress nodejs --version 18.17.1
     - refreshenv
