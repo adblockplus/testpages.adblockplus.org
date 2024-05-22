@@ -111,9 +111,7 @@ test:edge:latest:
 test:edge:windows:
   extends: .test_rules
   tags:
-    - shared-windows
-    - windows
-    - windows-1809
+    - saas-windows-medium-amd64
   cache:
     - key:
         files:
