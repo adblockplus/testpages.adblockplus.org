@@ -122,7 +122,7 @@ test:edge:windows:
         - node_modules
         - pip_cache
   before_script:
-    - choco install -y openssl
+    - choco install -y openssl --version=3.2.1
     # Fix for refreshenv
     # https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/13#note_337853320
     - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
