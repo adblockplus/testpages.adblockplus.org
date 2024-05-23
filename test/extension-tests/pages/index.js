@@ -49,7 +49,7 @@ async function updateFilters(driver, extensionHandle, url) {
           errors = await browser.runtime.sendMessage(
             {type: "filters.importRaw", text: filtersToAdd}
           );
-          if (errors)
+          if (typeof errors != "undefined")
             errors = errors[0];
         }
         else if (typeof chrome != "undefined") { // Chromium
@@ -61,7 +61,8 @@ async function updateFilters(driver, extensionHandle, url) {
 
         // ABP changed the return of filters.importRaw to [errors, filterTexts]
         // https://gitlab.com/adblockinc/ext/adblockplus/adblockplus/-/merge_requests/1064
-        if (errors[0] && errors[0].constructor === Array)
+        if (typeof errors != "undefined" &&
+          errors[0] && errors[0].constructor === Array)
           errors = errors[0];
 
         if (typeof errors != "undefined")
