@@ -49,7 +49,8 @@ async function updateFilters(driver, extensionHandle, url) {
           errors = await browser.runtime.sendMessage(
             {type: "filters.importRaw", text: filtersToAdd}
           );
-          errors = errors[0];
+          if (errors)
+            errors = errors[0];
         }
         else if (typeof chrome != "undefined") { // Chromium
           errors = await new Promise(resolve => chrome.runtime.sendMessage(
