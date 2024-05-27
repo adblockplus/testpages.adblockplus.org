@@ -146,8 +146,9 @@ test:edge:windows:
     - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
     # Installing openssl takes longer on the new windows runners.
     # Please refresh the page to see the progress updates
-    - choco install -y openssl --version=3.3.0
-    - choco install -y python3 --version=3.11.4
+    # https://eyeo.atlassian.net/browse/TPS-12
+    - choco install -y openssl --version 3.3.0
+    - choco install -y python3 --version 3.11.4
     # Replaces nodejs v21.2.0 (default) with v18.17.1
     - choco uninstall -y nodejs nodejs.install
     - choco install -y --no-progress nodejs --version 18.17.1
