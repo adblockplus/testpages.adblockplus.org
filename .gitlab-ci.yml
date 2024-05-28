@@ -151,8 +151,7 @@ test:edge:windows:
     - choco install -y python3 --version 3.11.4
     # Replaces nodejs v21.2.0 (default) with v18.17.1
     - choco uninstall -y nodejs nodejs.install
-    # - choco install -y --no-progress nodejs --version 18.17.1
-    - choco install -y --no-progress nodejs --version 21.2.0
+    - choco install -y --no-progress nodejs --version 18.17.1
     - refreshenv
     # nginx config
     - xcopy test\etc\nginx\* $Env:NGINX_WIN\conf\ /E /V /F /H
