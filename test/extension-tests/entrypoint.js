@@ -40,123 +40,95 @@ let extensionPaths = [
   path.resolve("test", "extension-tests", "helper-extension")
 ];
 
-async function getExtensionName(driver, handles) {
-  let handle;
-  let extensionName;
+async function getExtensionInfo(driver, originHandle) {
+  await driver.switchTo().window(originHandle);
 
-  for (handle of handles) {
-    await driver.switchTo().window(handle);
-    extensionName = await driver.executeAsyncScript(async(...args) => {
-      let callback = args[args.length - 1];
-
-      // Firefox
-      if (typeof browser != "undefined") {
-        let info = await browser.management.getSelf();
-        if (info.optionsUrl == location.href)
-          callback(info.name);
-      }
-      // Chromium
-      if (typeof chrome != "undefined" &&
-          typeof chrome.management != "undefined" &&
-          typeof chrome.runtime != "undefined") {
-        new Promise((resolve, reject) => {
-          chrome.management.getSelf(info => {
-            if (chrome.runtime.lastError)
-              reject(chrome.runtime.lastError.message);
-            else if (info.optionsUrl == location.href)
-              resolve(info.name);
-            else
-              reject("optionsUrl does not match");
-          });
-        }).then(name => {
-          callback(name);
-        }).catch(error => {
-          console.error(error);
-          callback();
-        });
-        return;
-      }
-      callback();
-    });
-    if (extensionName)
-      break;
-  }
-
-  return extensionName ? extensionName : "";
-}
-
-function hasABPStarted(driver, handles) {
-  // Temporary, until: https://gitlab.com/adblockinc/ext/adblockplus/adblockplusui/-/issues/1222
-  return driver.wait(async() => {
-    for (let handle of handles) {
-      await driver.switchTo().window(handle);
-      let currentUrl = await driver.getCurrentUrl();
-      if (currentUrl.includes("first-run.html") ||
-        currentUrl.includes("welcome.adblockplus.org"))
-        return true;
+  let info = await driver.executeAsyncScript(async callback => {
+    if (typeof browser !== "undefined") { // Firefox
+      let {shortName, version, permissions} =
+        await browser.management.getSelf();
+      callback({name: shortName, version, permissions});
     }
-    return false;
-  }, 10000, "Welcome page is not shown for ABP");
+    else { // Chromium
+      new Promise(resolve => {
+        chrome.management.getSelf(({shortName, version, permissions}) =>
+          resolve({name: shortName, version, permissions}));
+      }).then(callback);
+    }
+  });
+  info.manifestVersion = 2;
+  if (info.permissions.includes("declarativeNetRequest") ||
+      info.permissions.includes("declarativeNetRequestWithHostAccess"))
+    info.manifestVersion = 3;
+
+  return info;
 }
 
-async function waitForExtension(driver) {
-  let handles = [];
+async function waitForABPStarted(driver, originHandle) {
+  await driver.switchTo().window(originHandle);
 
-  await new Promise(r => setTimeout(r, 5000)); // helper extension timeout
+  await driver.wait(async() => {
+    let result = await driver.executeAsyncScript(async callback => {
+      const message = {type: "testing.getReadyState"};
+      if (typeof browser !== "undefined") // Firefox
+        browser.runtime.sendMessage(message).then(callback);
+      else // Chromium
+        chrome.runtime.sendMessage(message, callback);
+    });
+    return result == "started";
+  }, 1000);
+}
+
+async function getOriginHandle(driver) {
+  let handles = [];
+  // The extension may open a welcome page or similar. We need to wait for all
+  // tabs to become stable
   await driver.wait(async() => {
     let seenHandles = handles;
     handles = await driver.getAllWindowHandles();
     return handles.every(handle => seenHandles.includes(handle));
   }, 16000, "Handles kept changing after timeout", 5000);
+
   let origin;
   let handle;
-  let started = true;
-  let extensionName = await getExtensionName(driver, handles);
-  if (extensionName.includes("Adblock Plus"))
-    started = await hasABPStarted(driver, handles);
-
   for (handle of handles) {
     await driver.switchTo().window(handle);
-    origin = await driver.executeAsyncScript(async(...args) => {
-      let callback = args[args.length - 1];
-
-      // Firefox
-      if (typeof browser != "undefined") {
+    origin = await driver.executeAsyncScript(async callback => {
+      if (typeof browser !== "undefined") { // Firefox
         let info = await browser.management.getSelf();
-        if (info.optionsUrl == location.href) {
-          callback(location.origin);
-          return;
-        }
+        callback(info.optionsUrl == location.href ? location.origin : "");
       }
-
-      // Chromium
-      if (typeof chrome != "undefined" &&
-          typeof chrome.management != "undefined") {
-        new Promise((resolve, reject) => {
+      else if (typeof chrome !== "undefined" &&
+               typeof chrome.management !== "undefined") { // Chromium
+        new Promise(resolve => {
           chrome.management.getSelf(info => {
-            if (chrome.runtime.lastError)
-              reject(chrome.runtime.lastError.message);
-            else if (info.optionsUrl == location.href)
-              resolve(location.origin);
-            else
-              reject("optionsUrl does not match");
+            resolve(info.optionsUrl == location.href ? location.origin : "");
           });
-        }).then(locationOrigin => {
-          callback(locationOrigin);
-        }).catch(error => {
-          console.error(error);
-          callback();
-        });
-        return;
+        }).then(callback);
       }
-      callback();
+      else {
+        callback();
+      }
     });
-    if (origin && started)
+    if (origin)
       break;
   }
 
+  return {origin, handle};
+}
+
+async function waitForExtension(driver) {
+  await new Promise(r => setTimeout(r, 5000)); // helper extension timeout
+
+  let {origin, handle} = await getOriginHandle(driver);
   if (!origin)
     throw new Error("Extension didn't start correctly, options is not shown");
+
+  let {name, version, manifestVersion} = await getExtensionInfo(driver, handle);
+  // eslint-disable-next-line no-console
+  console.log(`Extension: ${name} ${version} MV${manifestVersion}`);
+  if (name == "Adblock Plus")
+    await waitForABPStarted(driver, handle);
 
   return [handle, origin];
 }

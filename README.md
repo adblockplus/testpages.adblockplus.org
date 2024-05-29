@@ -101,6 +101,8 @@ long as it provides the following APIs:
 * `filters.remove(text)` - removing filter with provided text
 * `filters.importRaw(text)` - adding filter in a raw format with text specified
 * `debug.getLastError` - returning last error thrown in extension console
+* `testing.getReadyState` - returning "started" when the extension is ready to
+  interact with. Only ABP is expected to implement this interface
 
 The default behavior for `debug.getLastError` is to log a warning. That can be
 changed to throw an actual error by setting the `THROW_LAST_ERROR` argument to
