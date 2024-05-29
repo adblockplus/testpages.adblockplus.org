@@ -134,12 +134,21 @@ test:edge:windows:
     # Increase the timeout to a full hour (3600 seconds)
     - choco config set commandExecutionTimeoutSeconds 3600
     # Install Microsoft Edge
-    # yamllint disable-line rule:line-length
-    - Invoke-WebRequest -Uri "${Env:CI_API_V4_URL}/projects/${Env:CI_PROJECT_ID}/packages/generic/microsoft-edge/79.0.309/MicrosoftEdgeEnterpriseX64.msi"
-      -Headers @{'JOB-TOKEN' = $Env:CI_JOB_TOKEN}
-      -OutFile 'MicrosoftEdgeEnterpriseX64.msi'
-    - Start-Process msiexec
-      -ArgumentList "/i MicrosoftEdgeEnterpriseX64.msi /norestart /qn" -Wait
+    - $Env:EdgePath =
+      "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+    - try {
+        choco install -y microsoft-edge;
+        if (!(Test-Path $Env:EdgePath)) {
+          throw "Edge not found on `"$Env:EdgePath`"";
+        }
+      }
+      catch {
+        Write-Warning "$_ - Retrying Edge install...";
+        choco install -y microsoft-edge;
+        if (!(Test-Path $Env:EdgePath)) {
+          throw "Edge not found on `"$Env:EdgePath`"";
+        }
+      }
     # Install other packages
     - choco install -y nginx --version=1.19.0
     - $Env:NGINX_WIN = "C:\tools\nginx-1.19.0"
