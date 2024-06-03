@@ -1,0 +1,76 @@
+template = testcase
+title = Blocking a service worker script
+description = Check that blocking a worker script works as expected.
+
+<script src="/testfiles/service-worker/script.js"></script>
+
+{% set case = "Blocking a service worker script" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a filter matching a service worker url will block installing the service worker.</p>
+  <div id="blocked-target" class="testcase-area">
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting for worker setup to finish...</div>
+    <div class="testcase-expected-view">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element and not a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}/blocked-service-worker.js</pre></li>
+  </ul>
+</section>
+
+{% set case = "Allowing a service worker script by an exception filter" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that an exception filter matching a service worker url will allow installing the service worker.</p>
+  <div id="allowed-target" class="testcase-area">
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting for worker setup to finish...</div>
+    <div class="testcase-expected-view">Target</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a red element to the test case above.</li>
+    <li>Add filter #2.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}/allowed-service-worker.js</pre></li>
+    <li><pre>@@{{ site_url|domain }}/allowed-service-worker.js</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  removeWorkers().then(_ => { // eslint-disable-line no-undef
+    const promises = [
+      setup("/blocked-service-worker.js"), // eslint-disable-line no-undef
+      setup("/allowed-service-worker.js") // eslint-disable-line no-undef
+    ];
+    Promise.allSettled(promises)
+    .then(results => {
+      if (results[0].value === "blocked")
+        addChild("blocked-target", "pass"); // eslint-disable-line no-undef
+      else
+        addChild("blocked-target", "fail"); // eslint-disable-line no-undef
+
+      if (results[1].value === "ready")
+        addChild("allowed-target", "pass"); // eslint-disable-line no-undef
+      else
+        addChild("allowed-target", "fail"); // eslint-disable-line no-undef
+    })
+    .catch(error => handleError()) // eslint-disable-line no-undef
+    .finally(() => removeWaitingContent()); // eslint-disable-line no-undef
+  });
+</script>

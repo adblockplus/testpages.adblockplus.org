@@ -43,6 +43,8 @@ export function isExcluded(page, browserName) {
     return true;
   else if (page == "exceptions/sitekey_mv3")
     return true;
+  else if (/^service-worker/.test(page))
+    return true;
 
   return excluded.includes(browserName);
 }
