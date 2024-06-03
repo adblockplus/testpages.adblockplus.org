@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2024-05-20
+
+- Added two new pages in pages/service-worker: worker-itself and worker-subresource.
+
 ## 2024-04-15
 
 - Added two new pages in pages/snippets: hide-if-matches-computed-xpath and hide-if-matches-xpath3.

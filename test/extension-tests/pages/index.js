@@ -45,28 +45,30 @@ async function updateFilters(driver, extensionHandle, url) {
         let callback = args[args.length - 1];
         let filtersToAdd = args[0];
 
-        // Firefox
-        if (typeof browser != "undefined") {
+        if (typeof browser != "undefined") { // Firefox
           errors = await browser.runtime.sendMessage(
             {type: "filters.importRaw", text: filtersToAdd}
           );
           if (typeof errors != "undefined")
-            callback(errors[0]);
-          else
-            callback();
+            errors = errors[0];
         }
-
-        // Chromium
-        if (typeof chrome != "undefined") {
+        else if (typeof chrome != "undefined") { // Chromium
           errors = await new Promise(resolve => chrome.runtime.sendMessage(
             {type: "filters.importRaw", text: filtersToAdd},
             errorsInResponse => resolve(errorsInResponse[0])
           ));
-          if (typeof errors != "undefined")
-            callback(errors[0]);
-          else
-            callback();
         }
+
+        // ABP changed the return of filters.importRaw to [errors, filterTexts]
+        // https://gitlab.com/adblockinc/ext/adblockplus/adblockplus/-/merge_requests/1064
+        if (typeof errors != "undefined" &&
+          errors[0] && errors[0].constructor === Array)
+          errors = errors[0];
+
+        if (typeof errors != "undefined")
+          callback(errors[0]);
+        else
+          callback();
       }, filters)
   );
   if (error)

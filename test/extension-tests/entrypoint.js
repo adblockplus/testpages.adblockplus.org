@@ -230,8 +230,9 @@ if (typeof run == "undefined") {
             [this.extensionHandle, this.extensionOrigin] =
               await waitForExtension(this.driver);
           }
-          catch (e) {
-            await writeScreenshotAndThrow(this, e);
+          catch (err) {
+            console.error(err);
+            await writeScreenshotAndThrow(this, err);
           }
         });
 
