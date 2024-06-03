@@ -88,21 +88,21 @@ test:chrome:oldest:
   variables:
     GREP: chromium 88.0.4324.27
 
-# test:firefox:latest:
-#   extends: .test
-#   variables:
-#     GREP: firefox latest
+test:firefox:latest:
+  extends: .test
+  variables:
+    GREP: firefox latest
 
-# test:firefox:beta:
-#   extends: .test
-#   allow_failure: true
-#   variables:
-#     GREP: firefox beta
+test:firefox:beta:
+  extends: .test
+  allow_failure: true
+  variables:
+    GREP: firefox beta
 
-# test:firefox:oldest:
-#   extends: .test
-#   variables:
-#     GREP: firefox 68.0
+test:firefox:oldest:
+  extends: .test
+  variables:
+    GREP: firefox 68.0
 
 test:edge:latest:
   extends: .test
