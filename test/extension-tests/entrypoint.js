@@ -33,7 +33,7 @@ const CUSTOM_BROWSER = process.env.CUSTOM_BROWSER;
 const CUSTOM_BROWSER_VERSION = process.env.BROWSER_VERSION || "latest";
 
 // Timeout in sync with test/extension-tests/helper-extension/background.js
-const helperExtTimeout = 10000;
+const helperExtTimeout = 5000;
 
 let browserVersions = {
   chromium: ["latest", "beta", "dev", "77.0.3865.0"],
@@ -95,6 +95,14 @@ async function getOriginHandle(driver) {
     return handles.every(handle => seenHandles.includes(handle));
   }, 16000, "Handles kept changing after timeout", 5000);
 
+  // Wait until the extension doesn't make webdriver throw when running scripts
+  await driver.wait(async() => {
+    try {
+      return await driver.executeScript(() => true);
+    }
+    catch (e) {}
+  }, 10000, "Webdriver can't execute scripts", 1000);
+
   let origin;
   let handle;
   for (handle of handles) {
@@ -127,6 +135,9 @@ async function waitForExtension(driver) {
   console.log(`Sleeping ${helperExtTimeout}ms to let the extension load...`);
   await new Promise(r => setTimeout(r, helperExtTimeout));
 
+  // Timeout for initial driver.executeScript calls
+  await driver.manage().setTimeouts({pageLoad: 1000});
+
   let {origin, handle} = await getOriginHandle(driver);
   if (!origin)
     throw new Error("Extension didn't start correctly, options is not shown");
@@ -135,6 +146,9 @@ async function waitForExtension(driver) {
   console.log(`Extension: ${name} ${version} MV${manifestVersion}`);
   if (name == "Adblock Plus")
     await waitForABPStarted(driver, handle);
+
+  // Timeout for page loading in test cases
+  await driver.manage().setTimeouts({pageLoad: 20000});
 
   return [handle, origin];
 }
@@ -193,7 +207,6 @@ if (typeof run == "undefined") {
             version,
             {headless, extensionPaths, incognito: false, insecure: true}
           );
-          await this.driver.manage().setTimeouts({pageLoad: 20000});
 
           let cap = await this.driver.getCapabilities();
           this.browserName = cap.getBrowserName();
