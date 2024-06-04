@@ -15,7 +15,7 @@
  * along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-// The timeout allows the APB extension being ready on Firefox
+// Timeout to let the ad filtering extension load
 setTimeout(() => {
   chrome.management.getAll(extensions => {
     for (let extension of extensions) {
@@ -28,4 +28,4 @@ setTimeout(() => {
       }
     }
   });
-}, 5000);
+}, 10000);

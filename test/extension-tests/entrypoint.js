@@ -15,6 +15,8 @@
  * along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/* eslint-disable no-console */
+
 import path from "path";
 import url from "url";
 import got from "got";
@@ -29,13 +31,17 @@ const TEST_PAGES_URL = process.env.TEST_PAGES_URL ||
 const TEST_PAGES_INSECURE = process.env.TEST_PAGES_INSECURE == "true";
 const CUSTOM_BROWSER = process.env.CUSTOM_BROWSER;
 const CUSTOM_BROWSER_VERSION = process.env.BROWSER_VERSION || "latest";
+
+// Timeout in sync with test/extension-tests/helper-extension/background.js
+const helperExtTimeout = 10000;
+
 let browserVersions = {
-  chromium: [void 0, "beta", "dev", "88.0.4324.27"],
-  firefox: [void 0, "beta", "75.0", "68.0"],
-  edge: [void 0]
+  chromium: ["latest", "beta", "dev", "88.0.4324.27"],
+  firefox: ["latest", "beta", "75.0", "68.0"],
+  edge: ["latest"]
 };
 
-let extensionPaths = [
+const extensionPaths = [
   path.resolve("./testext"),
   path.resolve("test", "extension-tests", "helper-extension")
 ];
@@ -118,14 +124,14 @@ async function getOriginHandle(driver) {
 }
 
 async function waitForExtension(driver) {
-  await new Promise(r => setTimeout(r, 5000)); // helper extension timeout
+  console.log(`Sleeping ${helperExtTimeout}ms to let the extension load...`);
+  await new Promise(r => setTimeout(r, helperExtTimeout));
 
   let {origin, handle} = await getOriginHandle(driver);
   if (!origin)
     throw new Error("Extension didn't start correctly, options is not shown");
 
   let {name, version, manifestVersion} = await getExtensionInfo(driver, handle);
-  // eslint-disable-next-line no-console
   console.log(`Extension: ${name} ${version} MV${manifestVersion}`);
   if (name == "Adblock Plus")
     await waitForABPStarted(driver, handle);
@@ -182,7 +188,6 @@ if (typeof run == "undefined") {
 
         before(async function() {
           let headless = browser == "firefox";
-          // eslint-disable-next-line no-console
           console.log(`Getting ready to run ${browser}...`);
           this.driver = await BROWSERS[browser].getDriver(
             version,
@@ -193,7 +198,6 @@ if (typeof run == "undefined") {
           let cap = await this.driver.getCapabilities();
           this.browserName = cap.getBrowserName();
           this.browserVersion = cap.getBrowserVersion();
-          // eslint-disable-next-line no-console
           console.log(`Browser: ${this.browserName} ${this.browserVersion}`);
 
           try {
