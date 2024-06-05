@@ -59,7 +59,7 @@ description = Check that the replace-fetch-response snippet is working as expect
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
 
-  <p>Test that the search param is replaced with a custom string</p>
+  <p>Test that the search param is replaced with a custom string if the needle is matched</p>
   <div id="test-{{id}}" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
@@ -74,6 +74,32 @@ description = Check that the replace-fetch-response snippet is working as expect
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#replace-fetch-response '{{ search3 }}' '{{ replacement3 }}' '{{ needle3 }}'</pre></li>
+  </ul>
+</section>
+
+{% set case = "Regex parameters" %}
+{% set id = get_id(case) %}
+{% set search4 = "/\d+ years old/" %}
+{% set replacement4 = "young" %}
+{% set needle4 = "/[CcKk]ardamon/" %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+
+  <p>Test the usage of regex in the search and needle parameter</p>
+  <div id="test-{{id}}" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-expected-view">{{ search4 }} was not replaced</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element and not a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-fetch-response {{ search4 }} '{{ replacement4 }}' {{ needle4 }}</pre></li>
   </ul>
 </section>
 
@@ -128,6 +154,22 @@ description = Check that the replace-fetch-response snippet is working as expect
     }
   }
 
+  function handleResponseRegex(text) {
+    if (text.includes("{{ replacement4 }}")) {
+      const element = document.createElement("div");
+      element.setAttribute("data-expectedresult", "pass");
+      element.innerHTML = "Fetch response was replaced";
+      document.getElementById("test-regex-parameters").appendChild(element);
+    } 
+    else {
+      const element = document.createElement("div");
+      element.setAttribute("data-expectedresult", "fail");
+      element.setAttribute("aria-label", "{{id}}-fail");
+      element.innerHTML = "Failed. '{{ search4 }}' was not replaced";
+      document.getElementById("test-regex-parameters").appendChild(element);
+    }
+  }
+
   setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
 
@@ -135,10 +177,6 @@ description = Check that the replace-fetch-response snippet is working as expect
     fetch(`${url}`).then(response => response.text()).then(handleResponseBasic);
     fetch(`${url}`).then(response => response.text()).then(handleResponseReplace);
     fetch(`${url}`).then(response => response.text()).then(handleResponseNeedle);
+    fetch(`${url}`).then(response => response.text()).then(handleResponseRegex);
   }, 500);
 </script>
-
-
-// Test that search param matches regex and gets replaced only if the string needle matches
-// Test that search param gets replaced only if the string needle matches
-// Test that search param gets replaced only if the regex needle matches
