@@ -1,10 +1,10 @@
 template = testcase
 title = replace-fetch-response
-description = Check that the replace-fetch-response snippet is working as expected.
+description = Check that the replace-fetch-response snippet is working as expected. The test cases here manipulate the same fetch response, so the text manipulations are cumulative. The original fetch response can always be inspected in the "Network" tab in the developer tools.
 
 {% set case = "Basic usage" %}
 {% set id = get_id(case) %}
-{% set search1 = "young" %}
+{% set search1 = "lazy" %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
 
@@ -132,93 +132,54 @@ description = Check that the replace-fetch-response snippet is working as expect
   "use strict";
 
   function handleResponseBasic(text) {
+    const element = document.createElement("div");
+    const testElement = document.getElementById("test-basic-usage");
+    
     if (text.includes("{{ search1 }}")) {
-      const element = document.createElement("div");
       element.setAttribute("data-expectedresult", "fail");
       element.setAttribute("aria-label", "{{id}}-fail");
       element.innerHTML = "Failed. Fetch response was not replaced";
-      document.getElementById("test-basic-usage").appendChild(element);
-    } 
-    else {
-      const element = document.createElement("div");
+    } else {
       element.setAttribute("data-expectedresult", "pass");
       element.innerHTML = "Fetch response was replaced";
-      document.getElementById("test-basic-usage").appendChild(element);
     }
+    
+    testElement.appendChild(element);
   }
 
-  function handleResponseReplace(text) {
-    if (text.includes("{{ replacement2 }}")) {
-      const element = document.createElement("div");
+  function handleResponse(text, testId, replacement) {
+    const testElement = document.getElementById(testId);
+    const element = document.createElement("div");
+    
+    if (text.includes(replacement)) {
       element.setAttribute("data-expectedresult", "pass");
       element.innerHTML = "Fetch response was replaced";
-      document.getElementById("test-string-replacement").appendChild(element);
-    } 
-    else {
-      const element = document.createElement("div");
+    } else {
       element.setAttribute("data-expectedresult", "fail");
       element.setAttribute("aria-label", "{{id}}-fail");
       element.innerHTML = "Failed. Fetch response was not replaced";
-      document.getElementById("test-string-replacement").appendChild(element);
     }
-  }
-
-  function handleResponseNeedle(text) {
-    if (text.includes("{{ replacement3 }}")) {
-      const element = document.createElement("div");
-      element.setAttribute("data-expectedresult", "pass");
-      element.innerHTML = "Fetch response was replaced";
-      document.getElementById("test-string-replacement-with-needle").appendChild(element);
-    } 
-    else {
-      const element = document.createElement("div");
-      element.setAttribute("data-expectedresult", "fail");
-      element.setAttribute("aria-label", "{{id}}-fail");
-      element.innerHTML = "Failed. Fetch response was not replaced";
-      document.getElementById("test-string-replacement-with-needle").appendChild(element);
-    }
-  }
-
-  function handleResponseRegex(text) {
-    if (text.includes("{{ replacement4 }}")) {
-      const element = document.createElement("div");
-      element.setAttribute("data-expectedresult", "pass");
-      element.innerHTML = "Fetch response was replaced";
-      document.getElementById("test-regex-parameters").appendChild(element);
-    } 
-    else {
-      const element = document.createElement("div");
-      element.setAttribute("data-expectedresult", "fail");
-      element.setAttribute("aria-label", "{{id}}-fail");
-      element.innerHTML = "Failed. Fetch response was not replaced";
-      document.getElementById("test-regex-parameters").appendChild(element);
-    }
-  }
-
-  function handleMultipleReplacements(text) {
-    if (text.includes("{{ replacement5 }}")) {
-      const element = document.createElement("div");
-      element.setAttribute("data-expectedresult", "pass");
-      element.innerHTML = "Fetch response was replaced";
-      document.getElementById("test-multiple-string-replacement").appendChild(element);
-    } 
-    else {
-      const element = document.createElement("div");
-      element.setAttribute("data-expectedresult", "fail");
-      element.setAttribute("aria-label", "{{id}}-fail");
-      element.innerHTML = "Failed. Fetch response was not replaced";
-      document.getElementById("test-multiple-string-replacement").appendChild(element);
-    }
+    
+    testElement.appendChild(element);
   }
 
   setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
 
-    let url = "{{ site_url }}/testfiles/fetch-and-xhr/foo.txt";
-    fetch(`${url}`).then(response => response.text()).then(handleResponseBasic);
-    fetch(`${url}`).then(response => response.text()).then(handleResponseReplace);
-    fetch(`${url}`).then(response => response.text()).then(handleResponseNeedle);
-    fetch(`${url}`).then(response => response.text()).then(handleResponseRegex);
-    fetch(`${url}`).then(response => response.text()).then(handleMultipleReplacements);
+    const url = "{{ site_url }}/testfiles/fetch-and-xhr/foo.txt";
+
+    const tests = [
+      { id: "test-string-replacement", replacement: "{{ replacement2 }}" },
+      { id: "test-string-replacement-with-needle", replacement: "{{ replacement3 }}" },
+      { id: "test-regex-parameters", replacement: "{{ replacement4 }}" },
+      { id: "test-multiple-string-replacement", replacement: "{{ replacement5 }}" }
+    ];
+    
+    fetch(`${url}`)
+      .then(response => response.text())
+      .then(text => {
+        handleResponseBasic(text);
+        tests.forEach(({ id, replacement }) => handleResponse(text, id, replacement));
+    });
   }, 500);
 </script>
