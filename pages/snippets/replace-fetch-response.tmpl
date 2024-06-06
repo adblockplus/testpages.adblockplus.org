@@ -134,32 +134,34 @@ description = Check that the replace-fetch-response snippet is working as expect
   function handleResponseBasic(text) {
     const element = document.createElement("div");
     const testElement = document.getElementById("test-basic-usage");
-    
+
     if (text.includes("{{ search1 }}")) {
       element.setAttribute("data-expectedresult", "fail");
       element.setAttribute("aria-label", "{{id}}-fail");
       element.innerHTML = "Failed. Fetch response was not replaced";
-    } else {
+    }
+    else {
       element.setAttribute("data-expectedresult", "pass");
       element.innerHTML = "Fetch response was replaced";
     }
-    
+
     testElement.appendChild(element);
   }
 
   function handleResponse(text, testId, replacement) {
     const testElement = document.getElementById(testId);
     const element = document.createElement("div");
-    
+
     if (text.includes(replacement)) {
       element.setAttribute("data-expectedresult", "pass");
       element.innerHTML = "Fetch response was replaced";
-    } else {
+    }
+    else {
       element.setAttribute("data-expectedresult", "fail");
       element.setAttribute("aria-label", "{{id}}-fail");
       element.innerHTML = "Failed. Fetch response was not replaced";
     }
-    
+
     testElement.appendChild(element);
   }
 
@@ -169,17 +171,17 @@ description = Check that the replace-fetch-response snippet is working as expect
     const url = "{{ site_url }}/testfiles/fetch-and-xhr/foo.txt";
 
     const tests = [
-      { id: "test-string-replacement", replacement: "{{ replacement2 }}" },
-      { id: "test-string-replacement-with-needle", replacement: "{{ replacement3 }}" },
-      { id: "test-regex-parameters", replacement: "{{ replacement4 }}" },
-      { id: "test-multiple-string-replacement", replacement: "{{ replacement5 }}" }
+      {id: "test-string-replacement", replacement: "{{ replacement2 }}"},
+      {id: "test-string-replacement-with-needle", replacement: "{{ replacement3 }}"},
+      {id: "test-regex-parameters", replacement: "{{ replacement4 }}"},
+      {id: "test-multiple-string-replacement", replacement: "{{ replacement5 }}"}
     ];
-    
+
     fetch(`${url}`)
       .then(response => response.text())
       .then(text => {
         handleResponseBasic(text);
-        tests.forEach(({ id, replacement }) => handleResponse(text, id, replacement));
-    });
+        tests.forEach(({id, replacement}) => handleResponse(text, id, replacement));
+      });
   }, 500);
 </script>
