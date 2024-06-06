@@ -12,7 +12,7 @@ description = Check that the replace-fetch-response snippet is working as expect
   <div id="test-{{id}}" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
-    <div class="testcase-expected-view">'{{ search1 }}' was not replaced by empty string</div>
+    <div class="testcase-expected-view">Fetch response was replaced</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -37,7 +37,7 @@ description = Check that the replace-fetch-response snippet is working as expect
   <div id="test-{{id}}" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
-    <div class="testcase-expected-view">'{{ search2 }}' was not replaced</div>
+    <div class="testcase-expected-view">Fetch response was replaced</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -63,7 +63,7 @@ description = Check that the replace-fetch-response snippet is working as expect
   <div id="test-{{id}}" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
-    <div class="testcase-expected-view">'{{ search3 }}' was not replaced</div>
+    <div class="testcase-expected-view">Fetch response was replaced</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -79,8 +79,8 @@ description = Check that the replace-fetch-response snippet is working as expect
 
 {% set case = "Regex parameters" %}
 {% set id = get_id(case) %}
-{% set search4 = "/\d+ years old/" %}
-{% set replacement4 = "young" %}
+{% set search4 = "/\\\\d+\\\\s+years?\\\\s+old/" %}
+{% set replacement4 = "stoic" %}
 {% set needle4 = "/[CcKk]ardamon/" %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
@@ -89,7 +89,7 @@ description = Check that the replace-fetch-response snippet is working as expect
   <div id="test-{{id}}" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
-    <div class="testcase-expected-view">{{ search4 }} was not replaced</div>
+    <div class="testcase-expected-view">Fetch response was replaced</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -99,7 +99,32 @@ description = Check that the replace-fetch-response snippet is working as expect
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#replace-fetch-response {{ search4 }} '{{ replacement4 }}' {{ needle4 }}</pre></li>
+    <li><pre>{{ site_url|domain }}#$#replace-fetch-response {{ search4 }} {{ replacement4 }} {{ needle4 }}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Multiple string replacement" %}
+{% set id = get_id(case) %}
+{% set search5 = "/[Ss]ticky?/" %}
+{% set replacement5 = "purr" %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+
+  <p>Test the replacement of multiple strings</p>
+  <div id="test-{{id}}" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-expected-view">Fetch response was replaced</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element and not a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-fetch-response {{ search5 }} '{{ replacement5 }}'</pre></li>
   </ul>
 </section>
 
@@ -111,7 +136,7 @@ description = Check that the replace-fetch-response snippet is working as expect
       const element = document.createElement("div");
       element.setAttribute("data-expectedresult", "fail");
       element.setAttribute("aria-label", "{{id}}-fail");
-      element.innerHTML = "Failed. '{{ search1 }}' was not replaced by an empty string";
+      element.innerHTML = "Failed. Fetch response was not replaced";
       document.getElementById("test-basic-usage").appendChild(element);
     } 
     else {
@@ -133,7 +158,7 @@ description = Check that the replace-fetch-response snippet is working as expect
       const element = document.createElement("div");
       element.setAttribute("data-expectedresult", "fail");
       element.setAttribute("aria-label", "{{id}}-fail");
-      element.innerHTML = "Failed. '{{ search2 }}' was not replaced";
+      element.innerHTML = "Failed. Fetch response was not replaced";
       document.getElementById("test-string-replacement").appendChild(element);
     }
   }
@@ -149,7 +174,7 @@ description = Check that the replace-fetch-response snippet is working as expect
       const element = document.createElement("div");
       element.setAttribute("data-expectedresult", "fail");
       element.setAttribute("aria-label", "{{id}}-fail");
-      element.innerHTML = "Failed. '{{ search3 }}' was not replaced";
+      element.innerHTML = "Failed. Fetch response was not replaced";
       document.getElementById("test-string-replacement-with-needle").appendChild(element);
     }
   }
@@ -165,8 +190,24 @@ description = Check that the replace-fetch-response snippet is working as expect
       const element = document.createElement("div");
       element.setAttribute("data-expectedresult", "fail");
       element.setAttribute("aria-label", "{{id}}-fail");
-      element.innerHTML = "Failed. '{{ search4 }}' was not replaced";
+      element.innerHTML = "Failed. Fetch response was not replaced";
       document.getElementById("test-regex-parameters").appendChild(element);
+    }
+  }
+
+  function handleMultipleReplacements(text) {
+    if (text.includes("{{ replacement5 }}")) {
+      const element = document.createElement("div");
+      element.setAttribute("data-expectedresult", "pass");
+      element.innerHTML = "Fetch response was replaced";
+      document.getElementById("test-multiple-string-replacement").appendChild(element);
+    } 
+    else {
+      const element = document.createElement("div");
+      element.setAttribute("data-expectedresult", "fail");
+      element.setAttribute("aria-label", "{{id}}-fail");
+      element.innerHTML = "Failed. Fetch response was not replaced";
+      document.getElementById("test-multiple-string-replacement").appendChild(element);
     }
   }
 
@@ -178,5 +219,6 @@ description = Check that the replace-fetch-response snippet is working as expect
     fetch(`${url}`).then(response => response.text()).then(handleResponseReplace);
     fetch(`${url}`).then(response => response.text()).then(handleResponseNeedle);
     fetch(`${url}`).then(response => response.text()).then(handleResponseRegex);
+    fetch(`${url}`).then(response => response.text()).then(handleMultipleReplacements);
   }, 500);
 </script>

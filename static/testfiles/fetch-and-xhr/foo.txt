@@ -3,5 +3,5 @@
 	"test-1": "Bee is an unemployed, optimistic young woman who stumbles upon PuppyCat. She has a kind heart and a quirky personality."
 	"test-2":	"Puppycat is a mysterious creature who looks like a cat, smells like a dog."
 	"test-3": "Cardamon is a 7 years old landlord, responsible for managing the apartments where Bee lives."
-	"test-4": "Violet is Cardamon's mother, who is mysteriously in a deep sleep for much of the series."
+	"test-4": "Sticky is Cardamon's pet and a small, sticky creature that sticks to everything."
 }
