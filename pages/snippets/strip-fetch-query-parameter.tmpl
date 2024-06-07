@@ -87,7 +87,7 @@ description = Check that the strip-fetch-query-parameter snippet is working as e
   setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
 
-    let url = "/testfiles/fetch-and-xhr/foo.txt";
+    let url = "{{ site_url }}/testfiles/strip-fetch-query-parameter/foo.txt";
     fetch(`${url}?basicBlocked=1&basicAllowed=2`).then(handleResponseBasic);
     fetch(`${url}?otherAllowed1=1&otherAllowed2=2`).then(handleResponseOther);
   }, 500);
