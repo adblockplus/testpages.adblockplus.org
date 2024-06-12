@@ -1,6 +1,6 @@
 {
 	"basic-usage": "Bee and Puppycat lazy in space"
-	"string-replacement": "Bee is an unemployed, optimistic 20-something woman."
+	"string-replacement": "Bee is an unemployed, optimistic 20-something y.o. woman."
 	"string-replacement-with-needle": "Puppycat is a mysterious space outlaw who looks like a cat, smells like a dog."
 	"regex-params": "Cardamon is a 7 years old landlord."
 	"multiple-string-replacement": "Sticky is Cardamon's pet and a small, sticky creature that sticks to everything."
