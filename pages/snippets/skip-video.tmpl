@@ -1,0 +1,63 @@
+template = testcase
+title = skip-video
+description = Check that the skip-video snippet is working as expected.
+
+{% set case = "skip-video" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of the skip-video snippet works as expected..</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">
+      <video style="display: none" id="{{id}}-test-video" controls></video>
+    </div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#skip-video #{{id}}-test-video .//div[@class="ad"]</pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
+<script>
+  "use strict";
+  
+  const testVideo = document.getElementById("{{id}}-test-video");
+  // Need to load the whole video so that we can skip forward
+  const url = "{{ site_url }}/testfiles/skip-video/test-video.mp4";
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("GET", url, true);
+  xhr.responseType = "arraybuffer";
+
+  xhr.onload = function(oEvent) {
+    const blob = new Blob([oEvent.target.response], {type: "video/mp4"});
+    testVideo.src = URL.createObjectURL(blob);
+  };
+  xhr.send();
+  setTimeout(() => {
+    const adTrigger = document.createElement("div");
+    adTrigger.classList.add("ad");
+    document.getElementById("{{id}}-section").appendChild(adTrigger);
+  }, 300);
+
+  setTimeout(() => {
+    removeWaitingContent(); // eslint-disable-line no-undef
+    // Video not near end
+    if (testVideo.currentTime < testVideo.duration - 0.5) {
+      let failElement = document.createElement("div");
+      failElement.textContent = "Failed. Video not skipped to the end.";
+      failElement.setAttribute("data-expectedresult", "fail");
+      failElement.setAttribute("aria-label", "{{id}}-fail");
+      document.getElementById("{{id}}-area").appendChild(failElement);
+    }
+  }, 500);
+</script>
