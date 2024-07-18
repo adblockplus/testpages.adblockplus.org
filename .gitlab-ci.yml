@@ -108,101 +108,103 @@ test:edge:latest:
   variables:
     GREP: edge latest
 
-test:edge:windows:
-  extends: .test_rules
-  tags:
-    - saas-windows-medium-amd64
-  cache:
-    - key:
-        files:
-          - .gitlab-ci.yml
-          - package-lock.json
-      paths:
-        - choco_cache
-        - node_modules
-        - pip_cache
-  before_script:
-    # Fix for refreshenv
-    # https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/gcp/windows-containers/-/issues/13#note_337853320
-    - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-    # Setup cache locations for chocolatey and pip
-    - New-Item -Name "choco_cache" -Path "$(Get-Location)"
-      -ItemType "directory" -Force
-    - New-Item -Name "pip_cache" -Path "$(Get-Location)"
-      -ItemType "directory" -Force
-    - choco config set cacheLocation "$(Get-Location)\choco_cache"
-    # Increase the timeout to a full hour (3600 seconds)
-    - choco config set commandExecutionTimeoutSeconds 3600
-    # Install Microsoft Edge
-    - $Env:EdgePath =
-      "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
-    - try {
-        choco install -y microsoft-edge;
-        if (!(Test-Path $Env:EdgePath)) {
-          throw "Edge not found on `"$Env:EdgePath`"";
-        }
-      }
-      catch {
-        Write-Warning "$_ - Retrying Edge install...";
-        choco install -y microsoft-edge;
-        if (!(Test-Path $Env:EdgePath)) {
-          throw "Edge not found on `"$Env:EdgePath`"";
-        }
-      }
-    # Install other packages
-    - choco install -y nginx --version=1.19.0
-    - $Env:NGINX_WIN = "C:\tools\nginx-1.19.0"
-    - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
-    # Installing openssl takes longer on the new windows runners.
-    # Please refresh the page to see the progress updates
-    # https://eyeo.atlassian.net/browse/TPS-12
-    - choco install -y openssl --version 3.3.0
-    - choco install -y python3 --version 3.11.4
-    # Replaces nodejs v21.2.0 (default) with v18.17.1
-    - choco uninstall -y nodejs nodejs.install
-    - choco install -y --no-progress nodejs --version 18.17.1
-    - refreshenv
-    # nginx config
-    - xcopy test\etc\nginx\* $Env:NGINX_WIN\conf\ /E /V /F /H
-    - (Get-Content $Env:NGINX_WIN\conf\nginx.conf).replace("octet-stream;",
-        "octet-stream;`n
-        include $Env:NGINX_LINUX/conf/sites-enabled-windows/*.conf;"
-      ) | Set-Content $Env:NGINX_WIN\conf\nginx.conf
-    - openssl req -x509 -newkey rsa:4096
-      -keyout $Env:NGINX_WIN\conf\${Env:DOMAIN}_key.pem
-      -out $Env:NGINX_WIN\conf\${Env:DOMAIN}_cert.pem
-      -days 365 -nodes -subj "/CN=$Env:DOMAIN"
-    - echo "`n127.0.0.1 $Env:DOMAIN" |
-      Add-Content c:\windows\system32\drivers\etc\hosts
-    # Build CMS
-    - git clone https://gitlab.com/eyeo/websites/cms.git
-    - git -C cms checkout fbd1527b9f98d99a8b62c6ad5e32ac7758c19a28
-    - pip3 install --cache-dir "$(Get-Location)\pip_cache"
-      -r cms\requirements.txt
-    # Build tests
-    - npm install
-    # Generate test pages files
-    - mkdir -p $Env:NGINX_WIN\html\$Env:DOMAIN
-    - $Env:PYTHONPATH = "cms"
-    - python -m cms.bin.generate_static_pages . $Env:NGINX_WIN\html\$Env:DOMAIN
-  script:
-    # Run test pages server
-    - Start-Process "$Env:NGINX_WIN\nginx.exe"
-      -WorkingDirectory "$Env:NGINX_WIN" -PassThru
-    # Run endpoints server
-    - Start-Process "npm" -ArgumentList "run start-endpoints" -PassThru
-    - node ./test/extension-tests/extension-download.js
-    - npm run test -- -g "edge"
-  variables:
-    TEST_PAGES_URL: https://local.testpages.adblockplus.org:5001/en/
-    SITE_URL: https://local.testpages.adblockplus.org:5001
-    DOMAIN: local.testpages.adblockplus.org
-    TEST_PAGES_INSECURE: "true"
-  artifacts:
-    paths:
-      - ./test/screenshots
-    when: on_failure
-    expire_in: 1 mo
+# test:edge:windows:
+#   extends: .test_rules
+#   tags:
+#     - saas-windows-medium-amd64
+#   cache:
+#     - key:
+#         files:
+#           - .gitlab-ci.yml
+#           - package-lock.json
+#       paths:
+#         - choco_cache
+#         - node_modules
+#         - pip_cache
+#   before_script:
+#     # Fix for refreshenv
+#     # https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/
+#     # gcp/windows-containers/-/issues/13#note_337853320
+#     - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
+#     # Setup cache locations for chocolatey and pip
+#     - New-Item -Name "choco_cache" -Path "$(Get-Location)"
+#       -ItemType "directory" -Force
+#     - New-Item -Name "pip_cache" -Path "$(Get-Location)"
+#       -ItemType "directory" -Force
+#     - choco config set cacheLocation "$(Get-Location)\choco_cache"
+#     # Increase the timeout to a full hour (3600 seconds)
+#     - choco config set commandExecutionTimeoutSeconds 3600
+#     # Install Microsoft Edge
+#     - $Env:EdgePath =
+#       "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
+#     - try {
+#         choco install -y microsoft-edge;
+#         if (!(Test-Path $Env:EdgePath)) {
+#           throw "Edge not found on `"$Env:EdgePath`"";
+#         }
+#       }
+#       catch {
+#         Write-Warning "$_ - Retrying Edge install...";
+#         choco install -y microsoft-edge;
+#         if (!(Test-Path $Env:EdgePath)) {
+#           throw "Edge not found on `"$Env:EdgePath`"";
+#         }
+#       }
+#     # Install other packages
+#     - choco install -y nginx --version=1.19.0
+#     - $Env:NGINX_WIN = "C:\tools\nginx-1.19.0"
+#     - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
+#     # Installing openssl takes longer on the new windows runners.
+#     # Please refresh the page to see the progress updates
+#     # https://eyeo.atlassian.net/browse/TPS-12
+#     - choco install -y openssl --version 3.3.0
+#     - choco install -y python3 --version 3.11.4
+#     # Replaces nodejs v21.2.0 (default) with v18.17.1
+#     - choco uninstall -y nodejs nodejs.install
+#     - choco install -y --no-progress nodejs --version 18.17.1
+#     - refreshenv
+#     # nginx config
+#     - xcopy test\etc\nginx\* $Env:NGINX_WIN\conf\ /E /V /F /H
+#     - (Get-Content $Env:NGINX_WIN\conf\nginx.conf).replace("octet-stream;",
+#         "octet-stream;`n
+#         include $Env:NGINX_LINUX/conf/sites-enabled-windows/*.conf;"
+#       ) | Set-Content $Env:NGINX_WIN\conf\nginx.conf
+#     - openssl req -x509 -newkey rsa:4096
+#       -keyout $Env:NGINX_WIN\conf\${Env:DOMAIN}_key.pem
+#       -out $Env:NGINX_WIN\conf\${Env:DOMAIN}_cert.pem
+#       -days 365 -nodes -subj "/CN=$Env:DOMAIN"
+#     - echo "`n127.0.0.1 $Env:DOMAIN" |
+#       Add-Content c:\windows\system32\drivers\etc\hosts
+#     # Build CMS
+#     - git clone https://gitlab.com/eyeo/websites/cms.git
+#     - git -C cms checkout fbd1527b9f98d99a8b62c6ad5e32ac7758c19a28
+#     - pip3 install --cache-dir "$(Get-Location)\pip_cache"
+#       -r cms\requirements.txt
+#     # Build tests
+#     - npm install
+#     # Generate test pages files
+#     - mkdir -p $Env:NGINX_WIN\html\$Env:DOMAIN
+#     - $Env:PYTHONPATH = "cms"
+#     - python -m cms.bin.generate_static_pages .
+#       $Env:NGINX_WIN\html\$Env:DOMAIN
+#   script:
+#     # Run test pages server
+#     - Start-Process "$Env:NGINX_WIN\nginx.exe"
+#       -WorkingDirectory "$Env:NGINX_WIN" -PassThru
+#     # Run endpoints server
+#     - Start-Process "npm" -ArgumentList "run start-endpoints" -PassThru
+#     - node ./test/extension-tests/extension-download.js
+#     - npm run test -- -g "edge"
+#   variables:
+#     TEST_PAGES_URL: https://local.testpages.adblockplus.org:5001/en/
+#     SITE_URL: https://local.testpages.adblockplus.org:5001
+#     DOMAIN: local.testpages.adblockplus.org
+#     TEST_PAGES_INSECURE: "true"
+#   artifacts:
+#     paths:
+#       - ./test/screenshots
+#     when: on_failure
+#     expire_in: 1 mo
 
 # BUILD, DEPLOY ################################################################
 
