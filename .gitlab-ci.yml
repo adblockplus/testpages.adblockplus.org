@@ -109,6 +109,8 @@ test:chrome:oldest:
 #   variables:
 #     GREP: edge latest
 
+# Disabling test:edge:windows for now, as it fails because of openssl
+# See issue TPS-12 in Jira https://eyeo.atlassian.net/browse/TPS-12
 # test:edge:windows:
 #   extends: .test_rules
 #   tags:
