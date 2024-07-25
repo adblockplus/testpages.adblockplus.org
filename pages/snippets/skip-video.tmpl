@@ -9,6 +9,7 @@ description = Check that the skip-video snippet is working as expected.
   <p>Test that basic usage of the skip-video snippet works as expected..</p>
   <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">
+      <span>Example Content</span>
       <video style="display: none" id="{{id}}-test-video" controls></video>
     </div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
@@ -31,33 +32,41 @@ description = Check that the skip-video snippet is working as expected.
   "use strict";
   
   const testVideo = document.getElementById("{{id}}-test-video");
+  
   // Need to load the whole video so that we can skip forward
-  const url = "{{ site_url }}/testfiles/skip-video/test-video.mp4";
+  const videoLoaded = new Promise((resolve, reject) => {
+    const url = "{{ site_url }}/testfiles/skip-video/test-video.mp4";
 
-  const xhr = new XMLHttpRequest();
-  xhr.open("GET", url, true);
-  xhr.responseType = "arraybuffer";
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url, true);
+    xhr.responseType = "arraybuffer";
 
-  xhr.onload = function(oEvent) {
-    const blob = new Blob([oEvent.target.response], {type: "video/mp4"});
-    testVideo.src = URL.createObjectURL(blob);
-  };
-  xhr.send();
-  setTimeout(() => {
-    const adTrigger = document.createElement("div");
-    adTrigger.classList.add("ad");
-    document.getElementById("{{id}}-section").appendChild(adTrigger);
-  }, 300);
+    xhr.onload = function(oEvent) {
+      const blob = new Blob([oEvent.target.response], {type: "video/mp4"});
+      testVideo.src = URL.createObjectURL(blob);
+      resolve();
+    };
+    xhr.send();
+  });
 
-  setTimeout(() => {
-    removeWaitingContent(); // eslint-disable-line no-undef
-    // Video not near end
-    if (testVideo.currentTime < testVideo.duration - 0.5) {
-      let failElement = document.createElement("div");
-      failElement.textContent = "Failed. Video not skipped to the end.";
-      failElement.setAttribute("data-expectedresult", "fail");
-      failElement.setAttribute("aria-label", "{{id}}-fail");
-      document.getElementById("{{id}}-area").appendChild(failElement);
-    }
-  }, 500);
+  videoLoaded.then(() => {
+    setTimeout(() => {
+      const adTrigger = document.createElement("div");
+      adTrigger.classList.add("ad");
+      document.getElementById("{{id}}-section").appendChild(adTrigger);
+    }, 100);
+
+    setTimeout(() => {
+      removeWaitingContent(); // eslint-disable-line no-undef
+      // Video not near end
+      if (testVideo.currentTime < testVideo.duration - 0.5) {
+        let failElement = document.createElement("div");
+        failElement.textContent = "Failed. Video not skipped to the end.";
+        failElement.setAttribute("data-expectedresult", "fail");
+        failElement.setAttribute("aria-label", "{{id}}-fail");
+        document.getElementById("{{id}}-area").appendChild(failElement);
+      }
+    }, 500);
+  });
+  
 </script>
