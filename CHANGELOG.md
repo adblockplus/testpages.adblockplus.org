@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2024-07-25
+
+- Added a new page in pages/snippets: skip-video.
+
 ## 2024-05-20
 
 - Added two new pages in pages/service-worker: worker-itself and worker-subresource.
