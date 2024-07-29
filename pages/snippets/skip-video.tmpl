@@ -10,7 +10,7 @@ description = Check that the skip-video snippet is working as expected.
   <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">
       <span>Example Content</span>
-      <video style="display: none" id="{{id}}-test-video" controls></video>
+      <video style="display: none" id="skip-video-test-video" controls></video>
     </div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
   </div>
@@ -22,7 +22,7 @@ description = Check that the skip-video snippet is working as expected.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#skip-video #{{id}}-test-video .//div[@class="ad"]</pre></li>
+    <li><pre>{{ site_url|domain }}#$#skip-video #skip-video-test-video .//div[@class="ad"]</pre></li>
   </ul>
   <h3>Notes</h3>
   <p>Not supported in Chrome 73 (requires 74+)</p>
