@@ -1,0 +1,101 @@
+template = testcase
+title = hide-if-canvas-contains
+description = Check that the hide-if-canvas-contains snippet is working as expected.
+
+{% set case = "fillText" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that we intercept correctly when fillText() is called.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div data-expectedresult="fail" class="ft-canvas-parent" id="canvas-parent1"><div><span>Failed. Element is not hidden.</span></div></div>
+    <div class="testcase-expected-view ft-canvas-parent" id="canvas-parent2"><div><span>Should not be hidden.</span></div></div>
+    <div data-expectedresult="pass" class="ft-canvas-parent" id="canvas-parent3"><div><span>Should not be hidden.</span></div></div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-canvas-contains /sponsored/ '.ft-canvas-parent'</pre></li>
+  </ul>
+</section>
+
+{% set case = "strokeText" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that we intercept correctly when strokeText() is called.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div data-expectedresult="fail" class="st-canvas-parent" id="canvas-parent4"><div><span>Failed. Element is not hidden.</span></div></div>
+    <div class="testcase-expected-view st-canvas-parent" id="canvas-parent5"><div><span>Should not be hidden.</span></div></div>
+    <div data-expectedresult="pass" class="st-canvas-parent" id="canvas-parent6"><div><span>Should not be hidden.</span></div></div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element added to the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-canvas-contains /sponsored/ '.st-canvas-parent'</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  function createCanvas(method, id, text, x, y) {
+    const canvas = document.createElement("canvas");
+    canvas.id = id;
+
+    // Get the 2D drawing context from the canvas
+    const ctx = canvas.getContext("2d");
+    ctx.font = "20px Arial";
+    const textWidth = ctx.measureText(text).width;
+    canvas.width = textWidth + 10; // Adding some padding
+    canvas.height = 32; // Slightly taller than the text
+    canvas.style.verticalAlign = "middle"; // Aligns canvas with text
+    
+    if (method === "fillText") {
+      ctx.fillStyle = "white";
+      ctx.fillText(text, x, y);
+    } 
+    if (method === "strokeText") {
+      ctx.strokeStyle = "white";
+      ctx.strokeText(text, x, y);
+    }
+
+    return canvas; // Return the created canvas element
+  }
+
+  const canvasParent1 = document.querySelector("#canvas-parent1");
+  const canvas1 = createCanvas("fillText", "canvas1", "sponsored", 5, 18);
+  canvasParent1.appendChild(canvas1);
+
+  const canvasParent2 = document.querySelector("#canvas-parent2");
+  const canvas2 = createCanvas("fillText", "canvas2", "hello world", 5, 18);
+  canvasParent2.appendChild(canvas2);
+
+  const canvasParent3 = document.querySelector("#canvas-parent3");
+  const canvas3 = createCanvas("fillText", "canvas3", "hello world", 5, 18);
+  canvasParent3.appendChild(canvas3);
+
+  const canvasParent4 = document.querySelector("#canvas-parent4");
+  const canvas4 = createCanvas("strokeText", "canvas4", "sponsored", 5, 18);
+  canvasParent4.appendChild(canvas4);
+  
+  const canvasParent5 = document.querySelector("#canvas-parent5");
+  const canvas5 = createCanvas("strokeText", "canvas5", "hello world", 5, 18);
+  canvasParent5.appendChild(canvas5);
+
+  const canvasParent6 = document.querySelector("#canvas-parent6");
+  const canvas6 = createCanvas("strokeText", "canvas6", "hello world", 5, 18);
+  canvasParent6.appendChild(canvas6);
+</script>
