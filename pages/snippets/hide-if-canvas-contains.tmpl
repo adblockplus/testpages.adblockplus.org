@@ -21,7 +21,7 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-canvas-contains /sponsored/ '.ft-canvas-parent'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-canvas-contains /sponsored/ .ft-canvas-parent</pre></li>
   </ul>
 </section>
 
@@ -44,20 +44,20 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-canvas-contains /sponsored/ '.st-canvas-parent'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-canvas-contains /sponsored/ .st-canvas-parent</pre></li>
   </ul>
 </section>
 
 <script>
   "use strict";
 
-  function createCanvas(method, id, text, x, y) {
+  function createCanvas(method, id, text, x=0, y=18) {
     const canvas = document.createElement("canvas");
     canvas.id = id;
 
     // Get the 2D drawing context from the canvas
     const ctx = canvas.getContext("2d");
-    ctx.font = "20px Arial";
+    ctx.font = "24px Arial";
     const textWidth = ctx.measureText(text).width;
     canvas.width = textWidth + 10; // Adding some padding
     canvas.height = 32; // Slightly taller than the text
@@ -76,26 +76,26 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
   }
 
   const canvasParent1 = document.querySelector("#canvas-parent1");
-  const canvas1 = createCanvas("fillText", "canvas1", "sponsored", 5, 18);
+  const canvas1 = createCanvas("fillText", "canvas1", "sponsored");
   canvasParent1.appendChild(canvas1);
 
   const canvasParent2 = document.querySelector("#canvas-parent2");
-  const canvas2 = createCanvas("fillText", "canvas2", "hello world", 5, 18);
+  const canvas2 = createCanvas("fillText", "canvas2", "hello world");
   canvasParent2.appendChild(canvas2);
 
   const canvasParent3 = document.querySelector("#canvas-parent3");
-  const canvas3 = createCanvas("fillText", "canvas3", "hello world", 5, 18);
+  const canvas3 = createCanvas("fillText", "canvas3", "hello world");
   canvasParent3.appendChild(canvas3);
 
   const canvasParent4 = document.querySelector("#canvas-parent4");
-  const canvas4 = createCanvas("strokeText", "canvas4", "sponsored", 5, 18);
+  const canvas4 = createCanvas("strokeText", "canvas4", "sponsored");
   canvasParent4.appendChild(canvas4);
   
   const canvasParent5 = document.querySelector("#canvas-parent5");
-  const canvas5 = createCanvas("strokeText", "canvas5", "hello world", 5, 18);
+  const canvas5 = createCanvas("strokeText", "canvas5", "hello world");
   canvasParent5.appendChild(canvas5);
 
   const canvasParent6 = document.querySelector("#canvas-parent6");
-  const canvas6 = createCanvas("strokeText", "canvas6", "hello world", 5, 18);
+  const canvas6 = createCanvas("strokeText", "canvas6", "hello world");
   canvasParent6.appendChild(canvas6);
 </script>
