@@ -113,7 +113,9 @@ description = Check if json-prune feature works properly.
 
   setTimeout(() => {
     propertiesObject = JSON.parse(propertiesToUse);
+  }, 100);
 
+  setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
 
     // Handle attributes for the first three properties
