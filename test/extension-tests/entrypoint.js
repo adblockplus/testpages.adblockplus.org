@@ -33,7 +33,7 @@ const CUSTOM_BROWSER = process.env.CUSTOM_BROWSER;
 const CUSTOM_BROWSER_VERSION = process.env.BROWSER_VERSION || "latest";
 
 // Timeout in sync with test/extension-tests/helper-extension/background.js
-const helperExtTimeout = 15000;
+const helperExtTimeout = 5000;
 
 let browserVersions = {
   chromium: ["latest", "beta", "dev", "88.0.4324.27"],
@@ -41,9 +41,13 @@ let browserVersions = {
   edge: ["latest"]
 };
 
+const isMV3 = process.env.EXT_VERSION === "MV3";
+
+const helperExtPath = isMV3 ? "helper-extension" : "helper-extension-v3";
+
 const extensionPaths = [
   path.resolve("./testext"),
-  path.resolve("test", "extension-tests", "helper-extension")
+  path.resolve("test", "extension-tests", helperExtPath)
 ];
 
 async function getExtensionInfo(driver, originHandle) {
@@ -93,7 +97,7 @@ async function getOriginHandle(driver) {
     let seenHandles = handles;
     handles = await driver.getAllWindowHandles();
     return handles.every(handle => seenHandles.includes(handle));
-  }, 20000, "Handles kept changing after timeout", 15000);
+  }, 16000, "Handles kept changing after timeout", 5000);
 
   // Wait until the extension doesn't make webdriver throw when running scripts
   await driver.wait(async() => {
@@ -101,7 +105,7 @@ async function getOriginHandle(driver) {
       return await driver.executeScript(() => true);
     }
     catch (e) {}
-  }, 15000, "Webdriver can't execute scripts", 5000);
+  }, 10000, "Webdriver can't execute scripts", 1000);
 
   let origin;
   let handle;
@@ -136,7 +140,7 @@ async function waitForExtension(driver) {
   await new Promise(r => setTimeout(r, helperExtTimeout));
 
   // Timeout for initial driver.executeScript calls
-  await driver.manage().setTimeouts({pageLoad: 5000});
+  await driver.manage().setTimeouts({pageLoad: 1000});
 
   let {origin, handle} = await getOriginHandle(driver);
   if (!origin)
@@ -148,7 +152,7 @@ async function waitForExtension(driver) {
     await waitForABPStarted(driver, handle);
 
   // Timeout for page loading in test cases
-  await driver.manage().setTimeouts({pageLoad: 30000});
+  await driver.manage().setTimeouts({pageLoad: 20000});
 
   return [handle, origin];
 }
