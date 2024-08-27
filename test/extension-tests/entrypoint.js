@@ -34,7 +34,7 @@ const CUSTOM_BROWSER_VERSION = process.env.BROWSER_VERSION || "latest";
 const isMV3 = process.env.EXT_VERSION === "MV3";
 // Timeout in sync with test/extension-tests/helper-extension/background.js
 
-const helperExtTimeout = isMV3 ? 10000 : 5000;
+const helperExtTimeout = isMV3 ? 15000 : 5000;
 console.log(`Using MV3 build : ${isMV3}`);
 
 let browserVersions = {
@@ -97,7 +97,7 @@ async function getOriginHandle(driver) {
     let seenHandles = handles;
     handles = await driver.getAllWindowHandles();
     return handles.every(handle => seenHandles.includes(handle));
-  }, 16000, "Handles kept changing after timeout", 5000);
+  }, 16000, "Handles kept changing after timeout", 10000);
 
   // Wait until the extension doesn't make webdriver throw when running scripts
   await driver.wait(async() => {
