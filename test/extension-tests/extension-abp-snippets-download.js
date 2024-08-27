@@ -88,7 +88,7 @@ async function run() {
     const extensionFileName = files.find(file =>
       file.startsWith("adblockplus-chrome-") &&
           file.endsWith(".zip") &&
-          !file.includes("mv3")
+          file.includes("mv3")
     );
 
     if (extensionFileName) {
