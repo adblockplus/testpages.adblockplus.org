@@ -46,8 +46,8 @@ let browserVersions = {
 const helperExtPath = isMV3 ? "helper-extension-v3" : "helper-extension";
 
 const extensionPaths = [
+  path.resolve("test", "extension-tests", helperExtPath),
   path.resolve("./testext"),
-  path.resolve("test", "extension-tests", helperExtPath)
 ];
 
 async function getExtensionInfo(driver, originHandle) {
@@ -219,7 +219,7 @@ if (typeof run == "undefined") {
 
           try {
             // Wait for extension to finish installation
-            await this.driver.sleep(2000);
+            await this.driver.sleep(5000);
             [this.extensionHandle, this.extensionOrigin] =
               await waitForExtension(this.driver);
           }
