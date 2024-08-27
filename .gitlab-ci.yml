@@ -70,18 +70,21 @@ test:chrome:latest:
   extends: .test
   variables:
     GREP: chromium latest
+    EXT_VERSION: MV3
 
 test:chrome:beta:
   extends: .test
   allow_failure: true
   variables:
     GREP: chromium beta
+    EXT_VERSION: MV3
 
 test:chrome:dev:
   extends: .test
   allow_failure: true
   variables:
     GREP: chromium dev
+    EXT_VERSION: MV3
 
 test:chrome:oldest:
   extends: .test

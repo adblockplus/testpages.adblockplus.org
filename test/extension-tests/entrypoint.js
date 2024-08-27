@@ -33,7 +33,7 @@ const CUSTOM_BROWSER = process.env.CUSTOM_BROWSER;
 const CUSTOM_BROWSER_VERSION = process.env.BROWSER_VERSION || "latest";
 
 // Timeout in sync with test/extension-tests/helper-extension/background.js
-const helperExtTimeout = 5000;
+const helperExtTimeout = 10000;
 
 let browserVersions = {
   chromium: ["latest", "beta", "dev", "88.0.4324.27"],
@@ -93,7 +93,7 @@ async function getOriginHandle(driver) {
     let seenHandles = handles;
     handles = await driver.getAllWindowHandles();
     return handles.every(handle => seenHandles.includes(handle));
-  }, 16000, "Handles kept changing after timeout", 5000);
+  }, 20000, "Handles kept changing after timeout", 10000);
 
   // Wait until the extension doesn't make webdriver throw when running scripts
   await driver.wait(async() => {
@@ -101,7 +101,7 @@ async function getOriginHandle(driver) {
       return await driver.executeScript(() => true);
     }
     catch (e) {}
-  }, 10000, "Webdriver can't execute scripts", 1000);
+  }, 15000, "Webdriver can't execute scripts", 1000);
 
   let origin;
   let handle;

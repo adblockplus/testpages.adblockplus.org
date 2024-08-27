@@ -84,11 +84,16 @@ async function run() {
     const distBuildABP = path.join(testext, "dist-build-abp");
     // Get the list of files in the extracted directory
     const files = await readdir(distBuildABP);
+    const mv3 = process.env.EXT_VERSION;
+    console.log(mv3);
 
-    const extensionFileName = files.find(file =>
+    const manifestFiles = files.find(file => {
+      mv3 ? file.includes("mv3") : !file.includes("mv3");
+    });
+
+    const extensionFileName = manifestFiles.find(file =>
       file.startsWith("adblockplus-chrome-") &&
-          file.endsWith(".zip") &&
-          file.includes("mv3")
+          file.endsWith(".zip")
     );
 
     if (extensionFileName) {
