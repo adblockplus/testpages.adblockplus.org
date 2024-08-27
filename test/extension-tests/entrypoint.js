@@ -31,17 +31,17 @@ const TEST_PAGES_URL = process.env.TEST_PAGES_URL ||
 const TEST_PAGES_INSECURE = process.env.TEST_PAGES_INSECURE == "true";
 const CUSTOM_BROWSER = process.env.CUSTOM_BROWSER;
 const CUSTOM_BROWSER_VERSION = process.env.BROWSER_VERSION || "latest";
-
+const isMV3 = process.env.EXT_VERSION === "MV3";
 // Timeout in sync with test/extension-tests/helper-extension/background.js
-const helperExtTimeout = 5000;
+
+const helperExtTimeout = isMV3 ? 10000 : 5000;
+console.log(`Using MV3 build : ${isMV3}`);
 
 let browserVersions = {
   chromium: ["latest", "beta", "dev", "88.0.4324.27"],
   firefox: ["latest", "beta", "75.0", "68.0"],
   edge: ["latest"]
 };
-
-const isMV3 = process.env.EXT_VERSION === "MV3";
 
 const helperExtPath = isMV3 ? "helper-extension-v3" : "helper-extension";
 
