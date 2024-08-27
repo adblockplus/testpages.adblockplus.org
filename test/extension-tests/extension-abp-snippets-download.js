@@ -84,10 +84,10 @@ async function run() {
     const distBuildABP = path.join(testext, "dist-build-abp");
     // Get the list of files in the extracted directory
     const files = await readdir(distBuildABP);
-    const mv3 = process.env.EXT_VERSION;
+    const isManifestV3 = process.env.EXT_VERSION === "MV3";
 
-    const manifestFiles = files.find(file =>
-      mv3 ? file.includes("mv3") : !file.includes("mv3")
+    const manifestFiles = files.filter(file =>
+      isManifestV3 ? file.includes("mv3") : !file.includes("mv3")
     );
 
     const extensionFileName = manifestFiles.find(file =>
