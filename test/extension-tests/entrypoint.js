@@ -43,7 +43,7 @@ let browserVersions = {
 
 const isMV3 = process.env.EXT_VERSION === "MV3";
 
-const helperExtPath = isMV3 ? "helper-extension" : "helper-extension-v3";
+const helperExtPath = isMV3 ? "helper-extension-v3" : "helper-extension";
 
 const extensionPaths = [
   path.resolve("./testext"),
