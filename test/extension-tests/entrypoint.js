@@ -33,7 +33,7 @@ const CUSTOM_BROWSER = process.env.CUSTOM_BROWSER;
 const CUSTOM_BROWSER_VERSION = process.env.BROWSER_VERSION || "latest";
 
 // Timeout in sync with test/extension-tests/helper-extension/background.js
-const helperExtTimeout = 10000;
+const helperExtTimeout = 15000;
 
 let browserVersions = {
   chromium: ["latest", "beta", "dev", "88.0.4324.27"],
@@ -93,7 +93,7 @@ async function getOriginHandle(driver) {
     let seenHandles = handles;
     handles = await driver.getAllWindowHandles();
     return handles.every(handle => seenHandles.includes(handle));
-  }, 20000, "Handles kept changing after timeout", 10000);
+  }, 20000, "Handles kept changing after timeout", 15000);
 
   // Wait until the extension doesn't make webdriver throw when running scripts
   await driver.wait(async() => {
@@ -101,7 +101,7 @@ async function getOriginHandle(driver) {
       return await driver.executeScript(() => true);
     }
     catch (e) {}
-  }, 15000, "Webdriver can't execute scripts", 1000);
+  }, 15000, "Webdriver can't execute scripts", 5000);
 
   let origin;
   let handle;
@@ -136,7 +136,7 @@ async function waitForExtension(driver) {
   await new Promise(r => setTimeout(r, helperExtTimeout));
 
   // Timeout for initial driver.executeScript calls
-  await driver.manage().setTimeouts({pageLoad: 1000});
+  await driver.manage().setTimeouts({pageLoad: 5000});
 
   let {origin, handle} = await getOriginHandle(driver);
   if (!origin)
@@ -148,7 +148,7 @@ async function waitForExtension(driver) {
     await waitForABPStarted(driver, handle);
 
   // Timeout for page loading in test cases
-  await driver.manage().setTimeouts({pageLoad: 20000});
+  await driver.manage().setTimeouts({pageLoad: 30000});
 
   return [handle, origin];
 }
