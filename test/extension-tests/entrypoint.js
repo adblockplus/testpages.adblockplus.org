@@ -41,9 +41,11 @@ let browserVersions = {
   edge: ["latest"]
 };
 
+const manifestVersionEnv = process.env.MANIFEST_VERSION || "2";
 const extensionPaths = [
   path.resolve("./testext"),
-  path.resolve("test", "extension-tests", "helper-extension")
+  path.resolve("test", "extension-tests",
+               `helper-extension-mv${manifestVersionEnv}`)
 ];
 
 async function getExtensionInfo(driver, originHandle) {
@@ -150,7 +152,7 @@ async function waitForExtension(driver) {
   // Timeout for page loading in test cases
   await driver.manage().setTimeouts({pageLoad: 20000});
 
-  return [handle, origin];
+  return [handle, origin, manifestVersion];
 }
 
 async function getPageTests() {
@@ -216,7 +218,7 @@ if (typeof run == "undefined") {
           try {
             // Wait for extension to finish installation
             await this.driver.sleep(2000);
-            [this.extensionHandle, this.extensionOrigin] =
+            [this.extensionHandle, this.extensionOrigin, this.manifestVersion] =
               await waitForExtension(this.driver);
           }
           catch (err) {

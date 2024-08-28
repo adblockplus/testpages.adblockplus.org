@@ -14,7 +14,7 @@ if [[ "$GREP" == *"chromium"* || "$GREP" == *"edge"* ]]; then
 fi
 
 # Manifest config
-if [[ "$GREP" == *"chromium"* ]]; then
+if [[ "$GREP" == *"chromium"* && "$GREP" != *"77"* ]]; then
   export MANIFEST_VERSION="3"
 else
   export MANIFEST_VERSION="2"

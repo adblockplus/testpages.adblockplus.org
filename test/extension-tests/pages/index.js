@@ -124,7 +124,7 @@ export default () => {
         for (let [url, pageTitle] of testCases) {
           it(pageTitle, async function() {
             let page = getPage(url);
-            if (isExcluded(page, this.browserName))
+            if (isExcluded(page, this.browserName, this.manifestVersion))
               this.skip();
 
             if (page in specializedTests) {

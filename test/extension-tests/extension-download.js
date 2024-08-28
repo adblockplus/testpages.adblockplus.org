@@ -35,7 +35,8 @@ async function run() {
   let manifestVersion = process.env.MANIFEST_VERSION || "2";
 
   info = info.flat().map(obj => obj.path)
-    .filter(p => p.startsWith("adblockplus-chrome") && p.endsWith(`mv${manifestVersion}.zip`))
+    .filter(p => p.startsWith("adblockplus-chrome") &&
+            p.endsWith(`mv${manifestVersion}.zip`))
     .sort((p1, p2) => semver.gt(semver.coerce(p1), semver.coerce(p2)) ? 1 : -1);
 
   let filename = info[info.length - 1];
