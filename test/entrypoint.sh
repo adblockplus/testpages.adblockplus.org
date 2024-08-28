@@ -13,6 +13,13 @@ if [[ "$GREP" == *"chromium"* || "$GREP" == *"edge"* ]]; then
   XVFB_CMD="xvfb-run -a"
 fi
 
+# Manifest config
+if [[ "$GREP" == *"chromium"* ]]; then
+  export MANIFEST_VERSION="3"
+else
+  export MANIFEST_VERSION="2"
+fi
+
 cd testpages.adblockplus.org
 
 # Download extension
