@@ -41,11 +41,9 @@ let browserVersions = {
   edge: ["latest"]
 };
 
-const manifestVersionEnv = process.env.MANIFEST_VERSION || "2";
 const extensionPaths = [
   path.resolve("./testext"),
-  path.resolve("test", "extension-tests",
-               `helper-extension-mv${manifestVersionEnv}`)
+  path.resolve("./helper-extension-build")
 ];
 
 async function getExtensionInfo(driver, originHandle) {

@@ -165,9 +165,9 @@ with testpages filters pointing to specific domain:
 
 ```shell
 SITE_URL=http://local.abptestpages.org python3 ../cms/runserver.py --port 5001
-``` 
+```
 
-If you wish to test Domain Wildcard scenario locally, you need to 
+If you wish to test Domain Wildcard scenario locally, you need to
 start browser from command line and map ports to  `local.abptestpages.org` (filters are already
 pointing to this domain).
 This works for Chromium browser only (excute command on the folder where browser binary
@@ -179,7 +179,7 @@ On Mac:
 open Chromium.app --args --host-resolver-rules="MAP local.abptestpages.org localhost:5001"
 ```
 
-On Linux: 
+On Linux:
 You may need to use `chromium` or `google-chrome` based on your distribution.
 
 ```shell
@@ -187,7 +187,7 @@ chromium --args --host-resolver-rules="MAP local.abptestpages.org localhost:5001
 ```
 
 On Windows:
-For a default installation on a 64-bit system. 
+For a default installation on a 64-bit system.
 
 ```shell
 start "" "C:\Program Files\Google\Chrome\Application\chrome.exe" --host-resolver-rules="MAP local.abptestpages.org localhost:5001"
@@ -213,15 +213,15 @@ environment variable needs to point to the local CMS server, if you wish to test
 on abptestpages.org then don't provide that variable:
 
 ```shell
-TEST_PAGES_URL=http://localhost:5001 npm test -- -g "chromium latest"
+TEST_PAGES_URL=http://localhost:5001 MANIFEST_VERSION={2|3} npm test -- -g "chromium latest"
 ```
 
-If testpage is excluded from execution in: 
+If testpage is excluded from execution in:
 `/test/extension-tests/pages/utils.js`and you want to unskip it, you
 can define environment variable to force unskip.
 
 ```shell
-TESTS_TO_INCLUDE=filters/wildcard-domain npm test -- -g "chromium latest"
+TESTS_TO_INCLUDE=filters/wildcard-domain MANIFEST_VERSION={2|3} npm test -- -g "chromium latest"
 ```
 
 Notes:
