@@ -32,8 +32,11 @@ async function run() {
   for (let i = 1; i <= totalPages; i++)
     info.push(await got(`${URL}?page=${i}&per_page=100`).json());
 
+  let manifestVersion = process.env.MANIFEST_VERSION || "2";
+
   info = info.flat().map(obj => obj.path)
-    .filter(p => p.startsWith("adblockpluschrome") && p.endsWith(".zip"))
+    .filter(p => p.startsWith("adblockplus-chrome") &&
+            p.endsWith(`mv${manifestVersion}.zip`))
     .sort((p1, p2) => semver.gt(semver.coerce(p1), semver.coerce(p2)) ? 1 : -1);
 
   let filename = info[info.length - 1];
