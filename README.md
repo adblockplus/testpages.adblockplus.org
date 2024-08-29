@@ -210,7 +210,12 @@ Note: It is also possible to manually extract a different ABP version into the
 
 After that, tests are ready to run. Please notice the `TEST_PAGES_URL`
 environment variable needs to point to the local CMS server, if you wish to test
-on abptestpages.org then don't provide that variable:
+on abptestpages.org then don't provide that variable.
+
+Additionally, `MANIFEST_VERSION` needs to be set, matching the manifest version
+of the extensions that was unpacked into the `./testext` folder.
+
+Example:
 
 ```shell
 TEST_PAGES_URL=http://localhost:5001 MANIFEST_VERSION={2|3} npm test -- -g "chromium latest"

@@ -27,9 +27,10 @@ const helperExtensionSrcPath =
 
 async function run() {
   let manifestVersion = process.env.MANIFEST_VERSION;
-  if (manifestVersion !== "2" && manifestVersion !== "3")
+  if (manifestVersion !== "2" && manifestVersion !== "3"){
     throw new Error("MANIFEST_VERSION env var must be \"2\" or \"3\". " +
       `Current: "${manifestVersion}"`);
+  }
   manifestVersion = parseInt(manifestVersion, 10);
 
   await fs.promises.rm(helperExtensionDestPath, {recursive: true, force: true});
