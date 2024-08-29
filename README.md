@@ -37,7 +37,7 @@ Tests can be executed with:
 
 ```shell
 docker build -t testpages .
-docker run --shm-size=1g -it testpages
+docker run --shm-size=2g -it testpages
 ```
 
 #### Grep
@@ -46,7 +46,7 @@ docker run --shm-size=1g -it testpages
 `GREP` argument:
 
 ```shell
-docker run --shm-size=1g -e GREP="chromium latest" -it testpages
+docker run --shm-size=2g -e GREP="chromium latest" -it testpages
 ```
 
 The available browsers are:
@@ -64,13 +64,13 @@ The available browsers are:
 run a subset of those tests. Example:
 
 ```shell
-docker run --shm-size=1g -e GREP="chromium latest.*(Blocking|Popup)" -it testpages
+docker run --shm-size=2g -e GREP="chromium latest.*(Blocking|Popup)" -it testpages
 ```
 
 To exclude a subset of the tests, use a negative regular expression. Example:
 
 ```shell
-docker run --shm-size=1g -e GREP="^.*chromium latest((?\!Snippets).)*\$" -it testpages
+docker run --shm-size=2g -e GREP="^.*chromium latest((?\!Snippets).)*\$" -it testpages
 ```
 
 #### Packed extensions
@@ -89,7 +89,7 @@ argument to be set to `true`, otherwise the custom extension would be overridden
 by the default extension. Example:
 
 ```shell
-docker run --shm-size=1g -e SKIP_EXTENSION_DOWNLOAD="true" -it testpages
+docker run --shm-size=2g -e SKIP_EXTENSION_DOWNLOAD="true" -it testpages
 ```
 
 Any ad blocking extension can be used to run automated tests on testpages, as
@@ -109,7 +109,7 @@ changed to throw an actual error by setting the `THROW_LAST_ERROR` argument to
 `true`. Example:
 
 ```shell
-docker run --shm-size=1g -e THROW_LAST_ERROR="true" -it testpages
+docker run --shm-size=2g -e THROW_LAST_ERROR="true" -it testpages
 ```
 
 #### Debugging failing tests
@@ -165,9 +165,9 @@ with testpages filters pointing to specific domain:
 
 ```shell
 SITE_URL=http://local.abptestpages.org python3 ../cms/runserver.py --port 5001
-``` 
+```
 
-If you wish to test Domain Wildcard scenario locally, you need to 
+If you wish to test Domain Wildcard scenario locally, you need to
 start browser from command line and map ports to  `local.abptestpages.org` (filters are already
 pointing to this domain).
 This works for Chromium browser only (excute command on the folder where browser binary
@@ -179,7 +179,7 @@ On Mac:
 open Chromium.app --args --host-resolver-rules="MAP local.abptestpages.org localhost:5001"
 ```
 
-On Linux: 
+On Linux:
 You may need to use `chromium` or `google-chrome` based on your distribution.
 
 ```shell
@@ -187,7 +187,7 @@ chromium --args --host-resolver-rules="MAP local.abptestpages.org localhost:5001
 ```
 
 On Windows:
-For a default installation on a 64-bit system. 
+For a default installation on a 64-bit system.
 
 ```shell
 start "" "C:\Program Files\Google\Chrome\Application\chrome.exe" --host-resolver-rules="MAP local.abptestpages.org localhost:5001"
@@ -210,18 +210,23 @@ Note: It is also possible to manually extract a different ABP version into the
 
 After that, tests are ready to run. Please notice the `TEST_PAGES_URL`
 environment variable needs to point to the local CMS server, if you wish to test
-on abptestpages.org then don't provide that variable:
+on abptestpages.org then don't provide that variable.
+
+Additionally, `MANIFEST_VERSION` needs to be set, matching the manifest version
+of the extensions that was unpacked into the `./testext` folder.
+
+Example:
 
 ```shell
-TEST_PAGES_URL=http://localhost:5001 npm test -- -g "chromium latest"
+TEST_PAGES_URL=http://localhost:5001 MANIFEST_VERSION={2|3} npm test -- -g "chromium latest"
 ```
 
-If testpage is excluded from execution in: 
+If testpage is excluded from execution in:
 `/test/extension-tests/pages/utils.js`and you want to unskip it, you
 can define environment variable to force unskip.
 
 ```shell
-TESTS_TO_INCLUDE=filters/wildcard-domain npm test -- -g "chromium latest"
+TESTS_TO_INCLUDE=filters/wildcard-domain MANIFEST_VERSION={2|3} npm test -- -g "chromium latest"
 ```
 
 Notes:
