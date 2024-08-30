@@ -33,10 +33,6 @@ export function isExcluded(page, browserName, manifestVersion) {
   else if (page == "exceptions/iframe")
     excluded = ["firefox"];
   // Should be un-excluded for Chrome when ABP will start supporting feature
-  else if (page == "filters/wildcard-domain")
-    return true;
-  else if (/^filters\/remove/.test(page))
-    return true;
   else if (/^filters\/inline-css/.test(page))
     return true;
   else if (/^exceptions\/inline-css/.test(page))
