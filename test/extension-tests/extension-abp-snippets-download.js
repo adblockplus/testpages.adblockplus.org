@@ -85,11 +85,12 @@ async function run() {
     // Get the list of files in the extracted directory
     const files = await readdir(distBuildABP);
 
-    const extensionFileName = files.find(file =>
-      file.startsWith("adblockplus-chrome-") &&
-          file.endsWith(".zip") &&
-          !file.includes("mv3")
-    );
+    let manifestVersion = process.env.MANIFEST_VERSION || "2";
+
+    const fileFilter = file =>
+      file.startsWith("adblockplus-chrome") &&
+      file.endsWith(`mv${manifestVersion}.zip`);
+    const extensionFileName = files.find(fileFilter);
 
     if (extensionFileName) {
       const targetZipFilePath = path.join(distBuildABP, extensionFileName);
