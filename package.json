@@ -31,7 +31,7 @@
     "eslint": "eslint test/extension-tests endpoints/ static/ pages/**/*.tmpl",
     "linthtml": "linthtml --config test/.linthtmlrc.json static/**/*.html \\*\\*/\\*.tmpl",
     "stylelint": "stylelint --config test/.stylelintrc.json \"**/*.{css,html}\"",
-    "test": "mocha --delay test/extension-tests/entrypoint.js --",
+    "test": "node test/extension-tests/helper-extension/build.js && mocha --delay test/extension-tests/entrypoint.js --",
     "start-endpoints": "node endpoints/start.js"
   }
 }

@@ -22,7 +22,7 @@ import {takeScreenshot, writeScreenshotFile, writeScreenshotAndThrow}
   from "../misc/screenshots.js";
 const TESTS_TO_INCLUDE = process.env.TESTS_TO_INCLUDE || "";
 
-export function isExcluded(page, browserName) {
+export function isExcluded(page, browserName, manifestVersion) {
   if (TESTS_TO_INCLUDE.includes(page))
     return false;
 
@@ -41,7 +41,11 @@ export function isExcluded(page, browserName) {
     return true;
   else if (/^exceptions\/inline-css/.test(page))
     return true;
-  else if (page == "exceptions/sitekey_mv3")
+  else if (manifestVersion == 2 && page == "exceptions/sitekey_mv3")
+    return true;
+  else if (manifestVersion == 3 && (page == "exceptions/sitekey_mv2" ||
+                                    page == "filters/header" ||
+                                    page == "exceptions/header"))
     return true;
   else if (/^service-worker/.test(page))
     return true;
@@ -118,10 +122,11 @@ export function getPage(url) {
 }
 
 export async function runFirstTest(context, testCases) {
-  let {driver, browserName, browserVersion, test} = context;
+  let {driver, browserName, browserVersion, test, manifestVersion} = context;
   for (let [url] of testCases) {
     let page = getPage(url);
-    if (!(isExcluded(page, browserName) || page in specializedTests)) {
+    if (!(isExcluded(page, browserName, manifestVersion) ||
+        page in specializedTests)) {
       let expectedScreenshot = await getExpectedScreenshot(context, url);
       await driver.navigate().to(url);
       await runGenericTests(driver, expectedScreenshot, browserName,
