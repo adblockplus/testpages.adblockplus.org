@@ -22,7 +22,7 @@ import extractZip from "extract-zip";
 import fs from "node:fs";
 import {pipeline} from "node:stream";
 import {promisify} from "node:util";
-import {readdir, rmdir, unlink} from "node:fs/promises";
+import {readdir, rm, unlink} from "node:fs/promises";
 
 /**
  * Downloads url resources.
@@ -85,11 +85,12 @@ async function run() {
     // Get the list of files in the extracted directory
     const files = await readdir(distBuildABP);
 
-    const extensionFileName = files.find(file =>
-      file.startsWith("adblockplus-chrome-") &&
-          file.endsWith(".zip") &&
-          !file.includes("mv3")
-    );
+    let manifestVersion = process.env.MANIFEST_VERSION || "2";
+
+    const fileFilter = file =>
+      file.startsWith("adblockplus-chrome") &&
+      file.endsWith(`mv${manifestVersion}.zip`);
+    const extensionFileName = files.find(fileFilter);
 
     if (extensionFileName) {
       const targetZipFilePath = path.join(distBuildABP, extensionFileName);
@@ -105,7 +106,7 @@ async function run() {
     }
 
     // Delete the distBuildABP folder
-    await rmdir(distBuildABP, {recursive: true});
+    await rm(distBuildABP, {recursive: true});
   }
   finally {
     await unlink(archive);
