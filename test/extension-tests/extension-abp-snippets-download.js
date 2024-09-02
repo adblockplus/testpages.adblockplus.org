@@ -86,10 +86,16 @@ async function run() {
     const files = await readdir(distBuildABP);
 
     let manifestVersion = process.env.MANIFEST_VERSION || "2";
+    // eslint-disable-next-line no-console
+    console.log("Using Manifest Version:", manifestVersion);
 
-    const fileFilter = file =>
-      file.startsWith("adblockplus-chrome") &&
-      file.endsWith(`mv${manifestVersion}.zip`);
+    const fileFilter = file => {
+      if (manifestVersion === "2")
+        return file.startsWith("adblockplus-chrome") && !file.includes("mv");
+
+      return file.startsWith("adblockplus-chrome") &&
+             file.endsWith(`mv${manifestVersion}.zip`);
+    };
     const extensionFileName = files.find(fileFilter);
 
     if (extensionFileName) {
@@ -114,3 +120,4 @@ async function run() {
 }
 
 run();
+console.log("Downloading ABP extension..."); // eslint-disable-line no-console
