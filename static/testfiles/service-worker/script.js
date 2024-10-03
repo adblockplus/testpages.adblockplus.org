@@ -16,7 +16,7 @@ async function setup(workerName) {
     throw "Workers not supported";
   try {
     // Adding date param prevents from fetching worker from a cache
-    await navigator.serviceWorker.register(workerName + "?" + Date.now(), {scope: location.pathname});
+    await navigator.serviceWorker.register(workerName, {scope: location.pathname});
   }
   catch (error) {
     return "blocked";
