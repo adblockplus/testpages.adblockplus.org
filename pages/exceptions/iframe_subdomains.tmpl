@@ -34,7 +34,7 @@ description = Check that usage loading frames across subdomains works with excep
   {{ heading(case) }}
   <p>Test that an exception filter defined with both $subdocument and $document option is applied like a $subdocument filter to an iframe</p>
   <div id="{{id}}-area" class="testcase-area">
-    <iframe id="combined-options-frame-id" src="https://allowed.abptestpages.org/testfiles/iframe_exception/subdomain_parent.html" width="300" height="300"></iframe>
+    <iframe id="{{id}}-iframe" src="https://allowed.abptestpages.org/testfiles/iframe_exception/subdomain_parent.html" width="300" height="300"></iframe>
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
   </div>
   <h3>Steps</h3>
@@ -61,7 +61,7 @@ description = Check that usage loading frames across subdomains works with excep
   let iframe = document.createElement("iframe");
   iframe.src = "https://allowed.abptestpages.org/testfiles/iframe_exception/parent.html";
   iframe.width = "300";
-  iframe.id = "sudomains-frame-id";
+  iframe.id = "{{id}}-iframe";
   iframe.height = "300";
   parentFrame.appendChild(iframe);
 </script>
