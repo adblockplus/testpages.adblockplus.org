@@ -61,7 +61,7 @@ description = Check that usage loading frames across subdomains works with excep
   let iframe = document.createElement("iframe");
   iframe.src = "https://allowed.abptestpages.org/testfiles/iframe_exception/parent.html";
   iframe.width = "300";
-  iframe.id = "{{id}}-iframe";
+  iframe.id = parentFrame.parentElement.parentElement.id + "-iframe";
   iframe.height = "300";
   parentFrame.appendChild(iframe);
 </script>
