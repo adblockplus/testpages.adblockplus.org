@@ -53,31 +53,33 @@ description = Check that blocking a request made by a worker script works as exp
 <script>
   "use strict";
 
-  removeWorkers().then(_ => { // eslint-disable-line no-undef
-    setup("/fetching-service-worker.js") // eslint-disable-line no-undef
+  /* eslint-disable no-undef */
+  removeWorkers().then(_ => {
+    setup("/fetching-service-worker.js")
     .then(status => {
       if (status !== "ready") {
-        handleError(); // eslint-disable-line no-undef
+        handleError();
       }
       else {
-        const blocked = fetchFromServiceWorker("/testfiles/service-worker/ad.png"); // eslint-disable-line no-undef
-        const allowed = fetchFromServiceWorker("/testfiles/service-worker/no_ad.png"); // eslint-disable-line no-undef
+        const blocked = fetchFromServiceWorker("/testfiles/service-worker/ad.png");
+        const allowed = fetchFromServiceWorker("/testfiles/service-worker/no_ad.png");
         const promises = [allowed, blocked];
         Promise.allSettled(promises)
         .then(results => {
           if (results[0].value === "fetch completed")
-            addChild("allowed-target", "pass"); // eslint-disable-line no-undef
+            addChild("allowed-target", "pass");
           else
-            addChild("allowed-target", "fail"); // eslint-disable-line no-undef
+            addChild("allowed-target", "fail");
 
           if (results[1].value !== "fetch completed")
-            addChild("blocked-target", "pass"); // eslint-disable-line no-undef
+            addChild("blocked-target", "pass");
           else
-            addChild("blocked-target", "fail"); // eslint-disable-line no-undef
+            addChild("blocked-target", "fail");
         });
       }
     })
-    .catch(error => handleError()) // eslint-disable-line no-undef
-    .finally(() => removeWaitingContent()); // eslint-disable-line no-undef
+    .catch(error => handleError())
+    .finally(() => removeWaitingContent());
   });
+  /* eslint-enable no-undef */
 </script>
