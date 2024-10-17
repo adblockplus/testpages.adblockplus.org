@@ -2,8 +2,6 @@ template = testcase
 title =  JSON prune
 description = Check if json-prune feature works properly.
 
-<script src="/testfiles/json-prune/utils.js"></script>
-
 {% set case = "json-prune" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
@@ -44,7 +42,7 @@ description = Check if json-prune feature works properly.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#json-prune toBeDeletedIfStackNeedle '' addProperties</pre></li>
+    <li><pre>{{ site_url|domain }}#$#json-prune toBeDeletedIfStackNeedle '' callstack</pre></li>
   </ul>
   <h3>Notes</h3>
   <p>Not supported in Chrome 73 (requires 74+)</p>
@@ -98,7 +96,6 @@ description = Check if json-prune feature works properly.
 
 <script type="text/javascript">
   "use strict";
-
   let propertiesToUse = `{
     "jsonprune": "true",
     "data-expectedresult": "fail",
@@ -119,13 +116,13 @@ description = Check if json-prune feature works properly.
       "data3": {
         "different-data": "dont-delete-me"
       }
-    }
+    },
+    "toBeDeletedIfStackNeedle": "delete-me"
   }`;
-
-  let propertiesObject;
-  let stackNeedleObject;
   
+  let propertiesObject;
 
+  // Creates div elems for each test case
   function createAndAppendDiv(parentId, divId) {
     let parentElement = document.getElementById(parentId);
     let newDiv = document.createElement("div");
@@ -137,10 +134,13 @@ description = Check if json-prune feature works properly.
   function setAttributeBasedOnCondition(element, condition) {
     element.setAttribute("data-expectedresult", condition ? "pass" : "fail");
   }
-
+  
   setTimeout(() => {
-    propertiesObject = JSON.parse(propertiesToUse);
-    stackNeedleObject = JSON.parse(window.needleFunction);
+    // The function `callstack` wraps the JSON.parse call for the stack-needle testcase
+    function callstack() {
+      propertiesObject = JSON.parse(propertiesToUse);
+    }
+    callstack();
   }, 100);
 
   setTimeout(() => {
@@ -164,8 +164,7 @@ description = Check if json-prune feature works properly.
 
     // Check for "toBeDeletedIfStackNeedle"
     let targetTestCaseStackNeedle = createAndAppendDiv("stack-needle-area", "stackNeedle");
-    let toBeDeletedIfStackNeedle = !stackNeedleObject.hasOwnProperty("toBeDeletedIfStackNeedle");
-    console.log(toBeDeletedIfStackNeedle);
+    let toBeDeletedIfStackNeedle = !propertiesObject.hasOwnProperty("toBeDeletedIfStackNeedle");
     setAttributeBasedOnCondition(targetTestCaseStackNeedle, toBeDeletedIfStackNeedle);
 
 
