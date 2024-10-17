@@ -96,6 +96,7 @@ description = Check if json-prune feature works properly.
 
 <script type="text/javascript">
   "use strict";
+
   let propertiesToUse = `{
     "jsonprune": "true",
     "data-expectedresult": "fail",
@@ -164,7 +165,7 @@ description = Check if json-prune feature works properly.
 
     // Check for "toBeDeletedIfStackNeedle"
     let targetTestCaseStackNeedle = createAndAppendDiv("stack-needle-area", "stackNeedle");
-    let toBeDeletedIfStackNeedle = !propertiesObject.hasOwnProperty("toBeDeletedIfStackNeedle");
+    let toBeDeletedIfStackNeedle = !Object.prototype.hasOwnProperty.call(propertiesObject, "toBeDeletedIfStackNeedle");
     setAttributeBasedOnCondition(targetTestCaseStackNeedle, toBeDeletedIfStackNeedle);
 
 
