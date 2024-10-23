@@ -110,24 +110,23 @@ description = Check if json-override feature works properly.
   }
   
   setTimeout(() => {
-      propertiesObject = JSON.parse(propertiesToUse);
+    propertiesObject = JSON.parse(propertiesToUse);
   }, 100);
 
   setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
 
     // Handle attributes for the first three properties
-    let targetTestCaseBasic = createAndAppendDiv("json-override-area", "fail");
+    let targetTestCaseBasic = createAndAppendDiv("json-override-area", "basic");
     if (propertiesObject) {
-        let attr = document.createAttribute("data-expectedresult");
-        let condition = propertiesObject["data-expectedresult"] === "";
-        setAttributeBasedOnCondition(targetTestCaseBasic, condition);
+      document.createAttribute("data-expectedresult");
+      let condition = propertiesObject["data-expectedresult"] === "";
+      setAttributeBasedOnCondition(targetTestCaseBasic, condition);
 
 
       // Check for "target-data" in array
       let targetTestCaseArray = createAndAppendDiv("json-override-array-area", "array");
       let replacedTargetDataInArray = propertiesObject.array.every(obj => {
-        // If the key "target-data" exists, it verifies that its value is an empty string. If the key does not exist, it ignores the object.
         return obj["different-data"] === "dont-replace-me" || obj["target-data"] === "";
       });
       setAttributeBasedOnCondition(targetTestCaseArray, replacedTargetDataInArray);
