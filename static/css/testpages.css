@@ -160,7 +160,6 @@ a { color: inherit; }
 
 .testcase-filters pre:hover {
   cursor: pointer;
-  filter: brightness(85%);
 }
 
 .testcase-waiting-content {
