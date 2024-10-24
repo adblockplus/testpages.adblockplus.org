@@ -41,7 +41,7 @@ description = Check if json-override feature works properly.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#json-override array.[].target-data ''</pre></li>
+    <li><pre>{{ site_url|domain }}#$#json-override 'array.[].target-data' ''</pre></li>
   </ul>
   <h3>Notes</h3>
   <p>Not supported in Chrome 73 (requires 74+)</p>
@@ -64,7 +64,7 @@ description = Check if json-override feature works properly.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#json-override object.{}.target-data ''</pre></li>
+    <li><pre>{{ site_url|domain }}#$#json-override 'object.{}.target-data' ''</pre></li>
   </ul>
   <h3>Notes</h3>
   <p>Not supported in Chrome 73 (requires 74+)</p>
@@ -116,13 +116,11 @@ description = Check if json-override feature works properly.
   setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
 
-    // Handle attributes for the first three properties
-    let targetTestCaseBasic = createAndAppendDiv("json-override-area", "basic");
     if (propertiesObject) {
+      let targetTestCaseBasic = createAndAppendDiv("json-override-area", "basic");
       document.createAttribute("data-expectedresult");
       let condition = propertiesObject["data-expectedresult"] === "";
       setAttributeBasedOnCondition(targetTestCaseBasic, condition);
-
 
       // Check for "target-data" in array
       let targetTestCaseArray = createAndAppendDiv("json-override-array-area", "array");
