@@ -108,7 +108,7 @@ async function run() {
       console.error("Target .zip file not found.");
     }
 
-    // Delete the distBuildABP folder 
+    // Delete the distBuildABP folder
     await rm(distBuildABP, {recursive: true});
   }
   finally {
