@@ -86,7 +86,7 @@ test:chrome:dev:
 test:chrome:oldest:
   extends: .test
   variables:
-    GREP: chromium 88.0.4324.27
+    GREP: chromium 128.0.6613.0
 
 test:firefox:latest:
   extends: .test
