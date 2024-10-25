@@ -24,30 +24,117 @@ description = Check if json-override feature works properly.
   <h3>Notes</h3>
   <p>Not supported in Chrome 73 (requires 74+)</p>
 </section>
+{% set case = "json-override-array" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that the [] placeholder works as expected.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#json-override 'array.[].target-data' ''</pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
+{% set case = "json-override-object" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that the {} placeholder works as expected.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#json-override 'object.{}.target-data' ''</pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
 
 <script>
   "use strict";
 
-  let propertiesToUse = '{"data-expectedresult": "fail"}';
+  let propertiesToUse = `{
+    "data-expectedresult": "fail",
+    "array": [
+      {"target-data": "replace-me"},
+      {"target-data": "replace-me"},
+      {"target-data": "replace-me"},
+      {"different-data": "dont-replace-me"}
+    ],
+    "object": {
+      "data1": {
+        "target-data": "replace-me"
+      },
+      "data2": {
+        "target-data": "replace-me"
+      },
+      "data3": {
+        "different-data": "dont-replace-me"
+      }
+    }
+  }`;
   let propertiesObject;
 
+  // Creates div elems for each test case
+  function createAndAppendDiv(parentId, divId) {
+    let parentElement = document.getElementById(parentId);
+    let newDiv = document.createElement("div");
+    newDiv.id = divId;
+    parentElement.appendChild(newDiv);
+    return newDiv;
+  }
+
+  function setAttributeBasedOnCondition(element, condition) {
+    element.setAttribute("data-expectedresult", condition ? "pass" : "fail");
+  }
+  
   setTimeout(() => {
     propertiesObject = JSON.parse(propertiesToUse);
   }, 100);
 
   setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
-    let targetTestCase = document.getElementById("{{id}}-area");
-    let divToManipulate = document.createElement("div");
-    divToManipulate.id = "fail";
-    targetTestCase.appendChild(divToManipulate);
 
     if (propertiesObject) {
-      for (let property in propertiesObject) {
-        let attr = document.createAttribute(property);
-        attr.value = propertiesObject[property];
-        document.getElementById("fail").setAttributeNode(attr);
-      }
+      let targetTestCaseBasic = createAndAppendDiv("json-override-area", "basic");
+      document.createAttribute("data-expectedresult");
+      let condition = propertiesObject["data-expectedresult"] === "";
+      setAttributeBasedOnCondition(targetTestCaseBasic, condition);
+
+      // Check for "target-data" in array
+      let targetTestCaseArray = createAndAppendDiv("json-override-array-area", "array");
+      let replacedTargetDataInArray = propertiesObject.array.every(obj => {
+        return obj["different-data"] === "dont-replace-me" || obj["target-data"] === "";
+      });
+      setAttributeBasedOnCondition(targetTestCaseArray, replacedTargetDataInArray);
+
+      // Check for "target-data" in object
+      let targetTestCaseObject = createAndAppendDiv("json-override-object-area", "object");
+      let replacedTargetDataInObject = Object.values(propertiesObject.object).every(innerObj =>
+        innerObj["different-data"] === "dont-replace-me" || innerObj["target-data"] === ""
+      );
+      setAttributeBasedOnCondition(targetTestCaseObject, replacedTargetDataInObject);
     }
   }, 500);
 </script>
