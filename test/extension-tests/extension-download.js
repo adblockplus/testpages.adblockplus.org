@@ -18,7 +18,6 @@
 import got from "got";
 import path from "path";
 import extractZip from "extract-zip";
-import semver from "semver";
 
 import {download} from "@eyeo/get-browser-binary";
 
@@ -26,18 +25,17 @@ const URL = "https://gitlab.com/api/v4/projects/62936800/releases"; // rowan ("t
 // const URL = "https://gitlab.com/api/v4/projects/59518842/releases"; // ext releases ("production")
 
 async function run() {
-  const info = await got(URL).json();
-
   let manifestVersion = process.env.MANIFEST_VERSION || "2";
 
-  // this will get the first occurence of the file, but that should be good enough?, as releases are shown from the most recent to the oldest one
-  let extensionLinkObject = info[0].assets.links.find(link =>
+  const infos = await got(URL).json();
+  const extensionLinks = infos.flatMap(info => info.assets.links);
+  let extensionLinkObject = extensionLinks.find(link =>
     link.direct_asset_url &&
-      link.direct_asset_url.includes("adblock-chrome") && // this is currently adblock, because there is no adblockplus build available yet with this new formatting
-      link.direct_asset_url.endsWith(`mv${manifestVersion}.zip`));
+    link.direct_asset_url.includes("adblock-chrome") && // this is currently adblock, because there is no adblockplus build available yet with this new formatting
+    link.direct_asset_url.endsWith(`mv${manifestVersion}.zip`));
 
   const extensionLink = extensionLinkObject.direct_asset_url;
-  let filename = extensionLink.substring(extensionLink.lastIndexOf("/") + 1);
+  let filename = extensionLink.split("/").pop();
   let archive = path.join(process.cwd(), filename);
   let testext = path.join(process.cwd(), "testext");
   await download(`${extensionLink}?inline=false`, archive);
