@@ -21,8 +21,7 @@ import extractZip from "extract-zip";
 
 import {download} from "@eyeo/get-browser-binary";
 
-const URL = "https://gitlab.com/api/v4/projects/62936800/releases"; // rowan ("test env")
-// const URL = "https://gitlab.com/api/v4/projects/59518842/releases"; // ext releases ("production")
+const URL = "https://gitlab.com/api/v4/projects/59518842/releases";
 
 async function run() {
   let manifestVersion = process.env.MANIFEST_VERSION || "2";
@@ -31,7 +30,7 @@ async function run() {
   const extensionLinks = infos.flatMap(info => info.assets.links);
   let extensionLinkObject = extensionLinks.find(link =>
     link.direct_asset_url &&
-    link.direct_asset_url.includes("adblock-chrome") && // this is currently adblock, because there is no adblockplus build available yet with this new formatting
+    link.direct_asset_url.includes("adblockplus-chrome") &&
     link.direct_asset_url.endsWith(`mv${manifestVersion}.zip`));
 
   const extensionLink = extensionLinkObject.direct_asset_url;
