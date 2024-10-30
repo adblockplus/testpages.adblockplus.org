@@ -90,9 +90,6 @@ async function run() {
     console.log("Using Manifest Version:", manifestVersion);
 
     const fileFilter = file => {
-      if (manifestVersion === "2")
-        return file.startsWith("adblockplus-chrome") && !file.includes("mv");
-
       return file.startsWith("adblockplus-chrome") &&
              file.endsWith(`mv${manifestVersion}.zip`);
     };
