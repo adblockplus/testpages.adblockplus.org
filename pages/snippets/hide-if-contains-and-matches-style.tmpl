@@ -51,7 +51,6 @@ description = Check that the hide-if-contains-and-matches-style snippet is worki
   "use strict";
 
   setTimeout(() => {
-    removeWaitingContent(); // eslint-disable-line no-undef
 
     let ad = document.createElement("div");
     ad.id = Math.random().toString(36).substring(2);
@@ -69,5 +68,6 @@ description = Check that the hide-if-contains-and-matches-style snippet is worki
     let target = document.getElementById("dynamic-target");
     target.appendChild(ad);
     target.appendChild(result);
+    removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>

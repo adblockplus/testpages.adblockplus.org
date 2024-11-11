@@ -57,7 +57,6 @@ description = Check that the skip-video snippet is working as expected.
     }, 100);
 
     setTimeout(() => {
-      removeWaitingContent(); // eslint-disable-line no-undef
       // Video not near end
       if (testVideo.currentTime < testVideo.duration - 0.5) {
         let failElement = document.createElement("div");
@@ -66,6 +65,7 @@ description = Check that the skip-video snippet is working as expected.
         failElement.setAttribute("aria-label", "{{id}}-fail");
         document.getElementById("{{id}}-area").appendChild(failElement);
       }
+      removeWaitingContent(); // eslint-disable-line no-undef
     }, 500);
   });
   

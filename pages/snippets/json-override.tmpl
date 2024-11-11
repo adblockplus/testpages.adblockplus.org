@@ -36,7 +36,6 @@ description = Check if json-override feature works properly.
   }, 100);
 
   setTimeout(() => {
-    removeWaitingContent(); // eslint-disable-line no-undef
     let targetTestCase = document.getElementById("{{id}}-area");
     let divToManipulate = document.createElement("div");
     divToManipulate.id = "fail";
@@ -49,6 +48,7 @@ description = Check if json-override feature works properly.
         document.getElementById("fail").setAttributeNode(attr);
       }
     }
+    removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>
 

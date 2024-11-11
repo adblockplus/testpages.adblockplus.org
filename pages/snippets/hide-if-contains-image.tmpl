@@ -31,7 +31,6 @@ description = Check that the hide-if-contains-image snippet is working as expect
   "use strict";
 
   setTimeout(() => {
-    removeWaitingContent(); // eslint-disable-line no-undef
 
     let ad = document.createElement("div");
     ad.id = Math.random().toString(36).substring(2);
@@ -52,5 +51,6 @@ description = Check that the hide-if-contains-image snippet is working as expect
 
     let after = document.getElementById("after-target");
     after.appendChild(ad2);
+    removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>
