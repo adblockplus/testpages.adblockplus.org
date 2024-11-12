@@ -32,10 +32,10 @@ description = Check if simulate-mouse-event feature works properly.
   const targetTestCase = document.getElementById("{{id}}-area");
   const divToManipulate = document.createElement("div");
   const showTestResult = result => {
-    removeWaitingContent(); // eslint-disable-line no-undef
     divToManipulate.id = result;
     divToManipulate.setAttribute("data-expectedresult", result);
     targetTestCase.appendChild(divToManipulate);
+    removeWaitingContent(); // eslint-disable-line no-undef
   };
 
   let timeout = setTimeout(() => {

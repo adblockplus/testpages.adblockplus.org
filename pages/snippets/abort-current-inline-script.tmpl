@@ -85,10 +85,9 @@ description = Check that the abort-current-inline-script snippet is working as e
   }
 
   setTimeout(() => {
-    removeWaitingContent(); // eslint-disable-line no-undef
-
     injectScript("basic", 'console.group("abort-current-inline-script");');
     injectScript("search", 'console.info("acis-search");');
     injectScript("regex", 'console.warn("acis-regex1");');
+    removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>
