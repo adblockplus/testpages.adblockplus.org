@@ -108,8 +108,13 @@ test:edge:latest:
   variables:
     GREP: edge latest
 
-# Disabling test:edge:windows for now, as it fails because of openssl
-# See issue TPS-12 in Jira https://eyeo.atlassian.net/browse/TPS-12
+# Replaces nodejs v21.2.0 (default) with v18.17.1
+.nodejs_install_windows: &nodejs_install_windows
+  - choco uninstall -y nodejs nodejs.install
+  - choco install -y --no-progress nodejs --version 18.17.1
+  - Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
+  - refreshenv
+
 test:edge:windows:
   extends: .test_rules
   tags:
@@ -124,47 +129,18 @@ test:edge:windows:
         - node_modules
         - pip_cache
   before_script:
-    # Fix for refreshenv
-    # https://gitlab.com/gitlab-org/ci-cd/shared-runners/images/
-    # gcp/windows-containers/-/issues/13#note_337853320
-    - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
     # Setup cache locations for chocolatey and pip
     - New-Item -Name "choco_cache" -Path "$(Get-Location)"
       -ItemType "directory" -Force
     - New-Item -Name "pip_cache" -Path "$(Get-Location)"
       -ItemType "directory" -Force
     - choco config set cacheLocation "$(Get-Location)\choco_cache"
-    # Increase the timeout to a full hour (3600 seconds)
-    # - choco config set commandExecutionTimeoutSeconds 3600
-    # Install Microsoft Edge
-    # - $Env:EdgePath =
-    #   "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
-    # - try {
-    #     choco install -y microsoft-edge;
-    #     if (!(Test-Path $Env:EdgePath)) {
-    #       throw "Edge not found on `"$Env:EdgePath`"";
-    #     }
-    #   }
-    #   catch {
-    #     Write-Warning "$_ - Retrying Edge install...";
-    #     choco install -y microsoft-edge;
-    #     if (!(Test-Path $Env:EdgePath)) {
-    #       throw "Edge not found on `"$Env:EdgePath`"";
-    #     }
-    #   }
     # Install other packages
     - choco install -y nginx --version=1.19.0
     - $Env:NGINX_WIN = "C:\tools\nginx-1.19.0"
     - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
-    # Installing openssl takes longer on the new windows runners.
-    # Please refresh the page to see the progress updates
-    # https://eyeo.atlassian.net/browse/TPS-12
-    # - choco install -y openssl --version 3.3.0
     - choco install -y python3 --version 3.11.4
-    # Replaces nodejs v21.2.0 (default) with v18.17.1
-    - choco uninstall -y nodejs nodejs.install
-    - choco install -y --no-progress nodejs --version 18.17.1
-    - refreshenv
+    - *nodejs_install_windows
     # nginx config
     - xcopy test\etc\nginx\* $Env:NGINX_WIN\conf\ /E /V /F /H
     - (Get-Content $Env:NGINX_WIN\conf\nginx.conf).replace("octet-stream;",
