@@ -77,10 +77,20 @@ export async function runGenericTests(driver, expectedScreenshot, browserName,
   async function compareScreenshots() {
     await driver.wait(async() => {
       actualScreenshot = await takeScreenshot(driver);
-      return Jimp.diff(actualScreenshot, expectedScreenshot).percent == 0;
-    }, 100000, "Screenshots don't match", 600);
+      let result =
+        Jimp.diff(actualScreenshot, expectedScreenshot).percent === 0;
+      if (!result &&
+        (testTitle.includes("abort-on-iframe-property-write") ||
+        testTitle.includes("abort-on-iframe-property-read"))){
+        console.log("Entering refresh");
+        await driver.switchTo().newWindow("tab");
+        await driver.navigate().to(url);
+        await new Promise(r => setTimeout(r, 10000));
+        actualScreenshot = await takeScreenshot(driver);
+      }
+      return Jimp.diff(actualScreenshot, expectedScreenshot).percent === 0;
+    }, 30000, "Screenshots don't match", 1000);
   }
-
   try {
     try {
       await compareScreenshots();
