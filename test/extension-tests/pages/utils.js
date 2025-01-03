@@ -78,7 +78,7 @@ export async function runGenericTests(driver, expectedScreenshot, browserName,
     await driver.wait(async() => {
       actualScreenshot = await takeScreenshot(driver);
       return Jimp.diff(actualScreenshot, expectedScreenshot).percent == 0;
-    }, 100000, "Screenshots don't match", 300);
+    }, 100000, "Screenshots don't match", 600);
   }
 
   try {
