@@ -83,6 +83,11 @@ export async function runGenericTests(driver, expectedScreenshot, browserName,
         (testTitle.includes("abort-on-iframe-property-write") ||
         testTitle.includes("abort-on-iframe-property-read"))){
         console.log("Entering refresh");
+        await driver.executeScript('window.localStorage.clear();');
+        await driver.executeScript('window.sessionStorage.clear();');
+        await driver.manage().deleteAllCookies(); // Clear all cookies
+        // Reload the page
+        await driver.navigate().refresh();
         await driver.switchTo().newWindow("tab");
         await driver.navigate().to(url);
         await new Promise(r => setTimeout(r, 10000));
