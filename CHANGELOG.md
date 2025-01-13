@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2025-01-13
+
+- Added a new "Snippet - Extension Tested" section.
+
 ## 2024-07-25
 
 - Added a new page in pages/snippets: skip-video.
