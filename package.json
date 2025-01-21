@@ -13,7 +13,7 @@
     "ws": "^8.16.0"
   },
   "devDependencies": {
-    "@eyeo/get-browser-binary": "^0.16.0",
+    "@eyeo/get-browser-binary": "^0.19.0",
     "@linthtml/linthtml": "^0.9.5",
     "eslint": "^8.57.0",
     "eslint-config-eyeo": "^3.2.0",
