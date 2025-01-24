@@ -53,7 +53,8 @@ The available browsers are:
 * chromium latest
 * chromium beta
 * chromium dev
-* chromium 77.0.3865.0
+* chromium 79.0.3945.0
+* chromium 128.0.6613.0 (latest chromium version supporting MV2 extensions)
 * firefox latest
 * firefox beta
 * firefox 75.0
