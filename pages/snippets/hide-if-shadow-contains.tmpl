@@ -74,8 +74,6 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
   "use strict";
 
   setTimeout(() => {
-    removeWaitingContent(); // eslint-disable-line no-undef
-
     let root = document.getElementById("regex-target");
     for (let expectedResult of ["pass", "fail", "fail"]) {
       let rootChild = document.createElement("div");
@@ -108,5 +106,6 @@ description = Check that the hide-if-shadow-contains snippet is working as expec
     target3.innerHTML = "<div><span>hisc-regex3<br>This element should not be hidden.</span></div>";
     let shadowRoot3 = root.lastElementChild.previousElementSibling.previousElementSibling.attachShadow({mode: "closed"});
     shadowRoot3.appendChild(target3);
+    removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>

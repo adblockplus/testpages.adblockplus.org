@@ -36,7 +36,7 @@ const CUSTOM_BROWSER_VERSION = process.env.BROWSER_VERSION || "latest";
 const helperExtTimeout = 5000;
 
 let browserVersions = {
-  chromium: ["latest", "beta", "dev", "77.0.3865.0", "128.0.6613.0"],
+  chromium: ["latest", "beta", "dev", "79.0.3945.0", "128.0.6613.0"],
   firefox: ["latest", "beta", "75.0", "68.0"],
   edge: ["latest"]
 };

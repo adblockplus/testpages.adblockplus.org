@@ -72,13 +72,13 @@ template = testcase
 
   window.addEventListener("load", () => {
     setTimeout(() => testAbortOnIframePropertyRead("basic", ["aoiprb"], iframe => // eslint-disable-line no-undef
-      iframe.contentWindow.aoiprb = false), 0);
+      iframe.contentWindow.aoiprb = false), 300);
     setTimeout(() => testAbortOnIframePropertyRead("subproperty", ["aoipr.sp"], iframe => // eslint-disable-line no-undef
-      iframe.contentWindow.aoipr = {sp: false}), 0);
+      iframe.contentWindow.aoipr = {sp: false}), 300);
     setTimeout(() => testAbortOnIframePropertyRead( // eslint-disable-line no-undef
       "multipleproperties", ["aoipr1", "aoipr2"], iframe => {
         iframe.contentWindow.aoipr1 = false;
         iframe.contentWindow.aoipr2 = false;
-      }), 0);
+      }), 300);
   });
 </script>

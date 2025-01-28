@@ -114,8 +114,6 @@ description = Check if json-override feature works properly.
   }, 100);
 
   setTimeout(() => {
-    removeWaitingContent(); // eslint-disable-line no-undef
-
     if (propertiesObject) {
       let targetTestCaseBasic = createAndAppendDiv("json-override-area", "basic");
       document.createAttribute("data-expectedresult");
@@ -136,6 +134,7 @@ description = Check if json-override feature works properly.
       );
       setAttributeBasedOnCondition(targetTestCaseObject, replacedTargetDataInObject);
     }
+    removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>
 

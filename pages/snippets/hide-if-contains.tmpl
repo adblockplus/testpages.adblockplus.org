@@ -79,8 +79,6 @@ description = Check that the hide-if-contains snippet is working as expected.
   }
 
   setTimeout(() => {
-    removeWaitingContent(); // eslint-disable-line no-undef
-
     let dynamic = document.createElement("p");
     dynamic.id = "hic-dynamic-id";
     dynamic.innerHTML = "<div>hic-basic-dynamic<br>Failed. Element is not hidden.</div>";
@@ -101,6 +99,7 @@ description = Check that the hide-if-contains snippet is working as expected.
     injectElement("basic-dynamic", dynamic);
     injectElement("search1", search1);
     injectElement("search2", search2);
+    removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>
 

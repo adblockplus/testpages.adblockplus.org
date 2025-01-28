@@ -145,8 +145,6 @@ description = Check if json-prune feature works properly.
   }, 100);
 
   setTimeout(() => {
-    removeWaitingContent(); // eslint-disable-line no-undef
-
     // Handle attributes for the first three properties
     let targetTestCaseBasic = createAndAppendDiv("json-prune-area", "fail");
     if (propertiesObject) {
@@ -182,6 +180,7 @@ description = Check if json-prune feature works properly.
       !Object.keys(innerObj).includes("target-data")
     );
     setAttributeBasedOnCondition(targetTestCaseObject, noTargetDataInObject);
+    removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>
 

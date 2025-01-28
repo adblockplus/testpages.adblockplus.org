@@ -30,7 +30,6 @@ description = Check that an inline CSS filter using simple selectors works prope
   "use strict";
 
   setTimeout(() => {
-    removeWaitingContent(); // eslint-disable-line no-undef
     let target = document.getElementById("span-script-target");
     let newElement = document.createElement("span");
     newElement.innerHTML = "Dynamic Target";
@@ -38,6 +37,7 @@ description = Check that an inline CSS filter using simple selectors works prope
     newElement.setAttribute("aria-label", "script-fail");
     newElement.id = "span-inline-css";
     target.appendChild(newElement);
+    removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>
 
