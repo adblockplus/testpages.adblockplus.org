@@ -1,0 +1,212 @@
+template = testcase
+title = replace-xhr-response
+description = Check that the replace-xhr-response snippet is working as expected. The test cases here manipulate the same xhr response, so the text manipulations are cumulative. The original xhr response can always be inspected in the "Network" tab in the developer tools.
+
+{% set case = "Basic usage" %}
+{% set id = get_id(case) %}
+{% set search1 = "lazy" %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+
+  <p>Test that the search param is replaced with default empty string</p>
+  <div id="test-{{id}}" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-expected-view">XHR response was replaced</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element and not a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-xhr-response '{{ search1 }}'</pre></li>
+  </ul>
+</section>
+
+{% set case = "String replacement" %}
+{% set id = get_id(case) %}
+{% set search2 = "optimistic" %}
+{% set replacement2 = "wretched" %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+
+  <p>Test that the search param is replaced with a custom string</p>
+  <div id="test-{{id}}" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-expected-view">XHR response was replaced</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element and not a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-xhr-response '{{ search2 }}' '{{ replacement2 }}'</pre></li>
+  </ul>
+</section>
+
+{% set case = "String replacement with needle" %}
+{% set id = get_id(case) %}
+{% set search3 = "dog" %}
+{% set replacement3 = "forest after a rain" %}
+{% set needle3 = "Puppycat" %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+
+  <p>Test that the search param is replaced with a custom string if the needle is matched</p>
+  <div id="test-{{id}}" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-expected-view">XHR response was replaced</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element and not a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-xhr-response '{{ search3 }}' '{{ replacement3 }}' '{{ needle3 }}'</pre></li>
+  </ul>
+</section>
+
+{% set case = "Regex parameters" %}
+{% set id = get_id(case) %}
+{% set search4 = "/\\\\d+\\\\s+years?\\\\s+old/" %}
+{% set replacement4 = "stoic" %}
+{% set needle4 = "/[CcKk]ardamon/" %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+
+  <p>Test the usage of regex in the search and needle parameter</p>
+  <div id="test-{{id}}" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-expected-view">XHR response was replaced</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element and not a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-xhr-response {{ search4 }} {{ replacement4 }} {{ needle4 }}</pre></li>
+  </ul>
+</section>
+
+{% set case = "Multiple string replacement" %}
+{% set id = get_id(case) %}
+{% set search5 = "/[Ss]ticky?/" %}
+{% set replacement5 = "purr" %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+
+  <p>Test the replacement of multiple strings</p>
+  <div id="test-{{id}}" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-expected-view">XHR response was replaced</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element and not a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-xhr-response {{ search5 }} '{{ replacement5 }}'</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  // A promisified version of XMLHttpRequest
+  function makeRequest(requestURL) {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", requestURL);
+      xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+          resolve(xhr.response);
+        }
+        else {
+          reject({
+            status: xhr.status,
+            statusText: xhr.statusText
+          });
+        }
+      };
+      xhr.onerror = function() {
+        reject({
+          status: xhr.status,
+          statusText: xhr.statusText
+        });
+      };
+      xhr.send();
+    });
+  }
+
+  function handleResponseBasic(text) {
+    const element = document.createElement("div");
+    const testElement = document.getElementById("test-basic-usage");
+
+    if (text.includes("{{ search1 }}")) {
+      element.setAttribute("data-expectedresult", "fail");
+      element.setAttribute("aria-label", "{{id}}-fail");
+      element.innerHTML = "Failed. XHR response was not replaced";
+    }
+    else {
+      element.setAttribute("data-expectedresult", "pass");
+      element.innerHTML = "XHR response was replaced";
+    }
+
+    testElement.appendChild(element);
+  }
+
+  function handleResponse(text, testId, replacement) {
+    const testElement = document.getElementById(testId);
+    const element = document.createElement("div");
+
+    if (text.includes(replacement)) {
+      element.setAttribute("data-expectedresult", "pass");
+      element.innerHTML = "XHR response was replaced";
+    }
+    else {
+      element.setAttribute("data-expectedresult", "fail");
+      element.setAttribute("aria-label", "{{id}}-fail");
+      element.innerHTML = "Failed. XHR response was not replaced";
+    }
+
+    testElement.appendChild(element);
+  }
+
+  setTimeout(() => {
+    removeWaitingContent(); // eslint-disable-line no-undef
+
+    const url = "/testfiles/fetch-and-xhr/foo.txt";
+
+    const tests = [
+      {id: "test-string-replacement", replacement: "{{ replacement2 }}"},
+      {id: "test-string-replacement-with-needle", replacement: "{{ replacement3 }}"},
+      {id: "test-regex-parameters", replacement: "{{ replacement4 }}"},
+      {id: "test-multiple-string-replacement", replacement: "{{ replacement5 }}"}
+    ];
+
+    makeRequest(url)
+    .then(response => {
+      handleResponseBasic(response);
+      tests.forEach(({id, replacement}) => handleResponse(response, id, replacement));
+    });
+  }, 500);
+</script>
