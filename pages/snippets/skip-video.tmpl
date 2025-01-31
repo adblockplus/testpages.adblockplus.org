@@ -35,7 +35,7 @@ description = Check that the skip-video snippet is working as expected.
   
   // Need to load the whole video so that we can skip forward
   const videoLoaded = new Promise((resolve, reject) => {
-    const url = "{{ site_url }}/testfiles/skip-video/test-video.mp4";
+    const url = "/testfiles/skip-video/test-video.mp4";
 
     const xhr = new XMLHttpRequest();
     xhr.open("GET", url, true);
