@@ -77,22 +77,19 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     return canvas; // Return the created canvas element
   }
 
-  // Function to delay canvas creation
-  function delayedCanvasCreation(parentSelector, method, id, text) {
-    setTimeout(() => {
-      const canvasParent = document.querySelector(parentSelector);
-      if (canvasParent) {
-        const canvas = createCanvas(method, id, text);
-        canvasParent.appendChild(canvas);
-      }
-    }, 300);
+  function appendCanvas(parentSelector, method, id, text) {
+    const canvasParent = document.querySelector(parentSelector);
+    if (canvasParent) {
+      const canvas = createCanvas(method, id, text);
+      canvasParent.appendChild(canvas);
+    }
   }
 
-  delayedCanvasCreation("#canvas-parent1", "fillText", "canvas1", "sponsored");
-  delayedCanvasCreation("#canvas-parent2", "fillText", "canvas2", "hello world");
-  delayedCanvasCreation("#canvas-parent3", "fillText", "canvas3", "hello world");
-  delayedCanvasCreation("#canvas-parent4", "strokeText", "canvas4", "sponsored");
-  delayedCanvasCreation("#canvas-parent5", "strokeText", "canvas5", "hello world");
-  delayedCanvasCreation("#canvas-parent6", "strokeText", "canvas6", "hello world");
+  appendCanvas("#canvas-parent1", "fillText", "canvas1", "sponsored");
+  appendCanvas("#canvas-parent2", "fillText", "canvas2", "hello world");
+  appendCanvas("#canvas-parent3", "fillText", "canvas3", "hello world");
+  appendCanvas("#canvas-parent4", "strokeText", "canvas4", "sponsored");
+  appendCanvas("#canvas-parent5", "strokeText", "canvas5", "hello world");
+  appendCanvas("#canvas-parent6", "strokeText", "canvas6", "hello world");
   removeWaitingContent(); // eslint-disable-line no-undef
 </script>
