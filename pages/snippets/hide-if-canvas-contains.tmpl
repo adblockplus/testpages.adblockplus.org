@@ -12,6 +12,7 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     <div data-expectedresult="fail" class="ft-canvas-parent" id="canvas-parent1"><div><span>Failed. Element is not hidden.</span></div></div>
     <div class="testcase-expected-view ft-canvas-parent" id="canvas-parent2"><div><span>Should not be hidden.</span></div></div>
     <div data-expectedresult="pass" class="ft-canvas-parent" id="canvas-parent3"><div><span>Should not be hidden.</span></div></div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -35,6 +36,7 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     <div data-expectedresult="fail" class="st-canvas-parent" id="canvas-parent4"><div><span>Failed. Element is not hidden.</span></div></div>
     <div class="testcase-expected-view st-canvas-parent" id="canvas-parent5"><div><span>Should not be hidden.</span></div></div>
     <div data-expectedresult="pass" class="st-canvas-parent" id="canvas-parent6"><div><span>Should not be hidden.</span></div></div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -75,27 +77,19 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     return canvas; // Return the created canvas element
   }
 
-  const canvasParent1 = document.querySelector("#canvas-parent1");
-  const canvas1 = createCanvas("fillText", "canvas1", "sponsored");
-  canvasParent1.appendChild(canvas1);
+  function appendCanvas(parentSelector, method, id, text) {
+    const canvasParent = document.querySelector(parentSelector);
+    if (canvasParent) {
+      const canvas = createCanvas(method, id, text);
+      canvasParent.appendChild(canvas);
+    }
+  }
 
-  const canvasParent2 = document.querySelector("#canvas-parent2");
-  const canvas2 = createCanvas("fillText", "canvas2", "hello world");
-  canvasParent2.appendChild(canvas2);
-
-  const canvasParent3 = document.querySelector("#canvas-parent3");
-  const canvas3 = createCanvas("fillText", "canvas3", "hello world");
-  canvasParent3.appendChild(canvas3);
-
-  const canvasParent4 = document.querySelector("#canvas-parent4");
-  const canvas4 = createCanvas("strokeText", "canvas4", "sponsored");
-  canvasParent4.appendChild(canvas4);
-  
-  const canvasParent5 = document.querySelector("#canvas-parent5");
-  const canvas5 = createCanvas("strokeText", "canvas5", "hello world");
-  canvasParent5.appendChild(canvas5);
-
-  const canvasParent6 = document.querySelector("#canvas-parent6");
-  const canvas6 = createCanvas("strokeText", "canvas6", "hello world");
-  canvasParent6.appendChild(canvas6);
+  appendCanvas("#canvas-parent1", "fillText", "canvas1", "sponsored");
+  appendCanvas("#canvas-parent2", "fillText", "canvas2", "hello world");
+  appendCanvas("#canvas-parent3", "fillText", "canvas3", "hello world");
+  appendCanvas("#canvas-parent4", "strokeText", "canvas4", "sponsored");
+  appendCanvas("#canvas-parent5", "strokeText", "canvas5", "hello world");
+  appendCanvas("#canvas-parent6", "strokeText", "canvas6", "hello world");
+  removeWaitingContent(); // eslint-disable-line no-undef
 </script>
