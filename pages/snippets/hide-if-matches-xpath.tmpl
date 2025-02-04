@@ -70,3 +70,63 @@ description = Check that the hide-if-matches-xpath snippet is working as expecte
     <li><pre>{{ site_url|domain }}#$#hide-if-matches-xpath //div[starts-with(@id,"fail")]</pre></li>
   </ul>
 </section>
+
+{% set case = "WaitUntil and scopeQuery" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test the usage of scopeQuery and waitUntil</p>
+  <div id="{{id}}-area"  class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div id="in-scope" data-expectedresult="fail" aria-label="{{id}}-fail"><span>Failed. Element is not hidden.</span></div>
+    <div class="testcase-expected-view"><div><span>Should not be hidden.</span></div></div>
+    <div id="not-in-scope" data-expectedresult="pass" aria-label="{{id}}-pass"><span>Should not be hidden.</span></div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element inside in the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-matches-xpath '//div[script]' '//div[@id="in-scope"]' complete</pre></li>
+  </ul>
+</section>
+
+<script type="text/javascript">
+  "use strict";
+
+  // Mock initial document state
+  Object.defineProperty(document, "readyState", {
+    value: "loading",
+    writable: true
+  });
+
+  function addResource() {
+    const script1 = document.createElement("script");
+    const script2 = document.createElement("script");
+    const parent1 = document.querySelector("#in-scope");
+    const parent2 = document.querySelector("#not-in-scope");
+    parent1.appendChild(script1);
+    parent2.appendChild(script2);
+  }
+
+  const simulateDocumentState = newState => {
+    document.readyState = newState;
+    const event = new Event("readystatechange");
+    document.dispatchEvent(event);
+  };
+
+  document.addEventListener("readystatechange", function handler() {
+    if (document.readyState === "interactive") {
+      addResource();
+      document.removeEventListener("readystatechange", handler);
+    }
+  });
+
+  simulateDocumentState("interactive");
+  setTimeout(() => {
+    simulateDocumentState("complete");
+  }, 100);
+</script>

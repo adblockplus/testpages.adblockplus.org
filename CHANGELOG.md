@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2025-01-31
+
+- Added new pages in pages/snippets: array-override, hide-if-canvas-contains, replace-fetch-response, replace-xhr-response
+- Updated with new test cases: pages/snippets/hide-if-matches-xpath, pages/snippets/json-override, pages/snippets/json-prune
+- Updated with resource path changes: pages/snippets/skip-video, pages/snippets/strip-fetch-query-parameter
+- Renamed folder from static/testfiles/strip-fetch-query-parameter/ into static/testfiles/fetch-and-xhr/
+
 ## 2024-07-25
 
 - Added a new page in pages/snippets: skip-video.

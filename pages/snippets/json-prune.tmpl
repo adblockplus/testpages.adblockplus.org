@@ -6,7 +6,7 @@ description = Check if json-prune feature works properly.
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that basic usage of the json-prune snippet works as expected..</p>
+  <p>Test that basic usage of the json-prune snippet works as expected.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
@@ -25,30 +25,161 @@ description = Check if json-prune feature works properly.
   <p>Not supported in Chrome 73 (requires 74+)</p>
 </section>
 
-<script>
+{% set case = "stack-needle" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test the usage of the <i>rawNeedleStack</i> parameter</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#json-prune toBeDeletedIfStackNeedle '' callstack</pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
+{% set case = "json-prune-array" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that the [] placeholder works as expected.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#json-prune array.[].target-data </pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
+{% set case = "json-prune-object" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that the {} placeholder works as expected.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#json-prune object.{}.target-data </pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
+<script type="text/javascript">
   "use strict";
 
-  let propertiesToUse = '{"jsonprune": "true", "data-expectedresult": "fail", "aria-label":"json-prune-fail"}';
+  let propertiesToUse = `{
+    "jsonprune": "true",
+    "data-expectedresult": "fail",
+    "aria-label": "json-prune-fail",
+    "array": [
+      {"target-data": "delete-me"},
+      {"target-data": "delete-me"},
+      {"target-data": "delete-me"},
+      {"different-data": "dont-delete-me"}
+    ],
+    "object": {
+      "data1": {
+        "target-data": "delete-me"
+      },
+      "data2": {
+        "target-data": "delete-me"
+      },
+      "data3": {
+        "different-data": "dont-delete-me"
+      }
+    },
+    "toBeDeletedIfStackNeedle": "delete-me"
+  }`;
+  
   let propertiesObject;
 
+  // Creates div elems for each test case
+  function createAndAppendDiv(parentId, divId) {
+    let parentElement = document.getElementById(parentId);
+    let newDiv = document.createElement("div");
+    newDiv.id = divId;
+    parentElement.appendChild(newDiv);
+    return newDiv;
+  }
+
+  function setAttributeBasedOnCondition(element, condition) {
+    element.setAttribute("data-expectedresult", condition ? "pass" : "fail");
+  }
+  
   setTimeout(() => {
-    propertiesObject = JSON.parse(propertiesToUse);
-  }, 300);
+    // The function `callstack` wraps the JSON.parse call for the stack-needle testcase
+    function callstack() {
+      propertiesObject = JSON.parse(propertiesToUse);
+    }
+    callstack();
+  }, 100);
 
   setTimeout(() => {
-    let targetTestCase = document.getElementById("{{id}}-area");
-    let divToManipulate = document.createElement("div");
-    divToManipulate.id = "fail";
-    targetTestCase.appendChild(divToManipulate);
-
+    // Handle attributes for the first three properties
+    let targetTestCaseBasic = createAndAppendDiv("json-prune-area", "fail");
     if (propertiesObject) {
+      let count = 0;
       for (let property in propertiesObject) {
+        if (count >= 3)
+          break;
+
         let attr = document.createAttribute(property);
         attr.value = propertiesObject[property];
-        document.getElementById("fail").setAttributeNode(attr);
+        targetTestCaseBasic.setAttributeNode(attr);
+
+        count++;
       }
     }
+
+    // Check for "toBeDeletedIfStackNeedle"
+    let targetTestCaseStackNeedle = createAndAppendDiv("stack-needle-area", "stackNeedle");
+    let toBeDeletedIfStackNeedle = !Object.prototype.hasOwnProperty.call(propertiesObject, "toBeDeletedIfStackNeedle");
+    setAttributeBasedOnCondition(targetTestCaseStackNeedle, toBeDeletedIfStackNeedle);
+
+
+    // Check for "target-data" in array
+    let targetTestCaseArray = createAndAppendDiv("json-prune-array-area", "array");
+    let noTargetDataInArray = propertiesObject.array.every(obj =>
+      !Object.keys(obj).includes("target-data")
+    );
+    setAttributeBasedOnCondition(targetTestCaseArray, noTargetDataInArray);
+
+    // Check for "target-data" in object
+    let targetTestCaseObject = createAndAppendDiv("json-prune-object-area", "object");
+    let noTargetDataInObject = Object.values(propertiesObject.object).every(innerObj =>
+      !Object.keys(innerObj).includes("target-data")
+    );
+    setAttributeBasedOnCondition(targetTestCaseObject, noTargetDataInObject);
     removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>
-
