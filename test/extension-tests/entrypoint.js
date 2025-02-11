@@ -227,10 +227,35 @@ if (typeof run == "undefined") {
 
         beforeEach(async function() {
           let handles = await this.driver.getAllWindowHandles();
-          let defaultHandle =
-            handles.find(handle => handle != this.extensionHandle);
+          let defaultHandle;
+          for (const handle of handles) {
+            await this.driver.switchTo().window(handle);
+            const currentUrl = await this.driver.getCurrentUrl();
+            if (handle != this.extensionHandle &&
+                !currentUrl.includes("_generated_background_page.html"))
+              defaultHandle = handle;
+          }
+          if (!defaultHandle) {
+            await this.driver.switchTo().newWindow("tab");
+            defaultHandle = await this.driver.getWindowHandle();
+          }
 
-          for (let handle of handles) {
+          try {
+            await this.driver.switchTo().window(this.extensionHandle);
+          }
+          catch (err) {
+            console.log(err);
+            for (const handle of handles) {
+              await this.driver.switchTo().window(handle);
+              const currentUrl = await this.driver.getCurrentUrl();
+              if (currentUrl.endsWith("options.html")) {
+                this.extensionHandle = handle;
+                break;
+              }
+            }
+          }
+
+          for (const handle of handles) {
             if (handle != this.extensionHandle && handle != defaultHandle) {
               try {
                 await this.driver.switchTo().window(handle);

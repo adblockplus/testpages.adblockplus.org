@@ -37,6 +37,11 @@ async function getFilters(driver) {
 async function updateFilters(driver, extensionHandle, url) {
   await driver.navigate().to(url);
   let filters = await getFilters(driver);
+
+  // eslint-disable-next-line no-console
+  console.log("Sleeping for 60s, manually check extension state");
+  await driver.sleep(60000);
+
   let error = null;
   error = await runWithHandle(
     driver, extensionHandle, () =>
@@ -80,30 +85,18 @@ function removeFilters(driver, extensionHandle) {
   return runWithHandle(driver, extensionHandle, () => driver.executeAsyncScript(
     async(...args) => {
       let callback = args[args.length - 1];
-      // Firefox
+
       if (typeof browser !== "undefined") {
         let filters = await browser.runtime.sendMessage({type: "filters.get"});
+        filters = filters || [];
         await Promise.all(filters.map(filter => browser.runtime.sendMessage(
           {type: "filters.remove", text: filter.text}
         )));
+        callback();
       }
-
-      // Chromium
-      if (typeof chrome != "undefined") {
-        let filters = await new Promise(resolve => {
-          chrome.runtime.sendMessage({type: "filters.get"}, response => {
-            resolve(response);
-          });
-        });
-        await Promise.all(filters.map(filter => new Promise(resolve => {
-          chrome.runtime.sendMessage(
-            {type: "filters.remove", text: filter.text},
-            response => resolve(response)
-          );
-        })));
+      else {
+        throw new Error("Undefined browser object");
       }
-
-      callback();
     }
   ));
 }

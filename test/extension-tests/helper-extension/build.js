@@ -52,6 +52,10 @@ async function run() {
     path.join(helperExtensionSrcPath, "background.js"),
     path.join(helperExtensionDestPath, "background.js")
   );
+  await fs.promises.copyFile(
+    path.join(helperExtensionSrcPath, "popup.html"),
+    path.join(helperExtensionDestPath, "popup.html")
+  );
 }
 
 (async() => {
