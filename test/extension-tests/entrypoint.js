@@ -24,6 +24,7 @@ import got from "got";
 import {BROWSERS} from "@eyeo/get-browser-binary";
 
 import {writeScreenshotAndThrow} from "./misc/screenshots.js";
+import {safeGetAllWindowHandles} from "./misc/utils.js";
 import definePageTests from "./pages/index.js";
 
 const TEST_PAGES_URL = process.env.TEST_PAGES_URL ||
@@ -226,11 +227,12 @@ if (typeof run == "undefined") {
         });
 
         beforeEach(async function() {
-          let handles = await this.driver.getAllWindowHandles();
-          let defaultHandle =
+          const handles =
+            await safeGetAllWindowHandles(this.driver, this.browserName);
+          const defaultHandle =
             handles.find(handle => handle != this.extensionHandle);
 
-          for (let handle of handles) {
+          for (const handle of handles) {
             if (handle != this.extensionHandle && handle != defaultHandle) {
               try {
                 await this.driver.switchTo().window(handle);
