@@ -50,3 +50,39 @@ export async function runWithHandle(driver, handle, callback) {
     await driver.switchTo().window(currentHandle);
   }
 }
+
+// As of Microsoft Edge 133 (possibly even Chromium 133), getWindowHandle() also
+// returns the extensions' background pages, so we need to ignore them, in order
+// not to accidentally interact with those.
+export async function safeGetAllWindowHandles(driver, browserName) {
+  if (browserName === "firefox")
+    return await driver.getAllWindowHandles();
+
+  const previousHandle = await driver.getWindowHandle();
+
+  const allHandles = await driver.getAllWindowHandles();
+  const safeHandles = [];
+  for (const handle of allHandles) {
+    try {
+      await driver.switchTo().window(handle);
+      const url = await driver.getCurrentUrl();
+      if (url.includes("_generated_background_page.html"))
+        continue;
+
+      safeHandles.push(handle);
+    }
+    catch (ex) {
+      // Ignoring errors here, as they have no impact on anything that comes
+      // after it
+    }
+  }
+
+  try {
+    await driver.switchTo().window(previousHandle);
+  }
+  catch (ex) {
+    console.error("Failed to switch back to previous handle", ex);
+  }
+
+  return safeHandles;
+}
