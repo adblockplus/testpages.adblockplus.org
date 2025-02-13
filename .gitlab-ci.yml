@@ -72,15 +72,17 @@ test:chrome:latest:
 
 test:chrome:beta:
   extends: .test
-  allow_failure: true
   variables:
     GREP: chromium beta
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
 
 test:chrome:dev:
   extends: .test
-  allow_failure: true
   variables:
     GREP: chromium dev
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
 
 test:chrome:oldest:
   extends: .test
@@ -94,9 +96,10 @@ test:firefox:latest:
 
 test:firefox:beta:
   extends: .test
-  allow_failure: true
   variables:
     GREP: firefox beta
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
 
 test:firefox:oldest:
   extends: .test
@@ -107,6 +110,13 @@ test:edge:latest:
   extends: .test
   variables:
     GREP: edge latest
+
+test:edge:beta:
+  extends: .test
+  variables:
+    GREP: edge beta
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
 
 test:edge:windows:
   extends: .test_rules
@@ -131,7 +141,7 @@ test:edge:windows:
     # Install other packages
     - choco install -y nginx --version=1.19.0
     - $Env:NGINX_WIN = "C:\tools\nginx-1.19.0"
-    - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
+    - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"node
     - choco install -y python3 --version 3.11.4
     # nginx config
     - xcopy test\etc\nginx\* $Env:NGINX_WIN\conf\ /E /V /F /H

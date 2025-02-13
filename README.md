@@ -60,6 +60,7 @@ The available browsers are:
 * firefox 75.0
 * firefox 68.0
 * edge latest
+* edge beta
 
 `GREP` supports regular expressions syntax, which means it can be extended to
 run a subset of those tests. Example:
