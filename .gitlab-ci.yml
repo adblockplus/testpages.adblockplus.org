@@ -73,15 +73,17 @@ test:chrome:latest:
 
 test:chrome:beta:
   extends: .test
-  allow_failure: true
   variables:
     GREP: chromium beta
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
 
 test:chrome:dev:
   extends: .test
-  allow_failure: true
   variables:
     GREP: chromium dev
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
 
 test:chrome:oldest:
   extends: .test
@@ -95,9 +97,10 @@ test:firefox:latest:
 
 test:firefox:beta:
   extends: .test
-  allow_failure: true
   variables:
     GREP: firefox beta
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
 
 test:firefox:oldest:
   extends: .test
@@ -109,12 +112,12 @@ test:edge:latest:
   variables:
     GREP: edge latest
 
-# Replaces nodejs v21.2.0 (default) with v18.17.1
-.nodejs_install_windows: &nodejs_install_windows
-  - choco uninstall -y nodejs nodejs.install
-  - choco install -y --no-progress nodejs --version 18.17.1
-  - Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
-  - refreshenv
+test:edge:beta:
+  extends: .test
+  variables:
+    GREP: edge beta
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
 
 test:edge:windows:
   extends: .test_rules
@@ -141,7 +144,9 @@ test:edge:windows:
     - $Env:NGINX_WIN = "C:\tools\nginx-1.19.0"
     - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
     - choco install -y python3 --version 3.11.4
-    - *nodejs_install_windows
+    # Refresh system environment after package installations
+    - Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
+    - refreshenv
     # nginx config
     - xcopy test\etc\nginx\* $Env:NGINX_WIN\conf\ /E /V /F /H
     - (Get-Content $Env:NGINX_WIN\conf\nginx.conf).replace("octet-stream;",
@@ -173,7 +178,7 @@ test:edge:windows:
     # Run endpoints server
     - Start-Process "npm" -ArgumentList "run start-endpoints" -PassThru
     - node ./test/extension-tests/extension-download.js
-    - npm run test -- -g "edge"
+    - npm run test -- -g "edge latest"
   variables:
     TEST_PAGES_URL: https://local.testpages.adblockplus.org:5001/en/
     SITE_URL: https://local.testpages.adblockplus.org:5001
