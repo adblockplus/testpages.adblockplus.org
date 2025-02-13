@@ -141,8 +141,11 @@ test:edge:windows:
     # Install other packages
     - choco install -y nginx --version=1.19.0
     - $Env:NGINX_WIN = "C:\tools\nginx-1.19.0"
-    - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"node
+    - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
     - choco install -y python3 --version 3.11.4
+    # Refresh system environment after package installations
+    - Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
+    - refreshenv
     # nginx config
     - xcopy test\etc\nginx\* $Env:NGINX_WIN\conf\ /E /V /F /H
     - (Get-Content $Env:NGINX_WIN\conf\nginx.conf).replace("octet-stream;",
