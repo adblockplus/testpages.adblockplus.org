@@ -108,13 +108,6 @@ test:edge:latest:
   variables:
     GREP: edge latest
 
-# Replaces nodejs v21.2.0 (default) with v18.17.1
-.nodejs_install_windows: &nodejs_install_windows
-  - choco uninstall -y nodejs nodejs.install
-  - choco install -y --no-progress nodejs --version 18.17.1
-  - Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
-  - refreshenv
-
 test:edge:windows:
   extends: .test_rules
   tags:
@@ -140,7 +133,6 @@ test:edge:windows:
     - $Env:NGINX_WIN = "C:\tools\nginx-1.19.0"
     - $Env:NGINX_LINUX = "C:/tools/nginx-1.19.0"
     - choco install -y python3 --version 3.11.4
-    - *nodejs_install_windows
     # nginx config
     - xcopy test\etc\nginx\* $Env:NGINX_WIN\conf\ /E /V /F /H
     - (Get-Content $Env:NGINX_WIN\conf\nginx.conf).replace("octet-stream;",
