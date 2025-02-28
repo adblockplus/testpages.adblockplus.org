@@ -13,6 +13,7 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     <div class="testcase-expected-view ft-canvas-parent" id="canvas-parent2"><div><span>Should not be hidden.</span></div></div>
     <div data-expectedresult="pass" class="ft-canvas-parent" id="canvas-parent3"><div><span>Should not be hidden.</span></div></div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -37,6 +38,7 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     <div class="testcase-expected-view st-canvas-parent" id="canvas-parent5"><div><span>Should not be hidden.</span></div></div>
     <div data-expectedresult="pass" class="st-canvas-parent" id="canvas-parent6"><div><span>Should not be hidden.</span></div></div>
     <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -52,46 +54,45 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
 
 <script>
   "use strict";
+  function createCanvas(method, id, text, x = 0, y = 18) {
+    const canvas = document.createElement("canvas");
+    canvas.id = id;
+
+    // Get the 2D drawing context from the canvas
+    const ctx = canvas.getContext("2d");
+    ctx.font = "24px Arial";
+    const textWidth = ctx.measureText(text).width;
+    canvas.width = textWidth + 10; // Adding some padding
+    canvas.height = 32; // Slightly taller than the text
+    canvas.style.verticalAlign = "middle"; // Aligns canvas with text
+
+    if (method === "fillText") {
+      ctx.fillStyle = "white";
+      ctx.fillText(text, x, y);
+    }
+    if (method === "strokeText") {
+      ctx.strokeStyle = "white";
+      ctx.strokeText(text, x, y);
+    }
+    return canvas; // Return the created canvas element
+  }
+
+  function appendCanvas(parentSelector, method, id, text) {
+    const canvasParent = document.querySelector(parentSelector);
+    if (canvasParent) {
+      const canvas = createCanvas(method, id, text);
+      canvasParent.appendChild(canvas);
+    }
+  }
+
+  appendCanvas("#canvas-parent1", "fillText", "canvas1", "sponsored");
+  appendCanvas("#canvas-parent2", "fillText", "canvas2", "hello world");
+  appendCanvas("#canvas-parent3", "fillText", "canvas3", "hello world");
+  appendCanvas("#canvas-parent4", "strokeText", "canvas4", "sponsored");
+  appendCanvas("#canvas-parent5", "strokeText", "canvas5", "hello world");
+  appendCanvas("#canvas-parent6", "strokeText", "canvas6", "hello world");
   
   setTimeout(() => {
-    function createCanvas(method, id, text, x = 0, y = 18) {
-      const canvas = document.createElement("canvas");
-      canvas.id = id;
-
-      // Get the 2D drawing context from the canvas
-      const ctx = canvas.getContext("2d");
-      ctx.font = "24px Arial";
-      const textWidth = ctx.measureText(text).width;
-      canvas.width = textWidth + 10; // Adding some padding
-      canvas.height = 32; // Slightly taller than the text
-      canvas.style.verticalAlign = "middle"; // Aligns canvas with text
-
-      if (method === "fillText") {
-        ctx.fillStyle = "white";
-        ctx.fillText(text, x, y);
-      }
-      if (method === "strokeText") {
-        ctx.strokeStyle = "white";
-        ctx.strokeText(text, x, y);
-      }
-      return canvas; // Return the created canvas element
-    }
-
-    function appendCanvas(parentSelector, method, id, text) {
-      const canvasParent = document.querySelector(parentSelector);
-      if (canvasParent) {
-        const canvas = createCanvas(method, id, text);
-        canvasParent.appendChild(canvas);
-      }
-    }
-
-    appendCanvas("#canvas-parent1", "fillText", "canvas1", "sponsored");
-    appendCanvas("#canvas-parent2", "fillText", "canvas2", "hello world");
-    appendCanvas("#canvas-parent3", "fillText", "canvas3", "hello world");
-    appendCanvas("#canvas-parent4", "strokeText", "canvas4", "sponsored");
-    appendCanvas("#canvas-parent5", "strokeText", "canvas5", "hello world");
-    appendCanvas("#canvas-parent6", "strokeText", "canvas6", "hello world");
-    
     removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>
