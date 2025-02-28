@@ -12,8 +12,7 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     <div data-expectedresult="fail" class="ft-canvas-parent" id="canvas-parent1"><div><span>Failed. Element is not hidden.</span></div></div>
     <div class="testcase-expected-view ft-canvas-parent" id="canvas-parent2"><div><span>Should not be hidden.</span></div></div>
     <div data-expectedresult="pass" class="ft-canvas-parent" id="canvas-parent3"><div><span>Should not be hidden.</span></div></div>
-    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
-    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-waiting-content">Waiting 300ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -37,8 +36,7 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     <div data-expectedresult="fail" class="st-canvas-parent" id="canvas-parent4"><div><span>Failed. Element is not hidden.</span></div></div>
     <div class="testcase-expected-view st-canvas-parent" id="canvas-parent5"><div><span>Should not be hidden.</span></div></div>
     <div data-expectedresult="pass" class="st-canvas-parent" id="canvas-parent6"><div><span>Should not be hidden.</span></div></div>
-    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
-    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-waiting-content">Waiting 300ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -54,6 +52,7 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
 
 <script>
   "use strict";
+
   function createCanvas(method, id, text, x = 0, y = 18) {
     const canvas = document.createElement("canvas");
     canvas.id = id;
@@ -94,5 +93,5 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
   
   setTimeout(() => {
     removeWaitingContent(); // eslint-disable-line no-undef
-  }, 500);
+  }, 300);
 </script>
