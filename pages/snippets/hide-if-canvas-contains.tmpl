@@ -85,11 +85,16 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     }
   }
 
-  appendCanvas("#canvas-parent1", "fillText", "canvas1", "sponsored");
-  appendCanvas("#canvas-parent2", "fillText", "canvas2", "hello world");
-  appendCanvas("#canvas-parent3", "fillText", "canvas3", "hello world");
-  appendCanvas("#canvas-parent4", "strokeText", "canvas4", "sponsored");
-  appendCanvas("#canvas-parent5", "strokeText", "canvas5", "hello world");
-  appendCanvas("#canvas-parent6", "strokeText", "canvas6", "hello world");
-  removeWaitingContent(); // eslint-disable-line no-undef
+  // Add a delay before triggering the snippets
+  const delayBeforeTrigger = 1000; // 1000ms = 1 second
+
+  setTimeout(() => {
+    appendCanvas("#canvas-parent1", "fillText", "canvas1", "sponsored");
+    appendCanvas("#canvas-parent2", "fillText", "canvas2", "hello world");
+    appendCanvas("#canvas-parent3", "fillText", "canvas3", "hello world");
+    appendCanvas("#canvas-parent4", "strokeText", "canvas4", "sponsored");
+    appendCanvas("#canvas-parent5", "strokeText", "canvas5", "hello world");
+    appendCanvas("#canvas-parent6", "strokeText", "canvas6", "hello world");
+    removeWaitingContent(); // eslint-disable-line no-undef
+  }, delayBeforeTrigger);
 </script>
