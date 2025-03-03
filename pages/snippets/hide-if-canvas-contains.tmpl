@@ -60,9 +60,8 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     // Get the 2D drawing context from the canvas
     const ctx = canvas.getContext("2d");
     ctx.font = "24px Arial";
-    const textWidth = ctx.measureText(text).width;
-    canvas.width = textWidth + 10; // Adding some padding
-    canvas.height = 32; // Slightly taller than the text
+    canvas.width = 0;
+    canvas.height = 0;
     canvas.style.verticalAlign = "middle"; // Aligns canvas with text
 
     if (method === "fillText") {
@@ -85,11 +84,17 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     }
   }
 
-  appendCanvas("#canvas-parent1", "fillText", "canvas1", "sponsored");
-  appendCanvas("#canvas-parent2", "fillText", "canvas2", "hello world");
-  appendCanvas("#canvas-parent3", "fillText", "canvas3", "hello world");
-  appendCanvas("#canvas-parent4", "strokeText", "canvas4", "sponsored");
-  appendCanvas("#canvas-parent5", "strokeText", "canvas5", "hello world");
-  appendCanvas("#canvas-parent6", "strokeText", "canvas6", "hello world");
-  removeWaitingContent(); // eslint-disable-line no-undef
+  setTimeout(() => {
+    appendCanvas("#canvas-parent1", "fillText", "canvas1", "sponsored");
+    appendCanvas("#canvas-parent2", "fillText", "canvas2", "hello world");
+    appendCanvas("#canvas-parent3", "fillText", "canvas3", "hello world");
+    appendCanvas("#canvas-parent4", "strokeText", "canvas4", "sponsored");
+    appendCanvas("#canvas-parent5", "strokeText", "canvas5", "hello world");
+    appendCanvas("#canvas-parent6", "strokeText", "canvas6", "hello world");
+  }, 200);
+
+  setTimeout(() => {
+    removeWaitingContent(); // eslint-disable-line no-undef
+  }, 500);
+
 </script>
