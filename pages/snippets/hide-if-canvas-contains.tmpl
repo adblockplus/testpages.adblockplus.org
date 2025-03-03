@@ -60,7 +60,6 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     // Get the 2D drawing context from the canvas
     const ctx = canvas.getContext("2d");
     ctx.font = "24px Arial";
-    const textWidth = ctx.measureText(text).width;
     canvas.width = 0;
     canvas.height = 0;
     canvas.style.verticalAlign = "middle"; // Aligns canvas with text
