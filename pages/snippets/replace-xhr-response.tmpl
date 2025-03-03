@@ -192,8 +192,6 @@ description = Check that the replace-xhr-response snippet is working as expected
   }
 
   setTimeout(() => {
-    removeWaitingContent(); // eslint-disable-line no-undef
-
     const url = "/testfiles/fetch-and-xhr/foo.txt";
 
     const tests = [
@@ -208,5 +206,6 @@ description = Check that the replace-xhr-response snippet is working as expected
       handleResponseBasic(response);
       tests.forEach(({id, replacement}) => handleResponse(response, id, replacement));
     });
+    removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>
