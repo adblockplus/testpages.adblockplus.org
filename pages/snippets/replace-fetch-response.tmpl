@@ -22,13 +22,12 @@ description = Check that the replace-fetch-response snippet is working as expect
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#replace-fetch-response '{{ search1 }}'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#replace-fetch-response 'lazy'</pre></li>
   </ul>
 </section>
 
 {% set case = "String replacement" %}
 {% set id = get_id(case) %}
-{% set search2 = "optimistic" %}
 {% set replacement2 = "wretched" %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
@@ -47,15 +46,13 @@ description = Check that the replace-fetch-response snippet is working as expect
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#replace-fetch-response '{{ search2 }}' '{{ replacement2 }}'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#replace-fetch-response 'optimistic' 'wretched'</pre></li>
   </ul>
 </section>
 
 {% set case = "String replacement with needle" %}
 {% set id = get_id(case) %}
-{% set search3 = "dog" %}
 {% set replacement3 = "forest after a rain" %}
-{% set needle3 = "Puppycat" %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
 
@@ -73,15 +70,13 @@ description = Check that the replace-fetch-response snippet is working as expect
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#replace-fetch-response '{{ search3 }}' '{{ replacement3 }}' '{{ needle3 }}'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#replace-fetch-response 'dog' 'forest after a rain' 'Puppycat'</pre></li>
   </ul>
 </section>
 
 {% set case = "Regex parameters" %}
 {% set id = get_id(case) %}
-{% set search4 = "/\\\\d+\\\\s+years?\\\\s+old/" %}
 {% set replacement4 = "stoic" %}
-{% set needle4 = "/[CcKk]ardamon/" %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
 
@@ -99,13 +94,12 @@ description = Check that the replace-fetch-response snippet is working as expect
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#replace-fetch-response {{ search4 }} {{ replacement4 }} {{ needle4 }}</pre></li>
+    <li><pre>{{ site_url|domain }}#$#replace-fetch-response /\\d+\\s+years?\\s+old/ 'stoic' /[CcKk]ardamon/</pre></li>
   </ul>
 </section>
 
 {% set case = "Multiple string replacement" %}
 {% set id = get_id(case) %}
-{% set search5 = "/[Ss]ticky?/" %}
 {% set replacement5 = "purr" %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
@@ -124,7 +118,7 @@ description = Check that the replace-fetch-response snippet is working as expect
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#replace-fetch-response {{ search5 }} '{{ replacement5 }}'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#replace-fetch-response /[Ss]ticky?/ 'purr'</pre></li>
   </ul>
 </section>
 
