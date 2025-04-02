@@ -93,7 +93,6 @@ async function getOriginHandle(driver) {
   await driver.wait(async() => {
     let seenHandles = handles;
     handles = await driver.getAllWindowHandles();
-    console.log({handles});
     return handles.every(handle => seenHandles.includes(handle));
   }, 16000, "Handles kept changing after timeout", 5000);
 
@@ -130,7 +129,7 @@ async function getOriginHandle(driver) {
       break;
   }
 
-  return {origin, handle};
+  return {origin, handle, handles};
 }
 
 async function waitForExtension(driver) {
@@ -140,7 +139,8 @@ async function waitForExtension(driver) {
   // Timeout for initial driver.executeScript calls
   await driver.manage().setTimeouts({pageLoad: 1000});
 
-  let {origin, handle} = await getOriginHandle(driver);
+  let {origin, handle, handles} = await getOriginHandle(driver);
+  console.log({handles});
   if (!origin)
     throw new Error("Extension didn't start correctly, options is not shown");
 
