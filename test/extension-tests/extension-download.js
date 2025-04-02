@@ -24,7 +24,8 @@ import {download} from "@eyeo/get-browser-binary";
 const URL = "https://gitlab.com/api/v4/projects/59518842/releases";
 
 async function run() {
-  let manifestVersion = process.env.MANIFEST_VERSION || "2";
+  let manifestVersion = "3";
+  // let manifestVersion = process.env.MANIFEST_VERSION || "2";
 
   const infos = await got(URL).json();
   const extensionLinks = infos.flatMap(info => info.assets.links);

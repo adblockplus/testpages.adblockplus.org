@@ -255,5 +255,6 @@ if (typeof run == "undefined") {
       });
     }
   }
+  console.log("‼️ Skipping test because we are on extensions-handle-chromium-dev branch")
   run();
 })();

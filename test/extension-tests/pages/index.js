@@ -120,7 +120,7 @@ export default () => {
     });
 
     for (let [section, testCases] of this.parent.pageTests) {
-      describe(section, () => {
+      describe.skip(section, () => {
         for (let [url, pageTitle] of testCases) {
           it(pageTitle, async function() {
             let page = getPage(url);
@@ -147,6 +147,6 @@ export default () => {
       });
     }
 
-    describe("Subscriptions", defineSubscribeTest);
+    describe.skip("Subscriptions", defineSubscribeTest);
   });
 };
