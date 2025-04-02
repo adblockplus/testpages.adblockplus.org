@@ -93,6 +93,7 @@ async function getOriginHandle(driver) {
   await driver.wait(async() => {
     let seenHandles = handles;
     handles = await driver.getAllWindowHandles();
+    console.log({handles});
     return handles.every(handle => seenHandles.includes(handle));
   }, 16000, "Handles kept changing after timeout", 5000);
 
