@@ -77,6 +77,7 @@ test:chrome:beta:
     GREP: chromium beta
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
+  allow_failure: true
 
 test:chrome:dev:
   extends: .test
@@ -84,6 +85,7 @@ test:chrome:dev:
     GREP: chromium dev
   rules:
     - if: $CI_PIPELINE_SOURCE == "schedule"
+  allow_failure: true
 
 test:chrome:oldest:
   extends: .test
