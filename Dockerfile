@@ -13,7 +13,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-FROM registry.gitlab.com/eyeo/docker/get-browser-binary:node18-testpages
+FROM registry.gitlab.com/eyeo/browser-extensions-and-premium/extensions/extensions/get-browser-binary:node22-testpages
 
 # nginx config
 ENV DOMAIN=local.testpages.adblockplus.org
