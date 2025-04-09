@@ -3,8 +3,8 @@
   "repository": "https://gitlab.com/eyeo/developer-experience/testpages.adblockplus.org",
   "license": "GPL-3.0",
   "engines": {
-    "node": ">=18",
-    "npm": ">=9"
+    "node": ">=22",
+    "npm": ">=10"
   },
   "type": "module",
   "dependencies": {
