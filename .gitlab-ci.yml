@@ -179,6 +179,10 @@ test:edge:windows:
     - $Env:PYTHONPATH = "cms"
     - python -m cms.bin.generate_static_pages .
       $Env:NGINX_WIN\html\$Env:DOMAIN
+    # Gets Node to the supported version. This can be removed if the default
+    # runner is updated.
+    - choco uninstall -y nodejs nodejs.install
+    - choco install -y --no-progress nodejs-lts --version 22.14.0
   script:
     # Run test pages server
     - Start-Process "$Env:NGINX_WIN\nginx.exe"
