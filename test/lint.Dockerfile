@@ -1,4 +1,13 @@
-FROM registry.gitlab.com/eyeo/browser-extensions-and-premium/extensions/extensions/get-browser-binary:node22-testpages
+FROM registry.gitlab.com/eyeo/docker/get-browser-binary:node22
+
+RUN apt-get update && apt-get install -y nginx
+
+# CMS and sitescripts require Python 3
+RUN apt-get install -y python3 python3-distutils python3-pip
+
+# Sitescripts require spawn-fcgi, m2crypto, flup and Jinja2
+RUN apt-get install -y spawn-fcgi python3-m2crypto
+RUN pip3 install flup Jinja2
 
 # Install flake8 with flake8-eyeo
 RUN pip3 install flake8
