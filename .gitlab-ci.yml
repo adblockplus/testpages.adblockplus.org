@@ -172,6 +172,10 @@ test:edge:windows:
     - git -C cms checkout fbd1527b9f98d99a8b62c6ad5e32ac7758c19a28
     - pip3 install --cache-dir "$(Get-Location)\pip_cache"
       -r cms\requirements.txt
+    # Gets Node to the supported version. This can be removed if the default
+    # runner is updated.
+    - choco uninstall -y nodejs nodejs.install
+    - choco install -y --no-progress nodejs-lts --version 22.14.0
     # Build tests
     - npm install
     # Generate test pages files
@@ -179,10 +183,6 @@ test:edge:windows:
     - $Env:PYTHONPATH = "cms"
     - python -m cms.bin.generate_static_pages .
       $Env:NGINX_WIN\html\$Env:DOMAIN
-    # Gets Node to the supported version. This can be removed if the default
-    # runner is updated.
-    - choco uninstall -y nodejs nodejs.install
-    - choco install -y --no-progress nodejs-lts --version 22.14.0
   script:
     # Run test pages server
     - Start-Process "$Env:NGINX_WIN\nginx.exe"
