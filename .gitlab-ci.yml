@@ -190,7 +190,7 @@ test:edge:windows:
     # Run endpoints server
     - Start-Process "npm" -ArgumentList "run start-endpoints" -PassThru
     - node ./test/extension-tests/extension-download.js
-    - npm run test -- -g "edge latest"
+    - npm run test "--" -g "edge latest"
   variables:
     TEST_PAGES_URL: https://local.testpages.adblockplus.org:5001/en/
     SITE_URL: https://local.testpages.adblockplus.org:5001
