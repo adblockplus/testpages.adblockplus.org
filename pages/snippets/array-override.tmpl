@@ -48,10 +48,33 @@ description = Check if array-override feature works properly.
   <p>Not supported in Chrome 73 (requires 74+)</p>
 </section>
 
+{% set case = "array-override-foreach" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that Array.prototype.forEach can be overridden properly.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#array-override forEach 'foreach-test'</pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
 <script>
   "use strict";
 
-  const arr = ["included"];
+  const arr = ["included", "foreach-test"];
 
   function createAndAppendDiv(parentId, divId) {
     let parentElement = document.getElementById(parentId);
@@ -77,9 +100,22 @@ description = Check if array-override feature works properly.
     const pushWorks = arr.includes("dont-touch") && !arr.includes("test123");
     setAttributeBasedOnCondition(targetTestCasePush, "array-override-push", pushWorks);
 
-    const targetTestCaseIncludes = createAndAppendDiv("array-override-includes-area", "push");
+    const targetTestCaseIncludes = createAndAppendDiv("array-override-includes-area", "includes");
     const includesWorks = arr.includes("included") && arr.includes("not-there");
     setAttributeBasedOnCondition(targetTestCaseIncludes, "array-override-includes", includesWorks);
+
+    const targetTestCaseForEach = createAndAppendDiv("array-override-foreach-area", "foreach");
+    let forEachDoesntMatchFound = false;
+    let forEachMatchesFound = false;
+
+    arr.forEach(item => {
+      if (item === "included")
+        forEachDoesntMatchFound = true;
+      if (item === "foreach-test")
+        forEachMatchesFound = true;
+    });
+    const forEachWorks = forEachDoesntMatchFound && !forEachMatchesFound;
+    setAttributeBasedOnCondition(targetTestCaseForEach, "array-override-foreach", forEachWorks);
     removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>
