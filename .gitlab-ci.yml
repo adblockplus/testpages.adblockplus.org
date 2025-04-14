@@ -70,7 +70,8 @@ test:chrome:latest:
   variables:
     GREP: chromium latest
 
-# allow failure because of ChromeDriver v.136 issues: https://issues.chromium.org/issues/409441960
+# allow failure because of ChromeDriver v.136 issues:
+# https://issues.chromium.org/issues/409441960
 test:chrome:beta:
   extends: .test
   variables:
@@ -79,7 +80,8 @@ test:chrome:beta:
     - if: $CI_PIPELINE_SOURCE == "schedule"
   allow_failure: true
 
-# allow failure because of ChromeDriver v.136 issues: https://issues.chromium.org/issues/409441960
+# allow failure because of ChromeDriver v.136 issues:
+# https://issues.chromium.org/issues/409441960
 test:chrome:dev:
   extends: .test
   variables:
@@ -115,7 +117,8 @@ test:edge:latest:
   variables:
     GREP: edge latest
 
-# allow failure because of ChromeDriver v.136 issues: https://issues.chromium.org/issues/409441960
+# allow failure because of ChromeDriver v.136 issues:
+# https://issues.chromium.org/issues/409441960
 test:edge:beta:
   extends: .test
   variables:
