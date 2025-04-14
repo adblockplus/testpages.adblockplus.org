@@ -188,7 +188,7 @@ test:edge:windows:
     - Start-Process "$Env:NGINX_WIN\nginx.exe"
       -WorkingDirectory "$Env:NGINX_WIN" -PassThru
     # Run endpoints server
-    - npm run start-endpoints &
+    - Start-Process "npm.cmd" -ArgumentList "run start-endpoints" -RedirectStandardOutput "server-output.log" -RedirectStandardError "server-error.log" -PassThru
     - node ./test/extension-tests/extension-download.js
     - npm run test "--" -g "edge latest"
   variables:
@@ -200,6 +200,8 @@ test:edge:windows:
   artifacts:
     paths:
       - ./test/screenshots
+      - server-output.log
+      - server-error.log
     when: on_failure
     expire_in: 1 mo
 
