@@ -6,8 +6,8 @@ is automatically generated from the files in this repository.
 ## Getting started
 
 The following tools are needed:
-* Node >= 18
-* npm >= 9
+* Node >= 22
+* npm >= 10
 * Python 3
 * Docker
 
