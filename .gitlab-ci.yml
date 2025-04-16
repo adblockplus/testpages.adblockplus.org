@@ -184,10 +184,11 @@ test:edge:windows:
     # Run test pages server
     - Start-Process "$Env:NGINX_WIN\nginx.exe"
       -WorkingDirectory "$Env:NGINX_WIN" -PassThru
-    # Run endpoints server
-    - Start-Process "npm" -ArgumentList "run start-endpoints" -PassThru
+    # Run endpoints server. Since NPM 10, NPM needs to be run with `npm.cmd`
+    # when using Start-Process (see https://github.com/nodejs/help/issues/4436)
+    - Start-Process "npm.cmd" -ArgumentList "run start-endpoints" -PassThru
     - node ./test/extension-tests/extension-abp-snippets-download.js
-    - npm run test -- -g "edge latest"
+    - npm run test "--" -g "edge latest"
   variables:
     TEST_PAGES_URL: https://local.testpages.adblockplus.org:5001/en/
     SITE_URL: https://local.testpages.adblockplus.org:5001
