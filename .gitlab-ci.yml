@@ -172,10 +172,6 @@ test:edge:windows:
     - git -C cms checkout fbd1527b9f98d99a8b62c6ad5e32ac7758c19a28
     - pip3 install --cache-dir "$(Get-Location)\pip_cache"
       -r cms\requirements.txt
-    # Gets Node to the supported version. This can be removed if the default
-    # runner is updated.
-    - choco uninstall -y nodejs nodejs.install
-    - choco install -y --no-progress nodejs-lts --version 22.14.0
     # Build tests
     - npm install
     # Generate test pages files
@@ -201,8 +197,6 @@ test:edge:windows:
   artifacts:
     paths:
       - ./test/screenshots
-      - server-output.log
-      - server-error.log
     when: on_failure
     expire_in: 1 mo
 
