@@ -1,0 +1,132 @@
+template = testcase
+title =  event-override
+description = Check if event-override feature works properly.
+
+{% set case = "event-override-disable-click" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that click event gets disabled.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#event-override click disable</pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
+{% set case = "event-override-isTrusted-click" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that click event gets disabled.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#event-override click override isTrusted true</pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
+{% set case = "event-override-disable-customEvent" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that click event gets disabled.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#event-override onAbnormalityDetected disable</pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
+<script>
+  "use strict";
+
+  function createAndAppendDiv(parentId, divId) {
+    const parent = document.getElementById(parentId);
+    const div = document.createElement("div");
+    div.id = divId;
+    parent.appendChild(div);
+    return div;
+  }
+
+  function setTestResult(element, id, condition) {
+    if (!element) return;
+    element.setAttribute("data-expectedresult", condition ? "pass" : "fail");
+    element.setAttribute("aria-label", condition ? `${id}-pass` : `${id}-fail`);
+  }
+
+  setTimeout(() => {
+    // Disable click
+    const clickDiv = createAndAppendDiv("event-override-disable-click-area", "click-disabled-test");
+    if (clickDiv) {
+      let clickFired = false;
+      clickDiv.addEventListener("click", () => {
+        clickFired = true;
+      });
+      clickDiv.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+      setTestResult(clickDiv, "event-override-disable-click", clickFired === false);
+    }
+
+    // Override isTrusted click  
+    const isTrustedDiv = createAndAppendDiv("event-override-istrusted-click-area", "isTrusted-click-test"); // lowercase "istrusted"
+    if (isTrustedDiv) {
+      let trustedWasOverridden = false;
+      isTrustedDiv.addEventListener("click", (e) => {
+        if (e.isTrusted === true) {
+          trustedWasOverridden = true;
+        }
+      });
+      const syntheticClick = new MouseEvent("click", { bubbles: true, cancelable: true });
+      isTrustedDiv.dispatchEvent(syntheticClick);
+      setTestResult(isTrustedDiv, "event-override-istrusted-click", trustedWasOverridden); // lowercase here too
+    }
+
+    // Disable custom event
+    const customDiv = createAndAppendDiv("event-override-disable-customevent-area", "custom-event-test"); // lowercase "customevent"
+    if (customDiv) {
+      let customEventFired = false;
+      customDiv.addEventListener("onAbnormalityDetected", () => {
+        customEventFired = true;
+      });
+      const customEvent = new CustomEvent("onAbnormalityDetected", { bubbles: true });
+      customDiv.dispatchEvent(customEvent);
+      setTestResult(customDiv, "event-override-disable-customevent", customEventFired === false); // lowercase here too
+    }
+
+    removeWaitingContent(); // eslint-disable-line no-undef
+  }, 500);
+</script>
+
