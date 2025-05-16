@@ -49,6 +49,24 @@ description = Check that the hide-if-contains-visible-text snippet is working as
   .text-shadow-test div span {
     color: white;
   }
+  
+  .padding-test {
+    overflow: hidden;
+  }
+  
+  #padding-test-visible-child {
+    position: absolute; 
+    padding-top: 75px; 
+    transform: translateY(-108px); 
+    margin-top: 53px;
+  }
+  
+  #padding-test-not-visible-child {
+    position: absolute; 
+    padding-top: 0px; 
+    transform: translateY(-108px); 
+    margin-top: 53px;
+  }
 </style>
 
 {% set case = "Basic usage" %}
@@ -107,8 +125,8 @@ description = Check that the hide-if-contains-visible-text snippet is working as
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that usage of the snippet with elements that have the text made visible by text-shadow.</p>
-  <div id="content-target" class="testcase-area">
+  <p>Test that usage of the snippet with elements with text made visible by text-shadow.</p>
+  <div class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="text-shadow-test target" data-expectedresult="fail">Sponsored<div><span>Failed. Element is not hidden.</span></div></div>
     <div class="testcase-expected-view"><div><span>Should not be hidden.</span></div></div>
@@ -126,3 +144,35 @@ description = Check that the hide-if-contains-visible-text snippet is working as
   </ul>
 </section>
 
+{% set case = "-ignore-padding:true" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that usage of the snippet with elements that are made visible by padding.</p>
+  <div class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="padding-test" data-expectedresult="fail">
+      <div>
+        <span id="padding-test-visible-child">Sponsored</span>
+        <span>Failed. Element is not hidden.</span>
+      </div>
+    </div>
+    <div class="testcase-expected-view"><div><span>Should not be hidden.</span></div></div>
+    <div class="padding-test" data-expectedresult="pass" aria-label="baria-label="{{id}}-pass">
+      <div>
+        <span id="padding-test-not-visible-child">Sponsored</span>
+        <span>Should not be hidden.</span>
+      </div>
+    </div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element inside in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-visible-text 'Sponsored' '.padding-test' '.padding-test > div' '-ignore-padding:true'</pre></li>
+  </ul>
+</section>
