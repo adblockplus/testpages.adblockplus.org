@@ -53,19 +53,20 @@ description = Check that the hide-if-contains-visible-text snippet is working as
   .padding-test {
     overflow: hidden;
   }
-  
-  #padding-test-visible-child {
+
+  .padding-test span[id] {
+    overflow: hidden;
     position: absolute; 
-    padding-top: 75px; 
     transform: translateY(-108px); 
     margin-top: 53px;
   }
   
+  #padding-test-visible-child {
+    padding-top: 75px; 
+  }
+  
   #padding-test-not-visible-child {
-    position: absolute; 
     padding-top: 0px; 
-    transform: translateY(-108px); 
-    margin-top: 53px;
   }
 </style>
 
