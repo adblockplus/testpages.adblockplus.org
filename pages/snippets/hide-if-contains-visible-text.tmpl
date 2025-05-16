@@ -46,7 +46,7 @@ description = Check that the hide-if-contains-visible-text snippet is working as
     text-shadow: 0 0 0 white;
   }
 
-  .text-shadow-test div span {
+  .text-shadow-test span {
     color: white;
   }
   
@@ -129,9 +129,9 @@ description = Check that the hide-if-contains-visible-text snippet is working as
   <p>Test that usage of the snippet with elements with text made visible by text-shadow.</p>
   <div class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
-    <div class="text-shadow-test target" data-expectedresult="fail">Sponsored<div><span>Failed. Element is not hidden.</span></div></div>
-    <div class="testcase-expected-view"><div><span>Should not be hidden.</span></div></div>
-    <div class="text-shadow-test" data-expectedresult="pass" aria-label="baria-label="{{id}}-pass">Sponsored<div><span>Should not be hidden.</span></div></div>
+    <div class="text-shadow-test target" data-expectedresult="fail">Sponsored<span>Failed. Element is not hidden.</span></div>
+    <div class="testcase-expected-view"><span>Should not be hidden.</span></div>
+    <div class="text-shadow-test" data-expectedresult="pass" aria-label="baria-label="{{id}}-pass">Sponsored<span>Should not be hidden.</span></div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -153,17 +153,13 @@ description = Check that the hide-if-contains-visible-text snippet is working as
   <div class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="padding-test" data-expectedresult="fail">
-      <div>
-        <span id="padding-test-visible-child">Sponsored</span>
-        <span>Failed. Element is not hidden.</span>
-      </div>
+      <span id="padding-test-visible-child">Sponsored</span>
+      <span>Failed. Element is not hidden.</span>
     </div>
-    <div class="testcase-expected-view"><div><span>Should not be hidden.</span></div></div>
+    <div class="testcase-expected-view"><span>Should not be hidden.</span></div>
     <div class="padding-test" data-expectedresult="pass" aria-label="baria-label="{{id}}-pass">
-      <div>
-        <span id="padding-test-not-visible-child">Sponsored</span>
-        <span>Should not be hidden.</span>
-      </div>
+      <span id="padding-test-not-visible-child">Sponsored</span>
+      <span>Should not be hidden.</span>
     </div>
   </div>
   <h3>Steps</h3>
@@ -174,6 +170,6 @@ description = Check that the hide-if-contains-visible-text snippet is working as
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-contains-visible-text 'Sponsored' '.padding-test' '.padding-test > div' '-ignore-padding:true'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-visible-text 'Sponsored' '.padding-test' '.padding-test' '-ignore-padding:true'</pre></li>
   </ul>
 </section>
