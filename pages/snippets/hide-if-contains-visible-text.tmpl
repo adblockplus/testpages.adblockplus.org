@@ -38,11 +38,15 @@ description = Check that the hide-if-contains-visible-text snippet is working as
     content: "-content";
   }
 
-  .transparent-text {
+  .text-shadow-test {
     color: transparent;
   }
 
-  .text-shadow-test[data-expectedresult="fail"] {
+  .text-shadow-test span{
+    color: white;
+  }
+
+  .text-shadow-test[data-expectedresult="fail"]::first-line {
     text-shadow: 0 0 0 white;
   }
 
@@ -126,16 +130,16 @@ description = Check that the hide-if-contains-visible-text snippet is working as
   <div class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="text-shadow-test transparent-text" data-expectedresult="fail" aria-label="{{id}}-fail">
+      Sponsored </br>
       <span>Failed. Element is not hidden.</span>
-      Sponsored
     </div>
     <div class="text-shadow-test testcase-expected-view">
-      <span>Should not be hidden.</span>
-      <span class="transparent-text">Sponsored</span>
+      <span>Should not be hidden.</span></br>
+      Sponsored
     </div>
-    <div data-expectedresult="pass" aria-label="{{id}}-pass">
-      <span>Should not be hidden.</span>
-      <span class="transparent-text">Sponsored</span>
+    <div class="text-shadow-test" data-expectedresult="pass" aria-label="{{id}}-pass">
+      <span>Should not be hidden.</span></br>
+      Sponsored
     </div>
   </div>
   <h3>Steps</h3>
