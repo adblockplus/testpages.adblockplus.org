@@ -1,0 +1,50 @@
+template = testcase
+title =  JSON Override
+description = Check if blob-override feature works properly.
+
+{% set case = "blob-override" %}
+{% set id = get_id(case) %}
+
+<section id="{{id}}-section" class="testcase-panel">
+  <script id="blob-script"></script>
+  {{ heading(case) }}
+  <p>Test that basic usage of the blob-override snippet works as expected..</p>
+  <div id="basic-target" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div> 
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#blob-override '/.*/' 'overriden' </pre></li>
+  </ul>
+</section>
+<script>
+  "use strict";
+
+  setTimeout(() => {
+    const jsContentForBlob = `
+    (function() {
+      try {
+        const element = document.getElementsByClassName("testcase-waiting-content");
+        const target = document.createElement('div');
+        target.id = 'to-be-hidden';
+        target.setAttribute('data-expectedresult', 'fail');
+        target.setAttribute('data-dp', 'fail');
+        target.setAttribute('aria-label', '{{id}}-fail');
+        target.textContent = 'Target';
+        element.insertAdjacentElement('afterend', target);
+    })();
+    `;
+    const blob = new Blob([jsContentForBlob], { type: 'application/javascript' });
+    const blobUrl = URL.createObjectURL(blob);
+    document.getElementById("blob-script").src = blobUrl;
+    removeWaitingContent();
+  }, 500);
+
+</script>
