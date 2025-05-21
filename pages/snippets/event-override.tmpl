@@ -19,17 +19,17 @@ description = Check if event-override feature works properly.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#event-override click disable</pre></li>
+    <li><pre>{{ site_url|domain }}#$#event-override click disable clickFired</pre></li>
   </ul>
   <h3>Notes</h3>
   <p>Not supported in Chrome 73 (requires 74+)</p>
 </section>
 
-{% set case = "event-override-isTrusted-click" %}
+{% set case = "event-override-trusted-click" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that click event gets disabled.</p>
+  <p>Test that click event property isTrusted is set to true</p>
   <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
@@ -42,7 +42,7 @@ description = Check if event-override feature works properly.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#event-override click override isTrusted true</pre></li>
+    <li><pre>{{ site_url|domain }}#$#event-override click trusted trustedWasOverridden</pre></li>
   </ul>
   <h3>Notes</h3>
   <p>Not supported in Chrome 73 (requires 74+)</p>
@@ -100,8 +100,8 @@ description = Check if event-override feature works properly.
       setTestResult(clickDiv, "event-override-disable-click", clickFired === false);
     }
 
-    // Override isTrusted click  
-    const isTrustedDiv = createAndAppendDiv("event-override-istrusted-click-area", "isTrusted-click-test"); // lowercase "istrusted"
+    // isTrusted click  
+    const isTrustedDiv = createAndAppendDiv("event-override-trusted-click-area", "isTrusted-click-test");
     if (isTrustedDiv) {
       let trustedWasOverridden = false;
       isTrustedDiv.addEventListener("click", (e) => {
