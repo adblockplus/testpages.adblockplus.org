@@ -44,7 +44,7 @@ description = Check if blob-override feature works properly.
     const blob = new Blob([jsContentForBlob], { type: 'application/javascript' });
     const blobUrl = URL.createObjectURL(blob);
     document.getElementById("blob-script").src = blobUrl;
-    removeWaitingContent();
+    removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 
 </script>
