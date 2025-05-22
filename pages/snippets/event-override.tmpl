@@ -83,7 +83,9 @@ description = Check if event-override feature works properly.
   }
 
   function setTestResult(element, id, condition) {
-    if (!element) return;
+    if (!element)
+      return;
+
     element.setAttribute("data-expectedresult", condition ? "pass" : "fail");
     element.setAttribute("aria-label", condition ? `${id}-pass` : `${id}-fail`);
   }
@@ -96,34 +98,34 @@ description = Check if event-override feature works properly.
       clickDiv.addEventListener("click", () => {
         clickFired = true;
       });
-      clickDiv.dispatchEvent(new MouseEvent("click", { bubbles: true, cancelable: true }));
+      clickDiv.dispatchEvent(new MouseEvent("click", {bubbles: true, cancelable: true}));
       setTestResult(clickDiv, "event-override-disable-click", clickFired === false);
     }
 
-    // isTrusted click  
+    // isTrusted click
     const isTrustedDiv = createAndAppendDiv("event-override-trusted-click-area", "isTrusted-click-test");
     if (isTrustedDiv) {
       let trustedWasOverridden = false;
-      isTrustedDiv.addEventListener("click", (e) => {
-        if (e.isTrusted === true) {
+
+      isTrustedDiv.addEventListener("click", e => {
+        if (e.isTrusted === true)
           trustedWasOverridden = true;
-        }
       });
-      const syntheticClick = new MouseEvent("click", { bubbles: true, cancelable: true });
+      const syntheticClick = new MouseEvent("click", {bubbles: true, cancelable: true});
       isTrustedDiv.dispatchEvent(syntheticClick);
-      setTestResult(isTrustedDiv, "event-override-istrusted-click", trustedWasOverridden); // lowercase here too
+      setTestResult(isTrustedDiv, "event-override-istrusted-click", trustedWasOverridden);
     }
 
     // Disable custom event
-    const customDiv = createAndAppendDiv("event-override-disable-customevent-area", "custom-event-test"); // lowercase "customevent"
+    const customDiv = createAndAppendDiv("event-override-disable-customevent-area", "custom-event-test");
     if (customDiv) {
       let customEventFired = false;
       customDiv.addEventListener("customEvent", () => {
         customEventFired = true;
       });
-      const customEvent = new CustomEvent("customEvent", { bubbles: true });
+      const customEvent = new CustomEvent("customEvent", {bubbles: true});
       customDiv.dispatchEvent(customEvent);
-      setTestResult(customDiv, "event-override-disable-customevent", customEventFired === false); // lowercase here too
+      setTestResult(customDiv, "event-override-disable-customevent", customEventFired === false);
     }
 
     removeWaitingContent(); // eslint-disable-line no-undef
