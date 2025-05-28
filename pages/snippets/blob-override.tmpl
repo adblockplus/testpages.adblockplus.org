@@ -1,15 +1,14 @@
 template = testcase
-title =  JSON Override
+title =  Blob Override
 description = Check if blob-override feature works properly.
 
 {% set case = "blob-override" %}
 {% set id = get_id(case) %}
 
 <section id="{{id}}-section" class="testcase-panel">
-  <script id="blob-script"></script>
   {{ heading(case) }}
   <p>Test that basic usage of the blob-override snippet works as expected..</p>
-  <div id="basic-target" class="testcase-area">
+  <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div> 
   </div>
@@ -21,7 +20,7 @@ description = Check if blob-override feature works properly.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#blob-override '/.*/' 'overriden' </pre></li>
+    <li><pre>{{ site_url|domain }}#$#blob-override '/fail/' 'pass' </pre></li>
   </ul>
 </section>
 <script>
@@ -30,19 +29,18 @@ description = Check if blob-override feature works properly.
   setTimeout(() => {
     const jsContentForBlob = `
     (function() {
-        const element = document.getElementsByClassName("testcase-waiting-content");
+        const element = document.getElementById("blob-override-area");
         const target = document.createElement('div');
-        target.id = 'to-be-hidden';
         target.setAttribute('data-expectedresult', 'fail');
-        target.setAttribute('data-dp', 'fail');
-        target.setAttribute('aria-label', '{{id}}-fail');
-        target.textContent = 'Target';
-        element.insertAdjacentElement('afterend', target);
+        element.appendChild(target);
     })();
     `;
     const blob = new Blob([jsContentForBlob], { type: 'application/javascript' });
     const blobUrl = URL.createObjectURL(blob);
-    document.getElementById("blob-script").src = blobUrl;
+    const scriptElement = document.createElement('script');
+    scriptElement.src = blobUrl;
+    const area = document.getElementById("blob-override-area")
+    area.appendChild(scriptElement);
     removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 
