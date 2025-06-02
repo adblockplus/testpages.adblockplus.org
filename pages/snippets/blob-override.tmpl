@@ -1,5 +1,5 @@
 template = testcase
-title =  Blob Override
+title = Blob Override
 description = Check if blob-override feature works properly.
 
 {% set case = "blob-override" %}
@@ -10,7 +10,7 @@ description = Check if blob-override feature works properly.
   <p>Test that basic usage of the blob-override snippet works as expected..</p>
   <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
-    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div> 
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
   </div>
   <h3>Steps</h3>
   <ul class="testcase-steps">
@@ -20,27 +20,33 @@ description = Check if blob-override feature works properly.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#blob-override '/fail/' 'pass' </pre></li>
+    <li>
+      <pre>{{ site_url|domain }}#$#blob-override /fail/ 'pass' </pre>
+    </li>
   </ul>
 </section>
 <script>
   "use strict";
 
-  setTimeout(() => {
-    const jsContentForBlob = `
-    (function() {
-        const element = document.getElementById("blob-override-area");
-        const target = document.createElement('div');
-        target.setAttribute('data-expectedresult', 'fail');
-        element.appendChild(target);
-    })();
+  setTimeout(async () => {
+    const blobContent = `
+    {
+      "condition": "fail"
+    }
     `;
-    const blob = new Blob([jsContentForBlob], { type: 'application/javascript' });
-    const blobUrl = URL.createObjectURL(blob);
-    const scriptElement = document.createElement('script');
-    scriptElement.src = blobUrl;
-    const area = document.getElementById("blob-override-area")
-    area.appendChild(scriptElement);
+    const blob = new Blob([blobContent], { type: 'application/json' });
+    const response = new Response(blob);
+    const content = await response.json();
+    const condition = content.condition;
+    const element = document.getElementById("blob-override-area");
+    const target = document.createElement('div');
+    if (condition === "fail") {
+      target.setAttribute('data-expectedresult', 'fail');
+    }
+    else if (condition === "pass") {
+      target.setAttribute('data-expectedresult', 'pass');
+    }
+    element.appendChild(target);
     removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 
