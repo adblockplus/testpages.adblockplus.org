@@ -28,25 +28,23 @@ description = Check if blob-override feature works properly.
 <script>
   "use strict";
 
-  setTimeout(async () => {
+  setTimeout(async() => {
     const blobContent = `
     {
       "condition": "fail",
       "needle": "needle"
     }
     `;
-    const blob = new Blob([blobContent], { type: 'application/json' });
+    const blob = new Blob([blobContent], {type: "application/json"});
     const response = new Response(blob);
     const content = await response.json();
     const condition = content.condition;
     const element = document.getElementById("blob-override-area");
-    const target = document.createElement('div');
-    if (condition === "pass") {
-      target.setAttribute('data-expectedresult', 'pass');
-    }
-    else {
-      target.setAttribute('data-expectedresult', 'fail');
-    }
+    const target = document.createElement("div");
+    if (condition === "pass")
+      target.setAttribute("data-expectedresult", "pass");
+    else
+      target.setAttribute("data-expectedresult", "fail");
     element.appendChild(target);
     removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
