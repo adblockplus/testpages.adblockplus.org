@@ -1,0 +1,51 @@
+template = testcase
+title = Blob Override
+description = Check if blob-override feature works properly.
+
+{% set case = "blob-override" %}
+{% set id = get_id(case) %}
+
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of the blob-override snippet works as expected..</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li>
+      <pre>{{ site_url|domain }}#$#blob-override /fail/ 'pass' /needle/</pre>
+    </li>
+  </ul>
+</section>
+<script>
+  "use strict";
+
+  setTimeout(async() => {
+    const blobContent = `
+    {
+      "condition": "fail",
+      "needle": "needle"
+    }
+    `;
+    const blob = new Blob([blobContent], {type: "application/json"});
+    const response = new Response(blob);
+    const content = await response.json();
+    const condition = content.condition;
+    const element = document.getElementById("blob-override-area");
+    const target = document.createElement("div");
+    if (condition === "pass")
+      target.setAttribute("data-expectedresult", "pass");
+    else
+      target.setAttribute("data-expectedresult", "fail");
+    element.appendChild(target);
+    removeWaitingContent(); // eslint-disable-line no-undef
+  }, 500);
+</script>
