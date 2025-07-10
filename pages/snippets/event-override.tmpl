@@ -1,12 +1,12 @@
 template = testcase
-title =  array-override
-description = Check if array-override feature works properly.
+title =  event-override
+description = Check if event-override feature works properly.
 
-{% set case = "array-override-push" %}
+{% set case = "event-override-disable-click" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that Array.prototype.push can be overridden properly.</p>
+  <p>Test that click event gets disabled.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
@@ -19,17 +19,17 @@ description = Check if array-override feature works properly.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#array-override push test123 </pre></li>
+    <li><pre>{{ site_url|domain }}#$#event-override click disable clickFired</pre></li>
   </ul>
   <h3>Notes</h3>
   <p>Not supported in Chrome 73 (requires 74+)</p>
 </section>
 
-{% set case = "array-override-includes" %}
+{% set case = "event-override-trusted-click" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that Array.prototype.includes can be overridden properly.</p>
+  <p>Test that click event property isTrusted is set to true</p>
   <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
@@ -42,17 +42,17 @@ description = Check if array-override feature works properly.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#array-override includes not-there true</pre></li>
+    <li><pre>{{ site_url|domain }}#$#event-override click trusted trustedWasOverridden</pre></li>
   </ul>
   <h3>Notes</h3>
   <p>Not supported in Chrome 73 (requires 74+)</p>
 </section>
 
-{% set case = "array-override-foreach" %}
+{% set case = "event-override-disable-customEvent" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that Array.prototype.forEach can be overridden properly.</p>
+  <p>Test that click event gets disabled.</p>
   <div id="{{id}}-area" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
@@ -65,7 +65,7 @@ description = Check if array-override feature works properly.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#array-override forEach 'foreach-test'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#event-override customEvent disable</pre></li>
   </ul>
   <h3>Notes</h3>
   <p>Not supported in Chrome 73 (requires 74+)</p>
@@ -74,48 +74,60 @@ description = Check if array-override feature works properly.
 <script>
   "use strict";
 
-  const arr = ["included", "foreach-test"];
-
   function createAndAppendDiv(parentId, divId) {
-    let parentElement = document.getElementById(parentId);
-    let newDiv = document.createElement("div");
-    newDiv.id = divId;
-    parentElement.appendChild(newDiv);
-    return newDiv;
+    const parent = document.getElementById(parentId);
+    const div = document.createElement("div");
+    div.id = divId;
+    parent.appendChild(div);
+    return div;
   }
 
-  function setAttributeBasedOnCondition(element, id, condition) {
+  function setTestResult(element, id, condition) {
+    if (!element)
+      return;
+
     element.setAttribute("data-expectedresult", condition ? "pass" : "fail");
     element.setAttribute("aria-label", condition ? `${id}-pass` : `${id}-fail`);
   }
 
   setTimeout(() => {
-    arr.push("test123");
-    arr.push("dont-touch");
-  }, 100);
+    // Disable click
+    const clickDiv = createAndAppendDiv("event-override-disable-click-area", "click-disabled-test");
+    if (clickDiv) {
+      let clickFired = false;
+      clickDiv.addEventListener("click", () => {
+        clickFired = true;
+      });
+      clickDiv.dispatchEvent(new MouseEvent("click", {bubbles: true, cancelable: true}));
+      setTestResult(clickDiv, "event-override-disable-click", clickFired === false);
+    }
 
-  setTimeout(() => {
-    // Handle attributes for the first three properties
-    const targetTestCasePush = createAndAppendDiv("array-override-push-area", "push");
-    const pushWorks = arr.includes("dont-touch") && !arr.includes("test123");
-    setAttributeBasedOnCondition(targetTestCasePush, "array-override-push", pushWorks);
+    // isTrusted click
+    const isTrustedDiv = createAndAppendDiv("event-override-trusted-click-area", "isTrusted-click-test");
+    if (isTrustedDiv) {
+      let trustedWasOverridden = false;
 
-    const targetTestCaseIncludes = createAndAppendDiv("array-override-includes-area", "includes");
-    const includesWorks = arr.includes("included") && arr.includes("not-there");
-    setAttributeBasedOnCondition(targetTestCaseIncludes, "array-override-includes", includesWorks);
+      isTrustedDiv.addEventListener("click", e => {
+        if (e.isTrusted === true)
+          trustedWasOverridden = true;
+      });
+      const syntheticClick = new MouseEvent("click", {bubbles: true, cancelable: true});
+      isTrustedDiv.dispatchEvent(syntheticClick);
+      setTestResult(isTrustedDiv, "event-override-istrusted-click", trustedWasOverridden);
+    }
 
-    const targetTestCaseForEach = createAndAppendDiv("array-override-foreach-area", "foreach");
-    let forEachDoesntMatchFound = false;
-    let forEachMatchesFound = false;
+    // Disable custom event
+    const customDiv = createAndAppendDiv("event-override-disable-customevent-area", "custom-event-test");
+    if (customDiv) {
+      let customEventFired = false;
+      customDiv.addEventListener("customEvent", () => {
+        customEventFired = true;
+      });
+      const customEvent = new CustomEvent("customEvent", {bubbles: true});
+      customDiv.dispatchEvent(customEvent);
+      setTestResult(customDiv, "event-override-disable-customevent", customEventFired === false);
+    }
 
-    arr.forEach(item => {
-      if (item === "included")
-        forEachDoesntMatchFound = true;
-      if (item === "foreach-test")
-        forEachMatchesFound = true;
-    });
-    const forEachWorks = forEachDoesntMatchFound && !forEachMatchesFound;
-    setAttributeBasedOnCondition(targetTestCaseForEach, "array-override-foreach", forEachWorks);
     removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>
