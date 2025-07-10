@@ -91,7 +91,7 @@ test:chromium:dev:
 test:chromium:oldest:
   extends: .test
   variables:
-    GREP: chromium 128.0.6613.0
+    GREP: chromium 79.0.3945.0
 
 test:firefox:latest:
   extends: .test
