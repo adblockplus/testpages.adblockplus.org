@@ -112,9 +112,10 @@ description = Check if map-override feature works properly.
 
     // Test map-override has
     const targetTestCaseHas = createAndAppendDiv("map-override-has-area", "has");
-    const hasWorks = testMap.has("fake-key") === true && testMap.has("allowed-key") === true && testMap.has("allowed-key2") === false;
+    const hasWorks = testMap.has("fake-key") === true &&
+    testMap.has("allowed-key") === true && testMap.has("allowed-key2") === false;
     setAttributeBasedOnCondition(targetTestCaseHas, "map-override-has", hasWorks);
-    
+
     removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>
