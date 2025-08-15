@@ -1,0 +1,42 @@
+template = testcase
+title = hide-if-svg-contains
+description = Check that the hide-if-svg-contains snippet is working as expected.
+
+{% set case = "Basic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="target" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red images in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-svg-contains /hidden/ 'div[shouldhide]' 'div[shouldcheck]'</pre></li>
+  </ul>
+</section>
+
+<script>
+    "use strict";
+
+    setTimeout(() => {
+        let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1"><text fill="rgb(255, 255, 255)" y="10003.79643154997" font-size="16" font-family="Market Sans,Arial,sans-serif" transform="translate(5.94953518891125 16.949070737763023)" dx="-10009.084722169162" x="10003.188726040677" dy="-10009.229198944355">Should be hidden</text></svg>`;
+        let encodedSvg = `data:image/svg+xml;base64,${btoa(svgContent)}`;
+        let ad = document.createElement("div");
+        ad.setAttribute("data-expectedresult", "fail");
+        ad.setAttribute("aria-label", "{{id}}-fail");
+        ad.setAttribute("shouldhide", "true");
+        ad.innerHTML = `<div shouldcheck=true style='padding: .5rem; width: 150px; height: 100px; background-image: url("${encodedSvg}");'></div>`; // eslint-disable-line max-len
+
+        let target = document.getElementById("target");
+        target.appendChild(ad);
+        removeWaitingContent(); // eslint-disable-line no-undef
+    }, 500)
+</script>
