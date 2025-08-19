@@ -19,7 +19,7 @@ description = Check that the hide-if-svg-contains snippet is working as expected
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-svg-contains 'hidden 1' 'div[shouldhide]' 'div[shouldcheck]'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-svg-contains /basic/ 'div[shouldhide]' 'div[shouldcheck]'</pre></li>
   </ul>
 </section>
 
@@ -40,7 +40,7 @@ description = Check that the hide-if-svg-contains snippet is working as expected
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-svg-contains 'hidden 2' 'div[shouldhide]' 'div[shouldcheck]' 'fill:black'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-svg-contains /style/ 'div[shouldhide]' 'div[shouldcheck]' 'fill:black'</pre></li>
   </ul>
 </section>
 
@@ -61,7 +61,28 @@ description = Check that the hide-if-svg-contains snippet is working as expected
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-svg-contains 'hidden 3' 'div[shouldhide]' 'div[shouldcheck]' '-disable-contained-check:true'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#hide-if-svg-contains /contained/ 'div[shouldhide]' 'div[shouldcheck]' '-disable-contained-check:true'</pre></li>
+  </ul>
+</section>
+
+{% set case = "Text moved outside of view(more than default threshold=500)" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test usage of the snippet with text moved out of view(should be hidden when 'position-threshold' is increased)</p>
+  <div id="target-threshold" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red images in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-svg-contains /threshold/ 'div[shouldhide]' 'div[shouldcheck]' '-position-threshold:700'</pre></li>
   </ul>
 </section>
 
@@ -69,7 +90,7 @@ description = Check that the hide-if-svg-contains snippet is working as expected
   "use strict";
 
   setTimeout(() => {
-    let svgContent = "<svg xmlns='http://www.w3.org/2000/svg' version='1.1'><text fill='rgb(255, 255, 255)' font-size='16' font-family='Market Sans,Arial,sans-serif' x='0' y='17'>Should be hidden 1</text></svg>"; // eslint-disable-line max-len
+    let svgContent = "<svg xmlns='http://www.w3.org/2000/svg' version='1.1'><text fill='rgb(255, 255, 255)' font-size='16' font-family='Market Sans,Arial,sans-serif' x='0' y='17'>hisc-sponsored-basic</text></svg>"; // eslint-disable-line max-len
     let encodedSvg = `data:image/svg+xml;base64,${btoa(svgContent)}`;
     let ad = document.createElement("div");
     ad.setAttribute("data-expectedresult", "fail");
@@ -79,7 +100,7 @@ description = Check that the hide-if-svg-contains snippet is working as expected
     let targetBasic = document.getElementById("target-basic");
     targetBasic.appendChild(ad);
 
-    let svgContentCustom = "<svg xmlns='http://www.w3.org/2000/svg' version='1.1'><text fill='none' font-size='16' font-family='Market Sans,Arial,sans-serif' x='0' y='17'>Should be hidden 2</text></svg>"; // eslint-disable-line max-len
+    let svgContentCustom = "<svg xmlns='http://www.w3.org/2000/svg' version='1.1'><text fill='none' font-size='16' font-family='Market Sans,Arial,sans-serif' x='0' y='17'>hisc-sponsored-style</text></svg>"; // eslint-disable-line max-len
     let encodedSvgCustom = `data:image/svg+xml;base64,${btoa(svgContentCustom)}`;
     let adCustom = document.createElement("div");
     adCustom.setAttribute("data-expectedresult", "fail");
@@ -89,7 +110,7 @@ description = Check that the hide-if-svg-contains snippet is working as expected
     let targetCustom = document.getElementById("target-custom");
     targetCustom.appendChild(adCustom);
 
-    let svgContentMoved = "<svg xmlns='http://www.w3.org/2000/svg' version='1.1'><text fill='rgb(255, 255, 255)' font-size='16' font-family='Market Sans,Arial,sans-serif' x='1000' y='1000'>Should be hidden 3</text></svg>"; // eslint-disable-line max-len
+    let svgContentMoved = "<svg xmlns='http://www.w3.org/2000/svg' version='1.1'><text fill='rgb(255, 255, 255)' font-size='16' font-family='Market Sans,Arial,sans-serif' x='1000' y='1000'>hisc-sponsored-contained</text></svg>"; // eslint-disable-line max-len
     let encodedSvgMoved = `data:image/svg+xml;base64,${btoa(svgContentMoved)}`;
     let adMoved = document.createElement("div");
     adMoved.setAttribute("data-expectedresult", "fail");
@@ -98,6 +119,16 @@ description = Check that the hide-if-svg-contains snippet is working as expected
     adMoved.innerHTML = `<div shouldcheck=true style='padding: .5rem; width: 150px; height: 100px; background-image: url("${encodedSvgMoved}");'>Inspect to see SVG with text moved out of view</div>`; // eslint-disable-line max-len
     let targetMoved = document.getElementById("target-moved");
     targetMoved.appendChild(adMoved);
+
+    let svgContentThresh = "<svg xmlns='http://www.w3.org/2000/svg' version='1.1'><text fill='rgb(255, 255, 255)' font-size='16' font-family='Market Sans,Arial,sans-serif' x='600' y='600'>hisc-sponsored-threshold</text></svg>"; // eslint-disable-line max-len
+    let encodedSvgThresh = `data:image/svg+xml;base64,${btoa(svgContentThresh)}`;
+    let adThresh = document.createElement("div");
+    adThresh.setAttribute("data-expectedresult", "fail");
+    adThresh.setAttribute("aria-label", "{{id}}-fail");
+    adThresh.setAttribute("shouldhide", "true");
+    adThresh.innerHTML = `<div shouldcheck=true style='padding: .5rem; width: 150px; height: 100px; background-image: url("${encodedSvgThresh}");'>Inspect to see SVG with text moved out of view</div>`; // eslint-disable-line max-len
+    let targetThresh = document.getElementById("target-threshold");
+    targetThresh.appendChild(adThresh);
 
     removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
