@@ -98,19 +98,20 @@ description = Check that the replace-outbound-value snippet is working as expect
 <script type="text/javascript">
   "use strict";
 
-  // Test 1: JSON.stringify test
+  // Test 1: JSON.stringify
   window.testData = {
     user: "john",
     status: "rov-stringify-premium"
   };
 
-  // Test 2: btoa base64 test
+  // Test 2: btoa base64 
   window.originalText = "This page contains ads everywhere";
 
-  // Test 3: Object path test - JSON string to be parsed
-  window.testJSONString = '{"user":{"profile":{"name":"John Doe","status":"rov-parse-premium"},"settings":{"theme":"rov-parse-premium"}},"config":{"ads":"rov-parse-premium"}}';
+  // Test 3: Object path
+  window.testJSONString = `{"user":{"profile":{"name":"John Doe","status":"rov-parse-premium"},`+ 
+  `"settings":{"theme":"rov-parse-premium"}},"config":{"ads":"rov-parse-premium"}}`;
 
-  // Test 4: Stack filter test - Use encodeURI
+  // Test 4: Stack filter
   window.testString = "This contains ads";
   
   function allowedCaller() {
@@ -125,9 +126,8 @@ description = Check that the replace-outbound-value snippet is working as expect
     const parent = document.getElementById(parentId);
     const element = document.createElement("div");
     element.setAttribute("data-expectedresult", success ? "pass" : "fail");
-    if (!success) {
+    if (!success)
       element.setAttribute("aria-label", parentId + "-fail");
-    }
     element.innerHTML = message;
     parent.appendChild(element);
   }
@@ -137,7 +137,7 @@ description = Check that the replace-outbound-value snippet is working as expect
     const jsonResult = JSON.stringify(window.testData);
     // Check if the string itself was modified
     const jsonSuccess = jsonResult.includes('"status":"basic"');
-    createTestResult("json-stringify-area", jsonSuccess, 
+    createTestResult("json-stringify-area", jsonSuccess,
                     jsonSuccess ? "" : "Failed: JSON.stringify not modified");
 
     // Test 2: btoa base64
@@ -149,7 +149,7 @@ description = Check that the replace-outbound-value snippet is working as expect
     createTestResult("btoa-base64-area", btoaSuccess,
                     btoaSuccess ? "" : "Failed: btoa not modified correctly");
 
-    // Test 3: Object path - Use JSON.parse
+    // Test 3: Object path
     const objectData = JSON.parse(window.testJSONString);
     const pathSuccess = objectData.user.profile.status === "basic" &&
                         objectData.user.settings.theme === "rov-parse-premium" &&
@@ -157,7 +157,7 @@ description = Check that the replace-outbound-value snippet is working as expect
     createTestResult("object-path-area", pathSuccess,
                     pathSuccess ? "" : "Failed: Wrong properties modified");
 
-    // Test 4: Stack filter - Use encodeURI
+    // Test 4: Stack filter
     const allowedResult = allowedCaller();
     const blockedResult = blockedCaller();
     const expectedAllowed = encodeURIComponent("This contains content");
