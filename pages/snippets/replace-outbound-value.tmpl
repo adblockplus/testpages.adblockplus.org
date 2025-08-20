@@ -19,10 +19,8 @@ description = Check that the replace-outbound-value snippet is working as expect
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#replace-outbound-value 'JSON.stringify' 'rov-stringify-premium' 'basic'</pre></li>
+    <li><pre>{{ site_url|domain }}#$#replace-outbound-value 'JSON.stringify' 'rov-string-premium' 'basic'</pre></li>
   </ul>
-  <h3>Notes</h3>
-  <p>This test modifies JSON.stringify to replace "premium" with "basic" in the output.</p>
 </section>
 
 {% set case = "btoa-base64" %}
@@ -44,8 +42,6 @@ description = Check that the replace-outbound-value snippet is working as expect
   <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#replace-outbound-value 'btoa' 'ads' 'content' 'base64'</pre></li>
   </ul>
-  <h3>Notes</h3>
-  <p>This test demonstrates decoding base64, replacing text, and re-encoding.</p>
 </section>
 
 {% set case = "object-path" %}
@@ -67,8 +63,6 @@ description = Check that the replace-outbound-value snippet is working as expect
   <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#replace-outbound-value 'JSON.parse' 'rov-parse-premium' 'basic' '' 'user.profile.status'</pre></li>
   </ul>
-  <h3>Notes</h3>
-  <p>This test demonstrates the path parameter to modify only specific properties in JSON.parse results.</p>
 </section>
 
 {% set case = "stack-filter" %}
@@ -90,8 +84,6 @@ description = Check that the replace-outbound-value snippet is working as expect
   <ul id="{{id}}-filters" class="testcase-filters">
     <li><pre>{{ site_url|domain }}#$#replace-outbound-value 'encodeURIComponent' 'ads' 'content' '' '' 'allowedCaller'</pre></li>
   </ul>
-  <h3>Notes</h3>
-  <p>This test demonstrates the stack parameter to filter replacements based on the calling function.</p>
 </section>
 
 
