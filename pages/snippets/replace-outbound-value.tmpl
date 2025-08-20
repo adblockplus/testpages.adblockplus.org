@@ -104,12 +104,13 @@ description = Check that the replace-outbound-value snippet is working as expect
     status: "rov-stringify-premium"
   };
 
-  // Test 2: btoa base64 
+  // Test 2: btoa base64
   window.originalText = "This page contains ads everywhere";
 
   // Test 3: Object path
-  window.testJSONString = `{"user":{"profile":{"name":"John Doe","status":"rov-parse-premium"},`+ 
-  `"settings":{"theme":"rov-parse-premium"}},"config":{"ads":"rov-parse-premium"}}`;
+  window.testJSONString = "{\"user\":{\"profile\":" +
+  "{\"name\":\"John Doe\",\"status\":\"rov-parse-premium\"}," +
+  "\"settings\":{\"theme\":\"rov-parse-premium\"}},\"config\":{\"ads\":\"rov-parse-premium\"}}";
 
   // Test 4: Stack filter
   window.testString = "This contains ads";
