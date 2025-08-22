@@ -1,0 +1,165 @@
+template = testcase
+title = replace-outbound-value
+description = Check that the replace-outbound-value snippet is working as expected.
+
+{% set case = "JSON.stringify" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that JSON.stringify output is modified correctly</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The test should show a green element if the JSON string was modified correctly.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-outbound-value 'JSON.stringify' 'rov-stringify-premium' 'basic'</pre></li>
+  </ul>
+</section>
+
+{% set case = "btoa-base64" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test base64 encoding with btoa and content replacement</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The test should show a green element if btoa output was modified correctly.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-outbound-value 'btoa' 'ads' 'content' 'base64'</pre></li>
+  </ul>
+</section>
+
+{% set case = "object-path" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test modifying specific object paths in JSON.parse return values</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The test should show a green element if only the specified path was modified.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-outbound-value 'JSON.parse' 'rov-parse-premium' 'basic' '' 'user.profile.status'</pre></li>
+  </ul>
+</section>
+
+{% set case = "stack-filter" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test stack-based filtering using encodeURIComponent</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The test should show a green element if replacements only occurred from the correct calling function.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-outbound-value 'encodeURIComponent' 'ads' 'content' '' '' 'allowedCaller'</pre></li>
+  </ul>
+</section>
+
+
+<script type="text/javascript">
+  "use strict";
+
+  // Test 1: JSON.stringify
+  window.testData = {
+    user: "john",
+    status: "rov-stringify-premium"
+  };
+
+  // Test 2: btoa base64
+  window.originalText = "This page contains ads everywhere";
+
+  // Test 3: Object path
+  window.testJSONString = "{\"user\":{\"profile\":" +
+  "{\"name\":\"John Doe\",\"status\":\"rov-parse-premium\"}," +
+  "\"settings\":{\"theme\":\"rov-parse-premium\"}},\"config\":{\"ads\":\"rov-parse-premium\"}}";
+
+  // Test 4: Stack filter
+  window.testString = "This contains ads";
+  
+  function allowedCaller() {
+    return encodeURIComponent(window.testString);
+  }
+
+  function blockedCaller() {
+    return encodeURIComponent(window.testString);
+  }
+
+  function createTestResult(parentId, success, message) {
+    const parent = document.getElementById(parentId);
+    const element = document.createElement("div");
+    element.setAttribute("data-expectedresult", success ? "pass" : "fail");
+    if (!success)
+      element.setAttribute("aria-label", parentId + "-fail");
+    element.innerHTML = message;
+    parent.appendChild(element);
+  }
+
+  setTimeout(() => {
+    // Test 1: JSON.stringify
+    const jsonResult = JSON.stringify(window.testData);
+    // Check if the string itself was modified
+    const jsonSuccess = jsonResult.includes('"status":"basic"');
+    createTestResult("json-stringify-area", jsonSuccess,
+                    jsonSuccess ? "" : "Failed: JSON.stringify not modified");
+
+    // Test 2: btoa base64
+    const encodedText = btoa(window.originalText);
+    // The snippet should modify the base64 output
+    // Decode it to check if the replacement happened
+    const decodedText = atob(encodedText);
+    const btoaSuccess = decodedText === "This page contains content everywhere";
+    createTestResult("btoa-base64-area", btoaSuccess,
+                    btoaSuccess ? "" : "Failed: btoa not modified correctly");
+
+    // Test 3: Object path
+    const objectData = JSON.parse(window.testJSONString);
+    const pathSuccess = objectData.user.profile.status === "basic" &&
+                        objectData.user.settings.theme === "rov-parse-premium" &&
+                        objectData.config.ads === "rov-parse-premium";
+    createTestResult("object-path-area", pathSuccess,
+                    pathSuccess ? "" : "Failed: Wrong properties modified");
+
+    // Test 4: Stack filter
+    const allowedResult = allowedCaller();
+    const blockedResult = blockedCaller();
+    const expectedAllowed = encodeURIComponent("This contains content");
+    const expectedBlocked = encodeURIComponent("This contains ads");
+    const stackSuccess = allowedResult === expectedAllowed &&
+                        blockedResult === expectedBlocked;
+    createTestResult("stack-filter-area", stackSuccess,
+                    stackSuccess ? "" : "Failed: Stack filtering not working");
+
+    removeWaitingContent(); // eslint-disable-line no-undef
+  }, 500);
+</script>
