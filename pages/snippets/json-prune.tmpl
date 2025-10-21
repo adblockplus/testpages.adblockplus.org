@@ -94,6 +94,52 @@ description = Check if json-prune feature works properly.
   <p>Not supported in Chrome 73 (requires 74+)</p>
 </section>
 
+{% set case = "json-prune-array-remove" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that the [-] placeholder works as expected to remove entire array elements.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#json-prune arrayWithRemoval.[-].shouldRemove </pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
+{% set case = "json-prune-object-remove" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that the {-} placeholder works as expected to remove entire object properties.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#json-prune objectWithRemoval.{-}.shouldRemove </pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
 <script type="text/javascript">
   "use strict";
 
@@ -116,6 +162,28 @@ description = Check if json-prune feature works properly.
       },
       "data3": {
         "different-data": "dont-delete-me"
+      }
+    },
+    "arrayWithRemoval": [
+      {"shouldRemove": "true", "data": "element1"},
+      {"data": "element2"},
+      {"shouldRemove": "true", "data": "element3"},
+      {"data": "element4"}
+    ],
+    "objectWithRemoval": {
+      "prop1": {
+        "shouldRemove": "true",
+        "data": "property1"
+      },
+      "prop2": {
+        "data": "property2"
+      },
+      "prop3": {
+        "shouldRemove": "true",
+        "data": "property3"
+      },
+      "prop4": {
+        "data": "property4"
       }
     },
     "toBeDeletedIfStackNeedle": "delete-me"
@@ -180,6 +248,31 @@ description = Check if json-prune feature works properly.
       !Object.keys(innerObj).includes("target-data")
     );
     setAttributeBasedOnCondition(targetTestCaseObject, noTargetDataInObject);
+
+    // Check for [-] array element removal
+    let targetTestCaseArrayRemove = createAndAppendDiv("json-prune-array-remove-area", "arrayRemove");
+    // Verify that elements with shouldRemove were removed entirely
+    let arrayElementsRemoved = propertiesObject.arrayWithRemoval.length === 2 &&
+      propertiesObject.arrayWithRemoval.every(obj =>
+        !Object.keys(obj).includes("shouldRemove")
+      ) &&
+      propertiesObject.arrayWithRemoval.every(obj =>
+        Object.keys(obj).includes("data")
+      );
+    setAttributeBasedOnCondition(targetTestCaseArrayRemove, arrayElementsRemoved);
+
+    // Check for {-} object property removal
+    let targetTestCaseObjectRemove = createAndAppendDiv("json-prune-object-remove-area", "objectRemove");
+    // Verify that properties with shouldRemove were removed entirely
+    let objectPropertiesRemoved = Object.keys(propertiesObject.objectWithRemoval).length === 2 &&
+      Object.values(propertiesObject.objectWithRemoval).every(innerObj =>
+        !Object.keys(innerObj).includes("shouldRemove")
+      ) &&
+      Object.values(propertiesObject.objectWithRemoval).every(innerObj =>
+        Object.keys(innerObj).includes("data")
+      );
+    setAttributeBasedOnCondition(targetTestCaseObjectRemove, objectPropertiesRemoved);
+
     removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>
