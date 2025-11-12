@@ -1,0 +1,121 @@
+template = testcase
+title = map-override
+description = Check if map-override feature works properly.
+
+{% set case = "map-override-set" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that Map.prototype.set can be overridden properly.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#map-override set blocked-value</pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
+{% set case = "map-override-get" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that Map.prototype.get can be overridden properly.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#map-override get override-key custom-value</pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
+{% set case = "map-override-has" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that Map.prototype.has can be overridden properly.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#map-override has fake-key true</pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
+<script>
+  "use strict";
+
+  const testMap = new Map();
+
+  function createAndAppendDiv(parentId, divId) {
+    let parentElement = document.getElementById(parentId);
+    let newDiv = document.createElement("div");
+    newDiv.id = divId;
+    parentElement.appendChild(newDiv);
+    return newDiv;
+  }
+
+  function setAttributeBasedOnCondition(element, id, condition) {
+    element.setAttribute("data-expectedresult", condition ? "pass" : "fail");
+    element.setAttribute("aria-label", condition ? `${id}-pass` : `${id}-fail`);
+  }
+
+  setTimeout(() => {
+    // Test set operations
+    testMap.set("allowed-key", "allowed-value");
+    testMap.set("another-key", "blocked-value");
+    testMap.set("test-key", "blocked-value");
+  }, 100);
+
+  setTimeout(() => {
+    // Test map-override set
+    const targetTestCaseSet = createAndAppendDiv("map-override-set-area", "set");
+    const setWorks = testMap.has("allowed-key") && !testMap.has("another-key") && !testMap.has("test-key");
+    setAttributeBasedOnCondition(targetTestCaseSet, "map-override-set", setWorks);
+
+    // Test map-override get
+    const targetTestCaseGet = createAndAppendDiv("map-override-get-area", "get");
+    testMap.set("override-key", "original-value");
+    const getValue = testMap.get("override-key");
+    const getAllowedValue = testMap.get("allowed-key");
+    const getWorks = getValue === "custom-value" && getAllowedValue === "allowed-value";
+    setAttributeBasedOnCondition(targetTestCaseGet, "map-override-get", getWorks);
+
+    // Test map-override has
+    const targetTestCaseHas = createAndAppendDiv("map-override-has-area", "has");
+    const hasWorks = testMap.has("fake-key") === true &&
+    testMap.has("allowed-key") === true && testMap.has("allowed-key2") === false;
+    setAttributeBasedOnCondition(targetTestCaseHas, "map-override-has", hasWorks);
+
+    removeWaitingContent(); // eslint-disable-line no-undef
+  }, 500);
+</script>
