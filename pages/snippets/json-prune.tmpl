@@ -209,6 +209,7 @@ description = Check if json-prune feature works properly.
   <p>Not supported in Chrome 73 (requires 74+)</p>
 </section>
 
+
 <script type="text/javascript">
   "use strict";
 
@@ -381,6 +382,7 @@ description = Check if json-prune feature works properly.
       propertiesObject.jsonpathFiltered[1].content === "dont-delete-me" &&
       !Object.keys(propertiesObject.jsonpathFiltered[2]).includes("content");
     setAttributeBasedOnCondition(targetTestCaseJsonpathFilter, jsonpathFilterPruned);
+
 
     removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
