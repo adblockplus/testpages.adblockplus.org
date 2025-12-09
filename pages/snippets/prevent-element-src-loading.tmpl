@@ -34,7 +34,7 @@ description = Check if prevent-element-src-loading snippet works properly.
     const script = document.createElement("script");
     script.src = loaderSrc;
     document.head.appendChild(script);
-    const condition = script.src == noopFuncSrc
+    const condition = script.src == noopFuncSrc;
     const element = document.getElementById("prevent-element-src-loading-area");
     const target = document.createElement("div");
     if (condition)
