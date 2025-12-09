@@ -1,0 +1,47 @@
+template = testcase
+title = prevent-element-src-loading
+description = Check if prevent-element-src-loading snippet works properly.
+
+{% set case = "prevent-element-src-loading" %}
+{% set id = get_id(case) %}
+
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of the prevent-element-src-loading snippet works as expected..</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li>
+      <pre>{{ site_url|domain }}#$#prevent-element-src-loading /loader/ 'script'</pre>
+    </li>
+  </ul>
+</section>
+<script>
+  "use strict";
+
+  setTimeout(async() => {
+    const loaderSrc = "example.com/loader.js";
+    const noopFuncSrc = "data:text/javascript;base64,KCk9Pnt9";
+    const script = document.createElement("script");
+    script.src = loaderSrc;
+    document.head.appendChild(script);
+    const condition = script.src == noopFuncSrc
+    const element = document.getElementById("prevent-element-src-loading-area");
+    const target = document.createElement("div");
+    if (condition)
+      target.setAttribute("data-expectedresult", "pass");
+    else
+      target.setAttribute("data-expectedresult", "fail");
+    element.appendChild(target);
+    removeWaitingContent(); // eslint-disable-line no-undef
+  }, 500);
+</script>
