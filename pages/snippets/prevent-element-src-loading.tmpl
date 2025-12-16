@@ -2,13 +2,12 @@ template = testcase
 title = prevent-element-src-loading
 description = Check if prevent-element-src-loading snippet works properly.
 
-{% set case = "prevent-element-src-loading" %}
+{% set case = "Prevent script loading" %}
 {% set id = get_id(case) %}
-
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
-  <p>Test that basic usage of the prevent-element-src-loading snippet works as expected..</p>
-  <div id="{{id}}-area" class="testcase-area">
+  <p>Test that basic usage of the prevent-element-src-loading snippet works on scripts as expected..</p>
+  <div id="script-test-area" class="testcase-area">
     <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
     <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
   </div>
@@ -25,22 +24,95 @@ description = Check if prevent-element-src-loading snippet works properly.
     </li>
   </ul>
 </section>
+
+{% set case = "Prevent Iframe loading" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of the prevent-element-src-loading snippet works on iframes as expected..</p>
+  <div id="iframe-test-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li>
+      <pre>{{ site_url|domain }}#$#prevent-element-src-loading 'iframe' /loader/</pre>
+    </li>
+  </ul>
+</section>
+{% set case = "Prevent img loading" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of the prevent-element-src-loading snippet works on images as expected..</p>
+  <div id="img-test-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li>
+      <pre>{{ site_url|domain }}#$#prevent-element-src-loading 'img' /loader/</pre>
+    </li>
+  </ul>
+</section>
+{% set case = "Prevent link loading" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of the prevent-element-src-loading snippet works on links as expected..</p>
+  <div id="link-test-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li>
+      <pre>{{ site_url|domain }}#$#prevent-element-src-loading 'link' /loader/</pre>
+    </li>
+  </ul>
+</section>
 <script>
   "use strict";
 
-  setTimeout(async() => {
-    const loaderSrc = "example.com/loader.js";
-    const script = document.createElement("script");
-    script.src = loaderSrc;
-    document.head.appendChild(script);
-    const condition = !script.src.includes("loader.js");
-    const element = document.getElementById("prevent-element-src-loading-area");
+  function createElementWithSrc(loaderElement, src) {
+    const loader = document.createElement(loaderElement);
+    loaderElement === "link" ? loader.href = src : loader.src = src;    
+    document.head.appendChild(loader);
+    const condition = loaderElement === "link" ? (!loader.href.includes("loader")) : (!loader.src.includes("loader"));
+    const element = document.getElementById(loaderElement + "-test-area");
     const target = document.createElement("div");
     if (condition)
       target.setAttribute("data-expectedresult", "pass");
     else
       target.setAttribute("data-expectedresult", "fail");
     element.appendChild(target);
+  }
+
+  setTimeout(async() => {
+    createElementWithSrc("script", "example.com/loader.js");
+    createElementWithSrc("iframe", "example.com/loader.js");
+    createElementWithSrc("img", "example.com/loader");
+    createElementWithSrc("link", "example.com/loader.js");
     removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
 </script>
