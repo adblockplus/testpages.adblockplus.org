@@ -211,7 +211,7 @@ description = Check that the hide-if-contains-visible-text snippet is working as
 <script>
   "use strict";
 
-  // Inject font visibility test case containers dynamically to give tine for the browser to load/register fonts
+  // Inject font visibility test case containers dynamically to give time for the browser to load/register fonts
   setTimeout(async() => {
     const visibleTextContainer = `<div class="font-test" data-expectedresult="fail" aria-label="{{id}}-fail">
       <span class="visible-font">Sponsored</span>
@@ -230,5 +230,5 @@ description = Check that the hide-if-contains-visible-text snippet is working as
     fontTestContainer.insertAdjacentHTML("beforeend", visibleTextContainer);
     fontTestContainer.insertAdjacentHTML("beforeend", invisibleTextContainer);
     removeWaitingContent(); // eslint-disable-line no-undef
-  }, 500);
+  }, 100);
 </script>
