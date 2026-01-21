@@ -225,7 +225,6 @@ description = Check that the hide-if-contains-visible-text snippet is working as
       <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
       <span>Should not be hidden.</span>
     </div>`;
-    await document.fonts.ready;
     const fontTestContainer = document.getElementById("font-visibility-test");
     fontTestContainer.insertAdjacentHTML("beforeend", visibleTextContainer);
     fontTestContainer.insertAdjacentHTML("beforeend", invisibleTextContainer);
