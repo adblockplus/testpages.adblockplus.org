@@ -151,6 +151,7 @@ async function waitForExtension(driver) {
   console.log(`Extension: ${name} ${version} MV${manifestVersion}`);
   if (name == "Adblock Plus") {
     console.log("Waiting for ABP to reach started state...");
+    await driver.manage().setTimeouts({script: 60000});
     await waitForABPStarted(driver, handle);
     console.log("ABP started successfully");
   }
