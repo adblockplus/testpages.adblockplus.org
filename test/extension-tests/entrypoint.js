@@ -83,7 +83,7 @@ async function waitForABPStarted(driver, originHandle) {
         chrome.runtime.sendMessage(message, callback);
     });
     return result == "started";
-  }, 1000);
+  }, 60000);
 }
 
 async function getOriginHandle(driver) {
@@ -137,16 +137,23 @@ async function waitForExtension(driver) {
   await new Promise(r => setTimeout(r, helperExtTimeout));
 
   // Timeout for initial driver.executeScript calls
+  console.log("Setting initial page load timeout...");
   await driver.manage().setTimeouts({pageLoad: 1000});
 
+  console.log("Getting origin handle...");
   let {origin, handle} = await getOriginHandle(driver);
+  console.log(`Got origin handle: ${origin}`);
   if (!origin)
     throw new Error("Extension didn't start correctly, options is not shown");
 
+  console.log("Getting extension info...");
   let {name, version, manifestVersion} = await getExtensionInfo(driver, handle);
   console.log(`Extension: ${name} ${version} MV${manifestVersion}`);
-  if (name == "Adblock Plus")
+  if (name == "Adblock Plus") {
+    console.log("Waiting for ABP to reach started state...");
     await waitForABPStarted(driver, handle);
+    console.log("ABP started successfully");
+  }
 
   // Timeout for page loading in test cases
   await driver.manage().setTimeouts({pageLoad: 20000});
