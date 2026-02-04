@@ -155,8 +155,9 @@ description = Check if prevent-element-src-loading snippet works properly.
       const attr = (tag === "link" ? "href" : "src");
       loader.setAttribute(attr, src);
     }
-    else
+    else {
       tag === "link" ? loader.href = src : loader.src = src;
+    }
     document.head.appendChild(loader);
 
     const currentSrc = tag === "link" ? loader.href : loader.src;
