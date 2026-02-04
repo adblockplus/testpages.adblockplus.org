@@ -139,13 +139,16 @@ description = Check if prevent-element-src-loading snippet works properly.
 
   function createElementWithSrc(tag, src, useAttribute = false, checkStealth = false, testcase = null) {
     const loader = document.createElement(tag);
-    const areaId = testcase? testcase + "-test-area" : tag + "-test-area";
+    const areaId = testcase ? testcase + "-test-area" : tag + "-test-area";
     const element = document.getElementById(areaId);
-    
     let errorTriggered = false;
     if (checkStealth) {
-      loader.onerror = () => { errorTriggered = true; };
-      loader.addEventListener('error', () => { errorTriggered = true; });
+      loader.onerror = () => {
+        errorTriggered = true;
+      };
+      loader.addEventListener("error", () => {
+        errorTriggered = true;
+      });
     }
     // Toggle between property setter and setAttribute
     if (useAttribute) {
@@ -163,18 +166,17 @@ description = Check if prevent-element-src-loading snippet works properly.
       !currentSrc.includes("stealth") &&
       !currentSrc.includes("attribute");
     const isStealthy = checkStealth ? (errorTriggered === false) : true;
-    const testpass = wasRedirected && isStealthy
+    const testpass = wasRedirected && isStealthy;
 
     const target = document.createElement("div");
-    if (testpass) {
+    if (testpass)
       target.setAttribute("data-expectedresult", "pass");
-    } else {
+    else
       target.setAttribute("data-expectedresult", "fail");
-    }
     element.appendChild(target);
   }
 
-  setTimeout(async () => {
+  setTimeout(async() => {
     // 1. Standard Property Tests (Existing)
     createElementWithSrc("script", "example.com/loader.js");
     createElementWithSrc("iframe", "example.com/loader.js");
