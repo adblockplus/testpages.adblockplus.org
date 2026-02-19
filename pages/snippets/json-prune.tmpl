@@ -140,6 +140,75 @@ description = Check if json-prune feature works properly.
   <p>Not supported in Chrome 73 (requires 74+)</p>
 </section>
 
+{% set case = "json-prune-jsonpath" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that JSONPath dot notation works as expected.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#json-prune JSONPath=$.jsonpathBasic.target </pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
+{% set case = "json-prune-jsonpath-recursive" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that JSONPath recursive descent (..) works as expected.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#json-prune JSONPath=$.jsonpathDeep..deepTarget </pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
+{% set case = "json-prune-jsonpath-filter" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that JSONPath filter expressions work as expected.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#json-prune JSONPath=$.jsonpathFiltered[?(@.type==ad)].content </pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
 <script type="text/javascript">
   "use strict";
 
@@ -186,7 +255,26 @@ description = Check if json-prune feature works properly.
         "data": "property4"
       }
     },
-    "toBeDeletedIfStackNeedle": "delete-me"
+    "toBeDeletedIfStackNeedle": "delete-me",
+    "jsonpathBasic": {
+      "target": "delete-me",
+      "keep": "dont-delete-me"
+    },
+    "jsonpathDeep": {
+      "deepTarget": "delete-me",
+      "level1": {
+        "deepTarget": "delete-me",
+        "level2": {
+          "deepTarget": "delete-me"
+        }
+      },
+      "keep": "dont-delete-me"
+    },
+    "jsonpathFiltered": [
+      {"type": "ad", "content": "delete-me"},
+      {"type": "content", "content": "dont-delete-me"},
+      {"type": "ad", "content": "delete-me"}
+    ]
   }`;
   
   let propertiesObject;
@@ -272,6 +360,27 @@ description = Check if json-prune feature works properly.
         Object.keys(innerObj).includes("data")
       );
     setAttributeBasedOnCondition(targetTestCaseObjectRemove, objectPropertiesRemoved);
+
+    // Check JSONPath basic dot notation
+    let targetTestCaseJsonpath = createAndAppendDiv("json-prune-jsonpath-area", "jsonpathBasic");
+    let jsonpathBasicPruned = !Object.keys(propertiesObject.jsonpathBasic).includes("target") &&
+      propertiesObject.jsonpathBasic.keep === "dont-delete-me";
+    setAttributeBasedOnCondition(targetTestCaseJsonpath, jsonpathBasicPruned);
+
+    // Check JSONPath recursive descent
+    let targetTestCaseJsonpathRecursive = createAndAppendDiv("json-prune-jsonpath-recursive-area", "jsonpathRecursive");
+    let jsonpathDeepPruned = !Object.keys(propertiesObject.jsonpathDeep).includes("deepTarget") &&
+      !Object.keys(propertiesObject.jsonpathDeep.level1).includes("deepTarget") &&
+      !Object.keys(propertiesObject.jsonpathDeep.level1.level2).includes("deepTarget") &&
+      propertiesObject.jsonpathDeep.keep === "dont-delete-me";
+    setAttributeBasedOnCondition(targetTestCaseJsonpathRecursive, jsonpathDeepPruned);
+
+    // Check JSONPath filter expression
+    let targetTestCaseJsonpathFilter = createAndAppendDiv("json-prune-jsonpath-filter-area", "jsonpathFilter");
+    let jsonpathFilterPruned = !Object.keys(propertiesObject.jsonpathFiltered[0]).includes("content") &&
+      propertiesObject.jsonpathFiltered[1].content === "dont-delete-me" &&
+      !Object.keys(propertiesObject.jsonpathFiltered[2]).includes("content");
+    setAttributeBasedOnCondition(targetTestCaseJsonpathFilter, jsonpathFilterPruned);
 
     removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
