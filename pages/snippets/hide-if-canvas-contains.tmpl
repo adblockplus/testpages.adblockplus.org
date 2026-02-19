@@ -50,6 +50,54 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
   </ul>
 </section>
 
+{% set case = "drawImage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test the basic usage of the snippet when drawImage() is called.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div data-expectedresult="fail" class="di-canvas-parent" id="canvas-parent7"><div><span>Failed. Element is not hidden.</span></div></div>
+    <div class="testcase-expected-view di-canvas-parent" id="canvas-parent8"><div><span>Should not be hidden.</span></div></div>
+    <div data-expectedresult="pass" class="di-canvas-parent" id="canvas-parent9"><div><span>Should not be hidden.</span></div></div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element added to the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-canvas-contains /nGP4z8Dwn/ .di-canvas-parent</pre></li>
+  </ul>
+</section>
+
+{% set case = "drawImage with toDataURL" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test the snippet when drawImage() is called with an image sourced from toDataURL().</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div data-expectedresult="fail" class="tdu-canvas-parent" id="canvas-parent10"><div><span>Failed. Element is not hidden.</span></div></div>
+    <div class="testcase-expected-view tdu-canvas-parent" id="canvas-parent11"><div><span>Should not be hidden.</span></div></div>
+    <div data-expectedresult="pass" class="tdu-canvas-parent" id="canvas-parent12"><div><span>Should not be hidden.</span></div></div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element added to the test case above should be hidden and the green one not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-canvas-contains /AAAAoAAAAKCA/ .tdu-canvas-parent</pre></li>
+  </ul>
+</section>
+
 <script>
   "use strict";
 
@@ -72,6 +120,13 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
       ctx.strokeStyle = "white";
       ctx.strokeText(text, x, y);
     }
+    if (method === "drawImage") {
+      const img = new Image();
+      img.onload = () => {
+        ctx.drawImage(img, x, y);
+      };
+      img.src = text;
+    }
 
     return canvas; // Return the created canvas element
   }
@@ -84,6 +139,26 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     }
   }
 
+  // drawImage data URL sources
+  const adImageSrc = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAFElEQVR4nGP4z8DwnxjMMKqQvgoBksPHOas6/LEAAAAASUVORK5CYII="; // eslint-disable-line max-len
+  const safeImageSrc = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAE0lEQVR4nGNgYPj/nzg8qpCuCgHLfMc5VwOF6wAAAABJRU5ErkJggg=="; // eslint-disable-line max-len
+
+  // toDataURL test: create source canvases and extract data URLs
+  const adSource = document.createElement("canvas");
+  adSource.width = 10;
+  adSource.height = 10;
+  const adSourceCtx = adSource.getContext("2d");
+  adSourceCtx.fillStyle = "red";
+  adSourceCtx.fillRect(0, 0, 10, 10);
+  const safeSource = document.createElement("canvas");
+  safeSource.width = 20;
+  safeSource.height = 20;
+  const safeSourceCtx = safeSource.getContext("2d");
+  safeSourceCtx.fillStyle = "blue";
+  safeSourceCtx.fillRect(0, 0, 20, 20);
+  const adToDataURLSrc = adSource.toDataURL();
+  const safeToDataURLSrc = safeSource.toDataURL();
+
   setTimeout(() => {
     appendCanvas("#canvas-parent1", "fillText", "canvas1", "sponsored");
     appendCanvas("#canvas-parent2", "fillText", "canvas2", "hello world");
@@ -91,6 +166,12 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     appendCanvas("#canvas-parent4", "strokeText", "canvas4", "sponsored");
     appendCanvas("#canvas-parent5", "strokeText", "canvas5", "hello world");
     appendCanvas("#canvas-parent6", "strokeText", "canvas6", "hello world");
+    appendCanvas("#canvas-parent7", "drawImage", "canvas7", adImageSrc);
+    appendCanvas("#canvas-parent8", "drawImage", "canvas8", safeImageSrc);
+    appendCanvas("#canvas-parent9", "drawImage", "canvas9", safeImageSrc);
+    appendCanvas("#canvas-parent10", "drawImage", "canvas10", adToDataURLSrc);
+    appendCanvas("#canvas-parent11", "drawImage", "canvas11", safeToDataURLSrc);
+    appendCanvas("#canvas-parent12", "drawImage", "canvas12", safeToDataURLSrc);
   }, 200);
 
   setTimeout(() => {
