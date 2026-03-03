@@ -157,7 +157,7 @@ description = Check if json-prune feature works properly.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#json-prune JSONPath=$.jsonpathBasic.target </pre></li>
+    <li><pre>{{ site_url|domain }}#$#json-prune jsonpath($.jsonpathBasic.target) </pre></li>
   </ul>
   <h3>Notes</h3>
   <p>Not supported in Chrome 73 (requires 74+)</p>
@@ -180,7 +180,7 @@ description = Check if json-prune feature works properly.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#json-prune JSONPath=$.jsonpathDeep..deepTarget </pre></li>
+    <li><pre>{{ site_url|domain }}#$#json-prune jsonpath($.jsonpathDeep..deepTarget) </pre></li>
   </ul>
   <h3>Notes</h3>
   <p>Not supported in Chrome 73 (requires 74+)</p>
@@ -203,7 +203,7 @@ description = Check if json-prune feature works properly.
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#json-prune JSONPath=$.jsonpathFiltered[?(@.type==ad)].content </pre></li>
+    <li><pre>{{ site_url|domain }}#$#json-prune jsonpath($.jsonpathFiltered[?(@.type==ad)].content) </pre></li>
   </ul>
   <h3>Notes</h3>
   <p>Not supported in Chrome 73 (requires 74+)</p>
