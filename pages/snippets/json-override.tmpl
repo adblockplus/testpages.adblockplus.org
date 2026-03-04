@@ -69,6 +69,76 @@ description = Check if json-override feature works properly.
   <h3>Notes</h3>
   <p>Not supported in Chrome 73 (requires 74+)</p>
 </section>
+
+{% set case = "json-override-jsonpath" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that JSONPath dot notation works as expected.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#json-override 'jsonpath($.jsonpathBasic.target)' ''</pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
+{% set case = "json-override-jsonpath-recursive" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that JSONPath recursive descent (..) works as expected.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#json-override 'jsonpath($.jsonpathDeep..deepTarget)' ''</pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
+{% set case = "json-override-jsonpath-filter" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that JSONPath filter expressions work as expected.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#json-override 'jsonpath($.jsonpathFiltered[?(@.type==ad)].content)' ''</pre></li>
+  </ul>
+  <h3>Notes</h3>
+  <p>Not supported in Chrome 73 (requires 74+)</p>
+</section>
+
 <script>
   "use strict";
 
@@ -90,7 +160,26 @@ description = Check if json-override feature works properly.
       "data3": {
         "different-data": "dont-replace-me"
       }
-    }
+    },
+    "jsonpathBasic": {
+      "target": "replace-me",
+      "keep": "dont-replace-me"
+    },
+    "jsonpathDeep": {
+      "deepTarget": "replace-me",
+      "level1": {
+        "deepTarget": "replace-me",
+        "level2": {
+          "deepTarget": "replace-me"
+        }
+      },
+      "keep": "dont-replace-me"
+    },
+    "jsonpathFiltered": [
+      {"type": "ad", "content": "replace-me"},
+      {"type": "content", "content": "dont-replace-me"},
+      {"type": "ad", "content": "replace-me"}
+    ]
   }`;
   let propertiesObject;
 
@@ -131,6 +220,28 @@ description = Check if json-override feature works properly.
         innerObj["different-data"] === "dont-replace-me" || innerObj["target-data"] === ""
       );
       setAttributeBasedOnCondition(targetTestCaseObject, replacedTargetDataInObject);
+
+      // Check JSONPath basic dot notation
+      let targetTestCaseJsonpath = createAndAppendDiv("json-override-jsonpath-area", "jsonpathBasic");
+      let jsonpathBasicReplaced = propertiesObject.jsonpathBasic.target === "" &&
+        propertiesObject.jsonpathBasic.keep === "dont-replace-me";
+      setAttributeBasedOnCondition(targetTestCaseJsonpath, jsonpathBasicReplaced);
+
+      // Check JSONPath recursive descent
+      let targetTestCaseJsonpathRecursive =
+        createAndAppendDiv("json-override-jsonpath-recursive-area", "jsonpathRecursive");
+      let jsonpathDeepReplaced = propertiesObject.jsonpathDeep.deepTarget === "" &&
+        propertiesObject.jsonpathDeep.level1.deepTarget === "" &&
+        propertiesObject.jsonpathDeep.level1.level2.deepTarget === "" &&
+        propertiesObject.jsonpathDeep.keep === "dont-replace-me";
+      setAttributeBasedOnCondition(targetTestCaseJsonpathRecursive, jsonpathDeepReplaced);
+
+      // Check JSONPath filter expression
+      let targetTestCaseJsonpathFilter = createAndAppendDiv("json-override-jsonpath-filter-area", "jsonpathFilter");
+      let jsonpathFilterReplaced = propertiesObject.jsonpathFiltered[0].content === "" &&
+        propertiesObject.jsonpathFiltered[1].content === "dont-replace-me" &&
+        propertiesObject.jsonpathFiltered[2].content === "";
+      setAttributeBasedOnCondition(targetTestCaseJsonpathFilter, jsonpathFilterReplaced);
     }
     removeWaitingContent(); // eslint-disable-line no-undef
   }, 500);
