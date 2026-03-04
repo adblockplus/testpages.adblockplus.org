@@ -228,7 +228,8 @@ description = Check if json-override feature works properly.
       setAttributeBasedOnCondition(targetTestCaseJsonpath, jsonpathBasicReplaced);
 
       // Check JSONPath recursive descent
-      let targetTestCaseJsonpathRecursive = createAndAppendDiv("json-override-jsonpath-recursive-area", "jsonpathRecursive");
+      let targetTestCaseJsonpathRecursive =
+        createAndAppendDiv("json-override-jsonpath-recursive-area", "jsonpathRecursive");
       let jsonpathDeepReplaced = propertiesObject.jsonpathDeep.deepTarget === "" &&
         propertiesObject.jsonpathDeep.level1.deepTarget === "" &&
         propertiesObject.jsonpathDeep.level1.level2.deepTarget === "" &&
