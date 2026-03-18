@@ -144,48 +144,55 @@ description = Check if timer-override snippet works properly.
     element.setAttribute("aria-label", condition ? `${id}-pass` : `${id}-fail`);
   }
 
-  // Test 1: Basic - setTimeout with delay 5000ms overridden to 1ms via delay needle
   let basicPassed = false;
-  setTimeout(() => {
-    basicPassed = true;
-  }, 5000);
-
-  // Test 2: Interval - setInterval with delay 6000ms overridden to 1ms via callback needle
   let intervalPassed = false;
+  let needlePassed = false;
+  let noopFailed = false;
+  let modeTimeoutPassed = false;
+  let stackNeedlePassed = false;
+
   function timerOverrideInterval() {
     intervalPassed = true;
   }
-  setInterval(timerOverrideInterval, 6000);
-
-  // Test 3: Needle - setTimeout overridden by matching text in callback name
-  let needlePassed = false;
   function timerOverrideNeedle() {
     needlePassed = true;
   }
-  setTimeout(timerOverrideNeedle, 7000);
-
-  // Test 4: Noop - callback replaced with no-op; starts pass, fails only if callback fires
-  let noopFailed = false;
   function timerOverrideNoop() {
     noopFailed = true;
   }
-  setTimeout(timerOverrideNoop, 100);
-
-  // Test 5: Mode timeout - setTimeout overridden via mode=timeout
-  let modeTimeoutPassed = false;
   function timerOverrideModeTimeout() {
     modeTimeoutPassed = true;
   }
-  setTimeout(timerOverrideModeTimeout, 8000);
-
-  // Test 6: Stack needle - timer overridden only when timerStackFn is in the callstack
-  let stackNeedlePassed = false;
   function timerStackFn() {
     setTimeout(() => {
       stackNeedlePassed = true;
     }, 9000);
   }
-  timerStackFn();
+
+  // Defer timer registration to ensure the snippet has been injected first.
+  // Without this, Chrome may run the page script before the extension
+  // has had time to wrap setTimeout/setInterval.
+  setTimeout(() => {
+    // Test 1: Basic - setTimeout with delay 5000ms overridden to 1ms via delay needle
+    setTimeout(() => {
+      basicPassed = true;
+    }, 5000);
+
+    // Test 2: Interval - setInterval overridden to 1ms via callback needle
+    setInterval(timerOverrideInterval, 6000);
+
+    // Test 3: Needle - setTimeout overridden by matching text in callback name
+    setTimeout(timerOverrideNeedle, 7000);
+
+    // Test 4: Noop - callback replaced with no-op; starts pass, fails only if callback fires
+    setTimeout(timerOverrideNoop, 100);
+
+    // Test 5: Mode timeout - setTimeout overridden via mode=timeout
+    setTimeout(timerOverrideModeTimeout, 8000);
+
+    // Test 6: Stack needle - timer overridden only when timerStackFn is in the callstack
+    timerStackFn();
+  }, 300);
 
   setTimeout(() => {
     let targetBasic = createAndAppendDiv("timer-override-area", "timerOverrideBasic");
