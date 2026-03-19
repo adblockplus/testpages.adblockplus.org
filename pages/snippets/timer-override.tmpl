@@ -169,48 +169,60 @@ description = Check if timer-override snippet works properly.
     }, 9000);
   }
 
+  // Store delays and callbacks in arrays defined outside the deferred wrapper.
+  // This keeps the wrapper's own source free of any filter needle text
+  // (function names or delay literals), preventing the snippet from
+  // intercepting or noop-ing the registration wrapper itself.
+  const timerDelays = [5000, 6000, 7000, 8000];
+  const timerCbs = [
+    timerOverrideInterval,
+    timerOverrideNeedle,
+    timerOverrideNoop,
+    timerOverrideModeTimeout
+  ];
+
   // Defer timer registration to ensure the snippet has been injected first.
-  // Without this, Chrome may run the page script before the extension
-  // has had time to wrap setTimeout/setInterval.
   setTimeout(() => {
     // Test 1: Basic - setTimeout with delay 5000ms overridden to 1ms via delay needle
     setTimeout(() => {
       basicPassed = true;
-    }, 5000);
+    }, timerDelays[0]);
 
     // Test 2: Interval - setInterval overridden to 1ms via callback needle
-    setInterval(timerOverrideInterval, 6000);
+    setInterval(timerCbs[0], timerDelays[1]);
 
     // Test 3: Needle - setTimeout overridden by matching text in callback name
-    setTimeout(timerOverrideNeedle, 7000);
+    setTimeout(timerCbs[1], timerDelays[2]);
 
     // Test 4: Noop - callback replaced with no-op; starts pass, fails only if callback fires
-    setTimeout(timerOverrideNoop, 100);
+    setTimeout(timerCbs[2], 100);
 
     // Test 5: Mode timeout - setTimeout overridden via mode=timeout
-    setTimeout(timerOverrideModeTimeout, 8000);
+    setTimeout(timerCbs[3], timerDelays[3]);
 
     // Test 6: Stack needle - timer overridden only when timerStackFn is in the callstack
     timerStackFn();
   }, 300);
 
+  // Use neutral div IDs that don't match any filter needle, so the snippet
+  // cannot intercept or noop this results-check callback.
   setTimeout(() => {
-    let targetBasic = createAndAppendDiv("timer-override-area", "timerOverrideBasic");
+    let targetBasic = createAndAppendDiv("timer-override-area", "basic-result");
     setAttributeBasedOnCondition(targetBasic, "timer-override", basicPassed);
 
-    let targetInterval = createAndAppendDiv("timer-override-interval-area", "timerOverrideInterval");
+    let targetInterval = createAndAppendDiv("timer-override-interval-area", "interval-result");
     setAttributeBasedOnCondition(targetInterval, "timer-override-interval", intervalPassed);
 
-    let targetNeedle = createAndAppendDiv("timer-override-needle-area", "timerOverrideNeedle");
+    let targetNeedle = createAndAppendDiv("timer-override-needle-area", "needle-result");
     setAttributeBasedOnCondition(targetNeedle, "timer-override-needle", needlePassed);
 
-    let targetNoop = createAndAppendDiv("timer-override-noop-area", "timerOverrideNoop");
+    let targetNoop = createAndAppendDiv("timer-override-noop-area", "noop-result");
     setAttributeBasedOnCondition(targetNoop, "timer-override-noop", !noopFailed);
 
-    let targetModeTimeout = createAndAppendDiv("timer-override-mode-timeout-area", "timerOverrideModeTimeout");
+    let targetModeTimeout = createAndAppendDiv("timer-override-mode-timeout-area", "mode-result");
     setAttributeBasedOnCondition(targetModeTimeout, "timer-override-mode-timeout", modeTimeoutPassed);
 
-    let targetStackNeedle = createAndAppendDiv("timer-override-stack-needle-area", "timerOverrideStackNeedle");
+    let targetStackNeedle = createAndAppendDiv("timer-override-stack-needle-area", "stack-result");
     setAttributeBasedOnCondition(targetStackNeedle, "timer-override-stack-needle", stackNeedlePassed);
 
     removeWaitingContent(); // eslint-disable-line no-undef
