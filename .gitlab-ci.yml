@@ -250,7 +250,9 @@ notify:test_automation:
     - deploy:abptestpages
   script:
     - |
-      CHANGED_FILES=$(git diff --name-only $CI_COMMIT_BEFORE_SHA $CI_COMMIT_SHA -- 'pages/**/*.tmpl' | tr '\n' ',')
+      CHANGED_FILES=$(git diff \
+      --name-only $CI_COMMIT_BEFORE_SHA $CI_COMMIT_SHA \
+      -- 'pages/**/*.tmpl' | tr '\n' ',')
       if [ -z "$CHANGED_FILES" ]; then
         echo "No .tmpl files changed, skipping trigger"
         exit 0
