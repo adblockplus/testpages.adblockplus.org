@@ -267,7 +267,7 @@ notify:test_automation:
   stage: notify
   tags:
     - eyeo-small-runner
-  image: curlimages/curl:latest
+  image: registry.gitlab.com/eyeo/docker/get-browser-binary:node22
   only:
     - master
   needs:
