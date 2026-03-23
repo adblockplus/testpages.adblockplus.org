@@ -19,6 +19,7 @@ stages:
   - test
   - build
   - deploy
+  - notify
 
 workflow:
   rules:
@@ -259,3 +260,32 @@ deploy:abptestpages:
   variables:
     DOMAIN: abptestpages.org
     DEPLOY_SCRIPT: deploy_testpages
+
+# NOTIFY ######################################################################
+
+notify:test_automation:
+  stage: notify
+  tags:
+    - eyeo-small-runner
+  image: curlimages/curl:latest
+  only:
+    - master
+  needs:
+    - deploy:abptestpages
+  script:
+    - |
+      CHANGED_FILES=$(git diff \
+      --name-only $CI_COMMIT_BEFORE_SHA $CI_COMMIT_SHA \
+      -- 'pages/**/*.tmpl' | tr '\n' ',')
+      if [ -z "$CHANGED_FILES" ]; then
+        echo "No .tmpl files changed, skipping trigger"
+        exit 0
+      fi
+      echo "Changed tmpl files: $CHANGED_FILES"
+      curl -X POST --fail \
+        -F "token=$TEST_AUTOMATION_TRIGGER_TOKEN" \
+        -F "ref=main" \
+        -F "variables[TESTPAGES_CHANGED_FILES]=$CHANGED_FILES" \
+        -F "variables[TESTPAGES_COMMIT_SHA]=$CI_COMMIT_SHA" \
+        "https://gitlab.com/api/v4/projects/${TEST_AUTOMATION_PROJECT_ID}/trigger/pipeline"
+  allow_failure: true
