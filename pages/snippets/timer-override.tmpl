@@ -1,0 +1,230 @@
+template = testcase
+title = Timer Override
+description = Check if timer-override snippet works properly.
+
+{% set case = "timer-override" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of the timer-override snippet overrides a setTimeout delay.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#timer-override 1 5000</pre></li>
+  </ul>
+</section>
+
+{% set case = "timer-override-interval" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that timer-override overrides a setInterval delay when mode is set to "interval".</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#timer-override 1 timerOverrideInterval '' interval</pre></li>
+  </ul>
+</section>
+
+{% set case = "timer-override-needle" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that timer-override matches a timer based on text found in the callback function.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#timer-override 1 timerOverrideNeedle</pre></li>
+  </ul>
+</section>
+
+{% set case = "timer-override-noop" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that the "noop" callbackFunc parameter replaces the callback with a no-op function.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#timer-override 1 timerOverrideNoop noop</pre></li>
+  </ul>
+</section>
+
+{% set case = "timer-override-mode-timeout" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that mode "timeout" overrides setTimeout delays.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#timer-override 1 timerOverrideModeTimeout '' timeout</pre></li>
+  </ul>
+</section>
+
+{% set case = "timer-override-stack-needle" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that the stackNeedle parameter overrides only timers called from a matching callstack.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#timer-override 1 '' '' both timerStackFn</pre></li>
+  </ul>
+</section>
+
+<script type="text/javascript">
+  "use strict";
+
+  function createAndAppendDiv(parentId, divId) {
+    let parentElement = document.getElementById(parentId);
+    let newDiv = document.createElement("div");
+    newDiv.id = divId;
+    parentElement.appendChild(newDiv);
+    return newDiv;
+  }
+
+  function setAttributeBasedOnCondition(element, id, condition) {
+    element.setAttribute("data-expectedresult", condition ? "pass" : "fail");
+    element.setAttribute("aria-label", condition ? `${id}-pass` : `${id}-fail`);
+  }
+
+  let basicPassed = false;
+  let intervalPassed = false;
+  let needlePassed = false;
+  let noopFailed = false;
+  let modeTimeoutPassed = false;
+  let stackNeedlePassed = false;
+
+  function timerOverrideInterval() {
+    intervalPassed = true;
+  }
+  function timerOverrideNeedle() {
+    needlePassed = true;
+  }
+  function timerOverrideNoop() {
+    noopFailed = true;
+  }
+  function timerOverrideModeTimeout() {
+    modeTimeoutPassed = true;
+  }
+  function timerStackFn() {
+    setTimeout(() => {
+      stackNeedlePassed = true;
+    }, 9000);
+  }
+
+  // Store delays and callbacks in arrays defined outside the deferred wrapper.
+  // This keeps the wrapper's own source free of any filter needle text
+  // (function names or delay literals), preventing the snippet from
+  // intercepting or noop-ing the registration wrapper itself.
+  const timerDelays = [5000, 6000, 7000, 8000];
+  const timerCbs = [
+    timerOverrideInterval,
+    timerOverrideNeedle,
+    timerOverrideNoop,
+    timerOverrideModeTimeout
+  ];
+
+  // Defer timer registration to ensure the snippet has been injected first.
+  setTimeout(() => {
+    // Test 1: Basic - setTimeout with delay 5000ms overridden to 1ms via delay needle
+    setTimeout(() => {
+      basicPassed = true;
+    }, timerDelays[0]);
+
+    // Test 2: Interval - setInterval overridden to 1ms via callback needle
+    setInterval(timerCbs[0], timerDelays[1]);
+
+    // Test 3: Needle - setTimeout overridden by matching text in callback name
+    setTimeout(timerCbs[1], timerDelays[2]);
+
+    // Test 4: Noop - callback replaced with no-op; starts pass, fails only if callback fires
+    setTimeout(timerCbs[2], 100);
+
+    // Test 5: Mode timeout - setTimeout overridden via mode=timeout
+    setTimeout(timerCbs[3], timerDelays[3]);
+
+    // Test 6: Stack needle - timer overridden only when timerStackFn is in the callstack
+    timerStackFn();
+  }, 300);
+
+  // Use neutral div IDs that don't match any filter needle, so the snippet
+  // cannot intercept or noop this results-check callback.
+  setTimeout(() => {
+    let targetBasic = createAndAppendDiv("timer-override-area", "basic-result");
+    setAttributeBasedOnCondition(targetBasic, "timer-override", basicPassed);
+
+    let targetInterval = createAndAppendDiv("timer-override-interval-area", "interval-result");
+    setAttributeBasedOnCondition(targetInterval, "timer-override-interval", intervalPassed);
+
+    let targetNeedle = createAndAppendDiv("timer-override-needle-area", "needle-result");
+    setAttributeBasedOnCondition(targetNeedle, "timer-override-needle", needlePassed);
+
+    let targetNoop = createAndAppendDiv("timer-override-noop-area", "noop-result");
+    setAttributeBasedOnCondition(targetNoop, "timer-override-noop", !noopFailed);
+
+    let targetModeTimeout = createAndAppendDiv("timer-override-mode-timeout-area", "mode-result");
+    setAttributeBasedOnCondition(targetModeTimeout, "timer-override-mode-timeout", modeTimeoutPassed);
+
+    let targetStackNeedle = createAndAppendDiv("timer-override-stack-needle-area", "stack-result");
+    setAttributeBasedOnCondition(targetStackNeedle, "timer-override-stack-needle", stackNeedlePassed);
+
+    removeWaitingContent(); // eslint-disable-line no-undef
+  }, 500);
+</script>
