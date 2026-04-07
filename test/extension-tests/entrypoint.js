@@ -38,6 +38,7 @@ const helperExtTimeout = 5000;
 
 let browserVersions = {
   chromium: ["latest", "beta", "dev", "79.0.3945.0", "128.0.6613.0"],
+  chrome: ["latest", "beta", "dev"],
   firefox: ["latest", "beta", "75.0", "68.0"],
   edge: ["latest", "beta"]
 };
