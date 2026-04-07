@@ -93,6 +93,26 @@ test:chromium:oldest:
   variables:
     GREP: chromium 79.0.3945.0
 
+test:chrome:latest:
+  extends: .test
+  variables:
+    GREP: chrome latest
+
+test:chrome:beta:
+  extends: .test
+  variables:
+    GREP: chrome beta
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+
+test:chrome:dev:
+  extends: .test
+  variables:
+    GREP: chrome dev
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+  allow_failure: true
+
 test:firefox:latest:
   extends: .test
   variables:

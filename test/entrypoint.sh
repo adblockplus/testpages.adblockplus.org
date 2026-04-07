@@ -9,12 +9,12 @@ start_servers () {
 }
 
 # Browser config
-if [[ "$GREP" == *"chromium"* || "$GREP" == *"edge"* ]]; then
+if [[ "$GREP" == *"chromium"* || "$GREP" == *"chrome"* || "$GREP" == *"edge"* ]]; then
   XVFB_CMD="xvfb-run -a"
 fi
 
 # Manifest config
-if [[ "$GREP" == *"chromium"* && "$GREP" != *"79"* ]]; then
+if [[ ("$GREP" == *"chromium"* && "$GREP" != *"79"*) || "$GREP" == *"chrome"* ]]; then
   export MANIFEST_VERSION="3"
 else
   export MANIFEST_VERSION="2"
