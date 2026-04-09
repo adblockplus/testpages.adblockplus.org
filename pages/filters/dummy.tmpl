@@ -1,0 +1,24 @@
+template = testcase
+title = Dummy
+description = Dummy test page for CI notification job validation. Can be removed after testing.
+
+{% set case = "Static" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a basic image blocking filter works on a static target.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <img id="{{id}}-fail-1" src="/testfiles/dummy/ad.png" data-expectedresult="fail" data-dp="fail" aria-label="{{id}}-fail">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red image should be blocked and the space collapsed.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>||{{ site_url|strip_proto }}/testfiles/dummy/ad.png</pre></li>
+  </ul>
+</section>

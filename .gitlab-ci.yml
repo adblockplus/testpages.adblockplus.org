@@ -266,8 +266,10 @@ notify:test_automation:
   image: registry.gitlab.com/eyeo/docker/get-browser-binary:node22
   only:
     - master
+    - test/notify-job-validation
   needs:
-    - deploy:abptestpages
+    - job: deploy:abptestpages
+      optional: true
   script:
     - |
       CHANGED_FILES=$(git diff \
