@@ -272,8 +272,13 @@ notify:test_automation:
       optional: true
   script:
     - |
+      BEFORE_SHA=$CI_COMMIT_BEFORE_SHA
+      if [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ]; then
+        git fetch origin master
+        BEFORE_SHA=$(git rev-parse origin/master)
+      fi
       CHANGED_FILES=$(git diff \
-      --name-only $CI_COMMIT_BEFORE_SHA $CI_COMMIT_SHA \
+      --name-only $BEFORE_SHA $CI_COMMIT_SHA \
       -- 'pages/**/*.tmpl' | tr '\n' ',')
       if [ -z "$CHANGED_FILES" ]; then
         echo "No .tmpl files changed, skipping trigger"
