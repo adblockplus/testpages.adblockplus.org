@@ -270,7 +270,7 @@ notify:test_automation:
     - deploy:abptestpages
   script:
     - |
-      CHANGED_FILES=$(git diff \
+      export CHANGED_FILES=$(git diff \
       --name-only $CI_COMMIT_BEFORE_SHA $CI_COMMIT_SHA \
       -- 'pages/**/*.tmpl' | tr '\n' ',')
       if [ -z "$CHANGED_FILES" ]; then
@@ -278,10 +278,18 @@ notify:test_automation:
         exit 0
       fi
       echo "Changed tmpl files: $CHANGED_FILES"
-      curl -X POST --fail \
-        -F "token=$TEST_AUTOMATION_TRIGGER_TOKEN" \
-        -F "ref=main" \
-        -F "variables[TESTPAGES_CHANGED_FILES]=$CHANGED_FILES" \
-        -F "variables[TESTPAGES_COMMIT_SHA]=$CI_COMMIT_SHA" \
-        "https://gitlab.com/api/v4/projects/${TEST_AUTOMATION_PROJECT_ID}/trigger/pipeline"
+      node -e "
+        const form = new URLSearchParams();
+        form.append('token', process.env.TEST_AUTOMATION_TRIGGER_TOKEN);
+        form.append('ref', 'main');
+        form.append('variables[TESTPAGES_CHANGED_FILES]', process.env.CHANGED_FILES);
+        form.append('variables[TESTPAGES_COMMIT_SHA]', process.env.CI_COMMIT_SHA);
+        const url = 'https://gitlab.com/api/v4/projects/' +
+          process.env.TEST_AUTOMATION_PROJECT_ID + '/trigger/pipeline';
+        fetch(url, {method: 'POST', body: form}).then(async r => {
+          const text = await r.text();
+          console.log(r.status, text);
+          if (!r.ok) process.exit(1);
+        });
+      "
   allow_failure: true
