@@ -288,7 +288,7 @@ notify:test_automation:
       node -e "
         const form = new URLSearchParams();
         form.append('token', process.env.TEST_AUTOMATION_TRIGGER_TOKEN);
-        form.append('ref', 'main');
+        form.append('ref', 'fix/generate-job-no-wait');
         form.append('variables[TESTPAGES_CHANGED_FILES]', process.env.CHANGED_FILES);
         form.append('variables[TESTPAGES_COMMIT_SHA]', process.env.CI_COMMIT_SHA);
         const url = 'https://gitlab.com/api/v4/projects/' +
