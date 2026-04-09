@@ -277,7 +277,7 @@ notify:test_automation:
         git fetch origin master
         BEFORE_SHA=$(git rev-parse origin/master)
       fi
-      CHANGED_FILES=$(git diff \
+      export CHANGED_FILES=$(git diff \
       --name-only $BEFORE_SHA $CI_COMMIT_SHA \
       -- 'pages/**/*.tmpl' | tr '\n' ',')
       if [ -z "$CHANGED_FILES" ]; then
