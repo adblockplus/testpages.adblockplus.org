@@ -68,6 +68,12 @@ description = Check that the hide-if-contains-visible-text snippet is working as
   #padding-test-not-visible-child {
     padding-top: 0px; 
   }
+
+  @font-face {
+    font-family: "not-visible-font";
+    src: url(data:application/octet-stream;base64,d09GMgABAAAAAAUAAA0AAAAADdwAAASsAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cGhgGYACDLBEICoZAhTMLMgABNgIkA2AEIAWMEgdSGzgMEdWkBQP8PLBtJdt3SotgWcZapH/a+kE0kpG8j+fh7eo791W1qnrAnv/XjmSkICIh2oghwJiYbBmpA6D/H+zX+r1OvWSZMv605ta2lFr0xGHkIvF0AsK4eBjz/x97PzYmWN7/e2vDFtru/X3fokoLqy3SBpo2GldhJo2nOwPcRAY40DkMELcMr5NTdfJYCHx++AO/wY/37rMyejDENBTUG1flmNyjQ7mtvIg71HHzja1SKG2nrqFGpdRzzBuwi10tV8+NoyyDgAjWFFSosKqAJ1SCVdVuw1BfUWNvh7vM8hjY1SFOxfwDxLgSNBatCirUgI4u6OljoNFiiAnApCnTZjBrzjxYAIukSwApKACAcOJVanSk6NLzFfoGTWtoApNT0zNm5+ZZYJH6bSPqpTKmgCWwJdYmM2RDQA0KKCJKQmGBwFlxHr2q6041nOl2ZprOsN9r6mG37kwNer1BrzvVDLpNXWWiMzx0oh4mjWRkgybapEnatK0i6FZpHC2FSZO2FQ1bWIBIwuUaMTVs0IheabAiZQkPSQGGPC3Ui0tsbWJuFkKCmRPem0+qoNmAiVBuzd6S1lmaZGsBK1UkHI7zQSNZiDTathk14VVkvvXR8kd7nHb1aSRBPBsJibBKuyyMbcR+cEWMmIX2aGLNSHzeOIfoseAQgdLHGoGgPBZDf2GQeA1Td+wQKGXUxRJxSuTqPRu5Cl9bzTeKdU+uhBDskkiSmE4kliIhOp8ICMJh/z33k9vh735b/Wo2eEDIR2UZfQWEGVhJdf+4lko+En8dS/kQyIGUp8aqJatU21pZbrR/Oc+o7GDNcriFcovFcrrVy00W/b1Zdb8dyh52LOcblVvskLNslH9HOV4p/3SybLqcbiRYMqsCBRHsAmDtPCqAHV0hIGpvCSjiYwGVkTEF1LpZT0BHPzsJ6KpzqICe5DgBfVO5QsDAVJ4U0EheE9BaLf8HDK1WjhEw4fHqOQGTUp8oYFpdnytgRurzVFIPcBkwRN8LUBTvQ2Vzn0JtmBF0TGdT6Opnb+gpOQr6Vs8JsoHqDmiUvASt7fKGdKguq8JEdikXwaRSHwvT+vXJ3/2MUjuwBy4tvRkmARt6E41avYeHwojgsUw5VpoFD8pPKtibTKArS4Hc0dnnHI2gz37N1Zu7x+igFa6w4HpKUIoK5Se/lCI9zZQ/hrQe0bGzgc6qXh2i/5llqwYQDUOqLzPDgxu0jJ9xZhL4uRvKxDBUgHag9G2hhIDQtwWGWOZkIFASQjqoVouiqEg6dgg7V7Sb0uYvru3S5kJm0B/XJH9suJ+jPz3JxOQMGNu3dzFCYgTx4GChRw+F8kxcOUMMq+I1c4TgwPuqxJnVlR006q02TtXUTIKz2MvZZryDB2Vx7gQvOzBOTHzT3hqFfrveaFdwO2ElDM8xe9uVhYQKzkeyyKizqbDTDdpgmwjG5s706Sw6rtbjmmoJ7l70f2GH722ltuJ9VeLM6soOGvVW+zZH79rL2Wa8gwdlce6Er87v0G/XG+3Kxb+99pjQBnzgap88Y7cj1kQqRCBMqNOYr7UsEM1xnt/K2lazc3h8cnp+eXt3//D0/PL+lQI=);
+    font-display: block;
+  }
 </style>
 
 {% set case = "Basic usage" %}
@@ -182,3 +188,50 @@ description = Check that the hide-if-contains-visible-text snippet is working as
     <li><pre>{{ site_url|domain }}#$#hide-if-contains-visible-text 'Sponsored' '.padding-test' '.padding-test' '-ignore-padding:true'</pre></li>
   </ul>
 </section>
+
+{% set case = "Visible/invisible font" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that the snippet handles font visibility.</p>
+  <div class="testcase-area" id="font-visibility-test">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element inside in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-visible-text 'Sponsored' '.font-test' '.font-test'</pre></li>
+  </ul>
+</section>
+<script>
+  "use strict";
+
+  // Inject font visibility test case containers dynamically to give time for the browser to load/register fonts
+  document.fonts.load('1em "not-visible-font"').then(() => {
+    const visibleFontTextContainer = `<div class="font-test" data-expectedresult="fail" aria-label="{{id}}-fail">
+      <span class="visible-font">Sponsored</span>
+      <span>Failed. Element is not hidden.</span>
+    </div>`;
+    const invisibleFontTextContainer = `
+    <div class="font-test" data-expectedresult="pass" aria-label="{{id}}-pass">
+      <span style="font-family: not-visible-font;">Sponsored</span>
+      <span>Should not be hidden.</span>
+    </div>`;
+    const expectedTextContainer = `
+    <div class="testcase-expected-view">
+      <span style="font-family: not-visible-font;">Sponsored</span>
+      <span>Should not be hidden.</span>
+    </div>`;
+    const fontVisibilityTestContainer = document.getElementById("font-visibility-test");
+    fontVisibilityTestContainer.insertAdjacentHTML("beforeend", visibleFontTextContainer);
+    fontVisibilityTestContainer.insertAdjacentHTML("beforeend", invisibleFontTextContainer);
+    fontVisibilityTestContainer.insertAdjacentHTML("beforeend", expectedTextContainer);
+    removeWaitingContent(); // eslint-disable-line no-undef
+  });
+</script>
