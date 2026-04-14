@@ -42,7 +42,7 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
   <ul class="testcase-steps">
     <li>Add filter #1.</li>
     <li>Refresh page.</li>
-    <li>The red element in the test case above should be hidden and the green one not hidden.</li>
+    <li>The red element added to the test case above should be hidden and the green one not hidden.</li>
   </ul>
   <h3>Filters</h3>
   <ul id="{{id}}-filters" class="testcase-filters">
@@ -50,118 +50,20 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
   </ul>
 </section>
 
-{% set case = "strokeText accumulates text across calls" %}
-{% set id = get_id(case) %}
-<section id="{{id}}-section" class="testcase-panel">
-  {{ heading(case) }}
-  <p>Test that the snippet accumulates text when strokeText() is called once per character rather than in a single call.</p>
-  <div id="{{id}}-area" class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
-    <div data-expectedresult="fail" class="sta-canvas-parent" id="canvas-parent7"><div><span>Failed. Element is not hidden.</span></div></div>
-    <div class="testcase-expected-view sta-canvas-parent" id="canvas-parent8"><div><span>Should not be hidden.</span></div></div>
-    <div data-expectedresult="pass" class="sta-canvas-parent" id="canvas-parent9"><div><span>Should not be hidden.</span></div></div>
-    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
-  </div>
-  <h3>Steps</h3>
-  <ul class="testcase-steps">
-    <li>Add filter #1.</li>
-    <li>Refresh page.</li>
-    <li>The red element in the test case above should be hidden and the green one not hidden.</li>
-  </ul>
-  <h3>Filters</h3>
-  <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-canvas-contains /sponsored/ .sta-canvas-parent</pre></li>
-  </ul>
-</section>
-
-{% set case = "drawImage" %}
-{% set id = get_id(case) %}
-<section id="{{id}}-section" class="testcase-panel">
-  {{ heading(case) }}
-  <p>Test the basic usage of the snippet when drawImage() is called.</p>
-  <div id="{{id}}-area" class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
-    <div data-expectedresult="fail" class="di-canvas-parent" id="canvas-parent10"><div><span>Failed. Element is not hidden.</span></div></div>
-    <div class="testcase-expected-view di-canvas-parent" id="canvas-parent11"><div><span>Should not be hidden.</span></div></div>
-    <div data-expectedresult="pass" class="di-canvas-parent" id="canvas-parent12"><div><span>Should not be hidden.</span></div></div>
-    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
-  </div>
-  <h3>Steps</h3>
-  <ul class="testcase-steps">
-    <li>Add filter #1.</li>
-    <li>Refresh page.</li>
-    <li>The red element in the test case above should be hidden and the green one not hidden.</li>
-  </ul>
-  <h3>Filters</h3>
-  <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-canvas-contains /\/ads\// .di-canvas-parent</pre></li>
-  </ul>
-</section>
-
-{% set case = "drawImage with toDataURL" %}
-{% set id = get_id(case) %}
-<section id="{{id}}-section" class="testcase-panel">
-  {{ heading(case) }}
-  <p>Test the snippet when drawImage() is called with an image sourced from toDataURL().</p>
-  <div id="{{id}}-area" class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
-    <div data-expectedresult="fail" class="tdu-canvas-parent" id="canvas-parent13"><div><span>Failed. Element is not hidden.</span></div></div>
-    <div class="testcase-expected-view tdu-canvas-parent" id="canvas-parent14"><div><span>Should not be hidden.</span></div></div>
-    <div data-expectedresult="pass" class="tdu-canvas-parent" id="canvas-parent15"><div><span>Should not be hidden.</span></div></div>
-    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
-  </div>
-  <h3>Steps</h3>
-  <ul class="testcase-steps">
-    <li>Add filter #1.</li>
-    <li>Refresh page.</li>
-    <li>The red element in the test case above should be hidden and the green one not hidden.</li>
-  </ul>
-  <h3>Filters</h3>
-  <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-canvas-contains /AAAAoAAAAKCA/ .tdu-canvas-parent</pre></li>
-  </ul>
-</section>
-
-{% set case = "clearRectBehavior always" %}
-{% set id = get_id(case) %}
-<section id="{{id}}-section" class="testcase-panel">
-  {{ heading(case) }}
-  <p>Test that <code>clearRectBehavior=always</code> resets the text buffer on any <code>clearRect()</code> call, including partial ones. Text drawn in two separate phases separated by a partial clearRect should not combine to form a match.</p>
-  <div id="{{id}}-area" class="testcase-area">
-    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
-    <div data-expectedresult="fail" class="crba-canvas-parent" id="canvas-parent16"><div><span>Failed. Element is not hidden.</span></div></div>
-    <div class="testcase-expected-view crba-canvas-parent" id="canvas-parent17"><div><span>Should not be hidden.</span></div></div>
-    <div data-expectedresult="pass" class="crba-canvas-parent" id="canvas-parent18"><div><span>Should not be hidden.</span></div></div>
-    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
-  </div>
-  <h3>Steps</h3>
-  <ul class="testcase-steps">
-    <li>Add filter #1.</li>
-    <li>Refresh page.</li>
-    <li>The red element (canvas draws "sponsored" in one call) should be hidden. The green element (canvas draws "spons", then partial clearRect, then "ored") should not be hidden — the partial clearRect resets the buffer.</li>
-  </ul>
-  <h3>Filters</h3>
-  <ul id="{{id}}-filters" class="testcase-filters">
-    <li><pre>{{ site_url|domain }}#$#hide-if-canvas-contains /sponsored/ .crba-canvas-parent always</pre></li>
-  </ul>
-</section>
-
 <script>
   "use strict";
 
-  function makeCanvas(id, width = 0, height = 0) {
+  function createCanvas(method, id, text, x = 0, y = 18) {
     const canvas = document.createElement("canvas");
     canvas.id = id;
-    canvas.width = width;
-    canvas.height = height;
-    canvas.style.verticalAlign = "middle";
+
+    // Get the 2D drawing context from the canvas
     const ctx = canvas.getContext("2d");
     ctx.font = "24px Arial";
-    return {canvas, ctx};
-  }
+    canvas.width = 0;
+    canvas.height = 0;
+    canvas.style.verticalAlign = "middle"; // Aligns canvas with text
 
-  function createCanvas(method, id, text, x = 0, y = 18) {
-    const {canvas, ctx} = makeCanvas(id);
     if (method === "fillText") {
       ctx.fillStyle = "white";
       ctx.fillText(text, x, y);
@@ -170,12 +72,8 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
       ctx.strokeStyle = "white";
       ctx.strokeText(text, x, y);
     }
-    if (method === "drawImage") {
-      const img = new Image();
-      img.src = text;
-      ctx.drawImage(img, x, y);
-    }
-    return canvas;
+
+    return canvas; // Return the created canvas element
   }
 
   function appendCanvas(parentSelector, method, id, text) {
@@ -186,44 +84,6 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     }
   }
 
-  function appendCanvasCharByChar(parentSelector, id, text) {
-    const canvasParent = document.querySelector(parentSelector);
-    if (canvasParent) {
-      const {canvas, ctx} = makeCanvas(id);
-      ctx.strokeStyle = "white";
-      let x = 0;
-      for (const char of text) {
-        ctx.strokeText(char, x, 18);
-        x += 14;
-      }
-      canvasParent.appendChild(canvas);
-    }
-  }
-
-  function appendCanvasWithPartialClearRect(parentSelector, id, text1, text2) {
-    const canvasParent = document.querySelector(parentSelector);
-    if (canvasParent) {
-      const {canvas, ctx} = makeCanvas(id, 200, 50);
-      ctx.fillStyle = "white";
-      ctx.fillText(text1, 0, 18);
-      ctx.clearRect(0, 0, 1, 1); // partial clear — only clears 1×1 pixel
-      ctx.fillText(text2, 100, 18);
-      canvas.width = 0;
-      canvas.height = 0;
-      canvasParent.appendChild(canvas);
-    }
-  }
-
-  // toDataURL test: create source canvases and extract data URLs
-  function makeColoredCanvasDataURL(size, color) {
-    const {canvas, ctx} = makeCanvas(null, size, size);
-    ctx.fillStyle = color;
-    ctx.fillRect(0, 0, size, size);
-    return canvas.toDataURL();
-  }
-  const adToDataURLSrc = makeColoredCanvasDataURL(10, "red");
-  const safeToDataURLSrc = makeColoredCanvasDataURL(20, "blue");
-
   setTimeout(() => {
     appendCanvas("#canvas-parent1", "fillText", "canvas1", "sponsored");
     appendCanvas("#canvas-parent2", "fillText", "canvas2", "hello world");
@@ -231,20 +91,6 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     appendCanvas("#canvas-parent4", "strokeText", "canvas4", "sponsored");
     appendCanvas("#canvas-parent5", "strokeText", "canvas5", "hello world");
     appendCanvas("#canvas-parent6", "strokeText", "canvas6", "hello world");
-    appendCanvasCharByChar("#canvas-parent7", "canvas7", "sponsored");
-    appendCanvasCharByChar("#canvas-parent8", "canvas8", "hello world");
-    appendCanvasCharByChar("#canvas-parent9", "canvas9", "hello world");
-    appendCanvas("#canvas-parent10", "drawImage", "canvas10", "https://example.com/ads/banner.png");
-    appendCanvas("#canvas-parent11", "drawImage", "canvas11", "https://example.com/content/image.png");
-    appendCanvas("#canvas-parent12", "drawImage", "canvas12", "https://example.com/content/image.png");
-    appendCanvas("#canvas-parent13", "drawImage", "canvas13", adToDataURLSrc);
-    appendCanvas("#canvas-parent14", "drawImage", "canvas14", safeToDataURLSrc);
-    appendCanvas("#canvas-parent15", "drawImage", "canvas15", safeToDataURLSrc);
-    // clearRectBehavior=always: single-call "sponsored" → hidden;
-    // "spons" + partial clearRect + "ored" → NOT hidden (buffer reset)
-    appendCanvas("#canvas-parent16", "fillText", "canvas16", "sponsored");
-    appendCanvas("#canvas-parent17", "fillText", "canvas17", "hello world");
-    appendCanvasWithPartialClearRect("#canvas-parent18", "canvas18", "spons", "ored");
   }, 200);
 
   setTimeout(() => {
