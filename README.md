@@ -46,15 +46,15 @@ docker run --shm-size=2g -it testpages
 `GREP` argument:
 
 ```shell
-docker run --shm-size=2g -e GREP="chromium latest" -it testpages
+docker run --shm-size=2g -e GREP="chrome latest" -it testpages
 ```
 
 The available browsers are:
-* chromium latest
-* chromium beta
-* chromium dev
-* chromium 79.0.3945.0
+* chromium 79.0.3945.0 (oldest supported version, MV2)
 * chromium 128.0.6613.0 (latest chromium version supporting MV2 extensions)
+* chrome latest
+* chrome beta
+* chrome dev
 * firefox latest
 * firefox beta
 * firefox 75.0
@@ -66,13 +66,13 @@ The available browsers are:
 run a subset of those tests. Example:
 
 ```shell
-docker run --shm-size=2g -e GREP="chromium latest.*(Blocking|Popup)" -it testpages
+docker run --shm-size=2g -e GREP="chrome latest.*(Blocking|Popup)" -it testpages
 ```
 
 To exclude a subset of the tests, use a negative regular expression. Example:
 
 ```shell
-docker run --shm-size=2g -e GREP="^.*chromium latest((?\!Snippets).)*\$" -it testpages
+docker run --shm-size=2g -e GREP="^.*chrome latest((?\!Snippets).)*\$" -it testpages
 ```
 
 #### Packed extensions
@@ -220,7 +220,7 @@ of the extensions that was unpacked into the `./testext` folder.
 Example:
 
 ```shell
-TEST_PAGES_URL=http://localhost:5001 MANIFEST_VERSION={2|3} npm test -- -g "chromium latest"
+TEST_PAGES_URL=http://localhost:5001 MANIFEST_VERSION={2|3} npm test -- -g "chrome latest"
 ```
 
 If testpage is excluded from execution in:
@@ -228,7 +228,7 @@ If testpage is excluded from execution in:
 can define environment variable to force unskip.
 
 ```shell
-TESTS_TO_INCLUDE=filters/wildcard-domain MANIFEST_VERSION={2|3} npm test -- -g "chromium latest"
+TESTS_TO_INCLUDE=filters/wildcard-domain MANIFEST_VERSION={2|3} npm test -- -g "chrome latest"
 ```
 
 Notes:
