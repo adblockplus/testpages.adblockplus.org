@@ -283,15 +283,11 @@ deploy:abptestpages:
 
 # NOTIFY ######################################################################
 
-notify:test_automation:
+.notify_test_automation_base:
   stage: notify
   tags:
     - eyeo-small-runner
   image: registry.gitlab.com/eyeo/docker/get-browser-binary:node22
-  only:
-    - master
-  needs:
-    - deploy:abptestpages
   script:
     - |
       CHANGED_FILES=$(git diff \
@@ -304,8 +300,26 @@ notify:test_automation:
       echo "Changed tmpl files: $CHANGED_FILES"
       curl -X POST --fail \
         -F "token=$TEST_AUTOMATION_TRIGGER_TOKEN" \
-        -F "ref=main" \
+        -F "ref=$AUTOMATION_BRANCH" \
         -F "variables[TESTPAGES_CHANGED_FILES]=$CHANGED_FILES" \
         -F "variables[TESTPAGES_COMMIT_SHA]=$CI_COMMIT_SHA" \
         "https://gitlab.com/api/v4/projects/${TEST_AUTOMATION_PROJECT_ID}/trigger/pipeline"
   allow_failure: true
+
+notify:test_automation:
+  extends: .notify_test_automation_base
+  only:
+    - master
+  needs:
+    - deploy:abptestpages
+  variables:
+    AUTOMATION_BRANCH: main
+
+notify:anticv_test_automation:
+  extends: .notify_test_automation_base
+  only:
+    - anti-cv-testpages
+  needs:
+    - pages
+  variables:
+    AUTOMATION_BRANCH: anticv-tests
