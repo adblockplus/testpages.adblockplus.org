@@ -124,6 +124,7 @@ test:edge:beta:
 
 test:edge:windows:
   extends: .test_rules
+  parallel: 10
   tags:
     - eyeo-windows
   cache:
