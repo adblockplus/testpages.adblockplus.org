@@ -52,22 +52,22 @@ async function getExtensionInfo(driver, originHandle) {
   await driver.switchTo().window(originHandle);
 
   let info = await driver.executeAsyncScript(async callback => {
+    let managementInfo;
     if (typeof browser !== "undefined") { // Firefox
-      let {shortName, version, permissions} =
-        await browser.management.getSelf();
-      callback({name: shortName, version, permissions});
+      let {shortName, version} = await browser.management.getSelf();
+      managementInfo = {name: shortName, version};
     }
     else { // Chromium
-      new Promise(resolve => {
-        chrome.management.getSelf(({shortName, version, permissions}) =>
-          resolve({name: shortName, version, permissions}));
-      }).then(callback);
+      managementInfo = await new Promise(resolve => {
+        chrome.management.getSelf(({shortName, version}) =>
+          resolve({name: shortName, version}));
+      });
     }
+    const api = typeof browser !== "undefined" ? browser : chrome;
+    const manifest = await fetch(api.runtime.getURL("manifest.json"))
+      .then(r => r.json());
+    callback({...managementInfo, manifestVersion: manifest.manifest_version});
   });
-  info.manifestVersion = 2;
-  if (info.permissions.includes("declarativeNetRequest") ||
-      info.permissions.includes("declarativeNetRequestWithHostAccess"))
-    info.manifestVersion = 3;
 
   return info;
 }
