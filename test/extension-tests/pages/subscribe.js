@@ -114,7 +114,11 @@ export default () => {
     let subscriptionUrl = `${testPagesURL}abp-testcase-subscription.txt`;
 
     let expectedFilters = await collectPageFilters(this.driver, pageTests);
-    let subscriptionText = await fetch(subscriptionUrl).then(r => r.text());
+    let subscriptionText = await this.driver.executeAsyncScript(
+      async(...args) => {
+        let callback = args[args.length - 1];
+        callback(await fetch(args[0]).then(r => r.text()));
+      }, subscriptionUrl);
     let subscriptionLines = new Set(
       subscriptionText.split("\n").map(l => l.trim()).filter(Boolean)
     );
