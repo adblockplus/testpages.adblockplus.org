@@ -96,13 +96,23 @@ async function collectPageFilters(driver, pageTests) {
   let filters = new Set();
   for (let [, testCases] of pageTests) {
     for (let [url] of testCases) {
-      await driver.navigate().to(url);
-      for (let element of await driver.findElements(By.css("pre"))) {
-        for (let line of (await element.getText()).split("\n")) {
-          if (line.trim())
-            filters.add(line.trim());
+      let lines = await driver.executeAsyncScript(async(...args) => {
+        let callback = args[args.length - 1];
+        let html = await fetch(args[0]).then(r => r.text());
+        let doc = new DOMParser().parseFromString(html, "text/html");
+        let result = [];
+        for (let pre of doc.querySelectorAll(
+          ".site-panel pre, .testcase-filters pre"
+        )) {
+          for (let line of pre.textContent.split("\n")) {
+            if (line.trim())
+              result.push(line.trim());
+          }
         }
-      }
+        callback(result);
+      }, url);
+      for (let line of lines)
+        filters.add(line);
     }
   }
   return filters;
