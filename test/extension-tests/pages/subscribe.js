@@ -92,7 +92,37 @@ async function removeSubscription(driver, extensionHandle, url) {
   }, url);
 }
 
+async function collectPageFilters(driver, pageTests) {
+  let filters = new Set();
+  for (let [, testCases] of pageTests) {
+    for (let [url] of testCases) {
+      await driver.navigate().to(url);
+      for (let element of await driver.findElements(By.css("pre"))) {
+        for (let line of (await element.getText()).split("\n")) {
+          if (line.trim())
+            filters.add(line.trim());
+        }
+      }
+    }
+  }
+  return filters;
+}
+
 export default () => {
+  it("subscription file contains all page filters", async function() {
+    let {testPagesURL, pageTests} = this.test.parent.parent.parent;
+    let subscriptionUrl = `${testPagesURL}abp-testcase-subscription.txt`;
+
+    let expectedFilters = await collectPageFilters(this.driver, pageTests);
+    let subscriptionText = await fetch(subscriptionUrl).then(r => r.text());
+    let subscriptionLines = new Set(
+      subscriptionText.split("\n").map(l => l.trim()).filter(Boolean)
+    );
+
+    let missing = [...expectedFilters].filter(f => !subscriptionLines.has(f));
+    assert.deepStrictEqual(missing, []);
+  });
+
   it("subscribes to a link", async function() {
     let {testPagesURL, pageTests} = this.test.parent.parent.parent;
     let testCases = pageTests[0][1];
