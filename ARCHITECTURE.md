@@ -27,7 +27,7 @@ by comparing screenshots.
 | `test/` | All test infrastructure: Selenium test runner, Docker/nginx config, CI entrypoint script. |
 | `test/extension-tests/` | The Mocha test suite that drives a real browser via Selenium WebDriver. |
 | `test/extension-tests/helper-extension/` | Source for the MV2/MV3 helper extension used as a second loaded extension during tests. Built before the test run. |
-| `testext/` | The unpacked ABP extension used during test runs. This directory is either downloaded at runtime or populated via `EXTENSION_FILE` at Docker build time. **Not committed — populated at runtime.** |
+| `testext/` | The unpacked ABP extension used during test runs. Populated in one of two ways: (1) at runtime by `node ./test/extension-tests/extension-download.js` (default, downloads the latest ABP release), or (2) at Docker build time when the `EXTENSION_FILE` build arg is provided (`docker build --build-arg EXTENSION_FILE=...`). **Not committed — populated at runtime.** |
 
 ### Notable source files
 
