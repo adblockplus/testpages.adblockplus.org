@@ -93,9 +93,9 @@ async function removeSubscription(driver, extensionHandle, url) {
   }, url);
 }
 
-async function collectPageFilters(driver, pageTests) {
+async function collectPageFilters(driver, tests) {
   let filters = new Set();
-  for (let [, testCases] of pageTests) {
+  for (let [, testCases] of tests) {
     for (let [url] of testCases) {
       let lines = await driver.executeAsyncScript(async(...args) => {
         let callback = args[args.length - 1];

@@ -15,6 +15,7 @@
  * along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Populated at runtime by entrypoint.js before tests run
 export const pageTests = [];
 export const testPagesURL = process.env.TEST_PAGES_URL ||
                             "https://abptestpages.org/";
