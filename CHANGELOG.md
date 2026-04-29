@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 ## 2026-04-29
 
 - Added ARCHITECTURE.md documenting project structure, CMS pipeline, test infrastructure, and maintenance procedures
+- Added test page for the `freeze-element` snippet with basic usage and subtree test cases
 - Added automated test to verify the subscription file contains all page filters
 - Fixed filter bug in `exceptions/iframe.tmpl`: the filter for the iframe content rewritten by script was not exported to the subscription file correctly due to use of a page-local Jinja2 variable
 
