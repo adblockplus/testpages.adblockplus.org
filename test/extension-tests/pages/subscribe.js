@@ -19,6 +19,7 @@ import assert from "assert";
 import webdriver from "selenium-webdriver";
 import {writeScreenshotAndThrow} from "../misc/screenshots.js";
 import {runFirstTest} from "./utils.js";
+import {pageTests, testPagesURL} from "../state.js";
 
 const {By} = webdriver;
 
@@ -120,7 +121,6 @@ async function collectPageFilters(driver, pageTests) {
 
 export default () => {
   it("subscription file contains all page filters", async function() {
-    let {testPagesURL, pageTests} = this.test.parent.parent.parent;
     let subscriptionUrl = `${testPagesURL}abp-testcase-subscription.txt`;
 
     let expectedFilters = await collectPageFilters(this.driver, pageTests);
@@ -138,7 +138,6 @@ export default () => {
   });
 
   it("subscribes to a link", async function() {
-    let {testPagesURL, pageTests} = this.test.parent.parent.parent;
     let testCases = pageTests[0][1];
     let subscription = `${testPagesURL}abp-testcase-subscription.txt`;
     let currentHandle = await this.driver.getWindowHandle();
