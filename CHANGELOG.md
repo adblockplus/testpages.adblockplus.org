@@ -2,11 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
-## 2026-04-28
+## 2026-04-29
 
 - Added ARCHITECTURE.md documenting project structure, CMS pipeline, test infrastructure, and maintenance procedures
 - Added automated test to verify the subscription file contains all page filters
 - Fixed filter bug in `exceptions/iframe.tmpl`: the filter for the iframe content rewritten by script was not exported to the subscription file correctly due to use of a page-local Jinja2 variable
+
+## 2026-04-28
+
 - Improved manifest version detection: the test runner now reads `manifest.json` directly instead of inferring the manifest version from extension permissions
 
 ## 2026-04-21
