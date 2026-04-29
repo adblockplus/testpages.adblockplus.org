@@ -2,6 +2,53 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-04-28
+
+- Added ARCHITECTURE.md documenting project structure, CMS pipeline, test infrastructure, and maintenance procedures
+- Added automated test to verify the subscription file contains all page filters
+- Fixed filter bug in `exceptions/iframe.tmpl`: the filter for the iframe content rewritten by script was not exported to the subscription file correctly due to use of a page-local Jinja2 variable
+- Improved manifest version detection: the test runner now reads `manifest.json` directly instead of inferring the manifest version from extension permissions
+
+## 2026-04-21
+
+- Removed chromium latest/beta CI jobs in favour of Chrome for Testing
+
+## 2026-04-14
+
+- Updated test pages to cover snippets 2.8.0: added `prevent-element-src-loading`, `replace-xhr-request`, and `timer-override`; updated `hide-if-canvas-contains`, `hide-if-contains-visible-text`, `json-override`, `json-prune`, `array-override`, and `map-override`
+
+## 2026-04-07
+
+- Added Chrome for Testing browser support to the test infrastructure
+
+## 2026-03-23
+
+- Added CI trigger to notify the test automation project when changes are merged to master
+
+## 2025-11-12
+
+- Updated test pages to cover snippets 2.3.0–2.4.2: added `hide-if-svg-contains`, `map-override`, and `replace-outbound-value`; updated `json-prune`
+
+## 2025-07-10
+
+- Updated test pages to cover snippets 2.2.0: added `blob-override` and `event-override`; updated `array-override` and `hide-if-contains-visible-text`
+
+## 2025-04-15
+
+- Updated the required Node.js and npm versions to the current LTS (Node 22)
+
+## 2025-03-04
+
+- Fixed incorrect filter export for `replace-fetch-response` and `replace-xhr-response` test pages
+
+## 2025-03-03
+
+- Made `hide-if-canvas-contains` test less flaky by adding timeouts
+
+## 2025-02-12
+
+- Fixed the test runner to ignore extension background pages (workaround for Edge 133 compatibility)
+
 ## 2025-01-31
 
 - Added new pages in pages/snippets: array-override, hide-if-canvas-contains, replace-fetch-response, replace-xhr-response
