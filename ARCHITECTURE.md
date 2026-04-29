@@ -28,6 +28,11 @@ by comparing screenshots.
 | `test/extension-tests/` | The Mocha test suite that drives a real browser via Selenium WebDriver. |
 | `test/extension-tests/helper-extension/` | Source for the MV2/MV3 helper extension used as a second loaded extension during tests. Built before the test run. |
 | `testext/` | The unpacked ABP extension used during test runs. This directory is either downloaded at runtime or populated via `EXTENSION_FILE` at Docker build time. **Not committed — populated at runtime.** |
+
+### Notable source files
+
+| File | Purpose |
+|------|---------|
 | `pages/abp-testcase-subscription.txt.tmpl` | Dynamically generated filter subscription file. `get_filters()` walks all pages and extracts filters from `.testcase-filters pre` and `.site-panel pre` elements. |
 
 ### Generated / runtime directories (not committed)
@@ -197,7 +202,7 @@ remove its entry from `pages/index.tmpl`.
 2. `docker run --shm-size=2g -it testpages` — runs the container. The
    `test/entrypoint.sh` script:
    - Starts nginx (testpages server) and the endpoints server.
-   - Sets `MANIFEST_VERSION` based on `GREP` (Chrome → MV3, others → MV2).
+   - Sets `MANIFEST_VERSION` based on `GREP` (`chrome` only, excluding `chromium` → MV3; everything else including `chromium`, `edge`, `firefox` → MV2).
    - Downloads the ABP extension unless `SKIP_EXTENSION_DOWNLOAD=true`.
    - Runs `npm test` with the `GREP` filter.
 
@@ -248,7 +253,7 @@ For each test page, the runner:
 3. Compares the two screenshots using `Jimp`. If they differ beyond a threshold,
    the test fails and the screenshots are saved to `test/screenshots/`.
 
-For **specialized tests** (defined in `pages/specialized.js`), screenshot
+For **specialized tests** (defined in `test/extension-tests/pages/specialized.js`), screenshot
 comparison is replaced with custom DOM assertions.
 
 ---
