@@ -3,6 +3,8 @@
 The web content of the [abptestpages.org domain](https://abptestpages.org/)
 is automatically generated from the files in this repository.
 
+See [ARCHITECTURE.md](ARCHITECTURE.md) for a full overview of the project structure, CMS pipeline, and test infrastructure.
+
 ## Getting started
 
 The following tools are needed:
