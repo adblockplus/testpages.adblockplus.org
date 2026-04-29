@@ -92,7 +92,51 @@ async function removeSubscription(driver, extensionHandle, url) {
   }, url);
 }
 
+async function collectPageFilters(driver, pageTests) {
+  let filters = new Set();
+  for (let [, testCases] of pageTests) {
+    for (let [url] of testCases) {
+      let lines = await driver.executeAsyncScript(async(...args) => {
+        let callback = args[args.length - 1];
+        let html = await fetch(args[0]).then(r => r.text());
+        let doc = new DOMParser().parseFromString(html, "text/html");
+        let result = [];
+        for (let pre of doc.querySelectorAll(
+          ".site-panel pre, .testcase-filters pre"
+        )) {
+          for (let line of pre.textContent.split("\n")) {
+            if (line.trim())
+              result.push(line.trim());
+          }
+        }
+        callback(result);
+      }, url);
+      for (let line of lines)
+        filters.add(line);
+    }
+  }
+  return filters;
+}
+
 export default () => {
+  it("subscription file contains all page filters", async function() {
+    let {testPagesURL, pageTests} = this.test.parent.parent.parent;
+    let subscriptionUrl = `${testPagesURL}abp-testcase-subscription.txt`;
+
+    let expectedFilters = await collectPageFilters(this.driver, pageTests);
+    let subscriptionText = await this.driver.executeAsyncScript(
+      async(...args) => {
+        let callback = args[args.length - 1];
+        callback(await fetch(args[0]).then(r => r.text()));
+      }, subscriptionUrl);
+    let subscriptionLines = new Set(
+      subscriptionText.split("\n").map(l => l.trim()).filter(Boolean)
+    );
+
+    let missing = [...expectedFilters].filter(f => !subscriptionLines.has(f));
+    assert.deepStrictEqual(missing, []);
+  });
+
   it("subscribes to a link", async function() {
     let {testPagesURL, pageTests} = this.test.parent.parent.parent;
     let testCases = pageTests[0][1];
