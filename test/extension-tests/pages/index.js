@@ -22,6 +22,7 @@ import specializedTests from "./specialized.js";
 import defineSubscribeTest from "./subscribe.js";
 import {getExpectedScreenshot, getPage, isExcluded, runGenericTests}
   from "./utils.js";
+import {pageTests} from "../state.js";
 
 const {By} = webdriver;
 
@@ -109,17 +110,17 @@ function removeFilters(driver, extensionHandle) {
 }
 
 export default () => {
-  describe("Test pages", function() {
+  describe("Test pages", () => {
     afterEach(async function() {
       await removeFilters(this.driver, this.extensionHandle);
       await checkLastError(this.driver, this.extensionHandle);
     });
 
-    it("discovered test cases", function() {
-      assert.ok(this.test.parent.parent.pageTests.length > 0);
+    it("discovered test cases", () => {
+      assert.ok(pageTests.length > 0);
     });
 
-    for (let [section, testCases] of this.parent.pageTests) {
+    for (let [section, testCases] of pageTests) {
       describe(section, () => {
         for (let [url, pageTitle] of testCases) {
           it(pageTitle, async function() {
