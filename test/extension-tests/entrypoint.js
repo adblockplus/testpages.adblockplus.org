@@ -26,9 +26,8 @@ import {BROWSERS} from "@eyeo/get-browser-binary";
 import {writeScreenshotAndThrow} from "./misc/screenshots.js";
 import {safeGetAllWindowHandles} from "./misc/utils.js";
 import definePageTests from "./pages/index.js";
+import {pageTests, testPagesURL} from "./state.js";
 
-const TEST_PAGES_URL = process.env.TEST_PAGES_URL ||
-                       "https://abptestpages.org/";
 const TEST_PAGES_INSECURE = process.env.TEST_PAGES_INSECURE == "true";
 const CUSTOM_BROWSER = process.env.CUSTOM_BROWSER;
 const CUSTOM_BROWSER_VERSION = process.env.BROWSER_VERSION || "latest";
@@ -160,10 +159,10 @@ async function getPageTests() {
   let response;
 
   try {
-    response = await got(TEST_PAGES_URL, options);
+    response = await got(testPagesURL, options);
   }
   catch (e) {
-    console.warn(`Warning: Test pages not parsed at "${TEST_PAGES_URL}"\n${e}`);
+    console.warn(`Warning: Test pages not parsed at "${testPagesURL}"\n${e}`);
     return [];
   }
 
@@ -175,7 +174,7 @@ async function getPageTests() {
     let testCases = [];
     let match;
     while (match = regexpTests.exec(matchSection[2]))
-      testCases.push([url.resolve(TEST_PAGES_URL, match[1]), match[2]]);
+      testCases.push([url.resolve(testPagesURL, match[1]), match[2]]);
 
     tests.push([matchSection[1], testCases]);
   }
@@ -189,7 +188,7 @@ if (typeof run == "undefined") {
 }
 
 (async() => {
-  let pageTests = await getPageTests();
+  pageTests.push(...await getPageTests());
   if (CUSTOM_BROWSER){
     browserVersions = {};
     browserVersions[CUSTOM_BROWSER] = [CUSTOM_BROWSER_VERSION];
@@ -199,8 +198,6 @@ if (typeof run == "undefined") {
     for (let version of versions) {
       describe(`Browser: ${browser} ${version || "latest"}`, function() {
         this.timeout(0);
-        this.pageTests = pageTests;
-        this.testPagesURL = TEST_PAGES_URL;
 
         before(async function() {
           let headless = browser == "firefox";
