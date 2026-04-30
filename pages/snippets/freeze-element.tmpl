@@ -24,7 +24,19 @@ template = testcase
   </ul>
 </section>
 
-<script src="/testfiles/freeze-element/basic.js"></script>
+<script>
+  "use strict";
+
+  setTimeout(() => {
+    removeWaitingContent(); // eslint-disable-line no-undef
+
+    let failElement = document.createElement("div");
+    failElement.innerHTML = "Failed. Element was modified.";
+    failElement.setAttribute("data-expectedresult", "fail");
+    failElement.setAttribute("aria-label", "fail");
+    document.getElementById("freeze-basic-target").appendChild(failElement);
+  }, 500);
+</script>
 
 {% set case = "Subtree" %}
 {% set id = get_id(case) %}
@@ -50,4 +62,17 @@ template = testcase
   </ul>
 </section>
 
-<script src="/testfiles/freeze-element/subtree.js"></script>
+<script>
+  "use strict";
+
+  setTimeout(() => {
+    removeWaitingContent(); // eslint-disable-line no-undef
+
+    let failElement = document.createElement("div");
+    failElement.innerHTML = "Failed. Descendant element was modified.";
+    failElement.setAttribute("data-expectedresult", "fail");
+    failElement.setAttribute("aria-label", "fail");
+    // appending to child, but the filter freezes #freeze-subtree-wrapper (the parent)
+    document.getElementById("freeze-subtree-child").appendChild(failElement);
+  }, 500);
+</script>
