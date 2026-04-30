@@ -2,6 +2,10 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-04-30
+
+- Refactored test runner to use a shared `state.js` module for `pageTests` and `testPagesURL`, replacing fragile Mocha context traversal (`this.test.parent.parent.parent`)
+
 ## 2026-04-29
 
 - Added ARCHITECTURE.md documenting project structure, CMS pipeline, test infrastructure, and maintenance procedures
