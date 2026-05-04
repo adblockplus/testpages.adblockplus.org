@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-05-04
+
+- Fixed the CI notify job to use an image that includes git
+- Fixed the CI notify job to replace curl with Node fetch and correctly export `CHANGED_FILES`
+
 ## 2026-04-30
 
 - Refactored test runner to use a shared `state.js` module for `pageTests` and `testPagesURL`, replacing fragile Mocha context traversal (`this.test.parent.parent.parent`)
