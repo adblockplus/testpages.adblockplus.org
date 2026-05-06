@@ -71,6 +71,8 @@ test:lint:
 test:chromium:oldest:
   extends: .test
   variables:
+    # ABP 4.38.0 introduced incompatible JS syntax crashing the options page.
+    # Skipping Subscriptions test on old browsers until that is fixed
     GREP: "chromium 79.0.3945.0((?!Subscriptions).)*$"
 
 test:chrome:latest:
