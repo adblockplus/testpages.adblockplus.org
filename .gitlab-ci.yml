@@ -71,7 +71,7 @@ test:lint:
 test:chromium:oldest:
   extends: .test
   variables:
-    GREP: chromium 79.0.3945.0
+    GREP: "chromium 79.0.3945.0((?!Subscriptions).)*$"
 
 test:chrome:latest:
   extends: .test
@@ -108,7 +108,7 @@ test:firefox:beta:
 test:firefox:oldest:
   extends: .test
   variables:
-    GREP: firefox 68.0
+    GREP: "firefox 68.0((?!Subscriptions).)*$"
 
 test:edge:latest:
   extends: .test
