@@ -326,7 +326,7 @@ notify:test_automation:
 notify:anticv_test_automation:
   extends: .notify_test_automation_base
   rules:
-    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "anti-cv-testpages"
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "anti-cv-testpages"  # yamllint disable-line rule:line-length
   needs:
     - pages
   variables:
