@@ -288,22 +288,40 @@ deploy:abptestpages:
   tags:
     - eyeo-small-runner
   image: registry.gitlab.com/eyeo/docker/get-browser-binary:node22
+  variables:
+    GIT_DEPTH: 0
   script:
     - |
-      CHANGED_FILES=$(git diff \
+      case "$CI_COMMIT_BEFORE_SHA" in
+        ""|0000000000000000000000000000000000000000)
+          echo "No previous commit SHA available, skipping trigger"
+          exit 0
+          ;;
+      esac
+      export CHANGED_FILES=$(git diff \
       --name-only $CI_COMMIT_BEFORE_SHA $CI_COMMIT_SHA \
-      -- 'pages/**/*.tmpl' | tr '\n' ',')
+      -- 'pages/' | { grep '\.tmpl$' || true; } | tr '\n' ',')
       if [ -z "$CHANGED_FILES" ]; then
         echo "No .tmpl files changed, skipping trigger"
         exit 0
       fi
       echo "Changed tmpl files: $CHANGED_FILES"
-      curl -X POST --fail \
-        -F "token=$TEST_AUTOMATION_TRIGGER_TOKEN" \
-        -F "ref=$AUTOMATION_BRANCH" \
-        -F "variables[TESTPAGES_CHANGED_FILES]=$CHANGED_FILES" \
-        -F "variables[TESTPAGES_COMMIT_SHA]=$CI_COMMIT_SHA" \
-        "https://gitlab.com/api/v4/projects/${TEST_AUTOMATION_PROJECT_ID}/trigger/pipeline"
+      node -e "
+        const form = new URLSearchParams();
+        form.append('token', process.env.TEST_AUTOMATION_TRIGGER_TOKEN);
+        form.append('ref', process.env.AUTOMATION_BRANCH);
+        form.append('variables[TESTPAGES_CHANGED_FILES]',
+          process.env.CHANGED_FILES);
+        form.append('variables[TESTPAGES_COMMIT_SHA]',
+          process.env.CI_COMMIT_SHA);
+        const url = 'https://gitlab.com/api/v4/projects/' +
+          process.env.TEST_AUTOMATION_PROJECT_ID + '/trigger/pipeline';
+        fetch(url, {method: 'POST', body: form}).then(async r => {
+          const text = await r.text();
+          console.log(r.status, text);
+          if (!r.ok) process.exit(1);
+        });
+      "
   allow_failure: true
 
 notify:test_automation:
@@ -317,8 +335,8 @@ notify:test_automation:
 
 notify:anticv_test_automation:
   extends: .notify_test_automation_base
-  only:
-    - anti-cv-testpages
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "anti-cv-testpages"  # yamllint disable-line rule:line-length
   needs:
     - pages
   variables:
