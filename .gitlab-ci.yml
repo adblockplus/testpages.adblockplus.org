@@ -288,11 +288,19 @@ deploy:abptestpages:
   tags:
     - eyeo-small-runner
   image: registry.gitlab.com/eyeo/docker/get-browser-binary:node22
+  variables:
+    GIT_DEPTH: 0
   script:
     - |
-      CHANGED_FILES=$(git diff \
+      case "$CI_COMMIT_BEFORE_SHA" in
+        ""|0000000000000000000000000000000000000000)
+          echo "No previous commit SHA available, skipping trigger"
+          exit 0
+          ;;
+      esac
+      export CHANGED_FILES=$(git diff \
       --name-only $CI_COMMIT_BEFORE_SHA $CI_COMMIT_SHA \
-      -- 'pages/**/*.tmpl' | tr '\n' ',')
+      -- 'pages/' | { grep '\.tmpl$' || true; } | tr '\n' ',')
       if [ -z "$CHANGED_FILES" ]; then
         echo "No .tmpl files changed, skipping trigger"
         exit 0
@@ -317,8 +325,8 @@ notify:test_automation:
 
 notify:anticv_test_automation:
   extends: .notify_test_automation_base
-  only:
-    - anti-cv-testpages
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "anti-cv-testpages"
   needs:
     - pages
   variables:
