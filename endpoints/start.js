@@ -24,7 +24,9 @@ import express from "express";
 import nunjucks from "nunjucks";
 import {WebSocketServer} from "ws";
 
-const HOST = "localhost";
+// Node.js 17+ resolves "localhost" to ::1 when IPv6 is available, but nginx
+// upstreams resolve it to 127.0.0.1, causing connection refused.
+const HOST = "127.0.0.1";
 const HTTP_PORT = 4000;
 const WS_PORT = 4001;
 const WSE_PORT = 4002;
@@ -77,7 +79,7 @@ wss.on("connection", ws => {
 
 let wses = new WebSocketServer({host: HOST, port: WSE_PORT}, () => {
   // eslint-disable-next-line no-console
-  console.log(`Web socket server listening at ws://${HOST}:${WSE_PORT}`);
+  console.log(`Web socket exceptions server listening at ws://${HOST}:${WSE_PORT}`);
 });
 
 wses.on("connection", ws => {

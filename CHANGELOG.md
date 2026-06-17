@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-06-17
+
+- Fixed an issue with the /websocket endpoint where the connection couldn't be established when running in nginx
+- Updated ngnix server from v1.18.0 to v1.30.2
+
 ## 2026-05-04
 
 - Fixed the CI notify job to use an image that includes git
