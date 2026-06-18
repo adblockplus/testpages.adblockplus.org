@@ -72,7 +72,7 @@ unpacked ABP extension to be located in the `./testext` folder. That can be
 achieved by downloading the latest ABP release:
 
 ```shell
-node ./test/extension-tests/extension-download.js
+MANIFEST_VERSION={2|3} node ./test/extension-tests/extension-download.js
 ```
 
 Note: It is also possible to manually extract a different ABP version into the

@@ -32,11 +32,6 @@ export function isExcluded(page, browserName, manifestVersion) {
   // https://jira.eyeo.com/browse/EE-43
   else if (page == "exceptions/iframe")
     excluded = ["firefox"];
-  // Should be un-excluded for Chrome when ABP will start supporting feature
-  else if (/^filters\/inline-css/.test(page))
-    return true;
-  else if (/^exceptions\/inline-css/.test(page))
-    return true;
   else if (manifestVersion == 2 && page == "exceptions/sitekey_mv3")
     return true;
   else if (manifestVersion == 3 && (page == "exceptions/sitekey_mv2" ||
