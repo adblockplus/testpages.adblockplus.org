@@ -17,7 +17,7 @@
 
 import assert from "assert";
 import webdriver from "selenium-webdriver";
-import {runWithHandle} from "../misc/utils.js";
+import {runWithHandle, getDisplayedElement} from "../misc/utils.js";
 
 const {By} = webdriver;
 
@@ -121,6 +121,20 @@ specialized["filters/other"] = {
 
   async run(driver) {
     await checkRequestBlocked(driver, "other/image.png");
+  }
+};
+
+specialized["filters/websocket"] = {
+  skipDefaultUpdateFilters: true,
+
+  async run(driver, _element, _extensionHandle, updateFilters) {
+    await getDisplayedElement(
+      driver, "#testcase-status[aria-label='websocket-fail']", {timeout: 2000});
+
+    await updateFilters();
+
+    await getDisplayedElement(
+      driver, "#testcase-status[aria-label='websocket-pass']");
   }
 };
 
