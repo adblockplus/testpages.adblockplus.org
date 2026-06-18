@@ -15,20 +15,25 @@
 
 FROM registry.gitlab.com/eyeo/docker/get-browser-binary:node22
 
-RUN apt-get update && apt-get install -y nginx
+# Install nginx 1.30.2
+RUN apt-get update && apt-get install -y curl lsb-release \
+  && curl -fsSL https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
+     > /usr/share/keyrings/nginx-archive-keyring.gpg \
+  && echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+     https://nginx.org/packages/$(. /etc/os-release && echo "$ID") \
+     $(lsb_release -sc) nginx" \
+     > /etc/apt/sources.list.d/nginx.list \
+  && apt-get update && apt-get install -y nginx=1.30.2-1~$(lsb_release -sc)
 
-# CMS and sitescripts require Python 3
+# CMS requires Python 3
 RUN apt-get install -y python3 python3-distutils python3-pip
-
-# Sitescripts require spawn-fcgi, m2crypto, flup and Jinja2
-RUN apt-get install -y spawn-fcgi python3-m2crypto
-RUN pip3 install flup Jinja2
 
 # nginx config
 ENV DOMAIN=local.testpages.adblockplus.org
 COPY test/etc /etc
-RUN rm /etc/nginx/sites-enabled/default
-RUN rm /etc/nginx/sites-available/default
+RUN rm /etc/nginx/conf.d/default.conf \
+  && echo 'include /etc/nginx/sites-enabled/*.conf;' \
+     > /etc/nginx/conf.d/sites-enabled.conf
 RUN cd /etc/nginx && openssl req -x509 -newkey rsa:4096 \
   -keyout ${DOMAIN}_key.pem \
   -out ${DOMAIN}_cert.pem \
