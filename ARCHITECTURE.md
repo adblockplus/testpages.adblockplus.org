@@ -15,34 +15,34 @@ by comparing screenshots.
 
 ### Source directories (checked in, not modified at runtime)
 
-| Directory | Purpose |
-|-----------|---------|
-| `pages/` | Page content written as Jinja2 templates (`.tmpl` files). Subdirectories map to URL paths: `pages/filters/blocking.tmpl` → `/en/filters/blocking`. |
-| `templates/` | Page layout templates referenced by pages via `template = <name>`. Most test pages use `testcase`, which wraps content in the standard HTML shell. |
-| `includes/` | Partial HTML fragments (header, footer, head) included by templates via `<? include name ?>`. |
-| `globals/` | Python functions available inside `.tmpl` files as Jinja2 globals: `get_id()`, `heading()`, `get_filters()`, `get_date()`, `site_url`, `strip_proto`, `domain`. |
-| `filters/` | Python filters available in Jinja2 templates (e.g. `strip_proto`, `domain`). Separate from ad-blocking filters. |
-| `static/` | Static assets served as-is: `static/lib/` (shared JS utilities), `static/css/`, `static/images/`, `static/testfiles/` (per-test JS and HTML used by test pages). |
-| `endpoints/` | Small Node.js servers that handle requests requiring dynamic server-side logic (sitekey signing, WebSocket echo, etc.). Started alongside nginx during test runs. |
-| `test/` | All test infrastructure: Selenium test runner, Docker/nginx config, CI entrypoint script. |
-| `test/extension-tests/` | The Mocha test suite that drives a real browser via Selenium WebDriver. |
-| `test/extension-tests/helper-extension/` | Source for the MV2/MV3 helper extension used as a second loaded extension during tests. Built before the test run. |
-| `testext/` | The unpacked ABP extension used during test runs. Populated in one of two ways: (1) at runtime by `node ./test/extension-tests/extension-download.js` (default, downloads the latest ABP release), or (2) at Docker build time when the `EXTENSION_FILE` build arg is provided (`docker build --build-arg EXTENSION_FILE=...`). **Not committed — populated at runtime.** |
+| Directory                                | Purpose                                                                                                                                                                                                                                                                                                                                                                   |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pages/`                                 | Page content written as Jinja2 templates (`.tmpl` files). Subdirectories map to URL paths: `pages/filters/blocking.tmpl` → `/en/filters/blocking`.                                                                                                                                                                                                                        |
+| `templates/`                             | Page layout templates referenced by pages via `template = <name>`. Most test pages use `testcase`, which wraps content in the standard HTML shell.                                                                                                                                                                                                                        |
+| `includes/`                              | Partial HTML fragments (header, footer, head) included by templates via `<? include name ?>`.                                                                                                                                                                                                                                                                             |
+| `globals/`                               | Python functions available inside `.tmpl` files as Jinja2 globals: `get_id()`, `heading()`, `get_filters()`, `get_date()`, `site_url`, `strip_proto`, `domain`.                                                                                                                                                                                                           |
+| `filters/`                               | Python filters available in Jinja2 templates (e.g. `strip_proto`, `domain`). Separate from ad-blocking filters.                                                                                                                                                                                                                                                           |
+| `static/`                                | Static assets served as-is: `static/lib/` (shared JS utilities), `static/css/`, `static/images/`, `static/testfiles/` (per-test JS and HTML used by test pages).                                                                                                                                                                                                          |
+| `endpoints/`                             | Small Node.js servers that handle requests requiring dynamic server-side logic (sitekey signing, WebSocket echo, etc.). Started alongside nginx during test runs.                                                                                                                                                                                                         |
+| `test/`                                  | All test infrastructure: Selenium test runner, Docker/nginx config, CI entrypoint script.                                                                                                                                                                                                                                                                                 |
+| `test/extension-tests/`                  | The Mocha test suite that drives a real browser via Selenium WebDriver.                                                                                                                                                                                                                                                                                                   |
+| `test/extension-tests/helper-extension/` | Source for the MV2/MV3 helper extension used as a second loaded extension during tests. Built before the test run.                                                                                                                                                                                                                                                        |
+| `testext/`                               | The unpacked ABP extension used during test runs. Populated in one of two ways: (1) at runtime by `node ./test/extension-tests/extension-download.js` (default, downloads the latest ABP release), or (2) at Docker build time when the `EXTENSION_FILE` build arg is provided (`docker build --build-arg EXTENSION_FILE=...`). **Not committed — populated at runtime.** |
 
 ### Notable source files
 
-| File | Purpose |
-|------|---------|
+| File                                       | Purpose                                                                                                                                                           |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `pages/abp-testcase-subscription.txt.tmpl` | Dynamically generated filter subscription file. `get_filters()` walks all pages and extracts filters from `.testcase-filters pre` and `.site-panel pre` elements. |
 
 ### Generated / runtime directories (not committed)
 
-| Directory | When created | Purpose |
-|-----------|-------------|---------|
-| `/var/www/local.testpages.adblockplus.org/` | Docker build | Static HTML output from CMS — what nginx actually serves. |
-| `test/screenshots/` | Test run (on failure) | Screenshots taken when a test fails, copied out via `docker cp`. |
-| `helper-extension-build/` | Before test run | Built output of the helper extension. |
-| `node_modules/` | `npm install` | JS dependencies. |
+| Directory                                   | When created          | Purpose                                                          |
+| ------------------------------------------- | --------------------- | ---------------------------------------------------------------- |
+| `/var/www/local.testpages.adblockplus.org/` | Docker build          | Static HTML output from CMS — what nginx actually serves.        |
+| `test/screenshots/`                         | Test run (on failure) | Screenshots taken when a test fails, copied out via `docker cp`. |
+| `helper-extension-build/`                   | Before test run       | Built output of the helper extension.                            |
+| `node_modules/`                             | `npm install`         | JS dependencies.                                                 |
 
 ---
 
@@ -53,6 +53,7 @@ Testpages uses [eyeo's CMS](https://gitlab.com/eyeo/websites/cms) to turn
 
 1. Each `.tmpl` file in `pages/` starts with a metadata block (key-value pairs
    before any HTML), followed by Jinja2 template content:
+
    ```
    title = My Test Page
    template = testcase
@@ -79,14 +80,14 @@ Testpages uses [eyeo's CMS](https://gitlab.com/eyeo/websites/cms) to turn
 
 ### Key globals available in `.tmpl` files
 
-| Global | What it does |
-|--------|-------------|
-| `get_id(title)` | Converts a title string to a kebab-case HTML id, e.g. `"Basic usage"` → `"basic-usage"`. Used to give each test case a stable, unique id. |
-| `heading(title)` | Returns an `<h2>` element with the id and `aria-label` attributes set using `get_id()`. |
-| `site_url` | The full base URL of the site (e.g. `https://local.testpages.adblockplus.org:5001`). Set via the `SITE_URL` environment variable. |
-| `site_url\|domain` | The domain only (e.g. `local.testpages.adblockplus.org`). Used in filter rules. |
-| `site_url\|strip_proto` | URL without the protocol prefix. Used in filter rules that require `||domain/path` syntax. |
-| `get_filters()` | Used only by the subscription file template to aggregate all filters from all pages. |
+| Global                  | What it does                                                                                                                              |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | --- | -------------------- |
+| `get_id(title)`         | Converts a title string to a kebab-case HTML id, e.g. `"Basic usage"` → `"basic-usage"`. Used to give each test case a stable, unique id. |
+| `heading(title)`        | Returns an `<h2>` element with the id and `aria-label` attributes set using `get_id()`.                                                   |
+| `site_url`              | The full base URL of the site (e.g. `https://local.testpages.adblockplus.org:5001`). Set via the `SITE_URL` environment variable.         |
+| `site_url\|domain`      | The domain only (e.g. `local.testpages.adblockplus.org`). Used in filter rules.                                                           |
+| `site_url\|strip_proto` | URL without the protocol prefix. Used in filter rules that require `                                                                      |     | domain/path` syntax. |
+| `get_filters()`         | Used only by the subscription file template to aggregate all filters from all pages.                                                      |
 
 ---
 
@@ -97,8 +98,7 @@ Testpages uses [eyeo's CMS](https://gitlab.com/eyeo/websites/cms) to turn
 A typical test page section looks like this:
 
 ```html
-{% set case = "Basic usage" %}
-{% set id = get_id(case) %}
+{% set case = "Basic usage" %} {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <p>Description of what is being tested.</p>
@@ -115,8 +115,8 @@ A typical test page section looks like this:
 
 ### Pass/fail convention
 
-The automated test runner compares a screenshot of the page *with* filters
-applied against a screenshot of the page *in its expected state* (loaded with
+The automated test runner compares a screenshot of the page _with_ filters
+applied against a screenshot of the page _in its expected state_ (loaded with
 `?expected=1`). Pages use a consistent visual convention:
 
 - Elements with `data-expectedresult="fail"` are styled red — they represent
@@ -209,6 +209,7 @@ remove its entry from `pages/index.tmpl`.
 ### Production publish
 
 On merge to `master`, the CI pipeline:
+
 1. Runs the `build_production` stage: calls
    `cms.bin.generate_static_pages` with `SITE_URL=https://abptestpages.org` to
    generate static HTML.
@@ -235,6 +236,7 @@ via Chocolatey.
 ### Test runner internals
 
 `test/extension-tests/entrypoint.js` is the Mocha test root. It:
+
 1. Fetches the index page of testpages and parses all test case links into a
    `pageTests` array (`[[section, [[url, title], ...]], ...]`).
 2. For each browser/version combination, creates a Selenium WebDriver, loads the
@@ -247,6 +249,7 @@ via Chocolatey.
 ### Screenshot comparison
 
 For each test page, the runner:
+
 1. Navigates to `<url>?expected=1` and takes a screenshot (the expected state).
 2. Navigates to `<url>`, imports the page's filters into ABP, refreshes, and
    takes a screenshot.
@@ -261,26 +264,31 @@ comparison is replaced with custom DOM assertions.
 ## Debugging Failing Tests
 
 **Get screenshots from a failed Docker run:**
+
 ```shell
 docker cp $(docker ps -aqf ancestor=testpages | head -n 1):/testpages.adblockplus.org/test/screenshots ./screenshots
 ```
 
 **Get nginx logs:**
+
 ```shell
 docker cp $(docker ps -aqf ancestor=testpages | head -n 1):/var/log/nginx/ ./nginx-logs
 ```
 
 **Run a single test locally:**
+
 ```shell
 TEST_PAGES_URL=http://localhost:5001/en/ MANIFEST_VERSION=2 npm test -- -g "chrome latest.*Blocking"
 ```
 
 **Force-include an excluded test:**
+
 ```shell
 TESTS_TO_INCLUDE=filters/my-page MANIFEST_VERSION=2 npm test -- -g "chrome latest"
 ```
 
 **Throw on extension errors** (turns `debug.getLastError` warnings into failures):
+
 ```shell
 docker run --shm-size=2g -e THROW_LAST_ERROR="true" -it testpages
 ```

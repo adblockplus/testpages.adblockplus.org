@@ -307,8 +307,9 @@ description = Check if json-prune feature works properly.
     if (propertiesObject) {
       let count = 0;
       for (let property in propertiesObject) {
-        if (count >= 3)
+        if (count >= 3) {
           break;
+        }
 
         let attr = document.createAttribute(property);
         attr.value = propertiesObject[property];
@@ -384,6 +385,6 @@ description = Check if json-prune feature works properly.
     setAttributeBasedOnCondition(targetTestCaseJsonpathFilter, jsonpathFilterPruned);
 
 
-    removeWaitingContent(); // eslint-disable-line no-undef
+    removeWaitingContent();
   }, 500);
 </script>

@@ -1,10 +1,10 @@
 "use strict";
 
-var aopr = {sp: false}; // eslint-disable-line no-var
+var aopr = { sp: false };
 
 setTimeout(() => {
   let targetId = "subproperty-target";
-  removeWaitingContent(targetId); // eslint-disable-line no-undef
+  removeWaitingContent(targetId);
 
   if (!aopr.sp) {
     let failElement = document.createElement("div");

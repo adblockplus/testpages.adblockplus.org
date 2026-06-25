@@ -17,13 +17,15 @@
 
 // Timeout to let the ad filtering extension load
 setTimeout(() => {
-  chrome.management.getAll(extensions => {
+  chrome.management.getAll((extensions) => {
     for (let extension of extensions) {
-      if (extension.type == "extension" &&
-          extension.installType == "development" &&
-          extension.id != chrome.runtime.id &&
-          extension.name != "Chrome Automation Extension") {
-        chrome.tabs.create({url: extension.optionsUrl});
+      if (
+        extension.type == "extension" &&
+        extension.installType == "development" &&
+        extension.id != chrome.runtime.id &&
+        extension.name != "Chrome Automation Extension"
+      ) {
+        chrome.tabs.create({ url: extension.optionsUrl });
         return;
       }
     }

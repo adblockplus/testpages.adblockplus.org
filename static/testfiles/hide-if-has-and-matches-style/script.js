@@ -12,7 +12,7 @@ function addTarget(id, expectedResult, innerHTML) {
 
 function verifyTargetRemainsVisible(targetNode, callWhenHidden) {
   // Observe attribute changes:
-  const mutationObserverConfig = {attributes: true};
+  const mutationObserverConfig = { attributes: true };
 
   // If the style.display changes to 'none', the snippet has
   // hidden the element. Notify callWhenHidden().
@@ -35,20 +35,20 @@ function verifyTargetRemainsVisible(targetNode, callWhenHidden) {
 }
 
 setTimeout(() => {
-  removeWaitingContent(); // eslint-disable-line no-undef
+  removeWaitingContent();
 
   addTarget(
     "basic",
     "fail",
     `<span>Failed. Element is not hidden.<br></span>
-      <span class='label'><a href='#basic-target-ad'>basic-target-ad</a></span>`
+      <span class='label'><a href='#basic-target-ad'>basic-target-ad</a></span>`,
   );
   let visibleElementId = addTarget(
     "comments",
     "pass",
     `<span>Should not be hidden</span>
       <span class='label' style='display: none'>
-      <a href='#comments-target-ad'>comments-target-ad</a></span>`
+      <a href='#comments-target-ad'>comments-target-ad</a></span>`,
   );
 
   // If the target that should not have been hidden was hidden,

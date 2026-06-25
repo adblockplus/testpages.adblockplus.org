@@ -1,24 +1,30 @@
 "use strict";
 
+/* exported removeWorkers, setup, fetchFromServiceWorker, handleError */
+
 async function removeWorkers() {
-  if (!("serviceWorker" in navigator))
-    throw "Workers not supported";
+  if (!("serviceWorker" in navigator)) {
+    throw new Error("Workers not supported");
+  }
   const registrations = await navigator.serviceWorker.getRegistrations();
-  return new Promise(resolve => {
-    for (let registration of registrations)
+  return new Promise((resolve) => {
+    for (let registration of registrations) {
       registration.unregister();
+    }
     resolve(registrations.length);
   });
 }
 
 async function setup(workerName) {
-  if (!("serviceWorker" in navigator))
-    throw "Workers not supported";
+  if (!("serviceWorker" in navigator)) {
+    throw new Error("Workers not supported");
+  }
   try {
     // Adding date param prevents from fetching worker from a cache
-    await navigator.serviceWorker.register(workerName, {scope: location.pathname});
-  }
-  catch (error) {
+    await navigator.serviceWorker.register(workerName, {
+      scope: location.pathname,
+    });
+  } catch (error) {
     return "blocked";
   }
   await navigator.serviceWorker.ready;
@@ -27,10 +33,10 @@ async function setup(workerName) {
 
 async function fetchFromServiceWorker(url) {
   const registration = await navigator.serviceWorker.ready;
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const channel = new MessageChannel();
-    channel.port1.onmessage = e => resolve(e.data);
-    registration.active.postMessage({url}, [channel.port2]);
+    channel.port1.onmessage = (e) => resolve(e.data);
+    registration.active.postMessage({ url }, [channel.port2]);
   });
 }
 

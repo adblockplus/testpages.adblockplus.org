@@ -20,45 +20,40 @@
 import fs from "fs";
 import path from "path";
 
-const helperExtensionDestPath =
-  path.join(process.cwd(), "helper-extension-build");
-const helperExtensionSrcPath =
-  path.join(process.cwd(), "test", "extension-tests", "helper-extension");
+const helperExtensionDestPath = path.join(process.cwd(), "helper-extension-build");
+const helperExtensionSrcPath = path.join(process.cwd(), "test", "extension-tests", "helper-extension");
 
 async function run() {
   let manifestVersion = process.env.MANIFEST_VERSION;
-  if (manifestVersion !== "2" && manifestVersion !== "3"){
-    throw new Error("MANIFEST_VERSION env var must be \"2\" or \"3\". " +
-      `Current: "${manifestVersion}"`);
+  if (manifestVersion !== "2" && manifestVersion !== "3") {
+    throw new Error('MANIFEST_VERSION env var must be "2" or "3". ' + `Current: "${manifestVersion}"`);
   }
   manifestVersion = parseInt(manifestVersion, 10);
 
-  await fs.promises.rm(helperExtensionDestPath, {recursive: true, force: true});
-  await fs.promises.mkdir(helperExtensionDestPath, {recursive: true});
+  await fs.promises.rm(helperExtensionDestPath, {
+    recursive: true,
+    force: true,
+  });
+  await fs.promises.mkdir(helperExtensionDestPath, { recursive: true });
 
   const manifestBase = path.join(helperExtensionSrcPath, "manifest.base.json");
   const manifest = JSON.parse(await fs.promises.readFile(manifestBase));
 
   manifest.name = `${manifest.name} MV${manifestVersion}`;
   manifest["manifest_version"] = manifestVersion;
-  manifest.background = manifestVersion === 2 ?
-    {scripts: ["background.js"]} : {service_worker: "background.js"};
+  manifest.background = manifestVersion === 2 ? { scripts: ["background.js"] } : { service_worker: "background.js" };
 
-  await fs.promises.writeFile(
-    path.join(helperExtensionDestPath, "manifest.json"),
-    JSON.stringify(manifest, null, 2)
-  );
+  await fs.promises.writeFile(path.join(helperExtensionDestPath, "manifest.json"), JSON.stringify(manifest, null, 2));
   await fs.promises.copyFile(
     path.join(helperExtensionSrcPath, "background.js"),
-    path.join(helperExtensionDestPath, "background.js")
+    path.join(helperExtensionDestPath, "background.js"),
   );
 }
 
-(async() => {
+(async () => {
   try {
     await run();
-  }
-  catch (e) {
+  } catch (e) {
     console.error(e);
     process.exit(1);
   }

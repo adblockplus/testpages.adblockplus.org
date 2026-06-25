@@ -19,7 +19,7 @@ import got from "got";
 import path from "path";
 import extractZip from "extract-zip";
 
-import {download} from "@eyeo/get-browser-binary";
+import { download } from "@eyeo/get-browser-binary";
 
 const URL = "https://gitlab.com/api/v4/projects/59518842/releases";
 
@@ -27,21 +27,24 @@ async function run() {
   let manifestVersion = process.env.MANIFEST_VERSION || "2";
 
   const infos = await got(URL).json();
-  const extensionLinks = infos.flatMap(info => info.assets.links);
-  let extensionLinkObject = extensionLinks.find(link =>
-    link.direct_asset_url &&
-    link.direct_asset_url.includes("adblockplus-chrome") &&
-    link.direct_asset_url.endsWith(`mv${manifestVersion}.zip`));
+  const extensionLinks = infos.flatMap((info) => info.assets.links);
+  let extensionLinkObject = extensionLinks.find(
+    (link) =>
+      link.direct_asset_url &&
+      link.direct_asset_url.includes("adblockplus-chrome") &&
+      link.direct_asset_url.endsWith(`mv${manifestVersion}.zip`),
+  );
 
   const extensionLink = extensionLinkObject.direct_asset_url;
   let filename = extensionLink.split("/").pop();
   let archive = path.join(process.cwd(), filename);
   let testext = path.join(process.cwd(), "testext");
   await download(`${extensionLink}?inline=false`, archive);
-  await extractZip(archive, {dir: testext});
+  await extractZip(archive, { dir: testext });
   // eslint-disable-next-line no-console
   console.log(`${filename} extracted to ${testext}`);
 }
 
 run();
-console.log("Downloading ABP extension..."); // eslint-disable-line no-console
+// eslint-disable-next-line no-console
+console.log("Downloading ABP extension...");

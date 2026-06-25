@@ -109,13 +109,15 @@ description = Check if array-override feature works properly.
     let forEachMatchesFound = false;
 
     arr.forEach(item => {
-      if (item === "included")
+      if (item === "included") {
         forEachDoesntMatchFound = true;
-      if (item === "foreach-test")
+      }
+      if (item === "foreach-test") {
         forEachMatchesFound = true;
+      }
     });
     const forEachWorks = forEachDoesntMatchFound && !forEachMatchesFound;
     setAttributeBasedOnCondition(targetTestCaseForEach, "array-override-foreach", forEachWorks);
-    removeWaitingContent(); // eslint-disable-line no-undef
+    removeWaitingContent();
   }, 500);
 </script>

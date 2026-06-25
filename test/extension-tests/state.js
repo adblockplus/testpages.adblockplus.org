@@ -17,5 +17,4 @@
 
 // Populated at runtime by entrypoint.js before tests run
 export const pageTests = [];
-export const testPagesURL = process.env.TEST_PAGES_URL ||
-                            "https://abptestpages.org/";
+export const testPagesURL = process.env.TEST_PAGES_URL || "https://abptestpages.org/";

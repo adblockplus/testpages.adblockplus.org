@@ -5,19 +5,29 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Project Purpose
 
 This is a test and demonstration site for the Adblock Plus browser extension, hosted at https://abptestpages.org. It serves as:
+
 1. A public website showing ABP functionality examples
 2. An automated Selenium-based test harness that verifies ad-blocking filters work across browsers (Chrome, Firefox, Edge) and manifest versions (MV2/MV3)
 
 ## Common Commands
 
 ### Linting
+
 ```bash
-npm run eslint       # Lint JS in test/, endpoints/, static/, pages/
+npm run lint         # Run all linters (linthtml, stylelint, eslint, prettier)
+npm run lint-fix     # Auto-fix all fixable issues (eslint, stylelint, prettier)
+```
+
+Individual linters:
+
+```bash
+npm run eslint       # Lint JS in test/extension-tests/, endpoints/, static/, pages/
 npm run linthtml     # Lint HTML/template files
 npm run stylelint    # Lint CSS and HTML stylesheets
 ```
 
 All lints together (via Docker):
+
 ```bash
 docker build -t lintimage -f test/lint.Dockerfile .
 docker run -it lintimage
@@ -33,6 +43,7 @@ docker build -t testpages .
 ```
 
 The script accepts an optional image name argument (default: `testpages`). Add the domain to your host `/etc/hosts` once:
+
 ```
 127.0.0.1 local.testpages.adblockplus.org
 ```
@@ -42,23 +53,27 @@ The site will be available at `https://local.testpages.adblockplus.org:5001/en/`
 ### Running Tests
 
 Tests require a running CMS server and endpoints server. The easiest way is Docker:
+
 ```bash
 docker build -t testpages .
 docker run --shm-size=2g -it testpages
 ```
 
 To run a filtered subset of tests (e.g. only Blocking tests on Chrome):
+
 ```bash
 docker run --shm-size=2g -e GREP="chrome latest.*Blocking" -it testpages
 ```
 
 Locally (requires CMS at `http://localhost:5001/en/` and endpoints running):
+
 ```bash
 npm run start-endpoints   # Start helper servers (HTTP :4000, WS :4001/:4002)
 TEST_PAGES_URL=http://localhost:5001/en/ MANIFEST_VERSION=2 npm test -- -g "chrome latest.*Blocking"
 ```
 
 To force-include tests that are excluded for a browser:
+
 ```bash
 TESTS_TO_INCLUDE=filters/my-page npm test -- -g "chrome latest"
 ```
@@ -92,15 +107,16 @@ To skip tests for specific browsers or manifest versions, edit the `isExcluded()
 ### Endpoints Server
 
 `endpoints/start.js` runs three servers needed by certain test pages:
+
 - HTTP server (`:4000`) — sitekey signing and other responses
 - WebSocket echo servers (`:4001`, `:4002`)
 
 ### Test Page Structure
 
 Each test section follows this pattern in `.tmpl` files:
+
 ```html
-{% set case = "Basic usage" %}
-{% set id = get_id(case) %}
+{% set case = "Basic usage" %} {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
   {{ heading(case) }}
   <div id="{{id}}-area" class="testcase-area">
@@ -122,7 +138,8 @@ Each test section follows this pattern in `.tmpl` files:
 
 ## Code Style
 
-- ESLint extends `eyeo` config; `brace-style: stroustrup`, `max-len: 120`
+- ESLint extends `eslint:recommended` + `eslint-config-prettier`; `curly: all`
+- Prettier handles formatting (`.prettierrc.js`); scope controlled via `.prettierignore`
 - HTML/templates: indent-width 2 (linthtml)
 - Python: flake8 with flake8-eyeo
 

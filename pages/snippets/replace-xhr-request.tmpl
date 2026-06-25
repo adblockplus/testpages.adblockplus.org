@@ -134,13 +134,14 @@ description = Check that the replace-xhr-request snippet is working as expected.
       xhr.open("POST", "/xhr-request-echo");
       xhr.setRequestHeader("Content-Type", "text/plain");
       xhr.onload = function() {
-        if (xhr.status >= 200 && xhr.status < 300)
+        if (xhr.status >= 200 && xhr.status < 300) {
           resolve(xhr.response);
-        else
-          reject({status: xhr.status, statusText: xhr.statusText});
+        } else {
+          reject(Object.assign(new Error(xhr.statusText), {status: xhr.status}));
+        }
       };
       xhr.onerror = function() {
-        reject({status: xhr.status, statusText: xhr.statusText});
+        reject(Object.assign(new Error(xhr.statusText), {status: xhr.status}));
       };
       xhr.send(body);
     });
@@ -199,7 +200,7 @@ description = Check that the replace-xhr-request snippet is working as expected.
         .catch(() => handleResult(id, false))
       )
     )).then(() => {
-      removeWaitingContent(); // eslint-disable-line no-undef
+      removeWaitingContent();
     });
   }, 500);
 </script>

@@ -17,11 +17,11 @@
 
 import assert from "assert";
 import webdriver from "selenium-webdriver";
-import {writeScreenshotAndThrow} from "../misc/screenshots.js";
-import {runFirstTest} from "./utils.js";
-import {pageTests, testPagesURL} from "../state.js";
+import { writeScreenshotAndThrow } from "../misc/screenshots.js";
+import { runFirstTest } from "./utils.js";
+import { pageTests, testPagesURL } from "../state.js";
 
-const {By} = webdriver;
+const { By } = webdriver;
 
 async function addSubscription(driver, extensionHandle, currentHandle) {
   await driver.switchTo().window(currentHandle);
@@ -29,66 +29,67 @@ async function addSubscription(driver, extensionHandle, currentHandle) {
   await driver.switchTo().window(extensionHandle);
 
   let dialog;
-  await driver.wait(async() => {
-    await driver.switchTo().defaultContent();
-    await driver.switchTo().frame(0);
-    dialog = driver.findElement(By.id("dialog-content-predefined"));
-    let [displayed, title] = await Promise.all([
-      dialog.isDisplayed(),
-      dialog.findElement(By.css(".title span")).getText()
-    ]);
-    return displayed && title == "ABP Testcase Subscription";
-  }, 4000, "subscribe dialog not shown");
+  await driver.wait(
+    async () => {
+      await driver.switchTo().defaultContent();
+      await driver.switchTo().frame(0);
+      dialog = driver.findElement(By.id("dialog-content-predefined"));
+      let [displayed, title] = await Promise.all([
+        dialog.isDisplayed(),
+        dialog.findElement(By.css(".title span")).getText(),
+      ]);
+      return displayed && title == "ABP Testcase Subscription";
+    },
+    4000,
+    "subscribe dialog not shown",
+  );
   await dialog.findElement(By.css(".default-focus")).click();
 }
 
 async function checkSubscriptionAdded(driver, url) {
-  let added = await driver.executeAsyncScript(async(...args) => {
+  let added = await driver.executeAsyncScript(async (...args) => {
     let callback = args[args.length - 1];
     let subs = null;
 
     // Firefox
     if (typeof browser !== "undefined") {
-      subs = await browser.runtime.sendMessage(
-        {type: "subscriptions.get", ignoreDisabled: true, downloadable: true}
-      );
+      subs = await browser.runtime.sendMessage({
+        type: "subscriptions.get",
+        ignoreDisabled: true,
+        downloadable: true,
+      });
     }
 
     // Chromium
-    if (typeof chrome != "undefined"){
+    if (typeof chrome != "undefined") {
       chrome.runtime.sendMessage(
-        {type: "subscriptions.get", ignoreDisabled: true, downloadable: true},
-        response => {
+        { type: "subscriptions.get", ignoreDisabled: true, downloadable: true },
+        (response) => {
           subs = response;
-          callback(subs.some(s => s.url == args[0]));
-        }
+          callback(subs.some((s) => s.url == args[0]));
+        },
       );
     }
-    callback(subs.some(s => s.url == args[0]));
+    callback(subs.some((s) => s.url == args[0]));
   }, url);
   assert.ok(added, "subscription added");
 }
 
 async function removeSubscription(driver, extensionHandle, url) {
   await driver.switchTo().window(extensionHandle);
-  await driver.executeAsyncScript(async(...args) => {
+  await driver.executeAsyncScript(async (...args) => {
     let callback = args[args.length - 1];
 
     // Firefox
     if (typeof browser != "undefined") {
       await browser.runtime.sendMessage({
         type: "subscriptions.remove",
-        url: args[0]
+        url: args[0],
       });
       callback();
-    }
-
-    // Chromium
-    else if (typeof chrome != "undefined") {
-      chrome.runtime.sendMessage(
-        {type: "subscriptions.remove", url: args[0]},
-        () => callback()
-      );
+    } else if (typeof chrome != "undefined") {
+      // Chromium
+      chrome.runtime.sendMessage({ type: "subscriptions.remove", url: args[0] }, () => callback());
     }
   }, url);
 }
@@ -97,47 +98,49 @@ async function collectPageFilters(driver, tests) {
   let filters = new Set();
   for (let [, testCases] of tests) {
     for (let [url] of testCases) {
-      let lines = await driver.executeAsyncScript(async(...args) => {
+      let lines = await driver.executeAsyncScript(async (...args) => {
         let callback = args[args.length - 1];
-        let html = await fetch(args[0]).then(r => r.text());
+        let html = await fetch(args[0]).then((r) => r.text());
         let doc = new DOMParser().parseFromString(html, "text/html");
         let result = [];
-        for (let pre of doc.querySelectorAll(
-          ".site-panel pre, .testcase-filters pre"
-        )) {
+        for (let pre of doc.querySelectorAll(".site-panel pre, .testcase-filters pre")) {
           for (let line of pre.textContent.split("\n")) {
-            if (line.trim())
+            if (line.trim()) {
               result.push(line.trim());
+            }
           }
         }
         callback(result);
       }, url);
-      for (let line of lines)
+      for (let line of lines) {
         filters.add(line);
+      }
     }
   }
   return filters;
 }
 
 export default () => {
-  it("subscription file contains all page filters", async function() {
+  it("subscription file contains all page filters", async function () {
     let subscriptionUrl = `${testPagesURL}abp-testcase-subscription.txt`;
 
     let expectedFilters = await collectPageFilters(this.driver, pageTests);
-    let subscriptionText = await this.driver.executeAsyncScript(
-      async(...args) => {
-        let callback = args[args.length - 1];
-        callback(await fetch(args[0]).then(r => r.text()));
-      }, subscriptionUrl);
+    let subscriptionText = await this.driver.executeAsyncScript(async (...args) => {
+      let callback = args[args.length - 1];
+      callback(await fetch(args[0]).then((r) => r.text()));
+    }, subscriptionUrl);
     let subscriptionLines = new Set(
-      subscriptionText.split("\n").map(l => l.trim()).filter(Boolean)
+      subscriptionText
+        .split("\n")
+        .map((l) => l.trim())
+        .filter(Boolean),
     );
 
-    let missing = [...expectedFilters].filter(f => !subscriptionLines.has(f));
+    let missing = [...expectedFilters].filter((f) => !subscriptionLines.has(f));
     assert.deepStrictEqual(missing, []);
   });
 
-  it("subscribes to a link", async function() {
+  it("subscribes to a link", async function () {
     let testCases = pageTests[0][1];
     let subscription = `${testPagesURL}abp-testcase-subscription.txt`;
     let currentHandle = await this.driver.getWindowHandle();
@@ -145,8 +148,7 @@ export default () => {
       await this.driver.navigate().to(testPagesURL);
       await addSubscription(this.driver, this.extensionHandle, currentHandle);
       await checkSubscriptionAdded(this.driver, subscription);
-    }
-    catch (e) {
+    } catch (e) {
       await writeScreenshotAndThrow(this, e);
     }
     await this.driver.switchTo().window(currentHandle);

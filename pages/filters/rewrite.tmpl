@@ -240,8 +240,7 @@ description = Check that a filter using the $rewrite filter option is working as
     let targetStyle = getComputedStyle(target);
     if (targetStyle.width === "150px") {
       target.innerHTML = "Failed. Stylesheet was NOT blocked.";
-    }
-    else {
+    } else {
       target.innerHTML = "Passed. Stylesheet was blocked.";
       target.style.display = "none";
       // Style must be equal to .testcase-expected-view,
@@ -261,8 +260,7 @@ description = Check that a filter using the $rewrite filter option is working as
     // subdocument is technically cross-origin.
     try {
       contentDoc = target.contentDocument;
-    }
-    catch (ex) {
+    } catch (ex) {
       contentDoc = null;
     }
 
@@ -273,8 +271,7 @@ description = Check that a filter using the $rewrite filter option is working as
       target.style.width = 0;
       target.style.flexGrow = 0;
       target.style.padding = 0;
-    }
-    else {
+    } else {
       target.setAttribute("data-expectedresult", "fail");
       target.setAttribute("data-dp", "fail");
       target.style.width = 0;
@@ -298,8 +295,7 @@ description = Check that a filter using the $rewrite filter option is working as
           result.innerHTML = "Passed. Text is blank.";
           result.setAttribute("data-expectedresult", "pass");
           result.setAttribute("data-dp", "pass");
-        }
-        else {
+        } else {
           result.innerHTML = this.responseText;
           result.setAttribute("data-expectedresult", "fail");
           result.setAttribute("data-dp", "fail");
@@ -356,16 +352,17 @@ description = Check that a filter using the $rewrite filter option is working as
     // Truncate duration to one demical to avoid cross-browser differences
     let durationValue = Math.floor(mediaElement.duration * 10) / 10;
     duration.innerHTML = `Duration:<br>${durationValue}`;
-    if (mediaElement.duration < 1)
+    if (mediaElement.duration < 1) {
       duration.setAttribute("data-expectedresult", "pass");
-    else
+    } else {
       duration.setAttribute("data-expectedresult", "fail");
+    }
 
     mediaElement.parentNode.appendChild(duration);
   }
 
   function printUnsupported(mediaElement, mediaKind, error) {
-    let durationElement = expectedParameter() ? // eslint-disable-line no-undef
+    let durationElement = expectedParameter() ?
       mediaElement.parentNode.getElementsByClassName("testcase-expected-view")[0] :
       document.createElement("div");
 
@@ -373,8 +370,9 @@ description = Check that a filter using the $rewrite filter option is working as
     durationElement.style = "display: block;";
     durationElement.innerHTML = `${mediaKind} isn't supported on this browser: ${error}`;
 
-    if (!expectedParameter()) // eslint-disable-line no-undef
+    if (!expectedParameter()) {
       mediaElement.parentNode.appendChild(durationElement);
+    }
   }
 
   function manageMedia(id, mimeType, file) {
@@ -402,6 +400,7 @@ description = Check that a filter using the $rewrite filter option is working as
     setTimeout(() => testMediaRewrite(), 0);
   });
 
-  if (expectedParameter()) // eslint-disable-line no-undef
-    expectedPageView(); // eslint-disable-line no-undef
+  if (expectedParameter()) {
+    expectedPageView();
+  }
 </script>

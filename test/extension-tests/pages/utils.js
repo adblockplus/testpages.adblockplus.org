@@ -18,90 +18,97 @@
 import Jimp from "jimp";
 
 import specializedTests from "./specialized.js";
-import {takeScreenshot, writeScreenshotFile, writeScreenshotAndThrow}
-  from "../misc/screenshots.js";
+import { takeScreenshot, writeScreenshotFile, writeScreenshotAndThrow } from "../misc/screenshots.js";
 const TESTS_TO_INCLUDE = process.env.TESTS_TO_INCLUDE || "";
 
 export function isExcluded(page, browserName, manifestVersion) {
-  if (TESTS_TO_INCLUDE.includes(page))
+  if (TESTS_TO_INCLUDE.includes(page)) {
     return false;
+  }
 
   let excluded = [];
-  if (page in specializedTests)
+  if (page in specializedTests) {
     excluded = specializedTests[page].excludedBrowsers || [];
-  // https://jira.eyeo.com/browse/EE-43
-  else if (page == "exceptions/iframe")
+  } else if (page == "exceptions/iframe") {
+    // https://jira.eyeo.com/browse/EE-43
     excluded = ["firefox"];
-  else if (manifestVersion == 2 && page == "exceptions/sitekey_mv3")
+  } else if (manifestVersion == 2 && page == "exceptions/sitekey_mv3") {
     return true;
-  else if (manifestVersion == 3 && (page == "exceptions/sitekey_mv2" ||
-                                    page == "filters/header" ||
-                                    page == "exceptions/header"))
+  } else if (
+    manifestVersion == 3 &&
+    (page == "exceptions/sitekey_mv2" || page == "filters/header" || page == "exceptions/header")
+  ) {
     return true;
-  else if (/^service-worker/.test(page))
+  } else if (/^service-worker/.test(page)) {
     return true;
+  }
 
   return excluded.includes(browserName);
 }
 
 export async function getExpectedScreenshot(context, url) {
-  let {driver} = context;
+  let { driver } = context;
   try {
     await driver.navigate().to(`${url}?expected=1`);
-    await driver.wait(() => driver.executeScript(() => {
-      let ready = document.body.className.includes("expected-view");
-      for (let frame of document.getElementsByTagName("iframe")) {
-        if (frame.contentDocument) {
-          ready = ready &&
-            frame.contentDocument.body.className.includes("expected-view");
-        }
-      }
-      return ready;
-    }), 1000, "Expected view is not ready");
-  }
-  catch (err) {
+    await driver.wait(
+      () =>
+        driver.executeScript(() => {
+          let ready = document.body.className.includes("expected-view");
+          for (let frame of document.getElementsByTagName("iframe")) {
+            if (frame.contentDocument) {
+              ready = ready && frame.contentDocument.body.className.includes("expected-view");
+            }
+          }
+          return ready;
+        }),
+      1000,
+      "Expected view is not ready",
+    );
+  } catch (err) {
     await writeScreenshotAndThrow(context, err);
   }
   return await takeScreenshot(driver);
 }
 
-export async function runGenericTests(driver, expectedScreenshot, browserName,
-                                      browserVersion, testTitle, url) {
+export async function runGenericTests(driver, expectedScreenshot, browserName, browserVersion, testTitle, url) {
   let actualScreenshot;
 
   async function compareScreenshots() {
-    await driver.wait(async() => {
-      actualScreenshot = await takeScreenshot(driver);
-      return Jimp.diff(actualScreenshot, expectedScreenshot).percent == 0;
-    }, 20000, "Screenshots don't match", 200);
+    await driver.wait(
+      async () => {
+        actualScreenshot = await takeScreenshot(driver);
+        return Jimp.diff(actualScreenshot, expectedScreenshot).percent == 0;
+      },
+      20000,
+      "Screenshots don't match",
+      200,
+    );
   }
 
   try {
     try {
       await compareScreenshots();
-    }
-    catch (e2) {
+    } catch (e2) {
       // In newer Firefox versions (79+) CSS might be cached:
       // https://bugzil.la/1657575.
       // We execute the test in a new tab to ensure the cache isn't used.
       try {
         await driver.switchTo().newWindow("tab");
         await driver.navigate().to(url);
-      }
-      catch (e3) {
+      } catch (e3) {
         // Older browsers don't support `newWindow`, fall-back to just refresh.
         await driver.navigate().refresh();
       }
 
       await compareScreenshots();
     }
-  }
-  catch (e) {
+  } catch (e) {
     let paths = [];
-    for (let [suffix, image] of [["actual", actualScreenshot],
-                                 ["expected", expectedScreenshot]]) {
-      paths.push(await writeScreenshotFile(image, browserName, browserVersion,
-                                           testTitle, suffix));
+    for (let [suffix, image] of [
+      ["actual", actualScreenshot],
+      ["expected", expectedScreenshot],
+    ]) {
+      paths.push(await writeScreenshotFile(image, browserName, browserVersion, testTitle, suffix));
     }
 
     throw new Error(`${e.message}\n${url}\n(see ${paths})`);
@@ -113,15 +120,13 @@ export function getPage(url) {
 }
 
 export async function runFirstTest(context, testCases) {
-  let {driver, browserName, browserVersion, test, manifestVersion} = context;
+  let { driver, browserName, browserVersion, test, manifestVersion } = context;
   for (let [url] of testCases) {
     let page = getPage(url);
-    if (!(isExcluded(page, browserName, manifestVersion) ||
-        page in specializedTests)) {
+    if (!(isExcluded(page, browserName, manifestVersion) || page in specializedTests)) {
       let expectedScreenshot = await getExpectedScreenshot(context, url);
       await driver.navigate().to(url);
-      await runGenericTests(driver, expectedScreenshot, browserName,
-                            browserVersion, test.title, url);
+      await runGenericTests(driver, expectedScreenshot, browserName, browserVersion, test.title, url);
       return;
     }
   }

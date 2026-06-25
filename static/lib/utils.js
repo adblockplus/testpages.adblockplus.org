@@ -1,8 +1,10 @@
 "use strict";
 
+/* exported removeWaitingContent, expectedParameter, expectedPageView, verifyTargetRemoved */
+
 function removeWaitingContent(targetId) {
   let className = "testcase-waiting-content";
-  let targetNode = (typeof targetId != "undefined") ? document.getElementById(targetId) : document;
+  let targetNode = typeof targetId != "undefined" ? document.getElementById(targetId) : document;
   let elements = targetNode.getElementsByClassName(className);
   while (elements.length > 0) {
     elements[0].remove();
@@ -20,27 +22,29 @@ function expectedPageView() {
   while (documents.length > 0) {
     let doc = documents.shift();
     doc.body.classList.add("expected-view");
-    let {frames} = doc.defaultView;
+    let { frames } = doc.defaultView;
     for (let i = 0; i < frames.length; i++) {
       try {
         documents.push(frames[i].document);
         frames[i].document.defaultView.addEventListener("DOMContentLoaded", expectedPageView);
+      } catch (e) {
+        // no-op
       }
-      catch (e) {}
     }
   }
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-  if (expectedParameter())
+  if (expectedParameter()) {
     expectedPageView();
+  }
 });
 
 // Replaces every removed child of targetNode with the specified class with a green element
 function verifyTargetRemoved(targetNode, classNameToCheck) {
   const callback = (mutations, observer) => {
-    mutations.forEach(mutation => {
-      mutation.removedNodes.forEach(removedNode => {
+    mutations.forEach((mutation) => {
+      mutation.removedNodes.forEach((removedNode) => {
         if (removedNode.className.split(" ").includes(classNameToCheck)) {
           const divElement = document.createElement("div");
           divElement.setAttribute("data-expectedresult", "pass");
@@ -56,7 +60,7 @@ function verifyTargetRemoved(targetNode, classNameToCheck) {
 
   const observerConfig = {
     childList: true,
-    subtree: true
+    subtree: true,
   };
 
   observer.observe(targetNode, observerConfig);

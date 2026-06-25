@@ -10,16 +10,15 @@ async function handleEvent(event) {
     }
     await response.text();
     responder.postMessage("fetch completed");
-  }
-  catch (error) {
+  } catch (error) {
     responder.postMessage(`${error}`);
   }
 }
 
-self.addEventListener("message", event => {
+self.addEventListener("message", (event) => {
   event.waitUntil(handleEvent(event));
 });
 
-self.addEventListener("install", event => {
+self.addEventListener("install", (event) => {
   self.skipWaiting();
 });

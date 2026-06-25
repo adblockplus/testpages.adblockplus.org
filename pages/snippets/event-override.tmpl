@@ -83,8 +83,9 @@ description = Check if event-override feature works properly.
   }
 
   function setTestResult(element, id, condition) {
-    if (!element)
+    if (!element) {
       return;
+    }
 
     element.setAttribute("data-expectedresult", condition ? "pass" : "fail");
     element.setAttribute("aria-label", condition ? `${id}-pass` : `${id}-fail`);
@@ -108,8 +109,9 @@ description = Check if event-override feature works properly.
       let trustedWasOverridden = false;
 
       isTrustedDiv.addEventListener("click", e => {
-        if (e.isTrusted === true)
+        if (e.isTrusted === true) {
           trustedWasOverridden = true;
+        }
       });
       const syntheticClick = new MouseEvent("click", {bubbles: true, cancelable: true});
       isTrustedDiv.dispatchEvent(syntheticClick);
@@ -128,6 +130,6 @@ description = Check if event-override feature works properly.
       setTestResult(customDiv, "event-override-disable-customevent", customEventFired === false);
     }
 
-    removeWaitingContent(); // eslint-disable-line no-undef
+    removeWaitingContent();
   }, 500);
 </script>

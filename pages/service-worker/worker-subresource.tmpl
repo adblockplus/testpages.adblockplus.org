@@ -59,22 +59,23 @@ description = Check that blocking a request made by a worker script works as exp
     .then(status => {
       if (status !== "ready") {
         handleError();
-      }
-      else {
+      } else {
         const blocked = fetchFromServiceWorker("/testfiles/service-worker/ad.png");
         const allowed = fetchFromServiceWorker("/testfiles/service-worker/no_ad.png");
         const promises = [allowed, blocked];
         Promise.allSettled(promises)
         .then(results => {
-          if (results[0].value === "fetch completed")
+          if (results[0].value === "fetch completed") {
             addChild("allowed-target", "pass");
-          else
+          } else {
             addChild("allowed-target", "fail");
+          }
 
-          if (results[1].value !== "fetch completed")
+          if (results[1].value !== "fetch completed") {
             addChild("blocked-target", "pass");
-          else
+          } else {
             addChild("blocked-target", "fail");
+          }
         });
       }
     })

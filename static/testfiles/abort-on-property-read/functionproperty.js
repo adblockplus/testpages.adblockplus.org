@@ -1,10 +1,10 @@
 "use strict";
 
-var aoprf = {fp() {}}; // eslint-disable-line no-var
+var aoprf = { fp() {} };
 
 setTimeout(() => {
   let targetId = "functionproperty-target";
-  removeWaitingContent(targetId); // eslint-disable-line no-undef
+  removeWaitingContent(targetId);
 
   if (!aoprf.fp()) {
     let failElement = document.createElement("div");

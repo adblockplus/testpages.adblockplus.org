@@ -14,7 +14,6 @@
 # along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
 
 ---
-
 stages:
   - test
   - build_production
@@ -153,8 +152,8 @@ test:edge:windows:
     # nginx config
     - xcopy test\etc\nginx\* $Env:NGINX_WIN\conf\ /E /V /F /H
     - (Get-Content $Env:NGINX_WIN\conf\nginx.conf).replace("octet-stream;",
-        "octet-stream;`n
-        include $Env:NGINX_LINUX/conf/sites-enabled-windows/*.conf;"
+      "octet-stream;`n
+      include $Env:NGINX_LINUX/conf/sites-enabled-windows/*.conf;"
       ) | Set-Content $Env:NGINX_WIN\conf\nginx.conf
     - openssl req -x509 -newkey rsa:4096
       -keyout $Env:NGINX_WIN\conf\${Env:DOMAIN}_key.pem
