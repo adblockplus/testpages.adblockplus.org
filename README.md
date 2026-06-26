@@ -132,6 +132,33 @@ changed to throw an actual error by setting the `THROW_LAST_ERROR` argument to
 docker run --shm-size=2g -e THROW_LAST_ERROR="true" -it testpages
 ```
 
+#### Running tests against an external server
+
+By default, Docker starts a local nginx server and endpoints server inside the
+container, then runs tests against them. Three environment variables control
+this behaviour:
+
+- `START_LOCAL_SERVERS` — set to `false` to skip starting the local nginx and
+  endpoints servers inside the container. Useful when pointing tests at an
+  already-running server. Defaults to `true`.
+- `TEST_PAGES_URL` — the base URL the test runner uses. Defaults to
+  `https://local.testpages.adblockplus.org:5001/en/`. Override this to test
+  against a different server, e.g. the production site or a remote environment.
+- `TEST_PAGES_INSECURE` — set to `true` to allow connections to servers with
+  self-signed or otherwise untrusted SSL certificates. Defaults to `true`
+  because the local nginx server uses a self-signed certificate. Set to `false`
+  when testing against a server with a valid certificate.
+
+Example — run tests against an already-running external server:
+
+```shell
+docker run --shm-size=2g \
+  -e START_LOCAL_SERVERS="false" \
+  -e TEST_PAGES_URL="https://abptestpages.org/en/" \
+  -e TEST_PAGES_INSECURE="false" \
+  -it testpages
+```
+
 #### Debugging failing tests
 
 In order to access the screenshots for failing tests run the following command,

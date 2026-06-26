@@ -2,6 +2,7 @@
 /node_modules/
 *.zip
 /testext/
+/screenshots/
 /test/screenshots/
 /browser-snapshots/
 /helper-extension-build/

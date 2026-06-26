@@ -1,6 +1,6 @@
 #! /bin/bash
 
-start_servers () {
+start_local_servers () {
   # test pages server
   echo -e "\n127.0.0.1 $DOMAIN" >> /etc/hosts
   nginx
@@ -30,7 +30,7 @@ else
 fi
 
 # Run tests
-start_servers
-export TEST_PAGES_URL="$SITE_URL/en/"
-export TEST_PAGES_INSECURE="true"
+if [[ "$START_LOCAL_SERVERS" == "true" ]]; then
+  start_local_servers
+fi
 $XVFB_CMD npm test -- -g "$GREP"

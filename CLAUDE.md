@@ -72,6 +72,12 @@ npm run start-endpoints   # Start helper servers (HTTP :4000, WS :4001/:4002)
 TEST_PAGES_URL=http://localhost:5001/en/ MANIFEST_VERSION=2 npm test -- -g "chrome latest.*Blocking"
 ```
 
+Three `docker run` environment variables control server behaviour:
+
+- `START_LOCAL_SERVERS` — set to `false` to skip starting the local nginx and endpoints servers inside the container (useful when pointing at an external server). Defaults to `true`.
+- `TEST_PAGES_URL` — base URL used by the test runner. Defaults to `https://local.testpages.adblockplus.org:5001/en/`.
+- `TEST_PAGES_INSECURE` — set to `true` to allow self-signed/untrusted SSL certificates. Defaults to `true` (matches the self-signed cert on the local nginx server). Set to `false` when testing against a server with a valid certificate.
+
 To force-include tests that are excluded for a browser:
 
 ```bash

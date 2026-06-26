@@ -26,9 +26,8 @@ import { BROWSERS } from "@eyeo/get-browser-binary";
 import { writeScreenshotAndThrow } from "./misc/screenshots.js";
 import { safeGetAllWindowHandles } from "./misc/utils.js";
 import definePageTests from "./pages/index.js";
-import { pageTests, testPagesURL } from "./state.js";
+import { pageTests, testPagesInsecure, testPagesURL } from "./state.js";
 
-const TEST_PAGES_INSECURE = process.env.TEST_PAGES_INSECURE == "true";
 const CUSTOM_BROWSER = process.env.CUSTOM_BROWSER;
 const CUSTOM_BROWSER_VERSION = process.env.BROWSER_VERSION || "latest";
 
@@ -167,7 +166,7 @@ async function waitForExtension(driver) {
 }
 
 async function getPageTests() {
-  let options = TEST_PAGES_INSECURE ? { https: { rejectUnauthorized: false } } : {};
+  let options = testPagesInsecure ? { https: { rejectUnauthorized: false } } : {};
   let response;
 
   try {
@@ -200,6 +199,8 @@ if (typeof run == "undefined") {
 }
 
 (async () => {
+  console.log(`Test Pages URL: ${testPagesURL}\nInsecure URL allowed: ${testPagesInsecure}`);
+
   pageTests.push(...(await getPageTests()));
   if (CUSTOM_BROWSER) {
     browserVersions = {};
