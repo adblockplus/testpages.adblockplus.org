@@ -213,7 +213,10 @@ if (typeof run == "undefined") {
         this.timeout(0);
 
         before(async function () {
-          let headless = browser == "firefox";
+          // Chrome-family browsers need a display server to render headed.
+          // Linux CI provides one via xvfb-run (see test/entrypoint.sh);
+          // native Windows CI has no equivalent, so run headless there too.
+          let headless = browser == "firefox" || process.platform == "win32";
           console.log(`Getting ready to run ${browser}...`);
           this.driver = await BROWSERS[browser].getDriver(version, {
             headless,
