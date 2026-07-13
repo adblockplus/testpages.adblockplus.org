@@ -168,15 +168,17 @@ test:edge:windows:
     # Capture why msedge actually died: OS-level crash/error events plus any
     # crash dump files Edge itself wrote. WebDriver only sees "disconnected",
     # not the underlying cause, so pull that from Windows directly.
-    - Get-WinEvent -FilterHashtable @{LogName='Application';
-      StartTime=(Get-Date).AddMinutes(-15)} -ErrorAction SilentlyContinue |
+    - try { Get-WinEvent -FilterHashtable @{LogName='Application';
+      StartTime=(Get-Date).AddMinutes(-15)} -ErrorAction Stop |
       Where-Object { $_.Message -match 'msedge' -or
       $_.ProviderName -match 'msedge|Application Error|Windows Error Reporting' } |
-      Format-List | Out-File -FilePath edge_event_log.txt
-    - Get-ChildItem -Recurse -ErrorAction SilentlyContinue -Filter "*.dmp"
+      Format-List | Out-File -FilePath edge_event_log.txt }
+      catch { "(no matching Application event log entries)" | Out-File edge_event_log.txt }
+    - try { Get-ChildItem -Recurse -ErrorAction Stop -Filter "*.dmp"
       -Path "$Env:LOCALAPPDATA\Microsoft\Edge\Crashpad" |
       Select-Object FullName, LastWriteTime, Length |
-      Out-File -FilePath edge_crash_dumps.txt
+      Out-File -FilePath edge_crash_dumps.txt }
+      catch { "(no Crashpad dumps found)" | Out-File edge_crash_dumps.txt }
   variables:
     TEST_PAGES_URL: https://local.testpages.adblockplus.org:5001/en/
     SITE_URL: https://local.testpages.adblockplus.org:5001
