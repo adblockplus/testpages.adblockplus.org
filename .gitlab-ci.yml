@@ -146,18 +146,6 @@ test:edge:windows:
     - python -m cms.bin.generate_static_pages .
       $Env:NGINX_WIN\html\$Env:DOMAIN
   script:
-    # Disable the EdgeUpdate service/scheduled task so it can't invoke
-    # setup.exe. That process was observed crashing (0xc06d007e, a VC++
-    # delay-load "module not found" exception) seconds after Edge's first
-    # launch on this VM image, right when the WebDriver session died.
-    # `reg add` always succeeds (creates the key if missing), unlike
-    # `reg export`, so this can't abort the rest of the script on a fresh VM.
-    - reg add "HKLM\SOFTWARE\Policies\Microsoft\EdgeUpdate"
-      /v UpdateDefault /t REG_DWORD /d 0 /f
-    - reg add "HKLM\SOFTWARE\Policies\Microsoft\EdgeUpdate"
-      /v "Update{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062}" /t REG_DWORD /d 0 /f
-    - reg add "HKLM\SOFTWARE\Policies\Microsoft\EdgeUpdate"
-      /v "Install{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062}" /t REG_DWORD /d 0 /f
     # Run test pages server
     - Start-Process "$Env:NGINX_WIN\nginx.exe"
       -WorkingDirectory "$Env:NGINX_WIN" -PassThru
