@@ -146,6 +146,14 @@ test:edge:windows:
     - python -m cms.bin.generate_static_pages .
       $Env:NGINX_WIN\html\$Env:DOMAIN
   script:
+    # Dump any Edge-related Group Policy so we can see if extension
+    # loading/developer mode is being restricted on this runner image
+    - reg export "HKLM\SOFTWARE\Policies\Microsoft\Edge" edge_policy_hklm.reg
+      2>$null; if (!$?) { "(no HKLM Edge policy key)" | Out-File edge_policy_hklm.reg };
+      $LASTEXITCODE = 0
+    - reg export "HKCU\SOFTWARE\Policies\Microsoft\Edge" edge_policy_hkcu.reg
+      2>$null; if (!$?) { "(no HKCU Edge policy key)" | Out-File edge_policy_hkcu.reg };
+      $LASTEXITCODE = 0
     # Run test pages server
     - Start-Process "$Env:NGINX_WIN\nginx.exe"
       -WorkingDirectory "$Env:NGINX_WIN" -PassThru
@@ -155,16 +163,6 @@ test:edge:windows:
     - node ./test/extension-tests/extension-download.js
     - npm run test "--" -g "edge latest"
   after_script:
-    # Dump any Edge-related Group Policy so we can see if extension
-    # loading/developer mode is being restricted on this runner image.
-    # A missing key is normal and must not abort the rest of after_script,
-    # so this uses try/catch rather than native-command stderr redirection.
-    - try { reg export "HKLM\SOFTWARE\Policies\Microsoft\Edge"
-      edge_policy_hklm.reg 2>$null }
-      catch { "(no HKLM Edge policy key)" | Out-File edge_policy_hklm.reg }
-    - try { reg export "HKCU\SOFTWARE\Policies\Microsoft\Edge"
-      edge_policy_hkcu.reg 2>$null }
-      catch { "(no HKCU Edge policy key)" | Out-File edge_policy_hkcu.reg }
     # Capture why msedge actually died: OS-level crash/error events plus any
     # crash dump files Edge itself wrote. WebDriver only sees "disconnected",
     # not the underlying cause, so pull that from Windows directly.
