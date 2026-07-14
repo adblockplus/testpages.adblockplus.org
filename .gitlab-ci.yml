@@ -159,7 +159,7 @@ test:edge:windows:
     SITE_URL: https://local.testpages.adblockplus.org:5001
     DOMAIN: local.testpages.adblockplus.org
     TEST_PAGES_INSECURE: "true"
-    MANIFEST_VERSION: 2
+    MANIFEST_VERSION: 3
   artifacts:
     paths:
       - ./test/screenshots
