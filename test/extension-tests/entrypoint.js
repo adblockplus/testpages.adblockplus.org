@@ -217,12 +217,19 @@ if (typeof run == "undefined") {
           // Linux CI provides one via xvfb-run (see test/entrypoint.sh);
           // native Windows CI has no equivalent, so run headless there too.
           let headless = browser == "firefox" || process.platform == "win32";
+          // Edge's background updater (a separate helper process) has been
+          // observed crashing shortly after launch on the Windows CI image,
+          // taking the browser session down with it. It's not needed for a
+          // short-lived CI VM, so disable it rather than let it run.
+          let extraArgs =
+            browser == "edge" ? ["--disable-background-networking", "--disable-component-update"] : [];
           console.log(`Getting ready to run ${browser}...`);
           this.driver = await BROWSERS[browser].getDriver(version, {
             headless,
             extensionPaths,
             incognito: false,
             insecure: true,
+            extraArgs,
           });
 
           let cap = await this.driver.getCapabilities();
