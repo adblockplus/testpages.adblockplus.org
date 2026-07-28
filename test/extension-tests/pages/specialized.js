@@ -114,6 +114,29 @@ specialized["exceptions/popup"] = {
   }
 };
 
+async function checkWindowOpenBlocked(driver, element) {
+  let before = new Set(await driver.getAllWindowHandles());
+  await clickButtonOrLink(element);
+
+  let opened = await driver.wait(
+    async() => await element.getAttribute("data-opened"),
+    2000, "window.open() trigger did not fire");
+  if (opened != "null") {
+    throw new Error(
+      `window.open() was not blocked (returned a ${opened} instead of null)`);
+  }
+
+  await driver.sleep(1000);
+  let after = await driver.getAllWindowHandles();
+  assert.strictEqual(
+    after.length, before.size,
+    "window.open() was not blocked (a new window/tab appeared)");
+}
+
+specialized["snippets/prevent-window-open"] = {
+  run: checkWindowOpenBlocked
+};
+
 specialized["filters/other"] = {
   // other test needs access to browser logs
   // https://github.com/mozilla/geckodriver/issues/284

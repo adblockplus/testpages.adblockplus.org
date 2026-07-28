@@ -1,0 +1,33 @@
+template = testcase
+title = prevent-window-open
+description = Check that a filter using the prevent-window-open snippet blocks a window.open() call.
+
+{% set case = "Blocked pop-up" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a filter using the prevent-window-open snippet blocks a window.open() call.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <a href="#{{id}}" class="testcase-trigger" onclick="triggerBlocked();">Trigger window.open()</a>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter.</li>
+    <li>Refresh page.</li>
+    <li>Click the link above.</li>
+    <li>No new window/tab should open.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#prevent-window-open blocked.html</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  function triggerBlocked() {
+    let popup = window.open("/testfiles/prevent-window-open/blocked.html");
+    document.getElementById("{{id}}-area").dataset.opened = popup === null ? "null" : "handle";
+  }
+</script>
