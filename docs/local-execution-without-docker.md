@@ -69,10 +69,10 @@ It may be useful to run page tests outside docker, for debugging purposes.
 
 Besides having both CMS and endpoint servers running, the test runner expects an
 unpacked ABP extension to be located in the `./testext` folder. That can be
-achieved by downloading the latest ABP release:
+achieved by downloading the latest ABP build from the abp-snippets `next` branch:
 
 ```shell
-MANIFEST_VERSION={2|3} node ./test/extension-tests/extension-download.js
+ANTI_CV_TOKEN=<token> MANIFEST_VERSION={2|3} node ./test/extension-tests/extension-abp-snippets-download.js
 ```
 
 Note: It is also possible to manually extract a different ABP version into the
