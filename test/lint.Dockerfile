@@ -1,6 +1,6 @@
 FROM registry.gitlab.com/eyeo/docker/get-browser-binary:node22
 
-# CMS and sitescripts require Python 3
+# CMS requires Python 3
 RUN apt-get update && apt-get install -y python3 python3-distutils python3-pip
 
 # Install flake8 with flake8-eyeo

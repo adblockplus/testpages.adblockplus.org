@@ -26,9 +26,8 @@ import {BROWSERS} from "@eyeo/get-browser-binary";
 import {writeScreenshotAndThrow} from "./misc/screenshots.js";
 import {safeGetAllWindowHandles} from "./misc/utils.js";
 import definePageTests from "./pages/index.js";
+import {pageTests, testPagesURL} from "./state.js";
 
-const TEST_PAGES_URL = process.env.TEST_PAGES_URL ||
-                       "https://abptestpages.org/";
 const TEST_PAGES_INSECURE = process.env.TEST_PAGES_INSECURE == "true";
 const CUSTOM_BROWSER = process.env.CUSTOM_BROWSER;
 const CUSTOM_BROWSER_VERSION = process.env.BROWSER_VERSION || "latest";
@@ -37,7 +36,7 @@ const CUSTOM_BROWSER_VERSION = process.env.BROWSER_VERSION || "latest";
 const helperExtTimeout = 5000;
 
 let browserVersions = {
-  chromium: ["latest", "beta", "dev", "79.0.3945.0", "128.0.6613.0"],
+  chromium: ["79.0.3945.0", "128.0.6613.0"],
   chrome: ["latest", "beta", "dev"],
   firefox: ["latest", "beta", "75.0", "68.0"],
   edge: ["latest", "beta"]
@@ -52,22 +51,22 @@ async function getExtensionInfo(driver, originHandle) {
   await driver.switchTo().window(originHandle);
 
   let info = await driver.executeAsyncScript(async callback => {
+    let managementInfo;
     if (typeof browser !== "undefined") { // Firefox
-      let {shortName, version, permissions} =
-        await browser.management.getSelf();
-      callback({name: shortName, version, permissions});
+      let {shortName, version} = await browser.management.getSelf();
+      managementInfo = {name: shortName, version};
     }
     else { // Chromium
-      new Promise(resolve => {
-        chrome.management.getSelf(({shortName, version, permissions}) =>
-          resolve({name: shortName, version, permissions}));
-      }).then(callback);
+      managementInfo = await new Promise(resolve => {
+        chrome.management.getSelf(({shortName, version}) =>
+          resolve({name: shortName, version}));
+      });
     }
+    const api = typeof browser !== "undefined" ? browser : chrome;
+    const manifest = await fetch(api.runtime.getURL("manifest.json"))
+      .then(r => r.json());
+    callback({...managementInfo, manifestVersion: manifest.manifest_version});
   });
-  info.manifestVersion = 2;
-  if (info.permissions.includes("declarativeNetRequest") ||
-      info.permissions.includes("declarativeNetRequestWithHostAccess"))
-    info.manifestVersion = 3;
 
   return info;
 }
@@ -160,10 +159,10 @@ async function getPageTests() {
   let response;
 
   try {
-    response = await got(TEST_PAGES_URL, options);
+    response = await got(testPagesURL, options);
   }
   catch (e) {
-    console.warn(`Warning: Test pages not parsed at "${TEST_PAGES_URL}"\n${e}`);
+    console.warn(`Warning: Test pages not parsed at "${testPagesURL}"\n${e}`);
     return [];
   }
 
@@ -175,7 +174,7 @@ async function getPageTests() {
     let testCases = [];
     let match;
     while (match = regexpTests.exec(matchSection[2]))
-      testCases.push([url.resolve(TEST_PAGES_URL, match[1]), match[2]]);
+      testCases.push([url.resolve(testPagesURL, match[1]), match[2]]);
 
     tests.push([matchSection[1], testCases]);
   }
@@ -189,7 +188,7 @@ if (typeof run == "undefined") {
 }
 
 (async() => {
-  let pageTests = await getPageTests();
+  pageTests.push(...await getPageTests());
   if (CUSTOM_BROWSER){
     browserVersions = {};
     browserVersions[CUSTOM_BROWSER] = [CUSTOM_BROWSER_VERSION];
@@ -199,8 +198,6 @@ if (typeof run == "undefined") {
     for (let version of versions) {
       describe(`Browser: ${browser} ${version || "latest"}`, function() {
         this.timeout(0);
-        this.pageTests = pageTests;
-        this.testPagesURL = TEST_PAGES_URL;
 
         before(async function() {
           let headless = browser == "firefox";

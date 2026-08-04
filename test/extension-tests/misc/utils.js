@@ -16,6 +16,7 @@
  */
 
 import assert from "assert";
+import {By} from "selenium-webdriver";
 
 export async function checkLastError(driver, handle) {
   await driver.switchTo().window(handle);
@@ -85,4 +86,32 @@ export async function safeGetAllWindowHandles(driver, browserName) {
   }
 
   return safeHandles;
+}
+
+/**
+ * Waits for an element to be displayed and returns it.
+ *
+ * @param {Object} driver - Selenium webdriver instance
+ * @param {string} cssSelector - The CSS locator of the element
+ * @param {Object} options - Options object
+ * @param {number} options.timeout - polling timeout in ms
+ * @returns {Promise<Object>} - The webdriver element found in the page
+ */
+export async function getDisplayedElement(
+  driver, cssSelector, {timeout = 500} = {}
+) {
+  let elem;
+  await driver.wait(
+    async() => {
+      try {
+        elem = await driver.findElement(By.css(cssSelector));
+        return await elem.isDisplayed();
+      }
+      catch (e) {}
+    },
+    timeout,
+    `Element "${cssSelector}" was not displayed`
+  );
+
+  return elem;
 }

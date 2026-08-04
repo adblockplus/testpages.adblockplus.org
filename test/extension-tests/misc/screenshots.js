@@ -39,6 +39,9 @@ export async function writeScreenshotAndThrow(context, error) {
   let screenshot = await takeScreenshot(driver);
   let scrPath = await writeScreenshotFile(screenshot, browserName,
                                           browserVersion, test.title);
-  if (error)
-    throw new Error(`${error.message || error}\n(see ${scrPath})`);
+  if (error) {
+    if (error instanceof Error)
+      error.message = `${error.message}\n(see ${scrPath})`;
+    throw error;
+  }
 }

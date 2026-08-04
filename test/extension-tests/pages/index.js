@@ -18,10 +18,12 @@
 import assert from "assert";
 import webdriver from "selenium-webdriver";
 import {checkLastError, runWithHandle} from "../misc/utils.js";
+import {writeScreenshotAndThrow} from "../misc/screenshots.js";
 import specializedTests from "./specialized.js";
 import defineSubscribeTest from "./subscribe.js";
 import {getExpectedScreenshot, getPage, isExcluded, runGenericTests}
   from "./utils.js";
+import {pageTests} from "../state.js";
 
 const {By} = webdriver;
 
@@ -109,17 +111,17 @@ function removeFilters(driver, extensionHandle) {
 }
 
 export default () => {
-  describe("Test pages", function() {
+  describe("Test pages", () => {
     afterEach(async function() {
       await removeFilters(this.driver, this.extensionHandle);
       await checkLastError(this.driver, this.extensionHandle);
     });
 
-    it("discovered test cases", function() {
-      assert.ok(this.test.parent.parent.pageTests.length > 0);
+    it("discovered test cases", () => {
+      assert.ok(pageTests.length > 0);
     });
 
-    for (let [section, testCases] of this.parent.pageTests) {
+    for (let [section, testCases] of pageTests) {
       describe(section, () => {
         for (let [url, pageTitle] of testCases) {
           it(pageTitle, async function() {
@@ -128,11 +130,22 @@ export default () => {
               this.skip();
 
             if (page in specializedTests) {
-              await updateFilters(this.driver, this.extensionHandle, url);
+              let test = specializedTests[page];
+              let boundUpdateFilters =
+                () => updateFilters(this.driver, this.extensionHandle, url);
+              if (!test.skipDefaultUpdateFilters)
+                await boundUpdateFilters();
+              else
+                await this.driver.navigate().to(url);
               let locator = By.className("testcase-area");
               for (let element of await this.driver.findElements(locator)) {
-                await specializedTests[page].run(this.driver, element,
-                                                 this.extensionHandle);
+                try {
+                  await test.run(this.driver, element, this.extensionHandle,
+                                 boundUpdateFilters);
+                }
+                catch (err) {
+                  await writeScreenshotAndThrow(this, err);
+                }
               }
             }
             else {
