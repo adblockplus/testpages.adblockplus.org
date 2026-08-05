@@ -107,6 +107,14 @@ test:edge:windows:
         - node_modules
         - pip_cache
   before_script:
+    # This runner is a long-lived VM, so a browser left behind by an earlier
+    # job makes the next launch hand off to the existing instance and exit,
+    # which surfaces as "browser has closed the connection". Report what was
+    # left over (diagnostics) and clear it before starting.
+    - Get-Process msedge,msedgedriver -ErrorAction SilentlyContinue |
+      Select-Object Id,ProcessName,StartTime | Format-Table | Out-String
+    - Get-Process msedge,msedgedriver -ErrorAction SilentlyContinue |
+      Stop-Process -Force
     # Setup cache locations for chocolatey and pip
     - New-Item -Name "choco_cache" -Path "$(Get-Location)"
       -ItemType "directory" -Force
@@ -154,6 +162,12 @@ test:edge:windows:
     - Start-Process "npm.cmd" -ArgumentList "run start-endpoints" -PassThru
     - node ./test/extension-tests/extension-download.js
     - npm run test "--" -g "edge latest"
+  after_script:
+    # Don't leave browsers running for the next job on this runner. The tests
+    # only quit the driver when the before hook succeeded, so a failed run
+    # leaks msedge.exe and msedgedriver.exe without this.
+    - Get-Process msedge,msedgedriver -ErrorAction SilentlyContinue |
+      Stop-Process -Force
   variables:
     TEST_PAGES_URL: https://local.testpages.adblockplus.org:5001/en/
     SITE_URL: https://local.testpages.adblockplus.org:5001
