@@ -109,7 +109,7 @@ test:firefox:beta:
 test:firefox:oldest:
   extends: .test
   variables:
-    GREP: firefox 68.0
+    GREP: firefox 128.0
 
 test:edge:latest:
   extends: .test
@@ -125,10 +125,6 @@ test:edge:beta:
 
 test:edge:windows:
   extends: .test_rules
-  # Fails on the shared Windows runner regardless of this branch (master is
-  # red too). Non-blocking so pages/notify are not skipped.
-  # Do not sync to master.
-  allow_failure: true
   tags:
     - eyeo-windows
   cache:
@@ -152,6 +148,21 @@ test:edge:windows:
     - $Env:NGINX_WIN = "C:\tools\nginx-1.27.3"
     - $Env:NGINX_LINUX = "C:/tools/nginx-1.27.3"
     - choco install -y python3 --version 3.11.4
+    # Edge's installer needs the VC++ runtime
+    - choco install -y vcredist140
+    - choco upgrade -y microsoft-edge
+    # Edge rewrites its own install files a few seconds after launch, which
+    # tears down the running browser and kills the test session. Run Edge from
+    # a copy instead: the rewrite hits the original install location while our
+    # copy keeps running, so the session survives.
+    - $Env:EDGE_RUN_COPY = "$(Get-Location)\edge-run-copy\msedge.exe"
+    # One block so the exit code is only checked once, at the end: robocopy
+    # reports success with codes below 8 (1 means files were copied), which
+    # would otherwise fail the step.
+    - |
+      robocopy "C:\Program Files (x86)\Microsoft\Edge\Application" `
+        "$(Get-Location)\edge-run-copy" /E /NFL /NDL /NP
+      if ($LASTEXITCODE -lt 8) { $global:LASTEXITCODE = 0 }
     # Refresh system environment after package installations
     - Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
     - refreshenv
