@@ -35,9 +35,9 @@ const CUSTOM_BROWSER_VERSION = process.env.BROWSER_VERSION || "latest";
 const helperExtTimeout = 5000;
 
 let browserVersions = {
-  chromium: ["79.0.3945.0", "128.0.6613.0"],
+  chromium: ["127.0.6533.0", "128.0.6613.0"],
   chrome: ["latest", "beta", "dev"],
-  firefox: ["latest", "beta", "75.0", "68.0"],
+  firefox: ["latest", "beta", "128.0"],
   edge: ["latest", "beta"],
 };
 
@@ -220,6 +220,9 @@ if (typeof run == "undefined") {
             extensionPaths,
             incognito: false,
             insecure: true,
+            // Set by the windows Edge job, which runs Edge from a copy of its
+            // install dir. Unset everywhere else, leaving behaviour unchanged.
+            customBrowserBinary: process.env.EDGE_RUN_COPY,
           });
 
           let cap = await this.driver.getCapabilities();
