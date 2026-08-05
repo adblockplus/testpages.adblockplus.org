@@ -125,10 +125,6 @@ test:edge:beta:
 
 test:edge:windows:
   extends: .test_rules
-  # Fails on the shared Windows runner regardless of this branch (master is
-  # red too). Non-blocking so pages/notify are not skipped.
-  # Do not sync to master.
-  allow_failure: true
   tags:
     - eyeo-windows
   cache:
