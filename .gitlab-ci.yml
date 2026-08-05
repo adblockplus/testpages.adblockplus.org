@@ -126,10 +126,13 @@ test:edge:windows:
     # a copy instead: the rewrite hits the original install location while our
     # copy keeps running, so the session survives.
     - $Env:EDGE_RUN_COPY = "$(Get-Location)\edge-run-copy\msedge.exe"
-    - robocopy "C:\Program Files (x86)\Microsoft\Edge\Application"
-      "$(Get-Location)\edge-run-copy" /E /NFL /NDL /NJH /NJS /NP
-    # robocopy uses exit codes below 8 for success
-    - if ($LASTEXITCODE -lt 8) { $global:LASTEXITCODE = 0 }
+    # One block so the exit code is only checked once, at the end: robocopy
+    # reports success with codes below 8 (1 means files were copied), which
+    # would otherwise fail the step.
+    - |
+      robocopy "C:\Program Files (x86)\Microsoft\Edge\Application" `
+        "$(Get-Location)\edge-run-copy" /E /NFL /NDL /NP
+      if ($LASTEXITCODE -lt 8) { $global:LASTEXITCODE = 0 }
     # Refresh system environment after package installations
     - Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
     - refreshenv
