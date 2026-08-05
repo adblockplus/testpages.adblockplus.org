@@ -220,6 +220,9 @@ if (typeof run == "undefined") {
             extensionPaths,
             incognito: false,
             insecure: true,
+            // Set by the windows Edge job, which runs Edge from a copy of its
+            // install dir. Unset everywhere else, leaving behaviour unchanged.
+            customBrowserBinary: process.env.EDGE_RUN_COPY,
           });
 
           let cap = await this.driver.getCapabilities();
