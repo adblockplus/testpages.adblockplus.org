@@ -213,7 +213,7 @@ if (typeof run == "undefined") {
         this.timeout(0);
 
         before(async function () {
-          let headless = browser == "firefox";
+          let headless = browser == "firefox" || process.env.HEADLESS == "true";
           console.log(`Getting ready to run ${browser}...`);
           this.driver = await BROWSERS[browser].getDriver(version, {
             headless,
