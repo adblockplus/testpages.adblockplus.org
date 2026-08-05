@@ -118,6 +118,18 @@ test:edge:windows:
     - $Env:NGINX_WIN = "C:\tools\nginx-1.27.3"
     - $Env:NGINX_LINUX = "C:/tools/nginx-1.27.3"
     - choco install -y python3 --version 3.11.4
+    # Edge's installer needs the VC++ runtime
+    - choco install -y vcredist140
+    - choco upgrade -y microsoft-edge
+    # Edge rewrites its own install files a few seconds after launch, which
+    # tears down the running browser and kills the test session. Run Edge from
+    # a copy instead: the rewrite hits the original install location while our
+    # copy keeps running, so the session survives.
+    - $Env:EDGE_RUN_COPY = "$(Get-Location)\edge-run-copy\msedge.exe"
+    - robocopy "C:\Program Files (x86)\Microsoft\Edge\Application"
+      "$(Get-Location)\edge-run-copy" /E /NFL /NDL /NJH /NJS /NP
+    # robocopy uses exit codes below 8 for success
+    - if ($LASTEXITCODE -lt 8) { $global:LASTEXITCODE = 0 }
     # Refresh system environment after package installations
     - Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
     - refreshenv
