@@ -1,0 +1,168 @@
+template = testcase
+title = replace-argument
+description = Check that the replace-argument snippet is working as expected.
+
+{% set case = "inline-handler-neutralized" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a matching substring inside an argument is replaced before the native method runs.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The test should show a green element if the inline handler payload was neutralized.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-argument Element.prototype.setAttribute 1 '/.+error-report.+/' ''</pre></li>
+  </ul>
+</section>
+
+{% set case = "self-gating-no-match" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a matching argument is replaced while a non-matching argument on the same rule is left untouched (self-gating).</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #2.</li>
+    <li>Refresh page.</li>
+    <li>The test should show a green element if the matching attribute was replaced and the unrelated one was left unchanged.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-argument Element.prototype.setAttribute 1 /secret/ CLEAN</pre></li>
+  </ul>
+</section>
+
+{% set case = "whole-value-real-type" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that whole-value mode injects a real typed boolean, not the string "false".</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #3.</li>
+    <li>Refresh page.</li>
+    <li>The test should show a green element if the attribute was not added (a real boolean false, not a truthy string).</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-argument Element.prototype.toggleAttribute 1 '' false</pre></li>
+  </ul>
+</section>
+
+{% set case = "stack-needle-gating" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that the replacement only applies when the call stack matches stackNeedle.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #4.</li>
+    <li>Refresh page.</li>
+    <li>The test should show a green element if only the allowed caller's argument was replaced.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-argument Element.prototype.setAttribute 1 /ads/ content allowedCaller</pre></li>
+  </ul>
+</section>
+
+<script type="text/javascript">
+  "use strict";
+
+  // All four cases target methods that already exist on native prototypes
+  // at document_start, when the snippet (main-world, lightning path) runs.
+  // A page-defined object (e.g. window.testConfig = {...}) would not exist
+  // yet at that point, so the snippet could never resolve/wrap it.
+
+  function allowedCaller() {
+    const el = document.createElement("div");
+    el.setAttribute("data-test", "This contains ads");
+    return el.getAttribute("data-test");
+  }
+
+  function blockedCaller() {
+    const el = document.createElement("div");
+    el.setAttribute("data-test", "This contains ads");
+    return el.getAttribute("data-test");
+  }
+
+  function createTestResult(parentId, success, message) {
+    const parent = document.getElementById(parentId);
+    const element = document.createElement("div");
+    element.setAttribute("data-expectedresult", success ? "pass" : "fail");
+    if (!success) {
+      element.setAttribute("aria-label", parentId + "-fail");
+    }
+    element.innerHTML = message;
+    parent.appendChild(element);
+  }
+
+  setTimeout(() => {
+    // Test 1: inline handler neutralized
+    const el1 = document.createElement("div");
+    el1.setAttribute(
+      "onload",
+      "window.__pwned = true; /* error-report */"
+    );
+    const neutralizedSuccess = el1.getAttribute("onload") === "";
+    createTestResult("inline-handler-neutralized-area", neutralizedSuccess,
+                    neutralizedSuccess ? "" :
+                    "Failed: onload payload was not neutralized");
+
+    // Test 2: self-gating no-match
+    const el2a = document.createElement("div");
+    el2a.setAttribute("data-test", "a-secret-b");
+    const el2b = document.createElement("div");
+    el2b.setAttribute("data-test", "harmless");
+    const selfGatingSuccess = el2a.getAttribute("data-test") === "a-CLEAN-b" &&
+                             el2b.getAttribute("data-test") === "harmless";
+    createTestResult("self-gating-no-match-area", selfGatingSuccess,
+                    selfGatingSuccess ? "" :
+                    "Failed: matching argument wasn't replaced, or " +
+                    "unrelated argument was modified");
+
+    // Test 3: whole-value real type
+    // toggleAttribute's force argument is a WebIDL boolean: the string
+    // "false" coerces to true (attribute added), while a real boolean
+    // false coerces to false (attribute not added). This tells apart a
+    // real typed replacement from a stringified one without needing a
+    // custom capture point.
+    const el3 = document.createElement("div");
+    el3.toggleAttribute("data-flag", "false");
+    const wholeValueSuccess = !el3.hasAttribute("data-flag");
+    createTestResult("whole-value-real-type-area", wholeValueSuccess,
+                    wholeValueSuccess ? "" :
+                    "Failed: expected a real boolean false");
+
+    // Test 4: stack-needle gating
+    const allowedResult = allowedCaller();
+    const blockedResult = blockedCaller();
+    const stackSuccess = allowedResult === "This contains content" &&
+                        blockedResult === "This contains ads";
+    createTestResult("stack-needle-gating-area", stackSuccess,
+                    stackSuccess ? "" :
+                    "Failed: stack-based gating did not apply correctly");
+
+    removeWaitingContent();
+  }, 500);
+</script>
