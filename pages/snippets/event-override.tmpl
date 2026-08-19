@@ -71,6 +71,27 @@ description = Check if event-override feature works properly.
   <p>Not supported in Chrome 73 (requires 74+)</p>
 </section>
 
+{% set case = "event-override-rewrite-data" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that rewrite mode replaces the matched text inside a string property of the event, leaving the rest of the value untouched.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#event-override message rewrite _as_res data /_as_req$/ _as_res</pre></li>
+  </ul>
+</section>
+
 <script>
   "use strict";
 
@@ -128,6 +149,20 @@ description = Check if event-override feature works properly.
       const customEvent = new CustomEvent("customEvent", {bubbles: true});
       customDiv.dispatchEvent(customEvent);
       setTestResult(customDiv, "event-override-disable-customevent", customEventFired === false);
+    }
+
+    // Rewrite a string property of the event. The needle is matched against
+    // the listener source, and "abc_as_res" below is what makes this listener
+    // the only one on the page the filter applies to. Only the matched suffix
+    // of event.data is replaced, so the "abc" prefix has to survive.
+    const rewriteDiv = createAndAppendDiv("event-override-rewrite-data-area", "rewrite-data-test");
+    if (rewriteDiv) {
+      let dataWasRewritten = false;
+      rewriteDiv.addEventListener("message", e => {
+        dataWasRewritten = e.data === "abc_as_res";
+      });
+      rewriteDiv.dispatchEvent(new MessageEvent("message", {data: "abc_as_req"}));
+      setTestResult(rewriteDiv, "event-override-rewrite-data", dataWasRewritten);
     }
 
     removeWaitingContent();
