@@ -124,7 +124,7 @@ description = Check that the replace-xhr-request snippet is working as expected.
   // The SW intercepts POST /xhr-request-echo and returns the body as-is,
   // allowing the test to verify what the snippet sent.
   const swReady = "serviceWorker" in navigator ?
-    navigator.serviceWorker.register("/xhr-echo-sw.js")
+    navigator.serviceWorker.register("/request-echo-sw.js")
       .then(() => navigator.serviceWorker.ready) : Promise.resolve();
 
   // A promisified XHR POST request
