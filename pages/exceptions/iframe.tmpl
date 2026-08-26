@@ -47,12 +47,14 @@ description = Check that usage loading frames works with exceptions
       </html>`);
     frameDocument.close();
 
-    if (expectedParameter()) // eslint-disable-line no-undef
-      expectedPageView(); // eslint-disable-line no-undef
+    if (expectedParameter()) {
+      expectedPageView();
+    }
   }
 
-  if (document.readyState == "complete")
+  if (document.readyState == "complete") {
     writeIframe();
-  else
+  } else {
     document.getElementById("rewrite-frame-id").addEventListener("load", writeIframe);
+  }
 </script>

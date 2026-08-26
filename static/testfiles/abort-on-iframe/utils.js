@@ -1,7 +1,10 @@
 "use strict";
 
+/* exported testAbortOnIframePropertyRead, testAbortOnIframePropertyWrite */
+/* global expectedParameter, expectedPageView, removeWaitingContent */
+
 // eslint-disable-next-line no-var
-var [testAbortOnIframePropertyRead, testAbortOnIframePropertyWrite] = (function() {
+var [testAbortOnIframePropertyRead, testAbortOnIframePropertyWrite] = (function () {
   function insertFailElement(targetId) {
     let failElement = document.createElement("div");
     failElement.innerHTML = "Failed. Script ran and was applied to the page.";
@@ -21,23 +24,27 @@ var [testAbortOnIframePropertyRead, testAbortOnIframePropertyWrite] = (function(
     let object = iframeWindow;
     let chain = path.split(".");
 
-    if (chain.length === 0)
+    if (chain.length === 0) {
       return;
+    }
 
     for (let i = 0; i < chain.length - 1; i++) {
       let prop = chain[i];
-      if (!window.Object.prototype.hasOwnProperty.call(object, prop))
+      if (!window.Object.prototype.hasOwnProperty.call(object, prop)) {
         return;
+      }
 
       object = object[prop];
 
-      if (!(object instanceof window.Object))
+      if (!(object instanceof window.Object)) {
         return;
+      }
     }
 
     let prop = chain[chain.length - 1];
-    if (window.Object.prototype.hasOwnProperty.call(object, prop))
+    if (window.Object.prototype.hasOwnProperty.call(object, prop)) {
       return [object, prop];
+    }
   }
 
   function testAbortOnIframe(testName, properties, initializeIframe, isRead) {
@@ -45,8 +52,8 @@ var [testAbortOnIframePropertyRead, testAbortOnIframePropertyWrite] = (function(
     let target = testName + "-target";
     try {
       appendIframe(iframeId);
-      if (expectedParameter()) { // eslint-disable-line no-undef
-        expectedPageView(); // eslint-disable-line no-undef
+      if (expectedParameter()) {
+        expectedPageView();
         return;
       }
       let iframe = document.querySelector("#" + iframeId);
@@ -54,37 +61,39 @@ var [testAbortOnIframePropertyRead, testAbortOnIframePropertyWrite] = (function(
 
       try {
         let testPassed;
-        removeWaitingContent(target); // eslint-disable-line no-undef
+        removeWaitingContent(target);
 
         for (let property of properties) {
           let propertyTestPassed = false;
           try {
             let [o, p] = getSubProperty(iframe.contentWindow, property);
-            if (isRead)
-              o[p];
-            else
+            if (isRead) {
+              void o[p];
+            } else {
               o[p] = true;
-          }
-          catch (e) {
-            if (e.name === "ReferenceError")
+            }
+          } catch (e) {
+            if (e.name === "ReferenceError") {
               propertyTestPassed = true;
-            else
+            } else {
               throw e;
+            }
           }
-          if (typeof testPassed === "undefined") // first property tested
+          if (typeof testPassed === "undefined") {
+            // first property tested
             testPassed = propertyTestPassed;
-          else
+          } else {
             testPassed = testPassed && propertyTestPassed;
+          }
         }
 
-        if (!testPassed)
+        if (!testPassed) {
           insertFailElement(target);
-      }
-      catch (e) {
+        }
+      } catch (e) {
         insertFailElement(target);
       }
-    }
-    catch (e) {
+    } catch (e) {
       insertFailElement(target);
     }
   }

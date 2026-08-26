@@ -41,11 +41,12 @@ description = Check if blob-override feature works properly.
     const condition = content.condition;
     const element = document.getElementById("blob-override-area");
     const target = document.createElement("div");
-    if (condition === "pass")
+    if (condition === "pass") {
       target.setAttribute("data-expectedresult", "pass");
-    else
+    } else {
       target.setAttribute("data-expectedresult", "fail");
+    }
     element.appendChild(target);
-    removeWaitingContent(); // eslint-disable-line no-undef
+    removeWaitingContent();
   }, 500);
 </script>

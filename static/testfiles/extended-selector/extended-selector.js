@@ -2,24 +2,24 @@
 
 // Simple closed shadow root with hide-if-contains
 const hicSimpleShTarget = document.getElementById("hic-simple-sh-id");
-const hicSimpleShRoot = hicSimpleShTarget.attachShadow({mode: "closed"});
+const hicSimpleShRoot = hicSimpleShTarget.attachShadow({ mode: "closed" });
 const child = document.createElement("span");
 child.innerHTML = "hic-simple-sh <br> Failed. Element is not hidden.";
 hicSimpleShRoot.appendChild(child);
 
 // Wrapping shadow root with hide-if-contains
 const hicNestedShTarget = document.getElementById("hic-nested-sh-id");
-const shadowRoot1 = hicNestedShTarget.attachShadow({mode: "closed"});
+const shadowRoot1 = hicNestedShTarget.attachShadow({ mode: "closed" });
 const parentElem = document.createElement("div");
 shadowRoot1.appendChild(parentElem);
 const nestedChild = document.createElement("span");
 nestedChild.innerHTML = "hic-nested-sh <br> Failed. Element is not hidden.";
-const shadowRoot2 = parentElem.attachShadow({mode: "closed"});
+const shadowRoot2 = parentElem.attachShadow({ mode: "closed" });
 shadowRoot2.appendChild(nestedChild);
 
 // Closed shadow root wraps several elements with hide-if-contains
 const wrappingElem = document.getElementById("wrapping-sh-root");
-const wrappingShadowRoot = wrappingElem.attachShadow({mode: "closed"});
+const wrappingShadowRoot = wrappingElem.attachShadow({ mode: "closed" });
 const hicWrappingShStyle = document.createElement("style");
 hicWrappingShStyle.textContent = `
     :host .testcase-examplecontent,
@@ -58,7 +58,7 @@ wrappingShadowRoot.appendChild(testcaseExpectedView);
 
 // Closed shadow root with hide-if-contains-visible-text
 const label = document.getElementById("label");
-const labelShRoot = label.attachShadow({mode: "closed"});
+const labelShRoot = label.attachShadow({ mode: "closed" });
 
 const styleHicvt = document.createElement("style");
 styleHicvt.innerHTML = `
@@ -120,7 +120,7 @@ labelShRoot.appendChild(textWrapper);
 
 // Simple closed shadow root with hide-if-contains-and-matches-style
 const labelTarget = document.getElementById("hicamss-target");
-const hicamssShRoot = labelTarget.attachShadow({mode: "closed"});
+const hicamssShRoot = labelTarget.attachShadow({ mode: "closed" });
 const hicamssLabel = document.createElement("span");
 hicamssLabel.textContent = "hicamss. Failed. Element not hidden";
 hicamssLabel.className = "label";
@@ -128,7 +128,7 @@ hicamssShRoot.appendChild(hicamssLabel);
 
 // Simple closed shadow root with hide-if-has-and-matches-style
 const spanTargetHihamss = document.getElementById("hihamss-target");
-const hihamssShRoot = spanTargetHihamss.attachShadow({mode: "closed"});
+const hihamssShRoot = spanTargetHihamss.attachShadow({ mode: "closed" });
 const hihamssSpan = document.createElement("span");
 const hihamssA = document.createElement("a");
 hihamssA.setAttribute("href", "#hihamss");

@@ -41,11 +41,11 @@ description = Check that a remove filter using simple selectors works properly o
       newElement.id = `${elementType}-remove`;
       target.appendChild(newElement);
     });
-    removeWaitingContent(); // eslint-disable-line no-undef
+    removeWaitingContent();
   }, 500);
 
   const testcases = document.getElementsByClassName("testcase-area");
   [...testcases].forEach(tca => {
-    verifyTargetRemoved(tca, "test-if-removed"); // eslint-disable-line no-undef
+    verifyTargetRemoved(tca, "test-if-removed");
   });
 </script>

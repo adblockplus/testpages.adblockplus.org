@@ -38,7 +38,7 @@ SITE_URL=http://local.abptestpages.org python3 ../cms/runserver.py --port 5001
 ```
 
 If you wish to test Domain Wildcard scenario locally, you need to
-start browser from command line and map ports to  `local.abptestpages.org` (filters are already
+start browser from command line and map ports to `local.abptestpages.org` (filters are already
 pointing to this domain).
 This works for Chromium browser only (excute command on the folder where browser binary
 is).
@@ -69,10 +69,10 @@ It may be useful to run page tests outside docker, for debugging purposes.
 
 Besides having both CMS and endpoint servers running, the test runner expects an
 unpacked ABP extension to be located in the `./testext` folder. That can be
-achieved by downloading the latest ABP build from the abp-snippets `next` branch:
+achieved by downloading the latest ABP release:
 
 ```shell
-ANTI_CV_TOKEN=<token> MANIFEST_VERSION={2|3} node ./test/extension-tests/extension-abp-snippets-download.js
+MANIFEST_VERSION={2|3} node ./test/extension-tests/extension-download.js
 ```
 
 Note: It is also possible to manually extract a different ABP version into the
@@ -102,7 +102,7 @@ TESTS_TO_INCLUDE=filters/wildcard-domain MANIFEST_VERSION={2|3} npm test -- -g "
 Notes:
 
 - The `subscribes to a link` test case is expected to fail on the local run,
-because it requires an `https` server which `runserver.py` does not provide.
+  because it requires an `https` server which `runserver.py` does not provide.
 - The `Sitekey` and `WebSocket` test cases are also expected to fail locally,
-because they require a request redirection to http://localhost:4000 and
-http://localhost:4001 which `runserver.py` does not provide.
+  because they require a request redirection to http://localhost:4000 and
+  http://localhost:4001 which `runserver.py` does not provide.

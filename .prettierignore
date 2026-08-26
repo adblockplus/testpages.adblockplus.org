@@ -1,0 +1,5 @@
+browser-snapshots/
+helper-extension-build/
+package-lock.json
+test/screenshots/
+testext/

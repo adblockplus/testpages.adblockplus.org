@@ -119,8 +119,9 @@ description = Check that the replace-outbound-value snippet is working as expect
     const parent = document.getElementById(parentId);
     const element = document.createElement("div");
     element.setAttribute("data-expectedresult", success ? "pass" : "fail");
-    if (!success)
+    if (!success) {
       element.setAttribute("aria-label", parentId + "-fail");
+    }
     element.innerHTML = message;
     parent.appendChild(element);
   }
@@ -160,6 +161,6 @@ description = Check that the replace-outbound-value snippet is working as expect
     createTestResult("stack-filter-area", stackSuccess,
                     stackSuccess ? "" : "Failed: Stack filtering not working");
 
-    removeWaitingContent(); // eslint-disable-line no-undef
+    removeWaitingContent();
   }, 500);
 </script>

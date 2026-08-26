@@ -133,19 +133,12 @@ description = Check that the replace-xhr-response snippet is working as expected
       xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 300) {
           resolve(xhr.response);
-        }
-        else {
-          reject({
-            status: xhr.status,
-            statusText: xhr.statusText
-          });
+        } else {
+          reject(Object.assign(new Error(xhr.statusText), {status: xhr.status}));
         }
       };
       xhr.onerror = function() {
-        reject({
-          status: xhr.status,
-          statusText: xhr.statusText
-        });
+        reject(Object.assign(new Error(xhr.statusText), {status: xhr.status}));
       };
       xhr.send();
     });
@@ -159,8 +152,7 @@ description = Check that the replace-xhr-response snippet is working as expected
       element.setAttribute("data-expectedresult", "fail");
       element.setAttribute("aria-label", "{{id}}-fail");
       element.innerHTML = "Failed. XHR response was not replaced";
-    }
-    else {
+    } else {
       element.setAttribute("data-expectedresult", "pass");
       element.innerHTML = "XHR response was replaced";
     }
@@ -175,8 +167,7 @@ description = Check that the replace-xhr-response snippet is working as expected
     if (text.includes(replacement)) {
       element.setAttribute("data-expectedresult", "pass");
       element.innerHTML = "XHR response was replaced";
-    }
-    else {
+    } else {
       element.setAttribute("data-expectedresult", "fail");
       element.setAttribute("aria-label", "{{id}}-fail");
       element.innerHTML = "Failed. XHR response was not replaced";
@@ -200,6 +191,6 @@ description = Check that the replace-xhr-response snippet is working as expected
       handleResponseBasic(response);
       tests.forEach(({id, replacement}) => handleResponse(response, id, replacement));
     });
-    removeWaitingContent(); // eslint-disable-line no-undef
+    removeWaitingContent();
   }, 500);
 </script>

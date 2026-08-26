@@ -35,7 +35,7 @@ description = Check if simulate-mouse-event feature works properly.
     divToManipulate.id = result;
     divToManipulate.setAttribute("data-expectedresult", result);
     targetTestCase.appendChild(divToManipulate);
-    removeWaitingContent(); // eslint-disable-line no-undef
+    removeWaitingContent();
   };
 
   let timeout = setTimeout(() => {
@@ -45,8 +45,9 @@ description = Check if simulate-mouse-event feature works properly.
 
   const element = document.getElementById("sme-basic-id");
   element.addEventListener("click", () => {
-    if (timeout)
+    if (timeout) {
       clearTimeout(timeout);
+    }
     showTestResult("pass");
   });
 </script>

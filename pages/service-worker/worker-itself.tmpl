@@ -61,15 +61,17 @@ description = Check that blocking a worker script works as expected.
     ];
     Promise.allSettled(promises)
     .then(results => {
-      if (results[0].value === "blocked")
+      if (results[0].value === "blocked") {
         addChild("blocked-target", "pass");
-      else
+      } else {
         addChild("blocked-target", "fail");
+      }
 
-      if (results[1].value === "ready")
+      if (results[1].value === "ready") {
         addChild("allowed-target", "pass");
-      else
+      } else {
         addChild("allowed-target", "fail");
+      }
     })
     .catch(error => handleError())
     .finally(() => removeWaitingContent());

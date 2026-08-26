@@ -22,7 +22,7 @@ import crypto from "crypto";
 
 import express from "express";
 import nunjucks from "nunjucks";
-import {WebSocketServer} from "ws";
+import { WebSocketServer } from "ws";
 
 // Node.js 17+ resolves "localhost" to ::1 when IPv6 is available, but nginx
 // upstreams resolve it to 127.0.0.1, causing connection refused.
@@ -36,16 +36,15 @@ let app = express();
 
 nunjucks.configure(path.join(dirname, "sitekey"), {
   autoescape: true,
-  express: app
+  express: app,
 });
 
 // Documentation on sitekey server implementation:
 // https://help.adblockplus.org/hc/en-us/articles/360062733293#sitekey_server
-app.get("/sitekey-frame", async(req, res) => {
-  let privateKey = crypto.createPrivateKey(
-    await fs.promises.readFile(path.join(dirname, "sitekey", "site.key")));
+app.get("/sitekey-frame", async (req, res) => {
+  let privateKey = crypto.createPrivateKey(await fs.promises.readFile(path.join(dirname, "sitekey", "site.key")));
   let publicKey = crypto.createPublicKey(privateKey);
-  let spki = publicKey.export({type: "spki", format: "der"});
+  let spki = publicKey.export({ type: "spki", format: "der" });
   let data = `${req.url}\0${req.get("Host")}\0${req.get("User-Agent")}`;
   let signature = crypto.sign("rsa-sha1", Buffer.from(data), privateKey);
 
@@ -53,7 +52,7 @@ app.get("/sitekey-frame", async(req, res) => {
   res.header("X-Adblock-Key", adblockkey);
   res.header("Content-Type", "text/html; charset=utf-8");
 
-  res.render("sitekey_frame.njk", {adblockkey});
+  res.render("sitekey_frame.njk", { adblockkey });
 });
 
 app.use(express.static(path.join(dirname, "..", "static")));
@@ -67,22 +66,22 @@ app.listen(HTTP_PORT, HOST, () => {
   console.log(`Endpoints server listening at http://${HOST}:${HTTP_PORT}`);
 });
 
-let wss = new WebSocketServer({host: HOST, port: WS_PORT}, () => {
+let wss = new WebSocketServer({ host: HOST, port: WS_PORT }, () => {
   // eslint-disable-next-line no-console
   console.log(`Web socket server listening at ws://${HOST}:${WS_PORT}`);
 });
 
-wss.on("connection", ws => {
+wss.on("connection", (ws) => {
   ws.on("error", console.error);
   ws.send("echo");
 });
 
-let wses = new WebSocketServer({host: HOST, port: WSE_PORT}, () => {
+let wses = new WebSocketServer({ host: HOST, port: WSE_PORT }, () => {
   // eslint-disable-next-line no-console
   console.log(`Web socket exceptions server listening at ws://${HOST}:${WSE_PORT}`);
 });
 
-wses.on("connection", ws => {
+wses.on("connection", (ws) => {
   ws.on("error", console.error);
   ws.send("echo");
 });

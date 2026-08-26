@@ -20,9 +20,9 @@ import path from "path";
 import extractZip from "extract-zip";
 
 import fs from "node:fs";
-import {pipeline} from "node:stream";
-import {promisify} from "node:util";
-import {readdir, rm, unlink} from "node:fs/promises";
+import { pipeline } from "node:stream";
+import { promisify } from "node:util";
+import { readdir, rm, unlink } from "node:fs/promises";
 
 /**
  * Downloads url resources.
@@ -34,19 +34,19 @@ import {readdir, rm, unlink} from "node:fs/promises";
 export async function downloadWithOptions(url, destFile, options = {}) {
   let cacheDir = path.dirname(destFile);
 
-  await fs.promises.mkdir(cacheDir, {recursive: true});
+  await fs.promises.mkdir(cacheDir, { recursive: true });
 
   let tempDest = `${destFile}-${process.pid}`;
   let writable = fs.createWriteStream(tempDest);
 
   try {
     await promisify(pipeline)(got.stream(url, options), writable);
-  }
-  catch (error) {
+  } catch (error) {
     try {
-      await fs.promises.rm(tempDest, {recursive: true});
+      await fs.promises.rm(tempDest, { recursive: true });
+    } catch (e) {
+      // The temp file may already be gone; the original error is what matters.
     }
-    catch (e) {}
 
     throw error;
   }
@@ -54,20 +54,16 @@ export async function downloadWithOptions(url, destFile, options = {}) {
   await fs.promises.rename(tempDest, destFile);
 }
 
-
 async function run() {
-  const abpsnippetsDownloadToken =
-    typeof process.env.ANTI_CV_TOKEN !== "undefined";
+  const abpsnippetsDownloadToken = typeof process.env.ANTI_CV_TOKEN !== "undefined";
   if (!abpsnippetsDownloadToken) {
-    throw new Error(
-      "No authentication token found."
-    );
+    throw new Error("No authentication token found.");
   }
 
   const authOptions = {
     headers: {
-      "PRIVATE-TOKEN": process.env.ANTI_CV_TOKEN
-    }
+      "PRIVATE-TOKEN": process.env.ANTI_CV_TOKEN,
+    },
   };
 
   const filename = "next.zip";
@@ -76,11 +72,11 @@ async function run() {
   await downloadWithOptions(
     "https://gitlab.com/api/v4/projects/23002705/jobs/artifacts/next/download?job=build-abp",
     archive,
-    authOptions
+    authOptions,
   );
 
   try {
-    await extractZip(archive, {dir: testext});
+    await extractZip(archive, { dir: testext });
     const distBuildABP = path.join(testext, "dist-build-abp");
     // Get the list of files in the extracted directory
     const files = await readdir(distBuildABP);
@@ -89,32 +85,30 @@ async function run() {
     // eslint-disable-next-line no-console
     console.log("Using Manifest Version:", manifestVersion);
 
-    const fileFilter = file => {
-      return file.startsWith("adblockplus-chrome") &&
-             file.endsWith(`mv${manifestVersion}.zip`);
+    const fileFilter = (file) => {
+      return file.startsWith("adblockplus-chrome") && file.endsWith(`mv${manifestVersion}.zip`);
     };
     const extensionFileName = files.find(fileFilter);
 
     if (extensionFileName) {
       const targetZipFilePath = path.join(distBuildABP, extensionFileName);
-      await extractZip(targetZipFilePath, {dir: testext});
+      await extractZip(targetZipFilePath, { dir: testext });
 
       // Remove the original .zip file
       await unlink(targetZipFilePath);
       // eslint-disable-next-line no-console
       console.log(`${extensionFileName} extracted to ${testext}`);
-    }
-    else {
+    } else {
       console.error("Target .zip file not found.");
     }
 
     // Delete the distBuildABP folder
-    await rm(distBuildABP, {recursive: true});
-  }
-  finally {
+    await rm(distBuildABP, { recursive: true });
+  } finally {
     await unlink(archive);
   }
 }
 
 run();
-console.log("Downloading ABP extension..."); // eslint-disable-line no-console
+// eslint-disable-next-line no-console
+console.log("Downloading ABP extension...");

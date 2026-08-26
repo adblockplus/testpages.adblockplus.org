@@ -2,7 +2,7 @@
 
 setTimeout(() => {
   let targetId = "basic-target";
-  removeWaitingContent(targetId); // eslint-disable-line no-undef
+  removeWaitingContent(targetId);
 
   if (!window.aopwb) {
     window.aopwb = true;

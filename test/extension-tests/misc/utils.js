@@ -16,29 +16,33 @@
  */
 
 import assert from "assert";
-import {By} from "selenium-webdriver";
+import { By } from "selenium-webdriver";
 
 export async function checkLastError(driver, handle) {
   await driver.switchTo().window(handle);
 
-  let error = await driver.executeAsyncScript(async callback => {
+  let error = await driver.executeAsyncScript(async (callback) => {
     // Firefox
-    if (typeof browser !== "undefined")
-      browser.runtime.sendMessage({type: "debug.getLastError"}).then(callback);
+    if (typeof browser !== "undefined") {
+      browser.runtime.sendMessage({ type: "debug.getLastError" }).then(callback);
+    }
 
     // Chromium
-    if (typeof chrome != "undefined" && typeof chrome.runtime != "undefined")
-      chrome.runtime.sendMessage({type: "debug.getLastError"}, callback);
+    if (typeof chrome != "undefined" && typeof chrome.runtime != "undefined") {
+      chrome.runtime.sendMessage({ type: "debug.getLastError" }, callback);
+    }
   });
 
-  if (!error || !error.message)
+  if (!error || !error.message) {
     return;
+  }
 
   let text = `Unhandled error in background page: ${error.message}`;
-  if (process.env.THROW_LAST_ERROR == "true")
+  if (process.env.THROW_LAST_ERROR == "true") {
     assert.fail(text);
-  else
+  } else {
     console.warn(text);
+  }
 }
 
 export async function runWithHandle(driver, handle, callback) {
@@ -46,8 +50,7 @@ export async function runWithHandle(driver, handle, callback) {
   await driver.switchTo().window(handle);
   try {
     return await callback();
-  }
-  finally {
+  } finally {
     await driver.switchTo().window(currentHandle);
   }
 }
@@ -56,8 +59,9 @@ export async function runWithHandle(driver, handle, callback) {
 // returns the extensions' background pages, so we need to ignore them, in order
 // not to accidentally interact with those.
 export async function safeGetAllWindowHandles(driver, browserName) {
-  if (browserName === "firefox")
+  if (browserName === "firefox") {
     return await driver.getAllWindowHandles();
+  }
 
   const previousHandle = await driver.getWindowHandle();
 
@@ -67,12 +71,12 @@ export async function safeGetAllWindowHandles(driver, browserName) {
     try {
       await driver.switchTo().window(handle);
       const url = await driver.getCurrentUrl();
-      if (url.includes("_generated_background_page.html"))
+      if (url.includes("_generated_background_page.html")) {
         continue;
+      }
 
       safeHandles.push(handle);
-    }
-    catch (ex) {
+    } catch (ex) {
       // Ignoring errors here, as they have no impact on anything that comes
       // after it
     }
@@ -80,8 +84,7 @@ export async function safeGetAllWindowHandles(driver, browserName) {
 
   try {
     await driver.switchTo().window(previousHandle);
-  }
-  catch (ex) {
+  } catch (ex) {
     console.error("Failed to switch back to previous handle", ex);
   }
 
@@ -97,20 +100,19 @@ export async function safeGetAllWindowHandles(driver, browserName) {
  * @param {number} options.timeout - polling timeout in ms
  * @returns {Promise<Object>} - The webdriver element found in the page
  */
-export async function getDisplayedElement(
-  driver, cssSelector, {timeout = 500} = {}
-) {
+export async function getDisplayedElement(driver, cssSelector, { timeout = 500 } = {}) {
   let elem;
   await driver.wait(
-    async() => {
+    async () => {
       try {
         elem = await driver.findElement(By.css(cssSelector));
         return await elem.isDisplayed();
+      } catch (e) {
+        // no-op
       }
-      catch (e) {}
     },
     timeout,
-    `Element "${cssSelector}" was not displayed`
+    `Element "${cssSelector}" was not displayed`,
   );
 
   return elem;

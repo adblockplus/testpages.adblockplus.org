@@ -17,9 +17,9 @@
 
 import assert from "assert";
 import webdriver from "selenium-webdriver";
-import {runWithHandle, getDisplayedElement} from "../misc/utils.js";
+import { runWithHandle, getDisplayedElement } from "../misc/utils.js";
 
-const {By} = webdriver;
+const { By } = webdriver;
 
 let specialized = {};
 
@@ -28,14 +28,17 @@ function clickButtonOrLink(element) {
 }
 
 async function checkRequestBlocked(driver, resource) {
-  let removeTimestamp = s => s.replace(/\?.\d*/, "");
+  let removeTimestamp = (s) => s.replace(/\?.\d*/, "");
 
-  await driver.wait(async() => {
-    let logs = await driver.manage().logs().get("browser");
-    let expected =
-      `${resource} - Failed to load resource: net::ERR_BLOCKED_BY_CLIENT`;
-    return logs.some(l => removeTimestamp(l.message).includes(expected));
-  }, 2000, "request wasn't blocked");
+  await driver.wait(
+    async () => {
+      let logs = await driver.manage().logs().get("browser");
+      let expected = `${resource} - Failed to load resource: net::ERR_BLOCKED_BY_CLIENT`;
+      return logs.some((l) => removeTimestamp(l.message).includes(expected));
+    },
+    2000,
+    "request wasn't blocked",
+  );
 }
 
 async function checkPing(driver, element) {
@@ -48,70 +51,75 @@ specialized["filters/ping"] = {
   // https://github.com/mozilla/geckodriver/issues/284
   excludedBrowsers: ["firefox"],
 
-  run: checkPing
+  run: checkPing,
 };
 
 specialized["exceptions/ping"] = {
   excludedBrowsers: ["firefox"],
 
   async run(driver, element) {
-    await assert.rejects(async() => checkPing(driver, element),
-                         /request wasn't blocked/);
-  }
+    await assert.rejects(async () => checkPing(driver, element), /request wasn't blocked/);
+  },
 };
 
 async function checkPopup(driver, element, extensionHandle, shouldBlockPopup) {
   let token = Math.floor(Math.random() * 1e8);
   await runWithHandle(driver, extensionHandle, () =>
     driver.executeScript((...args) => {
-      self[`tabCreated${args[0]}`] = new Promise(resolve => {
+      self[`tabCreated${args[0]}`] = new Promise((resolve) => {
         chrome.tabs.onCreated.addListener(function listener() {
           chrome.tabs.onCreated.removeListener(listener);
           resolve("tab created");
         });
       });
-    }, token));
+    }, token),
+  );
   await clickButtonOrLink(element);
 
   let id = await element.getAttribute("id");
-  await driver.wait(async() => {
-    let found = false;
-    for (let handle of await driver.getAllWindowHandles()) {
-      try {
-        let url =
-          await runWithHandle(driver, handle, () => driver.getCurrentUrl());
-        // needs to match filters/popup.tmpl and exceptions/popup.tmpl urls
-        found = found || url.includes("/testfiles/popup");
+  await driver.wait(
+    async () => {
+      let found = false;
+      for (let handle of await driver.getAllWindowHandles()) {
+        try {
+          let url = await runWithHandle(driver, handle, () => driver.getCurrentUrl());
+          // needs to match filters/popup.tmpl and exceptions/popup.tmpl urls
+          found = found || url.includes("/testfiles/popup");
+        } catch (err) {
+          if (err.name != "NoSuchWindowError" && err.name != "WebDriverError") {
+            throw err;
+          }
+        }
       }
-      catch (err) {
-        if (err.name != "NoSuchWindowError" && err.name != "WebDriverError")
-          throw err;
-      }
-    }
-    return shouldBlockPopup ? !found : found;
-  }, 2000, `Popup ${id} was ${shouldBlockPopup ? "not " : ""}blocked`);
+      return shouldBlockPopup ? !found : found;
+    },
+    2000,
+    `Popup ${id} was ${shouldBlockPopup ? "not " : ""}blocked`,
+  );
 
   let message = await runWithHandle(driver, extensionHandle, () =>
-    driver.executeAsyncScript(async(...args) => {
+    driver.executeAsyncScript(async (...args) => {
       let callback = args[args.length - 1];
       let msg = await self[`tabCreated${args[0]}`];
       callback(msg);
-    }, token));
+    }, token),
+  );
 
-  if (message != "tab created")
+  if (message != "tab created") {
     throw new Error(`Clicking button or link failed: ${message}`);
+  }
 }
 
 specialized["filters/popup"] = {
   async run(driver, element, extensionHandle) {
     await checkPopup(driver, element, extensionHandle, true);
-  }
+  },
 };
 
 specialized["exceptions/popup"] = {
   async run(driver, element, extensionHandle) {
     await checkPopup(driver, element, extensionHandle, false);
-  }
+  },
 };
 
 specialized["filters/other"] = {
@@ -121,21 +129,19 @@ specialized["filters/other"] = {
 
   async run(driver) {
     await checkRequestBlocked(driver, "other/image.png");
-  }
+  },
 };
 
 specialized["filters/websocket"] = {
   skipDefaultUpdateFilters: true,
 
   async run(driver, _element, _extensionHandle, updateFilters) {
-    await getDisplayedElement(
-      driver, "#testcase-status[aria-label='websocket-fail']", {timeout: 2000});
+    await getDisplayedElement(driver, "#testcase-status[aria-label='websocket-fail']", { timeout: 2000 });
 
     await updateFilters();
 
-    await getDisplayedElement(
-      driver, "#testcase-status[aria-label='websocket-pass']");
-  }
+    await getDisplayedElement(driver, "#testcase-status[aria-label='websocket-pass']");
+  },
 };
 
-export {specialized as default};
+export { specialized as default };

@@ -30,17 +30,19 @@ description = Check if override-property-read feature works properly.
 
 <script>
   "use strict";
+  /* global maybeDelayedTest */
 
-  var overridePropertyRead; // eslint-disable-line no-var
+  var overridePropertyRead;
 
-  maybeDelayedTest(() => { // eslint-disable-line no-undef
+  maybeDelayedTest(() => {
     overridePropertyRead = {fp: true};
   });
 
   setTimeout(() => {
-    if (!overridePropertyRead.fp) // eslint-disable-line no-undef
+    if (!overridePropertyRead.fp) {
       document.getElementById("to-be-overriden").hidden = true;
-    removeWaitingContent(); // eslint-disable-line no-undef
+    }
+    removeWaitingContent();
   }, 500);
 </script>
 

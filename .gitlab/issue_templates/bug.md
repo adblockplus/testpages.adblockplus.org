@@ -1,13 +1,13 @@
 ## Environment
 
-* OS version, browser version and Adblock Plus version.
-* Link to the failing CI pipeline / job
+- OS version, browser version and Adblock Plus version.
+- Link to the failing CI pipeline / job
 
 ## Steps to reproduce
 
 1. (e.g. Open https://testpages.adblockplus.org/en/filters/rewrite)
 2. (e.g. Add the filter from "Basic usage" testcase)
-...
+   ...
 
 ## Observed behavior
 

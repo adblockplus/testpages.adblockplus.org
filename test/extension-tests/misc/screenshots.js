@@ -16,7 +16,7 @@
  */
 
 import path from "path";
-import {takeFullPageScreenshot} from "@eyeo/get-browser-binary";
+import { takeFullPageScreenshot } from "@eyeo/get-browser-binary";
 
 const SCREENSHOT_DIR = path.join("test", "screenshots");
 
@@ -24,8 +24,7 @@ export function takeScreenshot(driver) {
   return takeFullPageScreenshot(driver);
 }
 
-export async function writeScreenshotFile(image, browserName, browserVersion,
-                                          testTitle, suffix) {
+export async function writeScreenshotFile(image, browserName, browserVersion, testTitle, suffix) {
   let title = testTitle.toLowerCase().replace(/[^a-z0-9]+/g, "_");
   suffix = suffix ? `_${suffix}` : "";
   let filename = `${browserName}_${browserVersion}_${title}${suffix}.png`;
@@ -35,13 +34,13 @@ export async function writeScreenshotFile(image, browserName, browserVersion,
 }
 
 export async function writeScreenshotAndThrow(context, error) {
-  let {driver, browserName, browserVersion, test} = context;
+  let { driver, browserName, browserVersion, test } = context;
   let screenshot = await takeScreenshot(driver);
-  let scrPath = await writeScreenshotFile(screenshot, browserName,
-                                          browserVersion, test.title);
+  let scrPath = await writeScreenshotFile(screenshot, browserName, browserVersion, test.title);
   if (error) {
-    if (error instanceof Error)
+    if (error instanceof Error) {
       error.message = `${error.message}\n(see ${scrPath})`;
+    }
     throw error;
   }
 }

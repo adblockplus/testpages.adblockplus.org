@@ -2,11 +2,12 @@
 
 setTimeout(() => {
   let targetId = "subproperty-target";
-  removeWaitingContent(targetId); // eslint-disable-line no-undef
+  removeWaitingContent(targetId);
 
   if (!window.aopwsp || !window.aopwsp.showing) {
-    if (!window.aopwsp || typeof window.aopwsp != "object")
+    if (!window.aopwsp || typeof window.aopwsp != "object") {
       window.aopwsp = {};
+    }
     window.aopwsp.showing = true;
     let failElement = document.createElement("div");
     failElement.innerHTML = "Failed. Script ran and was applied to the page.";

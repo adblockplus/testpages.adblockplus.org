@@ -110,8 +110,9 @@ description = Check that the replace-argument snippet is working as expected.
     const parent = document.getElementById(parentId);
     const element = document.createElement("div");
     element.setAttribute("data-expectedresult", success ? "pass" : "fail");
-    if (!success)
+    if (!success) {
       element.setAttribute("aria-label", parentId + "-fail");
+    }
     element.innerHTML = message;
     parent.appendChild(element);
   }
@@ -162,6 +163,6 @@ description = Check that the replace-argument snippet is working as expected.
                     stackSuccess ? "" :
                     "Failed: stack-based gating did not apply correctly");
 
-    removeWaitingContent(); // eslint-disable-line no-undef
+    removeWaitingContent();
   }, 500);
 </script>

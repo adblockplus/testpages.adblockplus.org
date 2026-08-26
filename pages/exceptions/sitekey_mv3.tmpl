@@ -40,7 +40,7 @@ description = Check that a filter using the $sitekey exception filter option is 
 <script>
   "use strict";
 
-  if (expectedParameter()) { // eslint-disable-line no-undef
+  if (expectedParameter()) {
     let frameDoc = document.getElementById("sitekey-frame").contentDocument;
     frameDoc.write(`
       <body>

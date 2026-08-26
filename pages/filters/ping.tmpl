@@ -49,6 +49,8 @@ description = Check that a filter using the $ping filter option is working as ex
 <script>
   "use strict";
 
+  /* exported doPing */
+
   function doPing() {
     navigator.sendBeacon("/en/filters/ping", "Testdata");
   }

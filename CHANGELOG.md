@@ -104,7 +104,7 @@ All notable changes to this project will be documented in this file.
 
 ## 2023-12-14
 
-- Added test page for Wildcard support 
+- Added test page for Wildcard support
 
 ## 2023-11-23
 
@@ -146,13 +146,13 @@ All notable changes to this project will be documented in this file.
 ## 2023-02-09
 
 - Updated the `WebSocket` and `WebSocket Exception` pages to use a self hosted
-websocket endpoint. More info: #48
+  websocket endpoint. More info: #48
 
 ## 2023-01-03
 
 - On the test run, changed the `checkLastError()` default behavior to log a
-warning instead of throwing an error. That can be changed with the new
-`THROW_LAST_ERROR` parameter. More info: #141
+  warning instead of throwing an error. That can be changed with the new
+  `THROW_LAST_ERROR` parameter. More info: #141
 
 ## 2022-12-12
 
@@ -161,7 +161,7 @@ warning instead of throwing an error. That can be changed with the new
 ## 2022-11-21
 
 - Added test pages for `json-override` and `hide-if-contains-similar-text`
-snippets. More info: #134
+  snippets. More info: #134
 
 ## 2022-11-09
 
@@ -175,12 +175,12 @@ snippets. More info: #134
 ## 2022-11-03
 
 - Simplified the `iFrame` test case on the `Elem Hide` page, removing elements
-that already get tested on the `Basic usage` test case.
+  that already get tested on the `Basic usage` test case.
 
 ## 2022-10-26
 
 - Fixed an issue with the CSP Specific page, where the `frame-src` filter
-had no effect. More info: #115
+  had no effect. More info: #115
 
 ## 2022-10-20
 
@@ -189,7 +189,7 @@ had no effect. More info: #115
 ## 2022-10-13
 
 - Removed the deprecated `BROWSER`, `TESTS_SUBSET` and `TESTS_EXCLUDE`
-parameters from the test Docker image.
+  parameters from the test Docker image.
 
 ## 2022-10-04
 
@@ -198,24 +198,24 @@ parameters from the test Docker image.
 ## 2022-10-03
 
 - Updated one of the `iFrame Exception` filters, from
-`##[alt="Test image placeholder"]` to
-`##[alt="iframe-content-rewritten-by-script-placeholder"]`. More info: #125
+  `##[alt="Test image placeholder"]` to
+  `##[alt="iframe-content-rewritten-by-script-placeholder"]`. More info: #125
 
 ## 2022-09-29
 
 - Renamed the title of pages/exceptions/iframe_subdomains.tmpl from `iFrame
 Exception` to `iFrame Subdomains Exception`, and removed the `<iframe>` ids
-on the static html files loaded by that page.
+  on the static html files loaded by that page.
 
 ## 2022-09-27
 
 - Added the `GREP` parameter to the test Docker image, and deprecated the
-`BROWSER`, `TESTS_SUBSET` and `TESTS_EXCLUDE` parameters.
+  `BROWSER`, `TESTS_SUBSET` and `TESTS_EXCLUDE` parameters.
 
 ## 2022-09-20
 
 - Fixed a bug on the Sitekey page that would make the test pass when using an
-invalid sitekey filter.
+  invalid sitekey filter.
 
 ## 2022-09-08
 
@@ -338,6 +338,7 @@ invalid sitekey filter.
 ### Constraints and Exceptions pages update
 
 Deleted static files:
+
 - `static/testcasefiles/document/image.jpg`
 - `static/testcasefiles/document/stylesheet.css`
 - `static/testcasefiles/document/stylesheet.css`
@@ -350,6 +351,7 @@ Deleted static files:
 - `static/testcasefiles/matchcase/2/ABC.jpg`
 
 Added static files:
+
 - `static/testfiles/document/image.png`
 - `static/testfiles/elemhide/image.png`
 - `static/testfiles/genericblock/generic.png`

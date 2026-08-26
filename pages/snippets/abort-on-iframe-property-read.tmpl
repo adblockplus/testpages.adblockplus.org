@@ -69,13 +69,14 @@ template = testcase
 
 <script>
   "use strict";
+  /* global testAbortOnIframePropertyRead */
 
   window.addEventListener("load", () => {
-    setTimeout(() => testAbortOnIframePropertyRead("basic", ["aoiprb"], iframe => // eslint-disable-line no-undef
+    setTimeout(() => testAbortOnIframePropertyRead("basic", ["aoiprb"], iframe =>
       iframe.contentWindow.aoiprb = false), 300);
-    setTimeout(() => testAbortOnIframePropertyRead("subproperty", ["aoipr.sp"], iframe => // eslint-disable-line no-undef
+    setTimeout(() => testAbortOnIframePropertyRead("subproperty", ["aoipr.sp"], iframe =>
       iframe.contentWindow.aoipr = {sp: false}), 300);
-    setTimeout(() => testAbortOnIframePropertyRead( // eslint-disable-line no-undef
+    setTimeout(() => testAbortOnIframePropertyRead(
       "multipleproperties", ["aoipr1", "aoipr2"], iframe => {
         iframe.contentWindow.aoipr1 = false;
         iframe.contentWindow.aoipr2 = false;
