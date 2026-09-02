@@ -13,14 +13,13 @@
     "ws": "^8.21.0"
   },
   "devDependencies": {
-    "@eyeo/get-browser-binary": "^0.24.4",
+    "@eyeo/get-browser-binary": "^0.24.5",
     "@linthtml/linthtml": "^0.9.5",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-html": "^7.1.0",
     "eslint-plugin-mocha": "^10.5.0",
     "prettier": "^3.3.3",
-    "geckodriver": "3.1.0",
     "got": "^14.2.0",
     "jimp": "^0.22.12",
     "mocha": "^10.3.0",
