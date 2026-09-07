@@ -13,7 +13,7 @@ RUN apt-get install -y libgtk-3-0 libxt6 xvfb libnss3 libxss1
 RUN apt-get install -y libasound2 libgbm1
 
 # Edge dependencies
-RUN apt-get install -y fonts-liberation libatomic1 xdg-utils libu2f-udev
+RUN apt-get install -y fonts-liberation libatomic1 xdg-utils libu2f-udev libvulkan1
 
 # CMS requires Python 3
 RUN apt-get update && apt-get install -y python3 python3-distutils python3-pip

@@ -28,7 +28,7 @@ RUN apt-get install -y libgtk-3-0 libxt6 xvfb libnss3 libxss1
 RUN apt-get install -y libasound2 libgbm1
 
 # Edge dependencies
-RUN apt-get install -y fonts-liberation libatomic1 xdg-utils libu2f-udev
+RUN apt-get install -y fonts-liberation libatomic1 xdg-utils libu2f-udev libvulkan1
 
 # Install nginx 1.30.2
 RUN apt-get update && apt-get install -y curl lsb-release \
