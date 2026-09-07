@@ -42,7 +42,7 @@ RUN cd /etc/nginx && openssl req -x509 -newkey rsa:4096 \
 # Build CMS
 RUN git clone https://gitlab.com/eyeo/websites/cms.git
 RUN git -C cms checkout fbd1527b9f98d99a8b62c6ad5e32ac7758c19a28
-RUN pip3 install -r cms/requirements.txt
+RUN pip3 install --break-system-packages -r cms/requirements.txt
 
 # Build tests
 COPY package*.json testpages.adblockplus.org/
