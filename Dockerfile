@@ -13,7 +13,22 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-FROM registry.gitlab.com/eyeo/docker/get-browser-binary:node22
+# EXPERIMENT - do not merge as is. Inlines the proposed bookworm version of
+# registry.gitlab.com/eyeo/docker/get-browser-binary:node22 to verify the
+# Debian bullseye EOL fix before changing eyeo/docker.
+FROM node:22.14.0-bookworm-slim
+
+# General packages
+RUN apt-get update && apt-get install -y git procps wget unzip bzip2 gnupg xz-utils
+
+# xvfb (headful browser run)
+RUN apt-get install -y libgtk-3-0 libxt6 xvfb libnss3 libxss1
+
+# General browser dependencies
+RUN apt-get install -y libasound2 libgbm1
+
+# Edge dependencies
+RUN apt-get install -y fonts-liberation libatomic1 xdg-utils libu2f-udev
 
 # Install nginx 1.30.2
 RUN apt-get update && apt-get install -y curl lsb-release \
@@ -42,7 +57,7 @@ RUN cd /etc/nginx && openssl req -x509 -newkey rsa:4096 \
 # Build CMS
 RUN git clone https://gitlab.com/eyeo/websites/cms.git
 RUN git -C cms checkout fbd1527b9f98d99a8b62c6ad5e32ac7758c19a28
-RUN pip3 install -r cms/requirements.txt
+RUN pip3 install --break-system-packages -r cms/requirements.txt
 
 # Build tests
 COPY package*.json testpages.adblockplus.org/
