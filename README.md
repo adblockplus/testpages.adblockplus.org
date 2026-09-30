@@ -13,6 +13,8 @@ The following tools are needed:
 - npm >= 10
 - Python 3
 - Docker
+- `unzip` on Linux and macOS, needed by get-browser-binary to install Chromium
+  and Chrome for Testing when running the tests outside of Docker
 
 ## Running the tests
 
