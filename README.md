@@ -13,6 +13,8 @@ The following tools are needed:
 - npm >= 10
 - Python 3
 - Docker
+- `unzip` on Linux and macOS, needed by get-browser-binary to install Chromium
+  and Chrome for Testing when running the tests outside of Docker
 
 ## Running the tests
 
@@ -68,15 +70,14 @@ docker run --shm-size=2g -e GREP="chrome latest" -it testpages
 
 The available browsers are:
 
-- chromium 79.0.3945.0 (oldest supported version, MV2)
+- chromium 127.0.6533.0 (oldest supported version, MV2)
 - chromium 128.0.6613.0 (latest chromium version supporting MV2 extensions)
 - chrome latest
 - chrome beta
 - chrome dev
 - firefox latest
 - firefox beta
-- firefox 75.0
-- firefox 68.0
+- firefox 128.0 (oldest supported version)
 - edge latest
 - edge beta
 
