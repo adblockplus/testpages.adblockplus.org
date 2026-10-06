@@ -17,12 +17,44 @@
 
 import got from "got";
 import path from "path";
-import extractZip from "extract-zip";
+import { spawn } from "child_process";
 
 import fs from "node:fs";
 import { pipeline } from "node:stream";
 import { promisify } from "node:util";
 import { readdir, rm, unlink } from "node:fs/promises";
+
+// Extracts a zip archive with the native tools of the system: `unzip` on
+// Linux and macOS, `tar.exe` on Windows. Same approach as
+// extension-download.js, since get-browser-binary 0.26.0 dropped the
+// extract-zip dependency.
+async function extractZip(archive, dir) {
+  await fs.promises.mkdir(dir, { recursive: true });
+
+  let command;
+  let args;
+
+  if (process.platform == "win32") {
+    let systemRoot = process.env.SystemRoot || "C:\\Windows";
+    command = path.join(systemRoot, "System32", "tar.exe");
+    args = ["-xf", archive, "-C", dir];
+  } else {
+    command = "unzip";
+    args = ["-q", "-o", archive, "-d", dir];
+  }
+
+  // spawn() doesn't buffer the command output, unlike exec() and execFile().
+  // The output is never read, so it gets ignored.
+  let child = spawn(command, args, { stdio: ["ignore", "ignore", "ignore"] });
+  let code = await new Promise((resolve, reject) => {
+    child.on("error", reject);
+    child.on("close", resolve);
+  });
+
+  if (code !== 0) {
+    throw new Error(`Unable to extract ${archive}: ${command} exited with code ${code}`);
+  }
+}
 
 /**
  * Downloads url resources.
@@ -76,7 +108,7 @@ async function run() {
   );
 
   try {
-    await extractZip(archive, { dir: testext });
+    await extractZip(archive, testext);
     const distBuildABP = path.join(testext, "dist-build-abp");
     // Get the list of files in the extracted directory
     const files = await readdir(distBuildABP);
@@ -92,7 +124,7 @@ async function run() {
 
     if (extensionFileName) {
       const targetZipFilePath = path.join(distBuildABP, extensionFileName);
-      await extractZip(targetZipFilePath, { dir: testext });
+      await extractZip(targetZipFilePath, testext);
 
       // Remove the original .zip file
       await unlink(targetZipFilePath);
