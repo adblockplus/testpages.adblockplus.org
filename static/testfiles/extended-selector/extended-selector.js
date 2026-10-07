@@ -138,6 +138,10 @@ hihamssSpan.innerHTML += "Failed. Element should be hidden.<br>";
 hihamssSpan.appendChild(hihamssA);
 hihamssShRoot.appendChild(hihamssSpan);
 
+// Text node directly in closed shadow root with hide-if-contains-visible-text
+const hicvtHostLabel = document.getElementById("hicvt-host-label");
+hicvtHostLabel.attachShadow({ mode: "closed" }).append("hicvt-host-test");
+
 // Handle expected views for test screenshots
 const isExpectedMode = window.location.search.indexOf("expected=1") >= 0;
 if (isExpectedMode) {

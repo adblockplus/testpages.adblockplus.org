@@ -95,6 +95,30 @@ description = Check that the CSS selector's extended syntax is working as expect
   </ul>
 </section>
 
+{% set case = "Text directly in closed shadow root with hide-if-contains-visible-text" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that hide-if-contains-visible-text reads a text node placed directly in a closed shadow root when the search selector targets the host.</p>
+  <div class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div id="hicvt-host-parent" class="testcase-content" data-expectedresult="fail" aria-label="{{id}}-fail">
+      <span id="hicvt-host-label"></span>
+      Failed. Element not hidden.
+    </div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element in the test case above should be hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-contains-visible-text 'hicvt-host-test' '#hicvt-host-parent' '#hicvt-host-label'</pre></li>
+  </ul>
+</section>
+
 {% set case = "Simple closed shadow root with hide-if-contains-and-matches-style" %}
 {% set id = get_id(case) %}
 <section id="{{id}}-section" class="testcase-panel">
