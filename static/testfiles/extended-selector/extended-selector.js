@@ -139,8 +139,13 @@ hihamssSpan.appendChild(hihamssA);
 hihamssShRoot.appendChild(hihamssSpan);
 
 // Text node directly in closed shadow root with hide-if-contains-visible-text
-const hicvtHostLabel = document.getElementById("hicvt-host-label");
-hicvtHostLabel.attachShadow({ mode: "closed" }).append("hicvt-host-test");
+setTimeout(() => {
+  const hicvtHostLabel = document.createElement("span");
+  hicvtHostLabel.id = "hicvt-host-label";
+  hicvtHostLabel.attachShadow({ mode: "closed" }).append("hicvt-host-test");
+  document.getElementById("hicvt-host-parent").prepend(hicvtHostLabel);
+  removeWaitingContent("hicvt-host-parent");
+}, 500);
 
 // Handle expected views for test screenshots
 const isExpectedMode = window.location.search.indexOf("expected=1") >= 0;
