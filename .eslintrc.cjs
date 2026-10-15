@@ -72,5 +72,9 @@ module.exports = {
       files: ["endpoints/**/*.js"],
       env: { node: true },
     },
+    {
+      files: [".eslintrc.cjs"],
+      env: { node: true },
+    },
   ],
 };
