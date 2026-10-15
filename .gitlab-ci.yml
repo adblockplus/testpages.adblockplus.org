@@ -45,6 +45,7 @@ workflow:
       when: never
     - when: always
   interruptible: true
+  dependencies: []
 
 .test_runner:
   extends: .test_rules
@@ -58,6 +59,7 @@ workflow:
 
 test:lint:
   extends: .test_runner
+  stage: pre_checks
   script:
     - docker build -t lintimage -f test/lint.Dockerfile .
     - docker run -t lintimage
