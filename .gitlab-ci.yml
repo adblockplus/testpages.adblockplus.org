@@ -14,7 +14,20 @@
 # along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
 
 ---
+# Security scanners from ci-templates: gitleaks, semgrep, trivy (no Terraform)
+include:
+  - project: eyeo/devops/terraform/utils/ci-templates
+    ref: main
+    file: .gitlab-ci.gitleaks.yml
+  - project: eyeo/devops/terraform/utils/ci-templates
+    ref: main
+    file: .gitlab-ci.semgrep.yml
+  - project: eyeo/devops/terraform/utils/ci-templates
+    ref: main
+    file: .gitlab-ci.trivy.yml
+
 stages:
+  - pre_checks
   - test
   - build_production
   - deploy_production
@@ -32,6 +45,7 @@ workflow:
       when: never
     - when: always
   interruptible: true
+  dependencies: []
 
 .test_runner:
   extends: .test_rules
@@ -45,6 +59,7 @@ workflow:
 
 test:lint:
   extends: .test_runner
+  stage: pre_checks
   script:
     - docker build -t lintimage -f test/lint.Dockerfile .
     - docker run -t lintimage

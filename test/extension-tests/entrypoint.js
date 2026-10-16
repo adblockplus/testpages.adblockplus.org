@@ -166,6 +166,8 @@ async function waitForExtension(driver) {
 }
 
 async function getPageTests() {
+  // Opt-in via TEST_PAGES_INSECURE for the self-signed certificate of the local test server
+  // nosemgrep: problem-based-packs.insecure-transport.js-node.bypass-tls-verification.bypass-tls-verification
   let options = testPagesInsecure ? { https: { rejectUnauthorized: false } } : {};
   let response;
 

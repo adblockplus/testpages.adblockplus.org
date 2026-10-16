@@ -1,0 +1,5 @@
+endpoints/sitekey/site.key:private-key:1
+0041f20e0bd822299b6db1b3991678aeeab051f9:static/site.key:private-key:1
+0041f20e0bd822299b6db1b3991678aeeab051f9:static/abp-test-suite-filters.txt:generic-api-key:13
+ab2de2369841b17de262ab508bd62edbcbd084d6:static/abp-testcase-subscription.txt:generic-api-key:93
+a94bfb8a9e1cce5e02a93f2d97dc61a34f807a90:pages/abp-testcase-subscription.txt.tmpl:generic-api-key:93
