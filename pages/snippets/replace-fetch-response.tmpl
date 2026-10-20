@@ -210,23 +210,7 @@ description = Check that the replace-fetch-response snippet is working as expect
     testElement.appendChild(element);
   }
 
-  function handleResponse(text, testId, replacement) {
-    const testElement = document.getElementById(testId);
-    const element = document.createElement("div");
-
-    if (text.includes(replacement)) {
-      element.setAttribute("data-expectedresult", "pass");
-      element.innerHTML = "Fetch response was replaced";
-    } else {
-      element.setAttribute("data-expectedresult", "fail");
-      element.setAttribute("aria-label", "{{id}}-fail");
-      element.innerHTML = "Failed. Fetch response was not replaced";
-    }
-
-    testElement.appendChild(element);
-  }
-
-  function handleJsonResult(text, testId, check) {
+  function handleResponse(text, testId, check) {
     const testElement = document.getElementById(testId);
     const element = document.createElement("div");
 
@@ -248,10 +232,10 @@ description = Check that the replace-fetch-response snippet is working as expect
     const jsonUrl = "/testfiles/fetch-and-xhr/jsonpath.json";
 
     const tests = [
-      {id: "test-string-replacement", replacement: "{{ replacement2 }}"},
-      {id: "test-string-replacement-with-needle", replacement: "{{ replacement3 }}"},
-      {id: "test-regex-parameters", replacement: "{{ replacement4 }}"},
-      {id: "test-multiple-string-replacement", replacement: "{{ replacement5 }}"}
+      {id: "test-string-replacement", check: text => text.includes("{{ replacement2 }}")},
+      {id: "test-string-replacement-with-needle", check: text => text.includes("{{ replacement3 }}")},
+      {id: "test-regex-parameters", check: text => text.includes("{{ replacement4 }}")},
+      {id: "test-multiple-string-replacement", check: text => text.includes("{{ replacement5 }}")}
     ];
 
     const jsonTests = [
@@ -275,11 +259,11 @@ description = Check that the replace-fetch-response snippet is working as expect
       .then(response => response.text())
       .then(text => {
         handleResponseBasic(text);
-        tests.forEach(({id, replacement}) => handleResponse(text, id, replacement));
+        tests.forEach(({id, check}) => handleResponse(text, id, check));
       });
     fetch(jsonUrl)
       .then(response => response.text())
-      .then(text => jsonTests.forEach(({id, check}) => handleJsonResult(text, id, check)));
+      .then(text => jsonTests.forEach(({id, check}) => handleResponse(text, id, check)));
     removeWaitingContent();
   }, 500);
 </script>
