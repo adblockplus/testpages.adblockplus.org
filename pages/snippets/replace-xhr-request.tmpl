@@ -117,6 +117,29 @@ description = Check that the replace-xhr-request snippet is working as expected.
   </ul>
 </section>
 
+{% set case = "JSONPath remove" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+
+  <p>Test that JSONPath remove mode deletes every matched element from an array in the request body, leaving the other elements in place.</p>
+  <div id="test-{{id}}" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-expected-view">XHR request body was replaced</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element and not a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-xhr-request 'jsonpath($.slots[?(@.ad == 1)])' '' '' remove</pre></li>
+  </ul>
+</section>
+
 <script>
   "use strict";
 
@@ -190,6 +213,13 @@ description = Check that the replace-xhr-request snippet is working as expected.
         check: response => response.includes("sports") &&
           response.includes("news") &&
           response.includes("appended-tag")
+      },
+      {
+        id: "test-jsonpath-remove",
+        body: '{"slots":[{"ad":1,"name":"banner"},{"ad":0,"name":"article"},{"ad":1,"name":"sidebar"}]}',
+        check: response => !response.includes("banner") &&
+          !response.includes("sidebar") &&
+          response.includes("article")
       }
     ];
 
