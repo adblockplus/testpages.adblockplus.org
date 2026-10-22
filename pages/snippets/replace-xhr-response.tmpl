@@ -122,6 +122,75 @@ description = Check that the replace-xhr-response snippet is working as expected
   </ul>
 </section>
 
+{% set case = "JSONPath" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+
+  <p>Test that a JSONPath expression targets and replaces a nested property in a JSON response.</p>
+  <div id="test-{{id}}" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-expected-view">XHR response was replaced</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element and not a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-xhr-response 'jsonpath($.ads.enabled)' '"jsonpath-replaced"'</pre></li>
+  </ul>
+</section>
+
+{% set case = "JSONPath append" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+
+  <p>Test that JSONPath append mode pushes a value into an existing array in a JSON response.</p>
+  <div id="test-{{id}}" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-expected-view">XHR response was replaced</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element and not a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-xhr-response 'jsonpath($.tags)' '"appended-tag"' '' append</pre></li>
+  </ul>
+</section>
+
+{% set case = "JSONPath remove" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+
+  <p>Test that JSONPath remove mode deletes every matched element from an array in a JSON response, leaving the other elements in place.</p>
+  <div id="test-{{id}}" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-expected-view">XHR response was replaced</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element and not a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-xhr-response 'jsonpath($.slots[?(@.ad == 1)])' '' '' remove</pre></li>
+  </ul>
+</section>
+
 <script>
   "use strict";
 
@@ -160,16 +229,16 @@ description = Check that the replace-xhr-response snippet is working as expected
     testElement.appendChild(element);
   }
 
-  function handleResponse(text, testId, replacement) {
+  function handleResponse(text, testId, check) {
     const testElement = document.getElementById(testId);
     const element = document.createElement("div");
 
-    if (text.includes(replacement)) {
+    if (check(text)) {
       element.setAttribute("data-expectedresult", "pass");
       element.innerHTML = "XHR response was replaced";
     } else {
       element.setAttribute("data-expectedresult", "fail");
-      element.setAttribute("aria-label", "{{id}}-fail");
+      element.setAttribute("aria-label", `${testId}-fail`);
       element.innerHTML = "Failed. XHR response was not replaced";
     }
 
@@ -178,19 +247,40 @@ description = Check that the replace-xhr-response snippet is working as expected
 
   setTimeout(() => {
     const url = "/testfiles/fetch-and-xhr/foo.txt";
+    // The JSONPath cases need a JSON response, so they request their own file.
+    const jsonUrl = "/testfiles/fetch-and-xhr/jsonpath.json";
 
     const tests = [
-      {id: "test-string-replacement", replacement: "{{ replacement2 }}"},
-      {id: "test-string-replacement-with-needle", replacement: "{{ replacement3 }}"},
-      {id: "test-regex-parameters", replacement: "{{ replacement4 }}"},
-      {id: "test-multiple-string-replacement", replacement: "{{ replacement5 }}"}
+      {id: "test-string-replacement", check: text => text.includes("{{ replacement2 }}")},
+      {id: "test-string-replacement-with-needle", check: text => text.includes("{{ replacement3 }}")},
+      {id: "test-regex-parameters", check: text => text.includes("{{ replacement4 }}")},
+      {id: "test-multiple-string-replacement", check: text => text.includes("{{ replacement5 }}")}
+    ];
+
+    const jsonTests = [
+      {
+        id: "test-jsonpath",
+        check: text => !text.includes("true") && text.includes("jsonpath-replaced")
+      },
+      {
+        id: "test-jsonpath-append",
+        check: text => text.includes("sports") && text.includes("news") &&
+          text.includes("appended-tag")
+      },
+      {
+        id: "test-jsonpath-remove",
+        check: text => !text.includes("banner") && !text.includes("sidebar") &&
+          text.includes("article")
+      }
     ];
 
     makeRequest(url)
     .then(response => {
       handleResponseBasic(response);
-      tests.forEach(({id, replacement}) => handleResponse(response, id, replacement));
+      tests.forEach(({id, check}) => handleResponse(response, id, check));
     });
+    makeRequest(jsonUrl)
+    .then(text => jsonTests.forEach(({id, check}) => handleResponse(text, id, check)));
     removeWaitingContent();
   }, 500);
 </script>
