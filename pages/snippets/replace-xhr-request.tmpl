@@ -140,6 +140,29 @@ description = Check that the replace-xhr-request snippet is working as expected.
   </ul>
 </section>
 
+{% set case = "URL token" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+
+  <p>Test that a <code>url:</code> token in the needle matches the request URL: the request goes to a URL containing <code>url-token</code>, and its body is rewritten.</p>
+  <div id="test-{{id}}" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+    <div class="testcase-expected-view">XHR request body was replaced</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should display a green element and not a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#replace-xhr-request sessionToken stripped 'url:url-token'</pre></li>
+  </ul>
+</section>
+
 <script>
   "use strict";
 
@@ -151,10 +174,10 @@ description = Check that the replace-xhr-request snippet is working as expected.
       .then(() => navigator.serviceWorker.ready) : Promise.resolve();
 
   // A promisified XHR POST request
-  function makeXhrPost(body) {
+  function makeXhrPost(body, url = "/xhr-request-echo") {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      xhr.open("POST", "/xhr-request-echo");
+      xhr.open("POST", url);
       xhr.setRequestHeader("Content-Type", "text/plain");
       xhr.onload = function() {
         if (xhr.status >= 200 && xhr.status < 300) {
@@ -220,12 +243,19 @@ description = Check that the replace-xhr-request snippet is working as expected.
         check: response => !response.includes("banner") &&
           !response.includes("sidebar") &&
           response.includes("article")
+      },
+      {
+        id: "test-url-token",
+        url: "/xhr-request-echo?url-token",
+        body: '{"sessionToken":"s1"}',
+        check: response => !response.includes("sessionToken") &&
+          response.includes("stripped")
       }
     ];
 
     swReady.then(() => Promise.all(
-      requests.map(({id, body, check}) =>
-        makeXhrPost(body)
+      requests.map(({id, body, url, check}) =>
+        makeXhrPost(body, url)
         .then(response => handleResult(id, check(response)))
         .catch(() => handleResult(id, false))
       )

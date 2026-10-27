@@ -146,6 +146,30 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
   </ul>
 </section>
 
+{% set case = "data mode" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that <code>mode="data"</code> matches the pattern against the canvas data URL (<code>canvas.toDataURL()</code>), which is a base64-encoded PNG. The pattern <code>UgAAACUAAAAX</code> is the base64 of the PNG header bytes that end the <code>IHDR</code> chunk name and store the image width and height, here 37 (<code>0x25</code>) and 23 (<code>0x17</code>). Every browser writes this header the same way, unlike the pixel data, so only the 37×23 canvas matches and the 20×20 ones do not.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div data-expectedresult="fail" class="dm-canvas-parent" id="canvas-parent19"><div><span>Failed. Element is not hidden.</span></div></div>
+    <div class="testcase-expected-view dm-canvas-parent" id="canvas-parent20"><div><span>Should not be hidden.</span></div></div>
+    <div data-expectedresult="pass" class="dm-canvas-parent" id="canvas-parent21"><div><span>Should not be hidden.</span></div></div>
+    <div class="testcase-waiting-content">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The red element (37×23 canvas) should be hidden and the green element (20×20 canvas) not hidden.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#hide-if-canvas-contains /UgAAACUAAAAX/ .dm-canvas-parent '' data</pre></li>
+  </ul>
+</section>
+
 <script>
   "use strict";
 
@@ -214,6 +238,19 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     }
   }
 
+  // Data mode: draws a filled square sized to the canvas, so the canvas data
+  // URL differs only in its PNG size header.
+  function appendFilledCanvas(parentSelector, id, width, height) {
+    const canvasParent = document.querySelector(parentSelector);
+    if (canvasParent) {
+      const {canvas, ctx} = makeCanvas(id, width, height);
+      canvasParent.appendChild(canvas);
+      // Draw after insertion, as a page would, so the draw hooks see it.
+      ctx.fillStyle = "white";
+      ctx.fillRect(0, 0, width, height);
+    }
+  }
+
   // toDataURL test: create source canvases and extract data URLs
   function makeColoredCanvasDataURL(size, color) {
     const {canvas, ctx} = makeCanvas(null, size, size);
@@ -245,6 +282,11 @@ description = Check that the hide-if-canvas-contains snippet is working as expec
     appendCanvas("#canvas-parent16", "fillText", "canvas16", "sponsored");
     appendCanvas("#canvas-parent17", "fillText", "canvas17", "hello world");
     appendCanvasWithPartialClearRect("#canvas-parent18", "canvas18", "spons", "ored");
+    // mode=data: the filter pattern UgAAACUAAAAX is the base64 of the PNG
+    // header's width/height bytes for 37×23, so only canvas19 matches.
+    appendFilledCanvas("#canvas-parent19", "canvas19", 37, 23);
+    appendFilledCanvas("#canvas-parent20", "canvas20", 20, 20);
+    appendFilledCanvas("#canvas-parent21", "canvas21", 20, 20);
   }, 200);
 
   setTimeout(() => {
