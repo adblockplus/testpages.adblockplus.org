@@ -375,8 +375,19 @@ description = Check that a filter using the $rewrite filter option is working as
     }
   }
 
+  // Chromium 158+ crashes the tab when this media file is rewritten.
+  // Skip it there until the crash is fixed upstream.
+  function isMediaRewriteCrashing(file) {
+    let match = /Chrom(?:e|ium)\/(\d+)/.exec(navigator.userAgent);
+    return file == "video.mp4" && match && parseInt(match[1], 10) >= 158;
+  }
+
   function manageMedia(id, mimeType, file) {
     let element = document.getElementById(id);
+    if (isMediaRewriteCrashing(file)) {
+      printUnsupported(element, mimeType, "skipped on Chromium 158+ (tab crash)");
+      return;
+    }
     element.addEventListener("loadedmetadata", () => printDuration(element));
     element.addEventListener("error", () => printUnsupported(element, mimeType, element.error));
     element.type = mimeType;
@@ -385,9 +396,6 @@ description = Check that a filter using the $rewrite filter option is working as
   }
 
   function testMediaRewrite() {
-    // DEBUG: media cases disabled to bisect the Chrome 158 tab crash
-    return;
-    // eslint-disable-next-line no-unreachable
     manageMedia("mp3-target", "audio/mpeg", "audio.mp3");
     manageMedia("mp4-target", "video/mp4; codecs=\"avc1.42e01e\"", "video.mp4");
   }
