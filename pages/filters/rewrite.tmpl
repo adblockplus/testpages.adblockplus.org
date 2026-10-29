@@ -375,16 +375,16 @@ description = Check that a filter using the $rewrite filter option is working as
     }
   }
 
-  // Chromium 158+ crashes the tab when this media file is rewritten.
-  // Skip it there until the crash is fixed upstream.
-  function isMediaRewriteCrashing(file) {
+  // Chromium 158+ crashes the tab when rewritten media is loaded.
+  // Skip the media cases there until the crash is fixed upstream.
+  function isMediaRewriteCrashing() {
     let match = /Chrom(?:e|ium)\/(\d+)/.exec(navigator.userAgent);
-    return file == "video.mp4" && match && parseInt(match[1], 10) >= 158;
+    return match && parseInt(match[1], 10) >= 158;
   }
 
   function manageMedia(id, mimeType, file) {
     let element = document.getElementById(id);
-    if (isMediaRewriteCrashing(file)) {
+    if (isMediaRewriteCrashing()) {
       printUnsupported(element, mimeType, "skipped on Chromium 158+ (tab crash)");
       return;
     }
