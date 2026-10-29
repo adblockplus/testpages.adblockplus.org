@@ -397,7 +397,8 @@ description = Check that a filter using the $rewrite filter option is working as
     setTimeout(() => testImageRewriteTwo(), 0);
     setTimeout(() => testImageRewriteThree(), 0);
     setTimeout(() => testImageRewriteFour(), 0);
-    setTimeout(() => testMediaRewrite(), 0);
+    // DEBUG: media cases disabled to bisect the Chrome 158 tab crash
+    // setTimeout(() => testMediaRewrite(), 0);
   });
 
   if (expectedParameter()) {
