@@ -204,6 +204,9 @@ test:edge:windows:
 
 test:chrome:beta:
   extends: .test-schedule
+  # TEMP: also run on push to check the fix. Revert before merging.
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule" || $CI_PIPELINE_SOURCE == "push"
   variables:
     GREP: chrome beta
 
