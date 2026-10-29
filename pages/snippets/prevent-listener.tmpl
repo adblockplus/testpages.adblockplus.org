@@ -1,0 +1,144 @@
+template = testcase
+title = prevent-listener
+description = Check that the prevent-listener snippet stops matching event listeners from being added.
+
+{% set case = "Basic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that a listener for the matching event type is not added.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The listener should not be added and no red element should appear in the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#prevent-listener plBasicEvent</pre></li>
+  </ul>
+</section>
+
+{% set case = "Handler pattern" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that only the listener whose source matches the handler pattern is not added. A second listener for the same event, without the pattern, must still run.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>No red element should appear in the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#prevent-listener plHandlerEvent plHandlerMarker</pre></li>
+  </ul>
+</section>
+
+{% set case = "Selector" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that the listener is not added on an element matching the selector, and is still added on an element that does not match.</p>
+  <div id="{{id}}-area" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>No red element should appear in the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#prevent-listener plSelectorEvent plSelectorMarker .pl-selector-match</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+
+  function addFailElement(areaId, message) {
+    const failElement = document.createElement("div");
+    failElement.textContent = `Failed. ${message}`;
+    failElement.setAttribute("data-expectedresult", "fail");
+    failElement.setAttribute("aria-label", "fail");
+    document.getElementById(areaId).appendChild(failElement);
+  }
+
+  function createTarget(areaId, className) {
+    const target = document.createElement("span");
+    if (className) {
+      target.className = className;
+    }
+    document.getElementById(areaId).appendChild(target);
+    return target;
+  }
+
+  setTimeout(() => {
+    // Basic usage: any listener for the event type is dropped.
+    const basicArea = "basic-usage-area";
+    const basicTarget = createTarget(basicArea);
+    let basicFired = false;
+    basicTarget.addEventListener("plBasicEvent", () => {
+      basicFired = true;
+    });
+    basicTarget.dispatchEvent(new CustomEvent("plBasicEvent"));
+    if (basicFired) {
+      addFailElement(basicArea, "The listener was added and ran.");
+    }
+
+    // Handler pattern: the marker string in the listener source is what the
+    // filter matches, so only the first listener is dropped.
+    const handlerArea = "handler-pattern-area";
+    const handlerTarget = createTarget(handlerArea);
+    let markedFired = false;
+    let unmarkedFired = false;
+    handlerTarget.addEventListener("plHandlerEvent", () => {
+      markedFired = "plHandlerMarker";
+    });
+    handlerTarget.addEventListener("plHandlerEvent", () => {
+      unmarkedFired = true;
+    });
+    handlerTarget.dispatchEvent(new CustomEvent("plHandlerEvent"));
+    if (markedFired) {
+      addFailElement(handlerArea, "The matching listener was added and ran.");
+    }
+    if (!unmarkedFired) {
+      addFailElement(handlerArea, "The non-matching listener was not added.");
+    }
+
+    // Selector: same listener on two elements, only the matching one loses it.
+    const selectorArea = "selector-area";
+    const matchTarget = createTarget(selectorArea, "pl-selector-match");
+    const otherTarget = createTarget(selectorArea);
+    let matchFired = false;
+    let otherFired = false;
+    matchTarget.addEventListener("plSelectorEvent", () => {
+      matchFired = "plSelectorMarker";
+    });
+    otherTarget.addEventListener("plSelectorEvent", () => {
+      otherFired = "plSelectorMarker";
+    });
+    matchTarget.dispatchEvent(new CustomEvent("plSelectorEvent"));
+    otherTarget.dispatchEvent(new CustomEvent("plSelectorEvent"));
+    if (matchFired) {
+      addFailElement(selectorArea, "The listener was added on the matching element.");
+    }
+    if (!otherFired) {
+      addFailElement(selectorArea, "The listener was not added on the non-matching element.");
+    }
+
+    removeWaitingContent();
+  }, 500);
+</script>
