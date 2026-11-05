@@ -176,6 +176,7 @@ test:edge:windows:
     # when using Start-Process (see https://github.com/nodejs/help/issues/4436)
     - Start-Process "npm.cmd" -ArgumentList "run start-endpoints" -PassThru
     # Temporary diagnostics for the Eleventy build on Windows
+    - node --version; npm --version; npm ls nunjucks @11ty/eleventy
     - Get-ChildItem $Env:NGINX_WIN\html\$Env:DOMAIN\en |
       Select-Object -First 8 Name, Length
     - curl.exe -sk -i "$Env:TEST_PAGES_URL" |

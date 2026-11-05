@@ -1,20 +1,15 @@
 import { existsSync } from "node:fs";
-import nunjucks from "nunjucks";
 import { get_id, heading, get_date, site_url, createFilterSubscription } from "./globals/index.js";
 import { domain, strip_proto, build_wildcard_filter } from "./filters/index.js";
 
 export default function (eleventyConfig) {
-  const environment = new nunjucks.Environment(new nunjucks.FileSystemLoader(["includes", "templates"]), {
-    autoescape: true,
-  });
   for (const [name, value] of Object.entries({ get_id, heading, get_date, site_url })) {
-    environment.addGlobal(name, value);
+    eleventyConfig.addNunjucksGlobal(name, value);
   }
   const subscription = createFilterSubscription();
-  environment.addGlobal("get_filters", subscription.get_filters);
+  eleventyConfig.addNunjucksGlobal("get_filters", subscription.get_filters);
   eleventyConfig.on("eleventy.before", subscription.reset);
   eleventyConfig.on("eleventy.after", subscription.complete);
-  eleventyConfig.setLibrary("njk", environment);
   for (const [name, filter] of Object.entries({ domain, strip_proto, build_wildcard_filter })) {
     eleventyConfig.addNunjucksFilter(name, filter);
   }
