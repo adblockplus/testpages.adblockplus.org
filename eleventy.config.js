@@ -3,9 +3,16 @@ import { get_id, heading, get_date, site_url, createFilterSubscription } from ".
 import { domain, strip_proto, build_wildcard_filter } from "./filters/index.js";
 
 export default function (eleventyConfig) {
-  for (const [name, value] of Object.entries({ get_id, heading, get_date, site_url })) {
+  for (const [name, value] of Object.entries({ get_id, get_date, site_url })) {
     eleventyConfig.addNunjucksGlobal(name, value);
   }
+  // Mark the heading safe with the rendering environment's own filter: on Windows, the Nunjucks
+  // module imported here and the one Eleventy renders with can be two copies, and a SafeString
+  // from one is escaped by the other.
+  eleventyConfig.amendLibrary("njk", (environment) => {
+    const markSafe = environment.getFilter("safe");
+    environment.addGlobal("heading", (title) => markSafe(heading(title)));
+  });
   const subscription = createFilterSubscription();
   eleventyConfig.addNunjucksGlobal("get_filters", subscription.get_filters);
   eleventyConfig.on("eleventy.before", subscription.reset);
