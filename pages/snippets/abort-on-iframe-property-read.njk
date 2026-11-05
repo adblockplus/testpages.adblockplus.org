@@ -1,0 +1,87 @@
+---
+title: "abort-on-iframe-property-read"
+description: "Check that the abort-on-iframe-property-read snippet is working as expected."
+layout: "testcase.njk"
+---
+
+<script src="/testfiles/abort-on-iframe/utils.js"></script>
+
+{% set case = "Basic usage" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that basic usage of the snippet works as expected.</p>
+  <div id="basic-target" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should be aborted and not add a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#abort-on-iframe-property-read aoiprb</pre></li>
+  </ul>
+</section>
+
+{% set case = "Sub property" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that usage of the snippet with sub properties works as expected.</p>
+  <div id="subproperty-target" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should be aborted and not add a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#abort-on-iframe-property-read aoipr.sp</pre></li>
+  </ul>
+</section>
+
+{% set case = "Multiple properties" %}
+{% set id = get_id(case) %}
+<section id="{{id}}-section" class="testcase-panel">
+  {{ heading(case) }}
+  <p>Test that usage of the snippet with multiple properties works as expected.</p>
+  <div id="multipleproperties-target" class="testcase-area">
+    <div class="testcase-examplecontent" aria-label="{{id}}-example">Example Content</div>
+    <div class="testcase-waiting-content" aria-label="{{id}}-waiting">Waiting 500ms to trigger snippet...</div>
+  </div>
+  <h3>Steps</h3>
+  <ul class="testcase-steps">
+    <li>Add filter #1.</li>
+    <li>Refresh page.</li>
+    <li>The script should be aborted and not add a red element to the test case above.</li>
+  </ul>
+  <h3>Filters</h3>
+  <ul id="{{id}}-filters" class="testcase-filters">
+    <li><pre>{{ site_url|domain }}#$#abort-on-iframe-property-read aoipr1 aoipr2</pre></li>
+  </ul>
+</section>
+
+<script>
+  "use strict";
+  /* global testAbortOnIframePropertyRead */
+
+  window.addEventListener("load", () => {
+    setTimeout(() => testAbortOnIframePropertyRead("basic", ["aoiprb"], iframe =>
+      iframe.contentWindow.aoiprb = false), 300);
+    setTimeout(() => testAbortOnIframePropertyRead("subproperty", ["aoipr.sp"], iframe =>
+      iframe.contentWindow.aoipr = {sp: false}), 300);
+    setTimeout(() => testAbortOnIframePropertyRead(
+      "multipleproperties", ["aoipr1", "aoipr2"], iframe => {
+        iframe.contentWindow.aoipr1 = false;
+        iframe.contentWindow.aoipr2 = false;
+      }), 300);
+  });
+</script>

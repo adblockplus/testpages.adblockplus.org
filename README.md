@@ -3,7 +3,7 @@
 The web content of the [abptestpages.org domain](https://abptestpages.org/)
 is automatically generated from the files in this repository.
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for a full overview of the project structure, CMS pipeline, and test infrastructure.
+See [ARCHITECTURE.md](ARCHITECTURE.md) for a full overview of the project structure, Eleventy pipeline, and test infrastructure.
 
 ## Getting started
 
@@ -11,7 +11,6 @@ The following tools are needed:
 
 - Node >= 22
 - npm >= 10
-- Python 3
 - Docker
 - `unzip` on Linux and macOS, needed by get-browser-binary to install Chromium
   and Chrome for Testing when running the tests outside of Docker
@@ -19,7 +18,7 @@ The following tools are needed:
 ### Local setup
 
 [mise](https://mise.jdx.dev) is optional: running `mise install` in the
-repository root installs the Node, Python and pre-commit versions pinned in
+repository root installs the Node and pre-commit versions pinned in
 `mise.toml`. The same tools can also be installed manually at those versions.
 
 The repository uses [pre-commit](https://pre-commit.com) to run the same
@@ -39,6 +38,47 @@ pre-commit run gitleaks-current --hook-stage manual
 pre-commit run gitleaks-history --hook-stage manual
 ```
 
+### Build and serve with Eleventy
+
+Install dependencies and build the site with Node alone:
+
+```shell
+npm ci
+npm run build
+npm run serve
+```
+
+Open http://localhost:5001/en/. The preview watches templates and rebuilds on
+changes. Output goes to `build/`: pages have extensionless paths such as
+`en/filters/blocking`, static assets are copied to the root, and the filter
+subscription is `en/abp-testcase-subscription.txt`. Set `SITE_URL` when building
+to point filters at a different server (default: `http://localhost:5001`).
+The preview uses HTTP; use the Docker nginx server for HTTPS and endpoint proxying.
+
+Pages are Nunjucks `.njk` templates in `pages/`, with YAML front matter:
+
+```njk
+---
+layout: testcase.njk
+title: My test
+description: Check a filter.
+---
+{% set case = "Basic usage" %}
+{{ heading(case) }}
+```
+
+Layouts live in `templates/` and insert `{{ content|safe }}`. Shared fragments
+in `includes/` use `{% include "head.njk" %}`. The JavaScript globals are
+`get_id`, `heading`, `get_filters`, `get_date`, and `site_url`; filters are
+`domain`, `strip_proto`, and `build_wildcard_filter`. They are registered in
+`eleventy.config.js`.
+
+To add a page, create `pages/<category>/<name>.njk` with front matter and test
+sections, then link to `<category>/<name>` from `pages/index.njk`. Keep filter
+rules in `.testcase-filters pre` or `.site-panel pre` so `get_filters()`
+includes them in the subscription. See [ARCHITECTURE.md](ARCHITECTURE.md) for
+the test section structure.
+
 ## Running the tests
 
 The execution is done in Docker.
@@ -47,8 +87,6 @@ The execution is done in Docker.
 
 Checks are done using:
 
-- `flake8` with the [flake8-eyeo extension](https://gitlab.com/eyeo/auxiliary/eyeo-coding-style/-/tree/master/flake8-eyeo)
-  for python scripts
 - npm `linthtml` for html content
 - npm `eslint` for javascript content
 - npm `stylelint` for CSS content
@@ -66,7 +104,7 @@ Auto-fix all fixable issues:
 npm run lint-fix
 ```
 
-To run the full lint image (includes Python):
+To run the full lint image (including YAML checks):
 
 ```shell
 docker build -t lintimage -f test/lint.Dockerfile .

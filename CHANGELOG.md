@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## 2026-11-05
+
+- Replaced the archived eyeo CMS (Python/Jinja2) with Eleventy and Nunjucks: pages, layouts and includes are `.njk` templates, globals and filters are JavaScript, and the generated site is unchanged
+- Docker, the Windows Edge job and the production build use `npm run build`; Python is no longer needed
+
 ## 2026-06-17
 
 - Fixed an issue with the /websocket endpoint where the connection couldn't be established when running in nginx

@@ -52,7 +52,7 @@ The site will be available at `https://local.testpages.adblockplus.org:5001/en/`
 
 ### Running Tests
 
-Tests require a running CMS server and endpoints server. The easiest way is Docker:
+Tests require the built site served by nginx or Eleventy and endpoints server. The easiest way is Docker:
 
 ```bash
 docker build -t testpages .
@@ -65,7 +65,7 @@ To run a filtered subset of tests (e.g. only Blocking tests on Chrome):
 docker run --shm-size=2g -e GREP="chrome latest.*Blocking" -it testpages
 ```
 
-Locally (requires CMS at `http://localhost:5001/en/` and endpoints running):
+Locally (requires the Eleventy preview at `http://localhost:5001/en/` and endpoints running):
 
 ```bash
 npm run start-endpoints   # Start helper servers (HTTP :4000, WS :4001/:4002)
@@ -86,17 +86,31 @@ TESTS_TO_INCLUDE=filters/my-page npm test -- -g "chrome latest"
 
 ## Architecture
 
-### CMS-Based Static Site
+### Eleventy static site
 
-Pages are written as Jinja2 templates (`.tmpl` files) in `pages/`. A Python-based CMS (external dependency, cloned separately) renders them into static HTML. The CMS pipeline:
+Run `npm ci`, then `npm run build` to render the site to `build/` or
+`npm run serve` for the watching HTTP preview at http://localhost:5001/en/.
+`SITE_URL` sets the URL used in filters; its default is `http://localhost:5001`.
 
-1. Reads metadata + Jinja2 body from `pages/*.tmpl`
-2. Wraps body in layout from `templates/` (e.g. `testcase.tmpl`)
-3. Resolves `includes/` HTML fragments (header, footer, etc.)
-4. Applies `globals/` Python functions (`get_id()`, `heading()`, `get_filters()`, `site_url`, etc.)
-5. Applies `filters/` Jinja2 filters (`domain`, `strip_proto`)
+Pages are Nunjucks templates in `pages/`, with YAML front matter containing
+`layout: testcase.njk`, `title` and `description`. Layouts in `templates/`
+insert `{{ content|safe }}`; shared fragments in `includes/` use
+`{% include "head.njk" %}`. `eleventy.config.js` registers JavaScript globals
+from `globals/` (`get_id`, `heading`, `get_filters`, `get_date`, `site_url`)
+and filters from `filters/` (`domain`, `strip_proto`, `build_wildcard_filter`).
 
-The `abp-testcase-subscription.txt.tmpl` page is special — it calls `get_filters()` which scrapes all `<pre>` filter rules from every rendered page to build the ABP subscription file.
+Paths stay extensionless under `en/`; `static/` is copied to the output root.
+The transform rewrites relative page links with `hreflang="en"` and adds a build
+version to root-relative script, stylesheet and image URLs. The subscription
+page calls `get_filters()`, which reserves a placeholder resolved in `eleventy.after`
+from the completed page output, including layouts and computed data. An HTML parser
+collects text from `.testcase-filters pre` and `.site-panel pre`, preserving line breaks.
+Its historical page order
+is retained in `globals/subscription-order.json`; new pages are found automatically.
+
+To add a page, create `pages/<category>/<name>.njk` with the front matter above
+and test sections below, add any assets to `static/testfiles/<name>/`, and link
+the page from `pages/index.njk`. Build and check it in the preview or Docker.
 
 ### Test Execution Flow
 
@@ -119,7 +133,7 @@ To skip tests for specific browsers or manifest versions, edit the `isExcluded()
 
 ### Test Page Structure
 
-Each test section follows this pattern in `.tmpl` files:
+Each test section follows this pattern in `.njk` files:
 
 ```html
 {% set case = "Basic usage" %} {% set id = get_id(case) %}
@@ -147,11 +161,10 @@ Each test section follows this pattern in `.tmpl` files:
 - ESLint extends `eslint:recommended` + `eslint-config-prettier`; `curly: all`
 - Prettier handles formatting (`.prettierrc.js`); scope controlled via `.prettierignore`
 - HTML/templates: indent-width 2 (linthtml)
-- Python: flake8 with flake8-eyeo
 
 ## CI Notes
 
 - On `master` push: lint → multi-browser tests in parallel → build static HTML → deploy to abptestpages.org
 - Scheduled pipeline only: Chrome beta/dev, Firefox beta, Edge beta
-- If `.tmpl` files change, CI triggers the external test automation pipeline
+- Production builds run `npm ci` and `npm run build` in a `node:22` Docker job; deployment consumes `build/`
 - Windows Edge tests (`test:edge:windows`) run without Docker on a dedicated Windows runner

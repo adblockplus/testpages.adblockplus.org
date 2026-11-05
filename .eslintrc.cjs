@@ -48,13 +48,13 @@ module.exports = {
     "prefer-promise-reject-errors": "error",
   },
   settings: {
-    "html/html-extensions": [".html", ".tmpl"],
+    "html/html-extensions": [".html", ".njk"],
     "html/indent": "+2",
     "html/report-bad-indent": "error",
   },
   overrides: [
     {
-      files: ["static/**/*.js", "pages/**/*.tmpl"],
+      files: ["static/**/*.js", "pages/**/*.njk"],
       parserOptions: { sourceType: "script" },
       globals: {
         removeWaitingContent: "readonly",
@@ -69,7 +69,7 @@ module.exports = {
       globals: { driver: true, extension: true, browserDetails: true },
     },
     {
-      files: ["endpoints/**/*.js"],
+      files: ["endpoints/**/*.js", "eleventy.config.js", "globals/**/*.js", "filters/**/*.js", "pages/*.js"],
       env: { node: true },
     },
     {

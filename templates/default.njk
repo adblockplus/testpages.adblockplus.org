@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+  {% set page_title = 'ABP Test Pages' %}
+  {% include "head.njk" %}
+  <body>
+    {% include "header.njk" %}
+    {{ content|safe }}
+    {% include "footer.njk" %}
+  </body>
+</html>

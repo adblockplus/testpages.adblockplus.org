@@ -17,11 +17,11 @@ by comparing screenshots.
 
 | Directory                                | Purpose                                                                                                                                                                                                                                                                                                                                                                   |
 | ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pages/`                                 | Page content written as Jinja2 templates (`.tmpl` files). Subdirectories map to URL paths: `pages/filters/blocking.tmpl` → `/en/filters/blocking`.                                                                                                                                                                                                                        |
-| `templates/`                             | Page layout templates referenced by pages via `template = <name>`. Most test pages use `testcase`, which wraps content in the standard HTML shell.                                                                                                                                                                                                                        |
-| `includes/`                              | Partial HTML fragments (header, footer, head) included by templates via `<? include name ?>`.                                                                                                                                                                                                                                                                             |
-| `globals/`                               | Python functions available inside `.tmpl` files as Jinja2 globals: `get_id()`, `heading()`, `get_filters()`, `get_date()`, `site_url`, `strip_proto`, `domain`.                                                                                                                                                                                                           |
-| `filters/`                               | Python filters available in Jinja2 templates (e.g. `strip_proto`, `domain`). Separate from ad-blocking filters.                                                                                                                                                                                                                                                           |
+| `pages/`                                 | Page content written as Nunjucks templates with YAML front matter (`.njk` files). Subdirectories map to URL paths: `pages/filters/blocking.njk` → `/en/filters/blocking`.                                                                                                                                                                                                 |
+| `templates/`                             | Page layout templates referenced by pages via `layout: <name>.njk`. Most test pages use `testcase`, which wraps content in the standard HTML shell.                                                                                                                                                                                                                       |
+| `includes/`                              | Partial HTML fragments (header, footer, head) included by templates via `{% include "name.njk" %}`.                                                                                                                                                                                                                                                                       |
+| `globals/`                               | JavaScript functions available inside `.njk` files as Nunjucks globals: `get_id()`, `heading()`, `get_filters()`, `get_date()`, `site_url`, `strip_proto`, `domain`.                                                                                                                                                                                                      |
+| `filters/`                               | JavaScript filters available in Nunjucks templates (e.g. `strip_proto`, `domain`). Separate from ad-blocking filters.                                                                                                                                                                                                                                                     |
 | `static/`                                | Static assets served as-is: `static/lib/` (shared JS utilities), `static/css/`, `static/images/`, `static/testfiles/` (per-test JS and HTML used by test pages).                                                                                                                                                                                                          |
 | `endpoints/`                             | Small Node.js servers that handle requests requiring dynamic server-side logic (sitekey signing, WebSocket echo, etc.). Started alongside nginx during test runs.                                                                                                                                                                                                         |
 | `test/`                                  | All test infrastructure: Selenium test runner, Docker/nginx config, CI entrypoint script.                                                                                                                                                                                                                                                                                 |
@@ -31,63 +31,77 @@ by comparing screenshots.
 
 ### Notable source files
 
-| File                                       | Purpose                                                                                                                                                           |
-| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pages/abp-testcase-subscription.txt.tmpl` | Dynamically generated filter subscription file. `get_filters()` walks all pages and extracts filters from `.testcase-filters pre` and `.site-panel pre` elements. |
+| File                                      | Purpose                                                                                                                                                           |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pages/abp-testcase-subscription.txt.njk` | Dynamically generated filter subscription file. `get_filters()` walks all pages and extracts filters from `.testcase-filters pre` and `.site-panel pre` elements. |
 
 ### Generated / runtime directories (not committed)
 
 | Directory                                   | When created          | Purpose                                                          |
 | ------------------------------------------- | --------------------- | ---------------------------------------------------------------- |
-| `/var/www/local.testpages.adblockplus.org/` | Docker build          | Static HTML output from CMS — what nginx actually serves.        |
+| `/var/www/local.testpages.adblockplus.org/` | Docker build          | Static HTML output from Eleventy — what nginx actually serves.   |
 | `test/screenshots/`                         | Test run (on failure) | Screenshots taken when a test fails, copied out via `docker cp`. |
 | `helper-extension-build/`                   | Before test run       | Built output of the helper extension.                            |
 | `node_modules/`                             | `npm install`         | JS dependencies.                                                 |
 
 ---
 
-## How the CMS Pipeline Works
+## How the Eleventy Pipeline Works
 
-Testpages uses [eyeo's CMS](https://gitlab.com/eyeo/websites/cms) to turn
-`.tmpl` source files into static HTML.
+The build needs Node 22 and npm 10 or newer. Run `npm ci`, then `npm run build`
+to render the site into `build/`. Run `npm run serve` for a watching preview at
+http://localhost:5001/en/. Set `SITE_URL` to change the URL embedded in filter
+rules (default: `http://localhost:5001`). See
+[Local execution without Docker](docs/local-execution-without-docker.md).
 
-1. Each `.tmpl` file in `pages/` starts with a metadata block (key-value pairs
-   before any HTML), followed by Jinja2 template content:
+1. Each `.njk` file in `pages/` starts with YAML front matter followed by
+   Nunjucks template content:
 
-   ```
-   title = My Test Page
-   template = testcase
-   description = Tests that X works.
-
+   ```njk
+   ---
+   title: My Test Page
+   layout: testcase.njk
+   description: Tests that X works.
+   ---
    {% set case = "Basic usage" %}
-   ...
+   {{ heading(case) }}
    ```
 
-2. The CMS reads the metadata, selects the layout from `templates/` (e.g.
-   `testcase.tmpl`), injects the page body as `{{ body }}`, renders the full
-   Jinja2 template with globals from `globals/` and filters from `filters/`,
-   and outputs static HTML.
+2. Eleventy renders the body, then the selected Nunjucks layout in
+   `templates/`, which inserts `{{ content|safe }}`. Shared fragments in
+   `includes/` use `{% include "head.njk" %}`. JavaScript globals and filters
+   are registered in `eleventy.config.js`. Computed metadata can use
+   `eleventyComputed` in front matter, as in the CSP Specific page.
+3. `pages/pages.11tydata.js` keeps the output paths extensionless under `en/`.
+   `static/` is copied to the output root. A transform rewrites relative page
+   links to `/en/…` with `hreflang="en"`, resolves static links to the root,
+   and versions root-relative script, link and image URLs with the build time.
+4. The subscription page calls `get_filters()`, reserving a placeholder until
+   the `eleventy.after` event supplies the completed page output, including
+   layouts, the data cascade, computed metadata and transforms. An HTML parser
+   extracts the text of `.testcase-filters pre` and `.site-panel pre` elements,
+   preserving line breaks and decoding entities. The event replaces the
+   placeholder with these rules and page comments and writes the subscription.
+   `globals/subscription-order.json` preserves the published subscription's
+   historical page order; new pages are discovered automatically and appended
+   in path order. A page with no filters contributes nothing. Filters inserted
+   by browser JavaScript are not part of the subscription.
+5. Docker runs the same build with output set to `/var/www/$DOMAIN/`.
+   Production CI builds `build/` and passes it to the existing deploy job.
+   A rendering error stops the build before deployment.
 
-3. During the Docker build, `cms.bin.generate_static_pages` writes all rendered
-   HTML files to `/var/www/$DOMAIN/`. nginx then serves these files for the
-   duration of the test run.
+### Key globals available in `.njk` files
 
-4. The subscription file (`abp-testcase-subscription.txt`) is also a CMS page.
-   Its body calls `{{ get_filters() }}`, which walks every page's rendered HTML
-   and extracts filter text from `.testcase-filters pre` and `.site-panel pre`
-   elements. This means filters must be in **static HTML** — filters injected
-   by JavaScript will not appear in the subscription file.
-
-### Key globals available in `.tmpl` files
-
-| Global                  | What it does                                                                                                                              |
-| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | --- | -------------------- |
-| `get_id(title)`         | Converts a title string to a kebab-case HTML id, e.g. `"Basic usage"` → `"basic-usage"`. Used to give each test case a stable, unique id. |
-| `heading(title)`        | Returns an `<h2>` element with the id and `aria-label` attributes set using `get_id()`.                                                   |
-| `site_url`              | The full base URL of the site (e.g. `https://local.testpages.adblockplus.org:5001`). Set via the `SITE_URL` environment variable.         |
-| `site_url\|domain`      | The domain only (e.g. `local.testpages.adblockplus.org`). Used in filter rules.                                                           |
-| `site_url\|strip_proto` | URL without the protocol prefix. Used in filter rules that require `                                                                      |     | domain/path` syntax. |
-| `get_filters()`         | Used only by the subscription file template to aggregate all filters from all pages.                                                      |
+| Global or filter              | What it does                                                    |
+| ----------------------------- | --------------------------------------------------------------- |
+| `get_id(title)`               | Makes a stable HTML id from a title.                            |
+| `heading(title)`              | Returns a safe h2 with the id and test-case aria-label.         |
+| `get_date()`                  | Returns the build date for the footer.                          |
+| `get_filters(specific_pages)` | Collects the subscription rules; optionally selects page paths. |
+| `site_url`                    | The base URL from `SITE_URL`.                                   |
+| `domain`                      | Extracts the hostname from a URL.                               |
+| `strip_proto`                 | Removes a URL's protocol prefix.                                |
+| `build_wildcard_filter`       | Converts a hostname to its wildcard filter domain.              |
 
 ---
 
@@ -142,12 +156,12 @@ from `static/lib/utils.js` is available globally on all test pages and removes
 
 ## How to Add a Test Page
 
-1. Create `pages/<category>/<name>.tmpl`. Use `template = testcase` for standard
+1. Create `pages/<category>/<name>.njk`. Use YAML front matter with `layout: testcase.njk`, `title` and `description` for standard
    test pages.
 2. Add one or more test case sections following the anatomy above.
 3. If the page needs JS, create `static/testfiles/<name>/` and put scripts there.
    Reference them with `<script src="/testfiles/<name>/script.js"></script>`.
-4. Add a link to `pages/index.tmpl` in the appropriate section, in alphabetical
+4. Add a link to `pages/index.njk` in the appropriate section, in alphabetical
    order.
 5. If the test should not run in certain browsers or manifest versions, add an
    exclusion to `test/extension-tests/pages/utils.js` `isExcluded()`.
@@ -182,8 +196,8 @@ else if (manifestVersion == 3 && page == "filters/header")
 TESTS_TO_INCLUDE=filters/my-page npm test -- -g "chrome latest"
 ```
 
-**Exclude from the website entirely**: remove or rename the `.tmpl` file and
-remove its entry from `pages/index.tmpl`.
+**Exclude from the website entirely**: remove or rename the `.njk` file and
+remove its entry from `pages/index.njk`.
 
 ---
 
@@ -194,9 +208,8 @@ remove its entry from `pages/index.tmpl`.
 1. `docker build -t testpages .` — builds the Docker image. During this step:
    - nginx is installed and configured with a self-signed TLS certificate for
      `local.testpages.adblockplus.org`.
-   - The CMS is cloned at a pinned commit and its dependencies installed.
-   - npm dependencies are installed.
-   - The CMS renders all `.tmpl` pages to static HTML in `/var/www/$DOMAIN/`.
+   - npm dependencies are installed with `npm ci`.
+   - Eleventy renders all `.njk` pages to static HTML in `/var/www/$DOMAIN/`.
    - If `EXTENSION_FILE` is provided, the extension is unpacked into `testext/`.
 
 2. `docker run --shm-size=2g -it testpages` — runs the container. The
@@ -210,13 +223,12 @@ remove its entry from `pages/index.tmpl`.
 
 On merge to `master`, the CI pipeline:
 
-1. Runs the `build_production` stage: calls
-   `cms.bin.generate_static_pages` with `SITE_URL=https://abptestpages.org` to
-   generate static HTML.
-2. Runs the `deploy_production` stage: copies the build output to the production
-   server via a deploy script.
-3. Runs the `notify` stage: if any `.tmpl` files changed, triggers a pipeline in
-   the test automation project to re-run tests against the live site.
+1. Runs `build:abptestpages` in the `build_production` stage, on the
+   `eyeo-medium-runner` Docker runner with `node:22`. It runs `npm ci` and
+   `npm run build` with `SITE_URL=https://abptestpages.org`, publishing
+   `build/` as an artifact. The job runs only on `master`.
+2. Runs `deploy:abptestpages`, which depends on that artifact and retains
+   the production server runner and existing deploy script.
 
 ---
 
@@ -230,8 +242,8 @@ Jobs that only run on scheduled pipelines (not on push): `chrome:beta`,
 `chrome:dev`, `firefox:beta`, `edge:beta`.
 
 `test:edge:windows` is a special job that runs on a dedicated Windows runner
-(`eyeo-windows`) without Docker, setting up nginx, Python, and Node.js directly
-via Chocolatey.
+(`eyeo-windows`) without Docker, setting up nginx and Node.js directly
+via Chocolatey. Pages are built with `npx @11ty/eleventy`.
 
 ### Test runner internals
 
@@ -293,7 +305,7 @@ TESTS_TO_INCLUDE=filters/my-page MANIFEST_VERSION=2 npm test -- -g "chrome lates
 docker run --shm-size=2g -e THROW_LAST_ERROR="true" -it testpages
 ```
 
-**View the rendered page locally**: run the CMS dev server (see README) and open
+**View the rendered page locally**: run `npm run serve` (see README) and open
 the page in a browser. Append `?expected=1` to see what the test runner expects
 to see after filters are applied.
 
@@ -301,14 +313,8 @@ to see after filters are applied.
 
 ## Limitations
 
-- **CMS dependency**: the site requires a pinned version of the eyeo CMS,
-  cloned at build time. Changes to CMS behaviour can silently break page
-  rendering.
-- **`get_filters()` reads static HTML only**: filters defined using Jinja2
-  page-local variables (e.g. `{{id}}`) may not resolve correctly in the
-  subscription file, because `get_filters()` processes pages with the global
-  context, not the page-local one. Filters should always use hardcoded strings
-  or global variables (`site_url`).
+- **`get_filters()` reads build-time HTML only**: filters injected by browser
+  scripts do not appear in the subscription.
 - **Screenshot comparison is pixel-sensitive**: font rendering differences
   between browser versions or platforms can cause false failures. The
   `browser-snapshots/` directory holds reference screenshots per browser.
@@ -320,7 +326,7 @@ to see after filters are applied.
   reject it — use `driver.executeAsyncScript` with `fetch` inside the browser
   instead.
 - **Subscription test requires HTTPS**: the `subscribes to a link` test will
-  fail on a local CMS `runserver.py` setup because it serves over HTTP, not
+  fail on the local Eleventy preview because it serves over HTTP, not
   HTTPS.
 - **Windows CI is manual setup**: the `test:edge:windows` job does not use
   Docker. It installs dependencies via Chocolatey on each run, making it slower
