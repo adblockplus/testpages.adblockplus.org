@@ -20,7 +20,7 @@ by comparing screenshots.
 | `pages/`                                 | Page content written as Nunjucks templates with YAML front matter (`.njk` files). Subdirectories map to URL paths: `pages/filters/blocking.njk` → `/en/filters/blocking`.                                                                                                                                                                                                 |
 | `templates/`                             | Page layout templates referenced by pages via `layout: <name>.njk`. Most test pages use `testcase`, which wraps content in the standard HTML shell.                                                                                                                                                                                                                       |
 | `includes/`                              | Partial HTML fragments (header, footer, head) included by templates via `{% include "name.njk" %}`.                                                                                                                                                                                                                                                                       |
-| `globals/`                               | JavaScript functions available inside `.njk` files as Nunjucks globals: `get_id()`, `heading()`, `get_filters()`, `get_date()`, `site_url`, `strip_proto`, `domain`.                                                                                                                                                                                                      |
+| `globals/`                               | JavaScript functions available inside `.njk` files as Nunjucks globals: `get_id()`, `heading()`, `get_filters()`, `get_date()`, `site_url`.                                                                                                                                                                                                                               |
 | `filters/`                               | JavaScript filters available in Nunjucks templates (e.g. `strip_proto`, `domain`). Separate from ad-blocking filters.                                                                                                                                                                                                                                                     |
 | `static/`                                | Static assets served as-is: `static/lib/` (shared JS utilities), `static/css/`, `static/images/`, `static/testfiles/` (per-test JS and HTML used by test pages).                                                                                                                                                                                                          |
 | `endpoints/`                             | Small Node.js servers that handle requests requiring dynamic server-side logic (sitekey signing, WebSocket echo, etc.). Started alongside nginx during test runs.                                                                                                                                                                                                         |
@@ -242,8 +242,8 @@ Jobs that only run on scheduled pipelines (not on push): `chrome:beta`,
 `chrome:dev`, `firefox:beta`, `edge:beta`.
 
 `test:edge:windows` is a special job that runs on a dedicated Windows runner
-(`eyeo-windows`) without Docker, setting up nginx and Node.js directly
-via Chocolatey. Pages are built with `npx @11ty/eleventy`.
+(`eyeo-windows`) without Docker, setting up nginx directly via Chocolatey.
+Pages are built with `npm run build`.
 
 ### Test runner internals
 

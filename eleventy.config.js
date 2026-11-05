@@ -3,12 +3,11 @@ import { get_id, heading, get_date, site_url, createFilterSubscription } from ".
 import { domain, strip_proto, build_wildcard_filter } from "./filters/index.js";
 
 export default function (eleventyConfig) {
-  for (const [name, value] of Object.entries({ get_id, get_date, site_url })) {
+  for (const [name, value] of Object.entries({ get_id, get_date })) {
     eleventyConfig.addNunjucksGlobal(name, value);
   }
-  // Mark the heading safe with the rendering environment's own filter: on Windows, the Nunjucks
-  // module imported here and the one Eleventy renders with can be two copies, and a SafeString
-  // from one is escaped by the other.
+  // Mark the heading HTML safe with the rendering environment's own filter: on Windows, Eleventy
+  // can load a second copy of Nunjucks, which escapes a SafeString made by the other copy.
   eleventyConfig.amendLibrary("njk", (environment) => {
     const markSafe = environment.getFilter("safe");
     environment.addGlobal("heading", (title) => markSafe(heading(title)));
@@ -49,10 +48,10 @@ export default function (eleventyConfig) {
 
   const version = Date.now();
   eleventyConfig.addTransform("page-links-and-assets", function (content) {
-    // Preserve the renderer's removal of empty head fragments from page bodies.
+    // The old CMS output had no empty <head></head> in page bodies; keep the output the same.
     content = content.replace(/<head><\/head>/g, "");
     content = content.replace(/(<[\w]+\s[^<>]*\b(href|src)=")([^<>"]+)(")/g, (match, pre, attr, url, post) => {
-      // Absolute, external, fragment and dot-relative URLs already have their intended target.
+      // Absolute, external, fragment, query-only and dot-relative URLs already have their intended target.
       if (/^(?:[a-z][\w+.-]*:|\/|\.|#|\?)/i.test(url)) {
         return match;
       }

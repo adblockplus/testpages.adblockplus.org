@@ -21,7 +21,7 @@ npm run lint-fix     # Auto-fix all fixable issues (eslint, stylelint, prettier)
 Individual linters:
 
 ```bash
-npm run eslint       # Lint JS in test/extension-tests/, endpoints/, static/, pages/
+npm run eslint       # Lint JS in eleventy.config.js, globals/, filters/, test/extension-tests/, endpoints/, static/, pages/
 npm run linthtml     # Lint HTML/template files
 npm run stylelint    # Lint CSS and HTML stylesheets
 ```

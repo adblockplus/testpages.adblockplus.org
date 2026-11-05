@@ -2,7 +2,6 @@ import { readFileSync } from "node:fs";
 import { writeFile } from "node:fs/promises";
 import { relative, sep } from "node:path";
 import nunjucks from "nunjucks";
-// Both packages are already part of Eleventy's HTML processing dependencies.
 import { parseDocument } from "htmlparser2";
 import { getElementsByTagName, textContent } from "domutils";
 
@@ -15,10 +14,11 @@ export function get_id(title) {
     .replace(/^-|-$/g, "");
 }
 
+// Returns raw HTML: eleventy.config.js registers it with amendLibrary, which marks it safe.
 export function heading(title) {
   const id = get_id(title);
   const escaped = nunjucks.lib.escape(title);
-  return new nunjucks.runtime.SafeString(`<h2 aria-label="test-case-${id}" id="${id}">${escaped}</h2>`);
+  return `<h2 aria-label="test-case-${id}" id="${id}">${escaped}</h2>`;
 }
 
 export function get_date() {

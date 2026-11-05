@@ -160,8 +160,8 @@ test:edge:windows:
       Add-Content c:\windows\system32\drivers\etc\hosts
     # Install Node dependencies
     - npm ci
-    # Generate test pages files into build/, as every other job does, then copy
-    # them to nginx; stop here if no page was written
+    # Generate test pages files into build/, then copy them to nginx; stop here
+    # if no page was written
     - npm run build
     - if (-not (Test-Path build\en\index)) {
       throw "Eleventy wrote no pages to build\en" }
