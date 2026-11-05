@@ -163,9 +163,11 @@ test:edge:windows:
     # Generate test pages files into build/, as every other job does, then copy
     # them to nginx; stop here if no page was written
     - npm run build
-    - if (-not (Test-Path build\en\index)) { throw "Eleventy wrote no pages to build\en" }
+    - if (-not (Test-Path build\en\index)) {
+      throw "Eleventy wrote no pages to build\en" }
     - mkdir -p $Env:NGINX_WIN\html\$Env:DOMAIN
-    - Copy-Item -Path build\* -Destination $Env:NGINX_WIN\html\$Env:DOMAIN -Recurse -Force
+    - Copy-Item -Path build\* -Recurse -Force
+      -Destination $Env:NGINX_WIN\html\$Env:DOMAIN
   script:
     # Run test pages server
     - Start-Process "$Env:NGINX_WIN\nginx.exe"
@@ -173,6 +175,11 @@ test:edge:windows:
     # Run endpoints server. Since NPM 10, NPM needs to be run with `npm.cmd`
     # when using Start-Process (see https://github.com/nodejs/help/issues/4436)
     - Start-Process "npm.cmd" -ArgumentList "run start-endpoints" -PassThru
+    # Temporary diagnostics for the Eleventy build on Windows
+    - Get-ChildItem $Env:NGINX_WIN\html\$Env:DOMAIN\en |
+      Select-Object -First 8 Name, Length
+    - curl.exe -sk -i "$Env:TEST_PAGES_URL" |
+      Select-Object -First 40
     - node ./test/extension-tests/extension-download.js
     - npm run test "--" -g "edge latest"
   variables:
