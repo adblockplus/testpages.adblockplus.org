@@ -160,9 +160,12 @@ test:edge:windows:
       Add-Content c:\windows\system32\drivers\etc\hosts
     # Install Node dependencies
     - npm ci
-    # Generate test pages files
+    # Generate test pages files into build/, as every other job does, then copy
+    # them to nginx; stop here if no page was written
+    - npm run build
+    - if (-not (Test-Path build\en\index)) { throw "Eleventy wrote no pages to build\en" }
     - mkdir -p $Env:NGINX_WIN\html\$Env:DOMAIN
-    - npx @11ty/eleventy --output=$Env:NGINX_WIN\html\$Env:DOMAIN
+    - Copy-Item -Path build\* -Destination $Env:NGINX_WIN\html\$Env:DOMAIN -Recurse -Force
   script:
     # Run test pages server
     - Start-Process "$Env:NGINX_WIN\nginx.exe"
