@@ -16,12 +16,15 @@
  */
 
 import path from "path";
+import { Jimp } from "jimp";
 import { takeFullPageScreenshot } from "@eyeo/get-browser-binary";
 
 const SCREENSHOT_DIR = path.join("test", "screenshots");
 
-export function takeScreenshot(driver) {
-  return takeFullPageScreenshot(driver);
+export async function takeScreenshot(driver) {
+  // The browser helper returns a Jimp 0.x image; use its bitmap with Jimp 1.x.
+  const screenshot = await takeFullPageScreenshot(driver);
+  return Jimp.fromBitmap(screenshot.bitmap);
 }
 
 export async function writeScreenshotFile(image, browserName, browserVersion, testTitle, suffix) {

@@ -15,7 +15,7 @@
  * along with Adblock Plus.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import Jimp from "jimp";
+import { diff } from "jimp";
 
 import specializedTests from "./specialized.js";
 import { takeScreenshot, writeScreenshotFile, writeScreenshotAndThrow } from "../misc/screenshots.js";
@@ -77,7 +77,7 @@ export async function runGenericTests(driver, expectedScreenshot, browserName, b
     await driver.wait(
       async () => {
         actualScreenshot = await takeScreenshot(driver);
-        return Jimp.diff(actualScreenshot, expectedScreenshot).percent == 0;
+        return diff(actualScreenshot, expectedScreenshot).percent == 0;
       },
       20000,
       "Screenshots don't match",
