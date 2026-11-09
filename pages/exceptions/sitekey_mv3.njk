@@ -17,7 +17,7 @@ description: "Check that a filter using the $sitekey exception filter option is 
   </div>
   <h3>In frame elements</h3>
   <div id="{{id}}-area" class="testcase-area">
-    {# /sitekey-frame is served by the endpoints server which parses /endpoints/sitekey/sitekey_frame.njk #}
+    {# /sitekey-frame is served by the endpoints server, which fills in /endpoints/sitekey/sitekey_frame.html #}
     <iframe id="sitekey-frame" src="/sitekey-frame?mv3=1" style="width: 100%;"></iframe>
   </div>
   <h3>Steps</h3>

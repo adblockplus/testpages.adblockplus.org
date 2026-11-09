@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 - Replaced the archived eyeo CMS (Python/Jinja2) with Eleventy and Nunjucks: pages, layouts and includes are `.njk` templates, globals and filters are JavaScript, and the generated site is unchanged
 - Docker, the Windows Edge job and the production build use `npm run build`; Python is no longer needed
+- The endpoints server fills in the sitekey frame without Nunjucks, so it only needs `express` and `ws` at runtime; Eleventy and Nunjucks are build-only dependencies
+- The production build job also runs on branches; only the deploy is limited to `master`
 
 ## 2026-06-17
 

@@ -166,5 +166,6 @@ Each test section follows this pattern in `.njk` files:
 
 - On `master` push: lint → multi-browser tests in parallel → build static HTML → deploy to abptestpages.org
 - Scheduled pipeline only: Chrome beta/dev, Firefox beta, Edge beta
-- Production builds run `npm ci` and `npm run build` in a `node:22` Docker job; deployment consumes `build/`
+- Production builds run `npm ci` and `npm run build` in a `node:22` Docker job on every branch; only the deploy, which consumes `build/`, is limited to `master`
+- `endpoints/` needs only `dependencies` (`express`, `ws`) at runtime; keep build and test tooling in `devDependencies`
 - Windows Edge tests (`test:edge:windows`) run without Docker on a dedicated Windows runner

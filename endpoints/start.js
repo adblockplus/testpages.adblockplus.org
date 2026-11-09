@@ -21,7 +21,6 @@ import fs from "fs";
 import crypto from "crypto";
 
 import express from "express";
-import nunjucks from "nunjucks";
 import { WebSocketServer } from "ws";
 
 // Node.js 17+ resolves "localhost" to ::1 when IPv6 is available, but nginx
@@ -34,10 +33,9 @@ const WSE_PORT = 4002;
 let dirname = path.dirname(url.fileURLToPath(import.meta.url));
 let app = express();
 
-nunjucks.configure(path.join(dirname, "sitekey"), {
-  autoescape: true,
-  express: app,
-});
+// The frame needs only the key filled in. The key is base64 joined with "_",
+// so it contains no characters that need HTML escaping.
+let sitekeyFrame = fs.readFileSync(path.join(dirname, "sitekey", "sitekey_frame.html"), "utf8");
 
 // Documentation on sitekey server implementation:
 // https://help.adblockplus.org/hc/en-us/articles/360062733293#sitekey_server
@@ -52,7 +50,7 @@ app.get("/sitekey-frame", async (req, res) => {
   res.header("X-Adblock-Key", adblockkey);
   res.header("Content-Type", "text/html; charset=utf-8");
 
-  res.render("sitekey_frame.njk", { adblockkey });
+  res.send(sitekeyFrame.replace("{{ adblockkey }}", () => adblockkey));
 });
 
 app.use(express.static(path.join(dirname, "..", "static")));

@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html {% if adblockkey %}data-adblockkey="{{ adblockkey }}"{% endif %}>
+<!doctype html>
+<html data-adblockkey="{{ adblockkey }}">
   <head>
     <title>Sitekey frame</title>
     <style>
@@ -20,8 +20,8 @@
   <body>
     <div id="inframe-target" class="testcase-sitekey-eh">Exception Target</div>
     <div>
-      <img id="inframe-image" src="/testfiles/sitekey/inframe.png" style="position: absolute; left: 0; z-index: 1;"/>
-      <img id="warning-image" src="/testfiles/sitekey/warning.png" style="position: absolute; left: 0; z-index: 0;"/>
+      <img id="inframe-image" src="/testfiles/sitekey/inframe.png" style="position: absolute; left: 0; z-index: 1" />
+      <img id="warning-image" src="/testfiles/sitekey/warning.png" style="position: absolute; left: 0; z-index: 0" />
     </div>
   </body>
 

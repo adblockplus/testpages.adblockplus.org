@@ -237,21 +237,15 @@ test:live:firefox:latest:
   variables:
     GREP: firefox latest
 
-# BUILD, DEPLOY ################################################################
-
-.production:
-  tags:
-    - eyeo_cms_web_server_testpages-1.uplink.eyeo.it
-  only:
-    - master
+# BUILD ########################################################################
 
 build:abptestpages:
   stage: build_production
   tags:
     - eyeo-medium-runner
   image: node:22
-  only:
-    - master
+  # Runs on every branch so a broken production build shows up before merge;
+  # only deploy:abptestpages is limited to master.
   script:
     - npm ci
     - npm run build
@@ -262,12 +256,24 @@ build:abptestpages:
   variables:
     SITE_URL: https://abptestpages.org
 
+# DEPLOY #######################################################################
+
+.production:
+  tags:
+    - eyeo_cms_web_server_testpages-1.uplink.eyeo.it
+  # Only the protected master branch deploys. `only: master` also matched a tag
+  # named "master", which would have run on the production server.
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master" && $CI_COMMIT_REF_PROTECTED == "true"
+
 .deploy_production:
   stage: deploy_production
   extends: .production
   script:
-    - echo $DEPLOY_SCRIPT
-    - sudo /usr/local/sbin/$DEPLOY_SCRIPT $CI_PROJECT_DIR/build/ $CI_PROJECT_DIR
+    # The script name is fixed here, not a variable, so a pipeline variable
+    # can't point sudo at a different command.
+    - sudo /usr/local/sbin/deploy_testpages "$CI_PROJECT_DIR/build/"
+      "$CI_PROJECT_DIR"
   environment:
     name: $DOMAIN
     url: https://$DOMAIN
@@ -278,4 +284,3 @@ deploy:abptestpages:
     - build:abptestpages
   variables:
     DOMAIN: abptestpages.org
-    DEPLOY_SCRIPT: deploy_testpages

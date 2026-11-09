@@ -226,9 +226,16 @@ On merge to `master`, the CI pipeline:
 1. Runs `build:abptestpages` in the `build_production` stage, on the
    `eyeo-medium-runner` Docker runner with `node:22`. It runs `npm ci` and
    `npm run build` with `SITE_URL=https://abptestpages.org`, publishing
-   `build/` as an artifact. The job runs only on `master`.
+   `build/` as an artifact. The job also runs on other branches, so a broken
+   production build fails before merge.
 2. Runs `deploy:abptestpages`, which depends on that artifact and retains
-   the production server runner and existing deploy script.
+   the production server runner and existing deploy script. Only this job is
+   limited to `master`.
+
+The endpoints server needs only the packages under `dependencies` in
+`package.json` (`express` and `ws`). The build and test tooling, including
+Eleventy and Nunjucks, are `devDependencies`, so `npm ci --omit=dev` installs
+exactly what the endpoints need at runtime.
 
 ---
 
