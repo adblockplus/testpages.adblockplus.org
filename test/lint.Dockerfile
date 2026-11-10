@@ -16,4 +16,5 @@ RUN cd testpages.adblockplus.org && npm install
 
 COPY . testpages.adblockplus.org
 
+# nosemgrep: dockerfile.security.missing-user-entrypoint.missing-user-entrypoint -- ephemeral CI lint image with no exposed services
 ENTRYPOINT ./testpages.adblockplus.org/test/lint.sh

@@ -16,6 +16,29 @@ The following tools are needed:
 - `unzip` on Linux and macOS, needed by get-browser-binary to install Chromium
   and Chrome for Testing when running the tests outside of Docker
 
+### Local setup
+
+[mise](https://mise.jdx.dev) is optional: running `mise install` in the
+repository root installs the Node, Python and pre-commit versions pinned in
+`mise.toml`. The same tools can also be installed manually at those versions.
+
+The repository uses [pre-commit](https://pre-commit.com) to run the same
+security scanners as CI (semgrep and gitleaks) plus ESLint before each commit.
+Install pre-commit, then enable the hooks once:
+
+```shell
+pre-commit install
+```
+
+`pre-commit run --all-files` runs every hook on demand. The ESLint hook is
+skipped until `npm install` has been run. Two manual hooks scan the whole tree
+and the full git history for secrets:
+
+```shell
+pre-commit run gitleaks-current --hook-stage manual
+pre-commit run gitleaks-history --hook-stage manual
+```
+
 ## Running the tests
 
 The execution is done in Docker.

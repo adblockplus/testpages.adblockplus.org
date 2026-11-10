@@ -66,4 +66,5 @@ ENV TEST_PAGES_URL="$SITE_URL/en/"
 ENV TEST_PAGES_INSECURE="true"
 ENV START_LOCAL_SERVERS="true"
 
+# nosemgrep: dockerfile.security.missing-user-entrypoint.missing-user-entrypoint -- test-only image; the entrypoint edits /etc/hosts and starts nginx which need root
 ENTRYPOINT ./testpages.adblockplus.org/test/entrypoint.sh

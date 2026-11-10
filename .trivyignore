@@ -1,0 +1,2 @@
+# braces 3.0.3 has no fixed release; dev-only transitive dependency of mocha and stylelint
+CVE-2026-93687
