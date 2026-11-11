@@ -225,12 +225,12 @@ On merge to `master`, the CI pipeline:
 
 1. Runs `build:abptestpages` in the `build_production` stage, on the
    `eyeo-medium-runner` Docker runner with `node:22`. It runs `npm ci` and
-   `npm run build` with `SITE_URL=https://abptestpages.org`, publishing
-   `build/` as an artifact. The job also runs on other branches, so a broken
-   production build fails before merge.
-2. Runs `deploy:abptestpages`, which depends on that artifact and retains
-   the production server runner and existing deploy script. Only this job is
-   limited to `master`.
+   `npm run build` with `SITE_URL=https://abptestpages.org`. The job also runs
+   on other branches, so a broken production build fails before merge.
+2. Runs `deploy:cloud-run`, which only triggers the deploy pipeline in the
+   private infra repo with the commit SHA. That pipeline builds
+   `production.Dockerfile` from the commit and deploys it to Cloud Run. Only
+   this job is limited to `master`.
 
 The endpoints server needs only the packages under `dependencies` in
 `package.json` (`express` and `ws`). The build and test tooling, including

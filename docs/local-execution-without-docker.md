@@ -102,5 +102,5 @@ Notes:
 - The `subscribes to a link` test case is expected to fail on the local run,
   because it requires an `https` server which the Eleventy preview does not provide.
 - The `Sitekey` and `WebSocket` test cases are also expected to fail locally,
-  because they require a request redirection to http://localhost:4000 and
-  http://localhost:4001 which the Eleventy preview does not provide.
+  because they require a request redirection to http://localhost:4000
+  which the Eleventy preview does not provide.
