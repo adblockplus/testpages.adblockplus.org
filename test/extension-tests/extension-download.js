@@ -22,7 +22,9 @@ import { spawn } from "child_process";
 
 import { download } from "@eyeo/get-browser-binary";
 
-const URL = "https://gitlab.com/api/v4/projects/59518842/releases";
+// The default page size of 20 no longer reaches the last release with a Chrome
+// MV2 build (adblockplus-4.43.4), so ask for the maximum.
+const URL = "https://gitlab.com/api/v4/projects/59518842/releases?per_page=100";
 
 // Extracts a zip archive with the native tools of the system: `unzip` on
 // Linux and macOS, `tar.exe` on Windows. Same approach as get-browser-binary,
@@ -66,6 +68,10 @@ async function run() {
       link.direct_asset_url.includes("adblockplus-chrome") &&
       link.direct_asset_url.endsWith(`mv${manifestVersion}.zip`),
   );
+
+  if (!extensionLinkObject) {
+    throw new Error(`No adblockplus-chrome MV${manifestVersion} build in ${URL}`);
+  }
 
   const extensionLink = extensionLinkObject.direct_asset_url;
   let filename = extensionLink.split("/").pop();
