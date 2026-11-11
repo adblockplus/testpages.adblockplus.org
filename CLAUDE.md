@@ -68,7 +68,7 @@ docker run --shm-size=2g -e GREP="chrome latest.*Blocking" -it testpages
 Locally (requires the Eleventy preview at `http://localhost:5001/en/` and endpoints running):
 
 ```bash
-npm run start-endpoints   # Start helper servers (HTTP :4000, WS :4001/:4002)
+npm run start-endpoints   # Start the endpoints server (HTTP + WebSocket on :4000)
 TEST_PAGES_URL=http://localhost:5001/en/ MANIFEST_VERSION=2 npm test -- -g "chrome latest.*Blocking"
 ```
 
@@ -126,10 +126,16 @@ To skip tests for specific browsers or manifest versions, edit the `isExcluded()
 
 ### Endpoints Server
 
-`endpoints/start.js` runs three servers needed by certain test pages:
+`endpoints/start.js` runs one server needed by certain test pages, on `:4000`
+(`HOST`/`PORT` override it):
 
-- HTTP server (`:4000`) — sitekey signing and other responses
-- WebSocket echo servers (`:4001`, `:4002`)
+- `/sitekey-frame` — sitekey signing
+- `/websocket` and `/exception_websocket` — WebSocket echo endpoints
+
+Locally and in the test image, nginx serves the pages and forwards these paths.
+In production (`production.Dockerfile`, Cloud Run) `STATIC_DIR=build` makes the
+same server serve the generated site too, with the nginx rules for language
+folders, extensionless HTML and 1-day caching.
 
 ### Test Page Structure
 
@@ -164,8 +170,9 @@ Each test section follows this pattern in `.njk` files:
 
 ## CI Notes
 
-- On `master` push: lint → multi-browser tests in parallel → build static HTML → deploy to abptestpages.org
+- On `master` push: lint → multi-browser tests in parallel → build static HTML → deploy to Cloud Run (`deploy:cloud-run`, `testpages.internal.eyeo.it` until cutover)
+- `deploy:cloud-run` only triggers the private infra repo (`eyeo/sandbox/terraform-eyeo-abp-testpages`) with `TESTPAGES_SHA`; that pipeline builds `production.Dockerfile` from the commit and deploys it. This repo is public, so keep GCP configuration (project, service accounts, `id_tokens`) out of it
 - Scheduled pipeline only: Chrome beta/dev, Firefox beta, Edge beta
-- Production builds run `npm ci` and `npm run build` in a `node:22` Docker job on every branch; only the deploy, which consumes `build/`, is limited to `master`
+- `build:abptestpages` runs `npm ci` and `npm run build` in a `node:22` Docker job on every branch as a build check; only the deploy is limited to `master`
 - `endpoints/` needs only `dependencies` (`express`, `ws`) at runtime; keep build and test tooling in `devDependencies`
 - Windows Edge tests (`test:edge:windows`) run without Docker on a dedicated Windows runner

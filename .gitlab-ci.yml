@@ -237,6 +237,23 @@ test:live:firefox:latest:
   variables:
     GREP: firefox latest
 
+# The same live tests against the Cloud Run deployment (OM-1969). Until
+# cutover, the subdomain test files still load from abptestpages.org.
+.test-live-cloud-run:
+  extends: .test-live
+  variables:
+    TEST_PAGES_URL: https://testpages.internal.eyeo.it/en/
+
+test:live-cloud-run:chrome:latest:
+  extends: .test-live-cloud-run
+  variables:
+    GREP: chrome latest
+
+test:live-cloud-run:firefox:latest:
+  extends: .test-live-cloud-run
+  variables:
+    GREP: firefox latest
+
 # BUILD ########################################################################
 
 build:abptestpages:
@@ -244,43 +261,30 @@ build:abptestpages:
   tags:
     - eyeo-medium-runner
   image: node:22
-  # Runs on every branch so a broken production build shows up before merge;
-  # only deploy:abptestpages is limited to master.
+  # Runs on every branch so a broken production build shows up before merge.
+  # The deployed image is built separately from production.Dockerfile.
   script:
     - npm ci
     - npm run build
-  artifacts:
-    name: $CI_COMMIT_REF_SLUG
-    paths:
-      - build/
   variables:
     SITE_URL: https://abptestpages.org
 
 # DEPLOY #######################################################################
 
-.production:
-  tags:
-    - eyeo_cms_web_server_testpages-1.uplink.eyeo.it
-  # Only the protected master branch deploys. `only: master` also matched a tag
-  # named "master", which would have run on the production server.
+# Cloud Run (OM-1969). The deploy itself runs in the private infra repo, which
+# holds all GCP configuration; only this trigger job and its status show up
+# here.
+deploy:cloud-run:
+  stage: deploy_production
   rules:
     - if: $CI_COMMIT_BRANCH == "master" && $CI_COMMIT_REF_PROTECTED == "true"
-
-.deploy_production:
-  stage: deploy_production
-  extends: .production
-  script:
-    # The script name is fixed here, not a variable, so a pipeline variable
-    # can't point sudo at a different command.
-    - sudo /usr/local/sbin/deploy_testpages "$CI_PROJECT_DIR/build/"
-      "$CI_PROJECT_DIR"
-  environment:
-    name: $DOMAIN
-    url: https://$DOMAIN
-
-deploy:abptestpages:
-  extends: .deploy_production
-  dependencies:
-    - build:abptestpages
+    # Testing before merge; remove together with the branch in the infra repo.
+    - if: $CI_COMMIT_BRANCH == "om-1969-cloud-run"
   variables:
-    DOMAIN: abptestpages.org
+    TESTPAGES_SHA: $CI_COMMIT_SHA
+    TESTPAGES_REF: $CI_COMMIT_BRANCH
+  trigger:
+    project: eyeo/sandbox/terraform-eyeo-abp-testpages
+    # Infra test branch until both are merged; main afterwards.
+    branch: om-1969-cloud-run
+    strategy: depend

@@ -24,11 +24,14 @@ import express from "express";
 import { WebSocketServer } from "ws";
 
 // Node.js 17+ resolves "localhost" to ::1 when IPv6 is available, but nginx
-// upstreams resolve it to 127.0.0.1, causing connection refused.
-const HOST = "127.0.0.1";
-const HTTP_PORT = 4000;
-const WS_PORT = 4001;
-const WSE_PORT = 4002;
+// upstreams resolve it to 127.0.0.1, causing connection refused. The
+// production image sets HOST=0.0.0.0 and Cloud Run sets PORT.
+const HOST = process.env.HOST || "127.0.0.1";
+const PORT = Number(process.env.PORT) || 4000;
+// Generated site to serve (production only). Locally and in the test image,
+// nginx serves the pages and forwards only the endpoint paths here.
+const STATIC_DIR = process.env.STATIC_DIR;
+const WEBSOCKET_PATHS = new Set(["/websocket", "/exception_websocket"]);
 
 let dirname = path.dirname(url.fileURLToPath(import.meta.url));
 let app = express();
@@ -53,33 +56,75 @@ app.get("/sitekey-frame", async (req, res) => {
   res.send(sitekeyFrame.replace("{{ adblockkey }}", () => adblockkey));
 });
 
-app.use(express.static(path.join(dirname, "..", "static")));
+if (STATIC_DIR) {
+  let root = path.resolve(STATIC_DIR);
 
-app.get("/", (req, res) => {
-  res.send(`Invalid endpoint: ${req.url}`);
-});
+  app.use((req, res, next) => {
+    res.header("Strict-Transport-Security", "max-age=31536000");
+    next();
+  });
 
-app.listen(HTTP_PORT, HOST, () => {
+  // Same rules as test/etc/nginx/sites-enabled/testpages.conf: serve
+  // /<path> from /en/<path> when only the English page exists, and the
+  // language folders' "index" page for / and /<lang>/.
+  app.use((req, res, next) => {
+    if (/^\/\w\w(_\w\w)?$/.test(req.path)) {
+      return res.redirect(301, `${req.path}/`);
+    }
+    if (req.path == "/") {
+      req.url = "/en/index";
+      return next();
+    }
+
+    let file;
+    try {
+      file = path.join(root, "en", decodeURIComponent(req.path));
+    } catch {
+      return next();
+    }
+    if (file.startsWith(path.join(root, "en") + path.sep) && fs.existsSync(file)) {
+      req.url = `/en${req.url}`;
+    }
+    next();
+  });
+
+  app.use(
+    express.static(root, {
+      index: ["index"],
+      maxAge: "1d",
+      setHeaders(res, file) {
+        if (!path.extname(file)) {
+          res.header("Content-Type", "text/html; charset=utf-8");
+        }
+      },
+    }),
+  );
+} else {
+  app.use(express.static(path.join(dirname, "..", "static")));
+
+  app.get("/", (req, res) => {
+    res.send(`Invalid endpoint: ${req.url}`);
+  });
+}
+
+let server = app.listen(PORT, HOST, () => {
   // eslint-disable-next-line no-console
-  console.log(`Endpoints server listening at http://${HOST}:${HTTP_PORT}`);
+  console.log(`Endpoints server listening at http://${HOST}:${PORT}`);
 });
 
-let wss = new WebSocketServer({ host: HOST, port: WS_PORT }, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Web socket server listening at ws://${HOST}:${WS_PORT}`);
-});
+// Both WebSocket paths are echo servers: filters block one and allowlist the
+// other, so they only need distinct URLs.
+let wss = new WebSocketServer({ noServer: true });
 
 wss.on("connection", (ws) => {
   ws.on("error", console.error);
   ws.send("echo");
 });
 
-let wses = new WebSocketServer({ host: HOST, port: WSE_PORT }, () => {
-  // eslint-disable-next-line no-console
-  console.log(`Web socket exceptions server listening at ws://${HOST}:${WSE_PORT}`);
-});
-
-wses.on("connection", (ws) => {
-  ws.on("error", console.error);
-  ws.send("echo");
+server.on("upgrade", (req, socket, head) => {
+  if (!WEBSOCKET_PATHS.has(new URL(req.url, "http://localhost").pathname)) {
+    socket.destroy();
+    return;
+  }
+  wss.handleUpgrade(req, socket, head, (ws) => wss.emit("connection", ws, req));
 });
