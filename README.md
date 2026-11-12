@@ -218,3 +218,26 @@ docker build -t testpages .
 The site will be available at `https://local.testpages.adblockplus.org:5001/en/`. The certificate is self-signed, so you'll need to accept the browser warning.
 
 Note: Other local debugging tools are documented in [Local execution without Docker](docs/local-execution-without-docker.md).
+
+## The `anti-cv-testpages` branch
+
+The Anti-Circumvention team keeps a long-lived
+[`anti-cv-testpages`](https://gitlab.com/eyeo/developer-experience/testpages.adblockplus.org/-/tree/anti-cv-testpages)
+branch. The snippets end-to-end tests use it to try out snippet features that
+have not shipped in the extension yet. Developing them on `master` would break
+the CI of other projects that run these test pages.
+
+Compared to `master`, the branch:
+
+- adds test pages for unreleased snippet features
+- downloads the extension from the `build-abp` job artifacts on `next` of
+  [abp-snippets](https://gitlab.com/eyeo/adblockplus/abp-snippets) (private)
+  instead of the adblockplus releases
+  (`test/extension-tests/extension-abp-snippets-download.js`, needs
+  `ANTI_CV_TOKEN`)
+- tests chromium 128.0.6613.0 as the oldest version instead of 127.0.6533.0
+- publishes a static build with GitLab Pages (the `pages` job in
+  `.gitlab-ci.yml`)
+
+The branch is kept as close to `master` as possible and is synced with it
+from time to time. Changes made on `master` reach it at the next sync.
