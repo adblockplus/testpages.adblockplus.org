@@ -171,7 +171,7 @@ Each test section follows this pattern in `.njk` files:
 ## CI Notes
 
 - On `master` push: lint → multi-browser tests in parallel → build static HTML → deploy to Cloud Run (`deploy:cloud-run`, `testpages.internal.eyeo.it` until cutover)
-- `deploy:cloud-run` only triggers the private infra repo (`eyeo/sandbox/terraform-eyeo-abp-testpages`) with `TESTPAGES_SHA`; that pipeline builds `production.Dockerfile` from the commit and deploys it. This repo is public, so keep GCP configuration (project, service accounts, `id_tokens`) out of it
+- `deploy:cloud-run` only triggers the private infra repo (`eyeo/devops/terraform/projects/terraform-eyeo-abp-testpages`) with `TESTPAGES_SHA`; that pipeline builds `production.Dockerfile` from the commit and deploys it. This repo is public, so keep GCP configuration (project, service accounts, `id_tokens`) out of it
 - Scheduled pipeline only: Chrome beta/dev, Firefox beta, Edge beta
 - `build:abptestpages` runs `npm ci` and `npm run build` in a `node:22` Docker job on every branch as a build check; only the deploy is limited to `master`
 - `endpoints/` needs only `dependencies` (`express`, `ws`) at runtime; keep build and test tooling in `devDependencies`

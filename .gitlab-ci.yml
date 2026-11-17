@@ -287,7 +287,7 @@ deploy:cloud-run:
     TESTPAGES_SHA: $CI_COMMIT_SHA
     TESTPAGES_REF: $CI_COMMIT_BRANCH
   trigger:
-    project: eyeo/sandbox/terraform-eyeo-abp-testpages
+    project: eyeo/devops/terraform/projects/terraform-eyeo-abp-testpages
     # Infra test branch until both are merged; main afterwards.
     branch: om-1969-cloud-run
     strategy: depend
