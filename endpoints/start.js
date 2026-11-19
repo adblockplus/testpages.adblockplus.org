@@ -64,6 +64,45 @@ if (STATIC_DIR) {
     next();
   });
 
+  // A path exists if it is a file, or a folder with an "index" page.
+  let exists = (p) => {
+    let file;
+    try {
+      file = path.join(root, decodeURIComponent(p));
+    } catch {
+      return false;
+    }
+    if (file != root && !file.startsWith(root + path.sep)) {
+      return false;
+    }
+    try {
+      let stat = fs.statSync(file);
+      return stat.isFile() || fs.existsSync(path.join(file, "index"));
+    } catch {
+      return false;
+    }
+  };
+
+  // Same as eyeo_cms_shared_apache_config_specifics in
+  // eyeo/devops/ansible-playbooks (group_vars/eyeo-cms-web-servers.yml), which
+  // served abptestpages.org: a language URL without its own page redirects
+  // (302, query string kept) from /xx_YY/<page> to /xx/<page>, and from
+  // /xx/<page> to /<page>. Only "en" is built, so e.g. /de/filters/blocking
+  // ends up on /filters/blocking.
+  app.use((req, res, next) => {
+    let query = req.originalUrl.slice(req.path.length);
+    let match = /^\/([a-z][a-z])_[A-Z][A-Z](\/.+)$/.exec(req.path);
+    if (match && !exists(req.path)) {
+      return res.redirect(302, `/${match[1]}${match[2]}${query}`);
+    }
+    match = /^\/[a-z][a-z](\/.+)$/.exec(req.path);
+    if (match && !req.path.startsWith("/js/") && !exists(req.path)) {
+      // One leading slash only: "//host" would redirect to another site.
+      return res.redirect(302, `/${match[1].replace(/^[/\\]+/, "")}${query}`);
+    }
+    next();
+  });
+
   // Same rules as test/etc/nginx/sites-enabled/testpages.conf: serve
   // /<path> from /en/<path> when only the English page exists, and the
   // language folders' "index" page for / and /<lang>/.
