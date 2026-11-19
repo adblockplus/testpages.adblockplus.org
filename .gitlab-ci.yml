@@ -261,10 +261,11 @@ build:abptestpages:
 .production:
   tags:
     - eyeo_cms_web_server_testpages-1.uplink.eyeo.it
-  # Only the protected master branch deploys. `only: master` also matched a tag
-  # named "master", which would have run on the production server.
+  # Only pushes to the protected master branch deploy: `only: master` also
+  # matched a tag named "master" and the nightly scheduled pipelines.
   rules:
-    - if: $CI_COMMIT_BRANCH == "master" && $CI_COMMIT_REF_PROTECTED == "true"
+    - if: $CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == "master" &&
+        $CI_COMMIT_REF_PROTECTED == "true"
 
 .deploy_production:
   stage: deploy_production

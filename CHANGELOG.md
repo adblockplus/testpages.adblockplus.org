@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - Docker, the Windows Edge job and the production build use `npm run build`; Python is no longer needed
 - The endpoints server fills in the sitekey frame without Nunjucks, so it only needs `express` and `ws` at runtime; Eleventy and Nunjucks are build-only dependencies
 - The production build job also runs on branches; only the deploy is limited to `master`
+- Scheduled pipelines no longer deploy to production; only pushes to `master` do
 
 ## 2026-06-17
 
