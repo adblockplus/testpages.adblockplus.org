@@ -375,8 +375,10 @@ description = Check that a filter using the $rewrite filter option is working as
     }
   }
 
-  // Temporary workaround: Chromium 158+ crashes the tab when the rewritten
-  // audio and video cases load. Remove once the root cause is fixed (OM-2046).
+  // Temporary workaround: Chromium 158+ crashes the tab when a
+  // declarativeNetRequest rule redirects a media request to a data: URL,
+  // which is how MV3 applies $rewrite for audio and video.
+  // Remove once fixed: https://issues.chromium.org/issues/587484147 (OM-2046).
   function isMediaRewriteCrashing() {
     let match = /Chrom(?:e|ium)\/(\d+)/.exec(navigator.userAgent);
     return match !== null && parseInt(match[1], 10) >= 158;
