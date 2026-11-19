@@ -244,7 +244,15 @@ if (typeof run == "undefined") {
 
         beforeEach(async function () {
           const handles = await safeGetAllWindowHandles(this.driver, this.browserName);
-          const defaultHandle = handles.find((handle) => handle != this.extensionHandle);
+          let defaultHandle = handles.find((handle) => handle != this.extensionHandle);
+
+          // A previous test may have lost its tab (e.g. a crashed renderer).
+          // Open a fresh one instead of failing every remaining test.
+          if (!defaultHandle) {
+            await this.driver.switchTo().window(this.extensionHandle);
+            await this.driver.switchTo().newWindow("tab");
+            defaultHandle = await this.driver.getWindowHandle();
+          }
 
           for (const handle of handles) {
             if (handle != this.extensionHandle && handle != defaultHandle) {
