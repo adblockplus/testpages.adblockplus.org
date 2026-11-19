@@ -375,8 +375,19 @@ description = Check that a filter using the $rewrite filter option is working as
     }
   }
 
+  // Temporary workaround: Chromium 158+ crashes the tab when the rewritten
+  // audio and video cases load. Remove once the root cause is fixed (OM-2046).
+  function isMediaRewriteCrashing() {
+    let match = /Chrom(?:e|ium)\/(\d+)/.exec(navigator.userAgent);
+    return match !== null && parseInt(match[1], 10) >= 158;
+  }
+
   function manageMedia(id, mimeType, file) {
     let element = document.getElementById(id);
+    if (isMediaRewriteCrashing()) {
+      printUnsupported(element, mimeType, "skipped on Chromium 158+ (tab crash, OM-2046)");
+      return;
+    }
     element.addEventListener("loadedmetadata", () => printDuration(element));
     element.addEventListener("error", () => printUnsupported(element, mimeType, element.error));
     element.type = mimeType;

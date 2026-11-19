@@ -108,10 +108,15 @@ export async function runGenericTests(driver, expectedScreenshot, browserName, b
       ["actual", actualScreenshot],
       ["expected", expectedScreenshot],
     ]) {
-      paths.push(await writeScreenshotFile(image, browserName, browserVersion, testTitle, suffix));
+      // If the page broke before a screenshot could be taken, there is
+      // nothing to write. Skip it so the original error is not hidden.
+      if (image) {
+        paths.push(await writeScreenshotFile(image, browserName, browserVersion, testTitle, suffix));
+      }
     }
 
-    throw new Error(`${e.message}\n${url}\n(see ${paths})`);
+    let details = paths.length > 0 ? `\n(see ${paths})` : "";
+    throw new Error(`${e.message}\n${url}${details}`);
   }
 }
 
