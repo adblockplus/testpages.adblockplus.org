@@ -1,0 +1,90 @@
+---
+layout: "abpkit.njk"
+---
+
+<section class="site-panel">
+  <h2>Welcome to ABPKit Test Pages</h2>
+  <p>This page provides list of test pages for  <a href="https://gitlab.com/eyeo/adblockplus/ABPKit" target="_blank">ABP Kit Library </a>functionality.</p>
+  <p>For more information on the tespages project, please visit the <a href="/">tespages main site</a></p>
+</section>
+
+<section class="site-panel">
+  <h2>Content Blocker Rules Set </h2>
+  <p>If you want to test if testpages work correctly, first include JSON blocker rules to ABP Kit solution.</p>
+  <p>You can add this by copy pasting whole json file into your json list or by providing custom URL (or overriding ABP Kit easylist URL)</p>
+  <a class="site-button" href="/abpkit/testpages-filters.json" target="_blank">Blocking</a>
+  <a class="site-button" href="/abpkit/testpages-filters+exceptions.json" target="_blank">Blocking + Exceptions</a>
+  <p> There are two types of List: </p>
+  <p>Blocking is only blocking content. </p>
+  <p> Blocking with Exceptions is also testing "exceptions" scenarios </p>
+  <p> !!! You can also convert ABP Testpages filters from <a href= "/en/abp-testcase-subscription.txt"> ABP Testpages filter list</a>, but please be aware that conversion tool has <a href="https://jira.eyeo.com/browse/ABC-114">   bug for now</a></p>
+</section>
+<section class="site-panel">
+  <h2>Filter test cases</h2>
+  <h3>Allowlist Domain</h3>
+  <ul class="site-pagelist">
+    <li><a href="abpkit-cases/allowlist-domain">Allowlist Domain Showcase</a></li>
+  </ul>
+  <h3>Blocking and Hiding</h3>
+  <ul class="site-pagelist">
+    <li><a class="test-link" href="abpkit-cases/blocking-abpkit">Blocking</a></li>
+    <li><a class="test-link" href="filters/element-hiding">Element Hiding</a></li>
+    <li><a class="test-link" href="filters/element-hiding-emulation">Element Hiding Emulation / Extended Selectors</a></li>
+  </ul>
+  </ul>
+  <h3>Filter Options - Resource Types</h3>
+  <ul class="site-pagelist">
+    <li><a class="test-link" href="filters/image">Image</a></li>
+    <li><a class="test-link" href="filters/ping">Ping</a></li>
+    <li><a class="test-link" href="abpkit-cases/popup-abpkit">Popup</a></li>
+    <li><a class="test-link" href="filters/script">Script</a></li>
+    <li><a class="test-link" href="filters/stylesheet">Stylesheet</a></li>
+    <li><a class="test-link" href="filters/websocket">WebSocket</a></li>
+    <li><a class="test-link" href="filters/xmlhttprequest">XMLHTTPRequest</a></li>
+  </ul>
+  <h3>Filter Options - Resource Type Exceptions</h3>
+  <ul class="site-pagelist">
+    <li><a class="test-link" href="exceptions/image">Image Exception</a></li>
+    <li><a class="test-link" href="exceptions/ping">Ping Exception</a></li>
+    <li><a class="test-link" href="abpkit-cases/exceptions-popup-abpkit">Popup Exception</a></li>
+    <li><a class="test-link" href="exceptions/script">Script Exception</a></li>
+    <li><a class="test-link" href="exceptions/stylesheet">Stylesheet Exception</a></li>
+    <li><a class="test-link" href="exceptions/subdocument">Subdocument Exception</a></li>
+    <li><a class="test-link" href="exceptions/websocket">WebSocket Exception</a></li>
+    <li><a class="test-link" href="exceptions/xmlhttprequest">XMLHTTPRequest Exception</a></li>
+  </ul>
+  <h3>Filter Options - Constraints</h3>
+  <ul class="site-pagelist">
+    <li><a class="test-link" href="filters/domain">Domain</a></li>
+    <li><a class="test-link" href="filters/match-case">Match Case</a></li>
+  </ul>
+  <h3>Filter Options - Exceptions</h3>
+  <ul class="site-pagelist">
+    <li><a class="test-link" href="exceptions/element-hiding">Element Hiding Exception</a></li>
+  </ul>
+  <h3>Snippets</h3>
+  <ul class="site-pagelist">
+    <li><a class="test-link" href="snippets/abort-current-inline-script">abort-current-inline-script</a></li>
+    <li><a class="test-link" href="snippets/abort-on-property-read">abort-on-property-read</a></li>
+    <li><a class="test-link" href="snippets/abort-on-property-write">abort-on-property-write</a></li>
+    <li><a class="test-link" href="snippets/abort-on-iframe-property-read">abort-on-iframe-property-read</a></li>
+    <li><a class="test-link" href="snippets/abort-on-iframe-property-write">abort-on-iframe-property-write</a></li>
+    <li><a class="test-link" href="snippets/hide-if-contains">hide-if-contains</a></li>
+    <li><a class="test-link" href="snippets/hide-if-contains-and-matches-style">hide-if-contains-and-matches-style</a></li>
+    <li><a class="test-link" href="snippets/hide-if-contains-image">hide-if-contains-image</a></li>
+    <li><a class="test-link" href="snippets/hide-if-contains-similar-text">hide-if-contains-similar-text</a></li>
+    <li><a class="test-link" href="snippets/hide-if-contains-visible-text">hide-if-contains-visible-text</a></li>
+    <li><a class="test-link" href="snippets/hide-if-has-and-matches-style">hide-if-has-and-matches-style</a></li>
+    <li><a class="test-link" href="snippets/hide-if-labelled-by">hide-if-labelled-by</a></li>
+    <li><a class="test-link" href="snippets/hide-if-matches-xpath">hide-if-matches-xpath</a></li>
+    <li><a class="test-link" href="snippets/hide-if-shadow-contains">hide-if-shadow-contains</a></li>
+    <li><a class="test-link" href="snippets/json-override">JSON override</a></li>
+    <li><a class="test-link" href="snippets/json-prune">JSON prune</a></li>
+    <li><a class="test-link" href="snippets/override-property-read">override-property-read</a></li>
+    <li><a class="test-link" href="snippets/strip-fetch-query-parameter">strip-fetch-query-parameter</a></li>
+  </ul>
+  <h3>Circumvention</h3>
+  <ul class="site-pagelist">
+    <li><a class="test-link" href="circumvention/inline-style-important">Inline style !important</a></li>
+  </ul>
+</section>

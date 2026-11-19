@@ -83,7 +83,7 @@ async function checkPopup(driver, element, extensionHandle, shouldBlockPopup) {
       for (let handle of await driver.getAllWindowHandles()) {
         try {
           let url = await runWithHandle(driver, handle, () => driver.getCurrentUrl());
-          // needs to match filters/popup.tmpl and exceptions/popup.tmpl urls
+          // needs to match filters/popup.njk and exceptions/popup.njk urls
           found = found || url.includes("/testfiles/popup");
         } catch (err) {
           if (err.name != "NoSuchWindowError" && err.name != "WebDriverError") {

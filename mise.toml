@@ -1,4 +1,3 @@
 [tools]
 pre-commit = "4"
 node = "22"
-python = "3.11"
