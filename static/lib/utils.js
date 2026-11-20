@@ -1,6 +1,7 @@
 "use strict";
 
-/* exported removeWaitingContent, expectedParameter, expectedPageView, verifyTargetRemoved */
+/* exported removeWaitingContent, expectedParameter, expectedPageView, verifyTargetRemoved,
+   registerControllingServiceWorker */
 
 function removeWaitingContent(targetId) {
   let className = "testcase-waiting-content";
@@ -64,4 +65,25 @@ function verifyTargetRemoved(targetNode, classNameToCheck) {
   };
 
   observer.observe(targetNode, observerConfig);
+}
+
+// Registers a service worker and resolves once it controls this page, so the
+// page's own requests reach it. `ready` alone resolves on activation, which can
+// precede the worker's clients.claim(). Resolves at once without SW support.
+function registerControllingServiceWorker(scriptUrl) {
+  if (!("serviceWorker" in navigator)) {
+    return Promise.resolve();
+  }
+  const { serviceWorker } = navigator;
+  return serviceWorker
+    .register(scriptUrl)
+    .then(() => serviceWorker.ready)
+    .then(() => {
+      if (serviceWorker.controller) {
+        return;
+      }
+      return new Promise((resolve) => {
+        serviceWorker.addEventListener("controllerchange", () => resolve(), { once: true });
+      });
+    });
 }

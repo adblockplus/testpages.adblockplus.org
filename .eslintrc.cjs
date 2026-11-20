@@ -61,6 +61,7 @@ module.exports = {
         expectedParameter: "readonly",
         expectedPageView: "readonly",
         verifyTargetRemoved: "readonly",
+        registerControllingServiceWorker: "readonly",
       },
     },
     {

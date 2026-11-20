@@ -146,9 +146,8 @@ description = Check that the replace-fetch-request snippet is working as expecte
   // Register the echo service worker early so it is active when the tests run.
   // The SW intercepts POST /fetch-request-echo and returns the body as-is,
   // allowing the test to verify what the snippet sent.
-  const swReady = "serviceWorker" in navigator ?
-    navigator.serviceWorker.register("/request-echo-sw.js")
-      .then(() => navigator.serviceWorker.ready) : Promise.resolve();
+  // Waiting for control, not just activation, keeps the POSTs off the origin.
+  const swReady = registerControllingServiceWorker("/request-echo-sw.js");
 
   const echoUrl = "/fetch-request-echo";
 

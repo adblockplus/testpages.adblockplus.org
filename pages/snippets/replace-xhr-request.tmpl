@@ -123,9 +123,8 @@ description = Check that the replace-xhr-request snippet is working as expected.
   // Register the echo service worker early so it is active when the tests run.
   // The SW intercepts POST /xhr-request-echo and returns the body as-is,
   // allowing the test to verify what the snippet sent.
-  const swReady = "serviceWorker" in navigator ?
-    navigator.serviceWorker.register("/request-echo-sw.js")
-      .then(() => navigator.serviceWorker.ready) : Promise.resolve();
+  // Waiting for control, not just activation, keeps the POSTs off the origin.
+  const swReady = registerControllingServiceWorker("/request-echo-sw.js");
 
   // A promisified XHR POST request
   function makeXhrPost(body) {
