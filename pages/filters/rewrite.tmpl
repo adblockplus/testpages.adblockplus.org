@@ -386,10 +386,6 @@ description = Check that a filter using the $rewrite filter option is working as
 
   function manageMedia(id, mimeType, file) {
     let element = document.getElementById(id);
-    if (isMediaRewriteCrashing()) {
-      printUnsupported(element, mimeType, "skipped on Chromium 158+ (tab crash, OM-2046)");
-      return;
-    }
     element.addEventListener("loadedmetadata", () => printDuration(element));
     element.addEventListener("error", () => printUnsupported(element, mimeType, element.error));
     element.type = mimeType;
@@ -398,8 +394,20 @@ description = Check that a filter using the $rewrite filter option is working as
   }
 
   function testMediaRewrite() {
+    if (isMediaRewriteCrashing()) {
+      return;
+    }
     manageMedia("mp3-target", "audio/mpeg", "audio.mp3");
     manageMedia("mp4-target", "video/mp4; codecs=\"avc1.42e01e\"", "video.mp4");
+  }
+
+  // Skipped synchronously, so the ?expected view shows it before its screenshot.
+  if (isMediaRewriteCrashing()) {
+    let reason =
+      "Chromium 158+ crashes the tab on $rewrite of media " +
+      "(https://issues.chromium.org/issues/587484147, OM-2046)";
+    markSkipped(document.getElementById("mp3-target"), reason);
+    markSkipped(document.getElementById("mp4-target"), reason);
   }
 
   window.addEventListener("load", () => {

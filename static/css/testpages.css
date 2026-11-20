@@ -179,6 +179,17 @@ a {
   background-color: #f5f5f5;
 }
 
+.testcase-skipped .testcase-area {
+  display: none;
+}
+
+.testcase-skipped-reason {
+  padding: 0.5em;
+  color: #000;
+  background-color: #fff3c4;
+  border-bottom: 1px solid #ccc;
+}
+
 .testcase-trigger {
   flex-grow: 1;
   padding: 0.5em;
