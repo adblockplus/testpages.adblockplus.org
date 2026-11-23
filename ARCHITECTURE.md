@@ -138,6 +138,19 @@ They are served directly by nginx. The `removeWaitingContent(targetId)` function
 from `static/lib/utils.js` is available globally on all test pages and removes
 `.testcase-waiting-content` elements once a test script has run.
 
+`markSkipped(element, reason)`, also from `static/lib/utils.js`, marks the test
+case containing `element` as deliberately skipped (e.g. a browser bug makes it
+unsafe to run). Its `.testcase-panel` gets the class `testcase-skipped` and the
+attribute `data-testcase-skipped="<reason>"`, its `.testcase-area` is hidden,
+and a `.testcase-skipped-reason` element shows the reason. A skipped case is
+neither waiting nor passed nor failed, so it never carries
+`.testcase-waiting-content` or `data-expectedresult`. Call it in both the actual
+and the expected view, so their screenshots match.
+
+Call it synchronously from the page's inline script, never after `load` or from a
+timer. Consumers read the skipped cases once the page has loaded, so a case
+marked later is treated as an ordinary case until a step on it times out.
+
 ---
 
 ## How to Add a Test Page

@@ -62,6 +62,7 @@ module.exports = {
         expectedPageView: "readonly",
         verifyTargetRemoved: "readonly",
         registerControllingServiceWorker: "readonly",
+        markSkipped: "readonly",
       },
     },
     {

@@ -1,7 +1,7 @@
 "use strict";
 
 /* exported removeWaitingContent, expectedParameter, expectedPageView, verifyTargetRemoved,
-   registerControllingServiceWorker */
+   registerControllingServiceWorker, markSkipped */
 
 function removeWaitingContent(targetId) {
   let className = "testcase-waiting-content";
@@ -86,4 +86,29 @@ function registerControllingServiceWorker(scriptUrl) {
         serviceWorker.addEventListener("controllerchange", () => resolve(), { once: true });
       });
     });
+}
+
+// Marks the test case containing element as deliberately skipped, with a
+// reason shown in the panel. A skipped case is neither waiting, passed nor
+// failed: it gets no .testcase-waiting-content and no data-expectedresult.
+// Call it in both the actual and the expected view, so their screenshots match.
+function markSkipped(element, reason) {
+  let panel = element.closest(".testcase-panel");
+  if (!panel || panel.classList.contains("testcase-skipped")) {
+    return;
+  }
+
+  panel.classList.add("testcase-skipped");
+  panel.setAttribute("data-testcase-skipped", reason);
+
+  let reasonElement = document.createElement("div");
+  reasonElement.className = "testcase-skipped-reason";
+  reasonElement.textContent = `Skipped: ${reason}`;
+
+  let area = panel.querySelector(".testcase-area");
+  if (area) {
+    area.after(reasonElement);
+  } else {
+    panel.appendChild(reasonElement);
+  }
 }
